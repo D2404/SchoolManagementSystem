@@ -1,0 +1,53 @@
+﻿@model InvoiceManagementSystem.Models.LeaveModel
+
+<style>
+    hr {
+        border: none;
+        border-top: 2px solid black;
+        margin: 10px 0;
+    }
+
+    /* Style the hyperlink to change cursor to pointer on hover */
+    .link-wrapper:hover {
+        cursor: pointer;
+    }
+</style>
+
+@if (Model != null && Model.LSTLeaveList.Count > 0)
+{
+    <div id="leavedata" style="max-height: 500px; overflow-y: auto;">
+        @for (var i = 0; i < Model.LSTLeaveList.Count; i++)
+        {
+            var item = Model.LSTLeaveList[i];
+            <div class="link-wrapper">
+                <a href="@Url.Action("Leave", "Leave", new { id = item.Id })" class="d-flex flex-column justify-content-center">
+                    <div class="my-auto">
+                        <img src="/Data/Profile/@item.Profile" class="avatar avatar-sm me-3">
+                         <p class="text-sm font-weight-normal mb-1">
+                            <span class="font-weight-bold">New leave</span> from @item.TeacherName
+                        </p>
+                    </div>
+                    <div>
+                       
+                        <p class="text-xs text-secondary mb-0">
+                            <i class="fa fa-clock me-1" aria-hidden="true"></i>
+                            @item.Time
+                        </p>
+                    </div>
+                </a>
+            </div>
+            if (i < Model.LSTLeaveList.Count - 1)
+            {
+                <hr />
+            }
+        }
+    </div>
+}
+else
+{
+    <div class="d-flex flex-column justify-content-center">
+        <h6 class="text-sm font-weight-normal mb-1">
+            <span class="font-weight-bold">No Record found</span>
+        </h6>
+    </div>
+}

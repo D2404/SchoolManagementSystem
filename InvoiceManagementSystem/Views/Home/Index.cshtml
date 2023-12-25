@@ -1,0 +1,1553 @@
+﻿@model InvoiceManagementSystem.Models.DashboardModel
+@{
+    ViewBag.Title = "Home";
+    ViewBag.ActionName = "Home";
+}
+
+<style>
+    #link {
+        text-decoration-color: red;
+       
+    }
+
+        /* Hover state */
+        #link:hover {
+            text-decoration: underline;
+            text-decoration-color: blue; /* Initial underline color */
+        }
+</style>
+<!-- Navbar -->
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+        </nav>
+    </div>
+</nav>
+<!-- End Navbar -->
+<div class="container-fluid py-4">
+    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)// SUPER ADMIN ROLE ===1
+    {
+    <div class="row">
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            @{if (Model.LSTDashBoardList != null && Model.LSTDashBoardList.Count > 0)
+
+                {
+    <div class="box">
+        <div class="card card-facebook">
+            @*<div class="card-body p-3" style="background: linear-gradient( to right, #1658f2, #70e5ff);">*@
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Class</b></p>
+                            <a href="javascript:void(0)" onclick="ClassRoom(1);">
+                                <h5 class="text-primary text-md font-weight-bolder" id="link" style="text-decoration: underline; color: #176ce2">@(Model.LSTDashBoardList[0].TotalClassRoom == 0 ? 0 : Model.LSTDashBoardList[0].TotalClassRoom)</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-info shadow-primary text-center rounded-circle">
+                            <i class="fa fa-home text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> } }
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient( to right, #025738, #64f5b8) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Subject</b></p>
+                                <a href="javascript:void(0)" onclick="Subject(1);">
+                                    <h5 class="text-primary text-md font-weight-bolder" style="text-decoration: underline; color: #176ce2">@(Model.LSTDashBoardList[0].TotalSubject == 0 ? 0 : Model.LSTDashBoardList[0].TotalSubject)</h5>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-danger shadow-dark text-center rounded-circle">
+                                <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient( to right, #cf3c04, #f5df1d) ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Student</b></p>
+                                <a href="javascript:void(0)" onclick="Student(1);">
+                                    <h5 class="text-primary text-md font-weight-bolder" style="text-decoration: underline; color: #176ce2">@(Model.LSTDashBoardList[0].TotalStudent == 0 ? 0 : Model.LSTDashBoardList[0].TotalStudent)</h5>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-success shadow-dark text-center rounded-circle">
+                                <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient(to right, #6c1b6a, #e7a4e2) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Teacher</b></p>
+                                <a href="javascript:void(0)" onclick="Teacher(1);">
+                                    <h5 class="text-md font-weight-bolder" style="text-decoration: underline; color: #176ce2">@(Model.LSTDashBoardList[0].TotalTeacher == 0 ? 0 : Model.LSTDashBoardList[0].TotalTeacher)</h5>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-warning shadow-dark text-center rounded-circle">
+                                <i class="fa fa-user-circle text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid py-4" id="Class">
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <label style="color:black">
+                            Show
+                            <select id="PageSize" onchange="ClassRoom(1)" class="drpselect">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                        <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                            <h6 style="color:white">ClassRoom List</h6>
+                        </div>
+
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <div id="ClassRoomList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid py-4" id="Subject">
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <label style="color:black">
+                            Show
+                            <select id="PageSize" onchange="Subject(1)" class="drpselect">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                        <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                            <h6 style="color:white">Subject List</h6>
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <div id="SubjectList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid py-4" id="Teacher">
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <label style="color:black">
+                            Show
+                            <select id="PageSize" onchange="Teacher(1)" class="drpselect">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                        <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                            <h6 style="color:white">Teacher List</h6>
+
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <div id="TeacherList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid py-4" id="Student">
+            <br />
+            <br />
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <label style="color:black">
+                            Show
+                            <select id="PageSize" onchange="Student(1)" class="drpselect">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                        <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                            <h6 style="color:white">Student List</h6>
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <div id="StudentList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient(to right, #6c1b6a, #e7a4e2) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Monthly Collect Fees</b></p>
+                                <a href="javascript:void(0)" onclick="MonthlyCollectFees(1);">
+                                    <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: deepskyblue">@(Model.LSTDashBoardList[0].ThisMonthCollection == 0 ? 0 : Model.LSTDashBoardList[0].ThisMonthCollection)</h6>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-success shadow-dark text-center rounded-circle">
+                                <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient(to right, #6c1b6a, #e7a4e2) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Monthly Pending Fees</b></p>
+                                <a href="javascript:void(0)" onclick="Teacher(1);">
+                                    <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: deepskyblue">@(Model.LSTDashBoardList[0].ThisMonthPendingCollection == 0 ? 0 : Model.LSTDashBoardList[0].ThisMonthPendingCollection)</h6>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-danger shadow-dark text-center rounded-circle">
+                                <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient(to right, #6c1b6a, #e7a4e2) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Monthly Fees</b></p>
+                                <a href="javascript:void(0)" onclick="Teacher(1);">
+                                    <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #176ce2">@(Model.LSTDashBoardList[0].TotalAmountForThisMonth == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisMonth)</h6>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-info shadow-dark text-center rounded-circle">
+                                <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid py-4" id="MonthlyCollectFees">
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <label style="color:black">
+                            Show
+                            <select id="PageSize" onchange="MonthlyCollectFees(1)" class="drpselect">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                        <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                            <h6 style="color:white">Monthly Collect Fees List</h6>
+
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <div id="MonthlyCollectFeesList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient(to right, #6c1b6a, #e7a4e2) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Yearly Collect Fees</b></p>
+                                <a href="javascript:void(0)" onclick="YearlyCollectFees(1);">
+                                    <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: deepskyblue">@(Model.LSTDashBoardList[0].ThisYearCollection == 0 ? 0 : Model.LSTDashBoardList[0].ThisYearCollection)</h6>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-success shadow-dark text-center rounded-circle">
+                                <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient(to right, #6c1b6a, #e7a4e2) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Yearly Pending Fees</b></p>
+                                <a href="javascript:void(0)" onclick="Teacher(1);">
+                                    <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: deepskyblue">@(Model.LSTDashBoardList[0].TotalPendingThisYear == 0 ? 0 : Model.LSTDashBoardList[0].TotalPendingThisYear)</h6>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-danger shadow-dark text-center rounded-circle">
+                                <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4 col-sm-6">
+            <div class="card" id="box">
+                @*<div class="card-body p-3" style="background: linear-gradient(to right, #6c1b6a, #e7a4e2) !important ">*@
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Yearly Fees</b></p>
+                                <a href="javascript:void(0)" onclick="Teacher(1);">
+                                    <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: deepskyblue">@(Model.LSTDashBoardList[0].TotalAmountForThisYear == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisYear)</h6>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-4 text-end">
+                            <div class="icon icon-shape bg-gradient-info shadow-dark text-center rounded-circle">
+                                <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid py-4" id="YearlyCollectFees">
+            <br />
+            <br />
+
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <label style="color:black">
+                            Show
+                            <select id="PageSize" onchange="YearlyCollectFees(1)" class="drpselect">
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select> entries
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                        <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                            <h6 style="color:white">Yearly Collect Fees List</h6>
+
+                        </div>
+                        <div class="card-body px-0 pt-0 pb-2">
+                            <div class="table-responsive p-0">
+                                <div id="YearlyCollectFeesList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <br>
+        <div class="row" style="margin-left:1px">
+            <div class="col-xl-5 col-sm-6 mb-xl-0 mb-6">
+                @if (Model.LSTTeacherList != null)
+                {
+                    <div class="row">
+                        @for (int i = 0; i < Model.LSTTeacherList.Count; i++)
+                        {
+                            if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 1)
+                            {
+                                <div class="card" id="box">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p style="text-decoration:underline;color:black" id="link" class="text-sm mb-0 text-uppercase font-weight-bold">Teacher's Today's Birthday</p>
+                                                    <br />
+                                                    @foreach (var item in Model.LSTTeacherList)
+                                                    {
+                                                        if (item.Dob != null && item.Type == 1)
+                                                        {
+                                                            <div class="dash-card-container">
+                                                                <h6 class="font-weight-bolder" style="color: black">@item.Dob <br /> @item.Name</h6>
+                                                            </div>
+                                                        }
+                                                    }
+
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-gradient-dark shadow-dark text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else 
+                            {
+                                <div class="card" id="box" >
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p style="text-decoration: underline; color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Today's Birthday</b></p>
+                                                    <br />
+                                                    <div class="dash-card-container">
+                                                        <h6 style="font-size: 14px; color: black"id="link" class="font-weight-bolder">Today is no one's birthday</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">    
+                                                <div class="icon icon-shape bg-gradient-dark shadow-dark text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            i = Model.LSTTeacherList.Count + 1;
+                        }
+                    </div>
+                }
+            </div>
+            <div class="col-xl-5 col-sm-8 mb-xl-0 mb-6" style="margin-left:120px;">
+                @if (Model.LSTTeacherList != null)
+                {
+                    <div class="row">
+                        @for (int i = 0; i < Model.LSTTeacherList.Count; i++)
+                        {
+                            if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 2)
+                            {
+                                <div class="card" id="box">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <h5 style="text-decoration:underline;color:black" class="text-sm mb-0 text-uppercase font-weight-bold">Teacher's Upcoming Birthday</h5>
+                                                    <br />
+                                                    @foreach (var item in Model.LSTTeacherList)
+                                                    {
+                                                        if (item.Dob != null && item.Type == 2)
+                                                        {
+                                                            <div class="dash-card-container">
+                                                                <h6 style="font-size:14px;color:black " class="font-weight-bolder"> @item.ClassNo - @item.Name - @item.Dob </h6>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-gradient-dark shadow-dark text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                i = Model.LSTTeacherList.Count + 1;
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+        <br />
+        <div class="row" style="margin-left:1px">
+            <div class="col-xl-5 col-sm-6 mb-xl-0 mb-6">
+                @if (Model.LSTStudentList != null)
+                {
+                    <div class="row">
+                        @for (int i = 0; i < Model.LSTStudentList.Count; i++)
+                        {
+                            if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 1)
+                            {
+                                <div class="card" id="box">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p style="text-decoration:underline;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Today's Birthday</p>
+                                                    <br />
+                                                    @foreach (var item in Model.LSTTeacherList)
+                                                    {
+                                                        if (item.Dob != null && item.Type == 2)
+                                                        {
+                                                            <div class="dash-card-container">
+                                                                <h6 style="font-size:14px" class="font-weight-bolder">@item.Dob - @item.Name - @item.ClassNo</h6>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-gradient-warning shadow-success text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            }
+                            else if (Model.LSTStudentList[i].Type == 2)
+                            {
+                                <div class="card" id="box">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p style="text-decoration:underline;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Today's Birthday</p>
+                                                    <br />
+                                                    <div class="dash-card-container">
+                                                        <h6 style="font-size:14px" class="font-weight-bolder">Today is no one's birthday</h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-gradient-warning shadow-success text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            i = Model.LSTStudentList.Count + 1;
+                        }
+
+
+                    </div>
+                }
+
+            </div>
+            <div class="col-xl-5 col-sm-8 mb-xl-0 mb-6" style="margin-left:120px">
+                @if (Model.LSTStudentList != null)
+                {
+                    <div class="row">
+                        @for (int i = 0; i < Model.LSTStudentList.Count; i++)
+                        {
+                            if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 2)
+                            {
+                                <div class="card" id="box">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <h6 style="text-decoration:underline;font-size: 28px;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Upcoming Birthday</h6>
+                                                    <br />
+                                                    @foreach (var item in Model.LSTStudentList)
+                                                    {
+                                                        if (item.Dob != null && item.Type == 2)
+                                                        {
+                                                            <div class="dash-card-container">
+                                                                <h6 style="font-size:14px" class="font-weight-bolder">@item.Dob - @item.Name - @item.ClassNo</h6>
+                                                            </div>
+                                                        }
+                                                    }
+
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                i = Model.LSTStudentList.Count + 1;
+                            }
+                        }
+
+
+
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
+    {
+        <div class="row">
+
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card">
+                    <div class="card-body p-3">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black">Class Name</p>
+                                    <a href="javascript:void(0)">
+                                        <h6 class="font-weight-bolder" style="color: #176ce2">@(Model.LSTDashBoardList[0].ClassNo == "" ? null : Model.LSTDashBoardList[0].ClassNo)</h6>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
+                                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card" id="box">
+                    <div class="card-body p-3" >
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black">Total Subject</p>
+                                    <a href="javascript:void(0)" onclick="TeacherSubject(1);">
+                                        @{if (Model.LSTDashBoardList != null && Model.LSTDashBoardList.Count > 0)
+                                            {
+                                                <h5 class="font-weight-bolder" style="color: #176ce2; text-decoration: underline">
+                                                    @(Model.LSTDashBoardList[0].TotalTeacherSubject == 0 ? 0 : Model.LSTDashBoardList[0].TotalTeacherSubject)
+                                                </h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="font-weight-bolder" style="color: #176ce2; text-decoration: underline">0</h5>
+                                            }}
+                                        @*@(Model.LSTDashBoardList[0].TotalTeacherSubject == 0 ? 0 : Model.LSTDashBoardList[0].TotalTeacherSubject)*@
+
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-danger shadow- text-center rounded-circle">
+                                    <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card" id="box">
+                    <div class="card-body p-3" >
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black">Total Student</p>
+                                    <a href="javascript:void(0)" onclick="Student(1);">
+                                        @{if (Model.LSTDashBoardList != null && Model.LSTDashBoardList.Count > 0)
+                                            {
+                                                <h5 class="font-weight-bolder" style="color: #176ce2; text-decoration: underline">
+                                                    @(Model.LSTDashBoardList[0].TotalStudent == 0 ? 0 : Model.LSTDashBoardList[0].TotalStudent)
+                                                </h5>
+                                            }
+                                            else
+                                            {
+                                                <h5 class="font-weight-bolder" style="color: #176ce2; text-decoration: underline">0</h5>
+                                            }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-success shadow-dark text-center rounded-circle">
+                                    <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+                <div class="card" id="box">
+                    <div class="card-body p-3" >
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="numbers">
+                                    <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black">Total Attend</p>
+                                    <a href="javascript:void(0)" onclick="TeacherAttendance(1);">
+
+                                        @{if (Model.LSTDashBoardList != null && Model.LSTDashBoardList.Count > 0)
+                                            {
+                                                <h6 class="font-weight-bolder" style="color: #176ce2; text-decoration: underline">
+                                                    @(Model.LSTDashBoardList[0].TotalAttendance == 0 ? 0 : Model.LSTDashBoardList[0].TotalAttendance)&nbsp;%
+                                                </h6>
+                                            }
+                                            else
+                                            {
+                                                <h6 class="font-weight-bolder" style="color: #176ce2; text-decoration: underline">0</h6>
+                                            }}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="col-4 text-end">
+                                <div class="icon icon-shape bg-gradient-warning shadow-dark text-center rounded-circle">
+                                    <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="row" style="margin-left:1px">
+            <div class="col-xl-5 col-sm-6 mb-xl-0 mb-6">
+                @if (Model.LSTStudentList != null)
+                {
+                    <div class="row">
+                        @for (int i = 0; i < Model.LSTStudentList.Count; i++)
+                        {
+                            if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 1)
+                            {
+                                <div class="card" id="box">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <p style="text-decoration:underline;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Today's Birthday</p>
+                                                    <br />
+                                                    @foreach (var item in Model.LSTTeacherList)
+                                                    {
+                                                        if (item.Dob != null && item.Type == 2)
+                                                        {
+                                                            <div class="dash-card-container">
+                                                                <h6 style="font-size:14px" class="font-weight-bolder">@item.Dob - @item.Name - @item.ClassNo</h6>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-gradient-warning shadow-success text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            i = Model.LSTStudentList.Count + 1;
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="card" id="box">
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-8">
+                                    <div class="numbers">
+                                        <p style="text-decoration:underline;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Today's Birthday</p>
+                                        <br />
+                                        <div class="dash-card-container">
+                                            <h6 style="font-size:14px" class="font-weight-bolder">Today is no one's birthday</h6>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-end">
+                                    <div class="icon icon-shape bg-gradient-warning shadow-success text-center rounded-circle">
+                                        <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-xl-5 col-sm-6 mb-xl-0 mb-6" style="margin-left:120px">
+                @if (Model.LSTStudentList != null)
+                {
+                    <div class="row">
+                        @for (int i = 0; i < Model.LSTStudentList.Count; i++)
+                        {
+                            if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 2)
+                            {
+                                <div class="card" id="box">
+                                    <div class="card-body p-3">
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="numbers">
+                                                    <h6 style="text-decoration:underline;font-size: 28px;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Upcoming Birthday</h6>
+                                                    <br />
+                                                    @foreach (var item in Model.LSTStudentList)
+                                                    {
+                                                        if (item.Dob != null && item.Type == 2)
+                                                        {
+                                                            <div class="dash-card-container">
+                                                                <h6 style="font-size:14px" class="font-weight-bolder">@item.Dob - @item.Name - @item.ClassNo</h6>
+                                                            </div>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-4 text-end">
+                                                <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
+                                                    <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                i = Model.LSTStudentList.Count + 1;
+                            }
+                        }
+
+
+
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+<div class="container-fluid py-4" id="TeacherSubject">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:black">
+                    Show
+                    <select id="PageSize" onchange="TeacherSubject(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                    <h6 style="color:white">TeacherSubject List</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="TeacherSubjectList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid py-4" id="TeacherAttendance">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:black">
+                    Show
+                    <select id="PageSize" onchange="TeacherAttendance(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                    <h6 style="color:white">TeacherAttendance List</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="TeacherAttendanceList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="card card-carousel overflow-hidden h-100 p-0">
+                <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
+                    <div class="carousel-inner border-radius-lg h-100">
+                        <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-1.jpg');
+      background-size: cover;">
+                            <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                                <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
+                                    <i class="ni ni-camera-compact text-dark opacity-10"></i>
+                                </div>
+                                <h5 class="text-white mb-1">Get started with Argon</h5>
+                                <p>There’s nothing I really wanted to do in life that I wasn’t able to get good at.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-2.jpg');
+      background-size: cover;">
+                            <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                                <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
+                                    <i class="ni ni-bulb-61 text-dark opacity-10"></i>
+                                </div>
+                                <h5 class="text-white mb-1">Faster way to create web pages</h5>
+                                <p>That’s my skill. I’m not really specifically talented at anything except for the ability to learn.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item h-100 active" style="background-image: url('../assets/img/carousel-3.jpg');
+      background-size: cover;">
+                            <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
+                                <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
+                                    <i class="ni ni-trophy text-dark opacity-10"></i>
+                                </div>
+                                <h5 class="text-white mb-1">Share with us your design tips!</h5>
+                                <p>Don’t be afraid to be wrong because you can’t learn anything from a compliment.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!--End of Datetime js/css-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').hide();
+            $('#Class').hide();
+            $('#Subject').hide();
+            $('#Teacher').hide();
+            $('#Student').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+        });
+
+        function GoBack(page) {
+            debugger
+            $('#Subject').hide();
+            $('#Teacher').hide();
+            $('#Student').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+            $('#Class').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetTeacherByClassRoom',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#TeacherList').empty();
+                    $('#TeacherList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function ClassRoom(page) {
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').hide();
+            $('#Subject').hide();
+            $('#Teacher').hide();
+            $('#Student').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+            $('#Class').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetClassRoom',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#ClassRoomList').empty();
+                    $('#ClassRoomList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function GetTeacherDataByClassRoom(ClassId) {
+
+            $('#Class').hide();
+            $('#Teacher').show();
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetTeacherByClassRoom',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    ClassId: ClassId
+                }),
+                success: function (data) {
+                    debugger
+                    $('#TeacherList').empty();
+                    $('#TeacherList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+
+        function GetStudentByTeacher(TeacherId) {
+            debugger
+            $('#Teacher').hide();
+            $('#Student').show();
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetStudentByTeacher',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    TeacherId: TeacherId
+                }),
+                success: function (data) {
+                    debugger
+                    $('#StudentList').empty();
+                    $('#StudentList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+
+        function Subject(page) {
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').hide();
+            $('#Class').hide();
+            $('#Teacher').hide();
+            $('#Student').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+
+            $('#Subject').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetSubject',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#SubjectList').empty();
+                    $('#SubjectList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function Teacher(page) {
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').hide();
+            $('#Class').hide();
+            $('#Subject').hide();
+            $('#Student').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+            $('#Teacher').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetTeacher',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#TeacherList').empty();
+                    $('#TeacherList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function MonthlyCollectFees(page) {
+            $('#Class').hide();
+            $('#Subject').hide();
+            $('#Student').hide();
+            $('#Teacher').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+            $('#MonthlyCollectFees').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetMonthlyCollectFees',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#MonthlyCollectFeesList').empty();
+                    $('#MonthlyCollectFeesList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function YearlyCollectFees(page) {
+            $('#Class').hide();
+            $('#Subject').hide();
+            $('#Student').hide();
+            $('#Teacher').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetYearlyCollectFees',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#YearlyCollectFeesList').empty();
+                    $('#YearlyCollectFeesList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function Student(page) {
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').hide();
+            $('#Class').hide();
+            $('#Subject').hide();
+            $('#Teacher').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').hide();
+
+            $('#Student').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetStudent',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#StudentList').empty();
+                    $('#StudentList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function TeacherSubject(page) {
+            $('#Class').hide();
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').hide();
+            $('#Subject').hide();
+            $('#Teacher').hide();
+            $('#Student').hide();
+            $('#TeacherAttendance').hide();
+            $('#TeacherSubject').show();
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetTeacherSubject',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#TeacherSubjectList').empty();
+                    $('#TeacherSubjectList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+        function TeacherAttendance(page) {
+            $('#MonthlyCollectFees').hide();
+            $('#YearlyCollectFees').hide();
+            $('#Class').hide();
+            $('#Subject').hide();
+            $('#Teacher').hide();
+            $('#Student').hide();
+            $('#TeacherSubject').hide();
+            $('#TeacherAttendance').show();
+
+            var Id = 0;
+            if (document.getElementById('PageSize') != null) {
+                PageSize = document.getElementById('PageSize').value;
+            }
+            else {
+                PageSize = 10;
+            }
+            if (page == undefined) {
+                page = 1;
+            }
+            var PageIndex = page;
+
+            PageIndex = page;
+            var cls = {
+                Id: Id,
+                PageSize: PageSize,
+                PageIndex: PageIndex,
+            }
+            ShowWait();
+            $.ajax({
+                url: '/Home/GetTeacherAttandence',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    $('#TeacherAttendanceList').empty();
+                    $('#TeacherAttendanceList').append(data);
+                    HideWait();
+                },
+                error: function (xhr) {
+                    HideWait();
+                    alert('errors');
+                }
+            });
+        }
+
+    </script>

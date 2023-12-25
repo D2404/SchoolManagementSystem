@@ -1,0 +1,770 @@
+﻿
+@{
+    ViewBag.Title = "Student";
+    ViewBag.ActionName = "Student";
+}
+<style>
+    .dropbtn {
+        background-color: #3498DB;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+        .dropbtn:hover, .dropbtn:focus {
+            background-color: #2980B9;
+        }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 100px;
+        overflow: auto;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+    .dropdown a:hover {
+        background-color: #ddd;
+    }
+
+    .show {
+        display: block;
+    }
+</style>
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <h5 class="font-weight-bolder text-white mb-0">Student List</h5>
+        </nav>
+    </div>
+
+
+
+    <!-- Modal -->
+
+</nav>
+<div class="row" id="FilterDiv" style="margin-left:19px">
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus">
+            <input type="text" class="form-control floating" id="SearchText" placeholder="Search" maxlength="50">
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-1">
+
+        <a class="btn bg-gradient-info" onclick="GetStudentList(1)">Search</a>
+    </div>
+    <div class="col-sm-6 col-md-1">
+        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
+
+    </div>
+</div>
+
+<div class="row">
+
+    <div style="margin-left:878px">
+        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" title="Filter"><i class="fa fa-filter"></i></a>
+        @*<a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="margin-left: 843px; margin-bottom: -64px;"><i class="fa fa-filter"></i></a>*@
+        <a class="btn bg-gradient-info" title="Add Student" data-bs-toggle="modal" data-bs-target="#Student" onclick="Clear()">Add Student</a>
+    </div>
+</div>
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:white">
+                    Show
+                    <select id="PageSize" onchange="GetStudentList(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Student List</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="tblBody"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Student" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add Student</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Full Name <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="FullName" placeholder="Enter Full Name">
+                            <span id="errFullName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Student Name">
+                            <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="basicinput"><b>Class Room</b></label>
+                            <select class="form-control" id="ClassId">
+                                <option value="0">Select ClassRoom</option>
+                            </select>
+                            <span id="errClassroom" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Roll No <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="RollNo" placeholder="Enter Roll No">
+                            <span id="errRollNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Gender<span class="text-danger">*</span></label><br />
+                            <div class="form-radio">
+                                <div class="radio radio-outline radio-inline">
+                                    <label>
+                                        <input type="radio" name="radio" checked="checked" value="Active" class="rd" id="Active" />
+                                        <i class="helper"></i>Male
+                                        <input type="radio" name="radio" value="InActive" class="rd" id="InActive" />
+                                        <i class="helper"></i>Female
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="Email" placeholder="Enter Email">
+                            <span id="errEmail" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Password <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="Password" placeholder="Enter Password">
+                            <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Mobile <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="MobileNo" placeholder="Enter Mobile">
+                            <span id="errMobile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Date Of Birth</label>
+                            <input class="form-control floating datetimepicker" type="date" id="Dob" autocomplete="off">
+                            @*<input class="form-control datetimepicker" type="date" id="Dob" placeholder="Enter Dob">*@
+                            <span id="errDob" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Address</label>
+                            <textarea class="form-control form-control-alternative" id="Address"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-group" id="divUploadFile" style="display:block">
+                                <input type="hidden" id="hdnfile" />
+                                <label for="basicinput"><b>Profile pic</b><span style="color: red">*</span></label>
+                                <input type="file" class="form-control form-control-alternative" name="Profile" id="Profile" accept="image/*">
+                                <span id="errProfile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="divFile" style="display:none">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Add</button>
+                <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)">Clear</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete_Student" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"style="margin-left:132px"><span id="PopupTitle">Delete Student</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-left:70px">Are you sure want to delete this Student ?.</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 166px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteStudent()">Delete</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-left:98px">Are you sure want to change status?</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 146px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://dreamguys.co.in/smarthr/blue/assets/js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://dreamguys.co.in/smarthr/blue/assets/css/bootstrap-datetimepicker.min.css">
+<script src="https://dreamguys.co.in/smarthr/blue/assets/js/moment.min.js"></script>
+<script src="https://dreamguys.co.in/smarthr/blue/assets/js/bootstrap-datetimepicker.min.js"></script>
+<!--End of Datetime js/css-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var type = 1
+
+
+
+
+    function ShowFilter() {
+        if (type == 1) {
+            $('#FilterDiv').show();
+            type = 2;
+        }
+        else {
+            $('#FilterDiv').hide();
+            type = 1;
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#FilterDiv').hide();
+        GetStudentList(1);
+        GetClassRoom();
+    });
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+
+    $(function () {
+        $("#Dob").datetimepicker({
+            format: 'DD/MM/YYYY',
+            maxDate: new Date,
+            useCurrent: true,
+            ignoreReadonly: true
+        })
+    });
+    function InsertData() {
+
+        var val = true;
+        var Id = $('#hdnintId').val();
+        var SearchText = $('#SearchText').val();
+        var FullName = $('#FullName').val();
+        var UserName = $('#UserName').val();
+        var RollNo = $('#RollNo').val();
+        var ClassId = $('#ClassId').val();
+        var Email = $('#Email').val();
+        var Password = $('#Password').val();
+        var MobileNo = $('#MobileNo').val();
+        var Dob = $('#Dob').val();
+        var Address = $('#Address').val();
+        var RoleId = 3
+
+        if (FullName == "" || /\S/.test(FullName) == false) {
+            $("#errFullName").html("Please enter first name.");
+            val = false;
+        }
+        else {
+            var isValid = FullName.match(".*[a-zA-Z]+.*");
+            if (isValid == null) {
+                $("#errFullName").html("Please enter valid name.");
+                val = false;
+            }
+            else {
+                $("#errFullName").html("");
+            }
+        }
+        if (UserName == "" || /\S/.test(UserName) == false) {
+            $("#errUserName").html("Please enter user name.");
+            val = false;
+        }
+        else {
+            var isValid = FullName.match(".*[a-zA-Z]+.*");
+            if (isValid == null) {
+                $("#errUserName").html("Please enter valid name.");
+                val = false;
+            }
+            else {
+                $("#errFullName").html("");
+            }
+        }
+        if (ClassId == 0) {
+            $("#errClassroom").html("Please select classroom.");
+            val = false;
+        }
+        if (Email == "" || /\S/.test(Email) == false) {
+            $("#errEmail").html("Please enter email.");
+            val = false;
+        }
+        if (Password == "" || /\S/.test(Password) == false) {
+            $("#errPassword").html("Please enter password.");
+            val = false;
+        }
+        if (MobileNo == "" || /\S/.test(MobileNo) == false) {
+            $("#errMobile").html("Please enter mobile.");
+            val = false;
+        }
+        if (RollNo == "" || /\S/.test(RollNo) == false) {
+            $("#errRollNo").html("Please enter rollno.");
+            val = false;
+        }
+        if (Dob == "" || /\S/.test(Dob) == false) {
+            $("#errDob").html("Please select dob.");
+            val = false;
+        }
+        var Gender = $("input[type='radio']:checked").val();
+        if (Gender == "Active") {
+            Gender = 1
+        }
+        else {
+            Gender = 0
+        }
+
+        var formData = new FormData();
+        var fileCount = document.getElementById("Profile").files.length;
+        var hdnfile = document.getElementById("hdnfile").value;
+
+        if (hdnfile == null || hdnfile == "") {
+            var Profile = document.getElementById('Profile').value;
+            if (Profile == null || Profile == "") {
+                $("#errProfile").html('Please select image.');
+                return;
+            }
+            if (fileCount > 0) {
+                for (var i = 0; i < fileCount; i++) {
+                    var Profile = document.getElementById("Profile").files[i];
+                    var ext = Profile.name.split('.').pop();
+                    if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
+                        formData.append("Profile", Profile);
+                    }
+                    else {
+                        alert('Please upload valid file.');
+                        return;
+                    }
+                }
+            }
+        }
+        else {
+
+            var ProfileImg = hdnfile;
+
+        }
+        if (val == false) {
+            return;
+        }
+
+        formData.append('Id', Id);
+        formData.append('RoleId', RoleId);
+        formData.append('FullName', FullName);
+        formData.append('UserName', UserName);
+        formData.append('Email', Email);
+        formData.append('ClassId', ClassId);
+        formData.append('RollNo', RollNo);
+        formData.append('Password', Password);
+        formData.append('MobileNo', MobileNo);
+        formData.append('Dob', Dob);
+        formData.append('Gender', Gender);
+        formData.append('Address', Address);
+
+        formData.append('SearchText', SearchText);
+        formData.append('Profile', Profile);
+        formData.append('ProfileImg', ProfileImg);
+        ShowWait();
+        $.ajax({
+            type: "POST",
+            url: '/Student/InsertStudent',
+            contentType: "application/json; charset=utf-8",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                if (data != null) {
+                    if (data == 'Success' && Id == 0) {
+                        toastr.success('Student inserted successfully');
+                        GetStudentList(1);
+                        $('#Student').click();
+                        ClearData(1);
+                    }
+                    else if (data == 'Updated' && Id > 0) {
+                        toastr.success('Student updated successfully');
+                        GetStudentList(1);
+                        $('#Student').click();
+                        ClearData(1);
+                    }
+                    else if (data == 'Exists') {
+                        toastr.error('Student already exists!');
+                        document.getElementById('Email').value = "";
+                    }
+                }
+                HideWait();
+            },
+            error: function (xyz) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+    function GetClassRoom() {
+        
+        var cls = {
+        }
+        $.ajax({
+            url: '/Student/GetClassRoom',
+            contentType: "application/json; charset=utf-8",
+            type: "GET",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                
+                var html = "";
+                html = html + ' <option value="0" selected>Select ClassRoom</option>';
+                for (var i = 0; i < data.LSTClassRoomList.length; i++) {
+                    html = html + '<option value="' + data.LSTClassRoomList[i].Id + '">' + data.LSTClassRoomList[i].ClassNo + '</option>';
+                    $("#ClassId").empty();
+                    $("#ClassId").append(html);
+                    //$("#ddlClassId").empty();
+                    //$("#ddlClassId").append(html);
+                }
+            }
+        });
+    }
+    function GetStudentList(page) {
+
+        var Id = 0;
+        var SearchText = document.getElementById('SearchText').value;
+
+        if (document.getElementById('PageSize') != null) {
+            PageSize = document.getElementById('PageSize').value;
+        }
+        else {
+            PageSize = 10;
+        }
+        if (page == undefined) {
+            page = 1;
+        }
+        var PageIndex = page;
+
+        PageIndex = page;
+        var cls = {
+            Id: Id,
+            SearchText: SearchText,
+            PageSize: PageSize,
+            PageIndex: PageIndex,
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Student/GetStudent',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                $('#tblBody').empty();
+                $('#tblBody').append(data);
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function GetSingleStudentData(id) {
+        $('#errName').html("");
+        document.getElementById('btnAdd').innerHTML = "Update";
+        $("#btnAdd").attr('title', 'Update');
+        document.getElementById('PopupTitle').innerHTML = "Update Student";
+        var cls = {
+            Id: id
+        }
+
+        $.ajax({
+            url: '/Student/GetSingleStudentData',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                
+                if (data != null) {
+                    document.getElementById('hdnintId').value = data.LSTStudentList[0].Id;
+                    document.getElementById('FullName').value = data.LSTStudentList[0].FullName;
+                    document.getElementById('UserName').value = data.LSTStudentList[0].UserName;
+                    document.getElementById('Email').value = data.LSTStudentList[0].Email;
+                    document.getElementById('Password').value = data.LSTStudentList[0].Password;
+                    document.getElementById('MobileNo').value = data.LSTStudentList[0].MobileNo;
+                    document.getElementById('Address').value = data.LSTStudentList[0].Address;
+                    document.getElementById('RollNo').value = data.LSTStudentList[0].RollNo;
+                    $('#ClassId').val(data.LSTStudentList[0].ClassId).trigger("change");
+                    document.getElementById('Dob').value = data.LSTStudentList[0].Dob;
+                    //document.getElementById('Dob').value = ConvertRazorToDate(data.Dob);
+                    if (data.LSTStudentList[0].Gender == true) {
+                        $("#Active").prop('checked', true);
+                    }
+                    else {
+                        $("#InActive").prop('checked', true);
+                    }
+                    if (data.ProfileImg != null && data.ProfileImg != "") {
+                        document.getElementById('hdnFile').value = data.ProfileImg;
+
+                        document.getElementById('divUploadFile').style.display = "none";
+                        document.getElementById('divFile').style.display = "block";
+
+                        $('#divFile').empty();
+                        var strHTML = "";
+                        strHTML += '<label>File</label><br>';
+                        strHTML += '<span><img src = "/Data/Profile/' + data.ProfileImg + '" alt = "attachment" title = "Download attachment" style = "width:80px;" ></span >';
+                        strHTML += '&nbsp;<span title="remove"  style="cursor: pointer;font-size: 15px;color: red;" onclick="RemoveFile()">×</span>';
+                        $('#divFile').append(strHTML);
+                    }
+                    else {
+                        document.getElementById('divUploadFile').style.display = "block";
+                        document.getElementById('divFile').style.display = "none";
+                    }
+                }
+                else {
+                    alert('error');
+                }
+
+            },
+            error: function (xhr) {
+
+                alert('errors');
+            }
+        });
+    }
+
+    function deleteStudent() {
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Student/deleteStudent',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+
+                if (data.Response == 'Success' && Id > 0) {
+                    //alert('Student deleted successfully.');
+                    toastr.success('Student deleted successfully');
+                    //swal(
+                    //    'Good job!',
+                    //    'Student deleted successfully',
+                    //    'success'
+                    //)
+                    //  toastr.success(data.Response, 'Student deleted successfully.', new { timeOut: 300 });
+                    document.getElementById('hdnintId').value = "0";
+                    GetStudentList();
+                    $('#delete_Student').click();
+                }
+                //else if (data.Response == 'dependency') {
+                //    alert('Student already used in system.');
+                //    document.getElementById('hdnintId').value = "0";
+                //    GetStudentList();
+                //    $('#delete_User').click();
+                //}
+
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+
+            }
+        });
+    }
+    function UpdateStatus() {
+        debugger
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Student/UpdateStatus',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                if (data == 'success') {
+                    toastr.success('status updated successfully.');
+                    GetStudentList(1);
+                    $('#status').click();
+                }
+                else if (data == 'Exist') {
+                    toastr.error('Exists');
+                }
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+    function Clear() {
+        document.getElementById('FullName').value = "";
+        $('#errFullName').html("");
+        document.getElementById('UserName').value = "";
+        $('#errUserName').html("");
+        document.getElementById('Email').value = "";
+        $('#errEmail').html("");
+        document.getElementById('MobileNo').value = "";
+        $('#errMobile').html("");
+        document.getElementById('RollNo').value = "";
+        $('#errRollNo').html("");
+        $("#ClassId").val('0').trigger('change');
+        $('#errClassroom').html("");
+        document.getElementById('Dob').value = "";
+        $('#errDob').html("");
+        document.getElementById('Password').value = "";
+        $('#errPassword').html("");
+        $('#Address').val('');
+        $('#errProfile').html("");
+
+        document.getElementById('btnAdd').innerHTML = "Add";
+        $("#btnAdd").attr('title', 'Upload');
+        document.getElementById('PopupTitle').innerHTML = "Add Student";
+    }
+
+    function ClearData(type) {
+
+        if (type == 1) {
+          
+            var Id = document.getElementById('hdnintId').value;
+            document.getElementById('FullName').value = "";
+            $('#errFullName').html("");
+            document.getElementById('UserName').value = "";
+            $('#errUserName').html("");
+            document.getElementById('Email').value = "";
+            $('#errEmail').html("");
+            document.getElementById('MobileNo').value = "";
+            $('#errMobile').html("");
+            document.getElementById('RollNo').value = "";
+            $('#errRollNo').html("");
+            $("#ClassId").val('0').trigger('change');
+            $('#errClassroom').html("");
+            document.getElementById('Dob').value = "";
+            $('#errDob').html("");
+            document.getElementById('Password').value = "";
+            $('#errPassword').html("");
+            $('#Address').val('');
+            $('#errProfile').html("");
+
+            if (Id == "0") {
+
+                document.getElementById('hdnintId').value = "0";
+                document.getElementById('btnAdd').innerHTML = "Add";
+                $("#btnAdd").attr('title', 'Add');
+                document.getElementById('PopupTitle').innerHTML = "Add Student";
+            }
+            else {
+                document.getElementById('btnAdd').innerHTML = "Update";
+                $("#btnAdd").attr('title', 'Update');
+                document.getElementById('PopupTitle').innerHTML = "Update Student";
+            }
+        }
+        else {
+            document.getElementById('SearchText').value = "";
+            GetStudentList();
+        }
+    }
+    function RemoveFile() {
+        document.getElementById('divUploadFile').style.display = "block";
+        document.getElementById('divFile').style.display = "none";
+        //document.getElementById('hdnstrFile').value = "";
+        bISFile = 0;
+    }
+
+
+    function opendeleteModel(id) {
+
+        document.getElementById('hdnintId').value = id;
+    }
+</script>

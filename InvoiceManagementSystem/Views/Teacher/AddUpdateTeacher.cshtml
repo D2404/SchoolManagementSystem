@@ -1,0 +1,142 @@
+﻿<br />
+<br />
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
+                            <h5 class="mb-0" style="color:black">
+                                <i class="fa fa-user" aria-hidden="true"></i>&nbsp; Add Teacher
+                            </h5>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <input type="hidden" id="hdnintId" value="" />
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="avatar avatar-xl position-relative">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="hidden" id="hdnfile" />
+                                    <label for="example-text-input" class="form-control-label">
+                                        Profile
+                                    </label>
+                                    <input class="form-control form-control-alternative" id="Profile" type="file">
+                                </div>
+                                <div class="faorm-group" id="divFile" style="display:none">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Full Name <span class="text-danger">*</span></label>
+                                    <input class="form-control form-control-alternative" type="text" id="FullName" placeholder="Enter Full Name">
+                                    <span id="errFullName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label>
+                                    <input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Teacher Name">
+                                    <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Gender<span class="text-danger">*</span></label><br />
+                                    <div class="form-radio">
+                                        <div class="radio radio-outline radio-inline">
+                                            <label>
+                                                <input type="radio" name="radio" checked="checked" value="Active" class="rd" id="Active" />
+                                                <i class="helper"></i>Male
+                                                <input type="radio" name="radio" value="InActive" class="rd" id="InActive" />
+                                                <i class="helper"></i>Female
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
+                                    <input class="form-control form-control-alternative" type="text" id="Email" placeholder="Enter Email">
+                                    <span id="errEmail" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="Passworddiv">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Password <span class="text-danger">*</span></label>
+                                    <input class="form-control form-control-alternative" type="text" id="Password" placeholder="Enter Password">
+                                    <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Mobile <span class="text-danger">*</span></label>
+                                    <input class="form-control form-control-alternative" type="text" id="MobileNo" placeholder="Enter Mobile" onkeypress="return isNumber(event);">
+                                    <span id="errMobile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Class Room</b></label>
+                                    <select class="form-control form-control-alternative" id="ClassId">
+                                        <option value="0">Select ClassRoom</option>
+                                    </select>
+                                    <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="Dobdiv">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Date Of Birth</label>
+                                    <input class="form-control form-control-alternative floating datetimepicker" type="date" id="Dob" autocomplete="off">
+                                    @*<input class="form-control datetimepicker" type="date" id="Dob" placeholder="Enter Dob">*@
+                                    @*<input class="form-control" type="datetime-local" id="Dob" autocomplete="off">*@
+                                    <span id="errDob" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Education</label>
+                                    <input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">
+                                    <span id="errEducation" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Salary</label>
+                                    <input class="form-control form-control-alternative" type="text" id="Salary" placeholder="Enter Salary" onkeypress="return isNumber(event);">
+                                    <span id="errSalary" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Address</label>
+                                    <textarea class="form-control form-control-alternative" id="Address"></textarea>
+                                </div>
+                            </div>
+                            <div class="footer" style="text-align:right">
+                                <button class="btn bg-gradient-info btn-sm ms-auto " onclick="InsertData()">Save</button>
+                                <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearData(1)">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/School/Teacher.js"></script>
+<script>
+    
+</script>

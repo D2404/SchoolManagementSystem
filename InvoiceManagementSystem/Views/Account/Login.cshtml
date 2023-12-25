@@ -1,0 +1,184 @@
+﻿
+
+@model InvoiceManagementSystem.Models.AccountModel
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+    string Value1 = Guid.NewGuid().ToString();
+    string Value2 = Guid.NewGuid().ToString();
+    string AllValue = Guid.NewGuid().ToString();
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from html.codedthemes.com/gradient-able/default/auth-normal-sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 27 Dec 2017 07:41:03 GMT -->
+<head>
+    <title>SMS - School Management System</title>
+
+    <!--[if lt IE 10]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+          <![endif]-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="File Tracking,approval Management system" />
+    <meta name="keywords" content="Nagarpalika File Tracking,approval Management system" />
+    <meta name="author" content="Nagarpalika File Management system" />
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/Content/files/bower_components/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/icon/themify-icons/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/icon/icofont/css/icofont.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/icon/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/css/style.css">
+    <link href="~/Content/files/assets/icon/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
+    <script src="~/Content/files/bower_components/jquery-ui/js/jquery-3.3.1.min.js"></script>
+    <script src="~/Content/files/bower_components/jquery-ui/js/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+</head>
+<body class="fix-menu">
+    <div class="theme-loader">
+        <div class="loader-track">
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+    <section class="login p-fixed d-flex text-center bg-primary common-img-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="login-card card-block auth-body mr-auto ml-auto">
+                        @*<form class="md-float-material" action="@Url.Action("index","Login")" method="post" id="loginform" autocomplete="@AllValue">*@
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true)
+                        <div class="auth-box">
+                            <div class="row m-b-20">
+                                <div class="col-md-12">
+                                    <img src="~/Data/assets/img/muktajivan-school-logo.png" style="width:120px"/>
+                                    <h5 style="color:#666666">SMS <br />Shree Muktajivan School</h5>
+
+
+                                </div>     
+                            </div>
+
+
+                            <div class="input-group">
+                                <input class="form-control" id="UserName" type="text" placeholder="Username">
+
+
+                            </div>
+                            <div class="input-group">
+                                <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                            <div class="input-group">
+                                <input class="form-control" id="Password" type="password" placeholder="Password">
+
+                            </div>
+                            <div class="input-group">
+                                <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                            @*<div class="input-group">
+                                    @Html.ValidationMessageFor(Model => Model.Password, "", new { @class = "text-danger" })
+                                    <span class="md-line"></span>
+                                    <div class="col-sm-6">
+                                        @Html.Captcha(5)
+                                    </div>
+                                </div>*@
+                            <div class="row m-t-30">
+                                <div class="col-md-3">
+                                    <button class="btn hor-grd btn-grd-primary" type="submit" onclick="Login();">Sign in</button>
+                                </div>
+                                <div class="col-9">
+
+                                    <div class="forgot-phone text-right f-right" style="margin-top: -35px;">
+                                        <input type="checkbox" onclick="showPwd()" /><span style="color:black"> &nbsp; <b>Show Password</b> </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*</form>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="~/Content/files/bower_components/jquery/js/jquery.min.js"></script>
+    <script src="~/Content/files/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
+    <script src="~/Content/files/bower_components/popper.js/js/popper.min.js"></script>
+    <script src="~/Content/files/bower_components/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/Content/files/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
+    <script src="~/Content/files/bower_components/modernizr/js/modernizr.js"></script>
+    <script src="~/Content/files/bower_components/modernizr/js/css-scrollbars.js"></script>
+    <script src="~/Content/files/bower_components/i18next/js/i18next.min.js"></script>
+    <script src="~/Content/files/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
+    <script src="~/Content/files/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
+    <script src="~/Content/files/bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
+    <script src="~/Content/files/assets/js/common-pages.js"></script>
+    <script src="~/Scripts/General/aes.js"></script>
+    
+    <script>
+        function Login() {
+            
+            var val = true;
+            var UserName = document.getElementById('UserName').value;
+            var Password = document.getElementById('Password').value;
+            if (UserName == "" || /\S/.test(UserName) == false) {
+                $("#errUserName").html("Please Enter Username.");
+                val = false;
+            }
+            if (Password == "" || /\S/.test(Password) == false) {
+                $("#errPassword").html("Please Enter Password.");
+                val = false;
+            }
+            if (val == false) {
+                return;
+            }
+
+            var cls = {
+                UserName: UserName,
+                Password: Password
+            }
+            $.ajax({
+                url: '/Account/Login',
+                contentType: "application/json; charset=utf-8",
+                type: "POST",
+                data: JSON.stringify({
+                    cls: cls
+                }),
+                success: function (data) {
+
+                    if (data == 'Success') {
+                        window.location.href = '/Home/Index';
+
+                    }
+                    //else if (data.intId == 0) {
+                    //    alert(data.strResponse);
+                    //}
+                    else if (data == 'Error' || data == null) {
+                        toastr.error('Invalid Username or Password.');
+                    }
+                    document.getElementById('Email').value = '';
+                    document.getElementById('Password').value = '';
+                },
+                error: function (xhr) {
+
+                    alert('errors');
+                }
+            });
+        }
+        function showPwd() {
+            var x = document.getElementById("Password");
+
+            if (x.type === "password") {
+                x.type = "text";
+            }
+            else {
+                x.type = "password";
+            }
+        }
+    </script>
+</body>
+</html>

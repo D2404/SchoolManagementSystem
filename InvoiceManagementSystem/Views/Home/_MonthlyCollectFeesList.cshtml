@@ -1,0 +1,135 @@
+﻿@model InvoiceManagementSystem.Models.FeesModel
+<table class="table align-items-center mb-0">
+    <thead>
+        <tr>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Sr No.</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Profile</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Full Name</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Class No</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Roll No</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Fees Amount</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Month</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Year</th>
+        </tr>
+    </thead>
+    @if (Model != null && Model.LSTFeesList.Count > 0)
+    {
+        <tbody id="tblBody">
+            @for (var i = 0; i < Model.LSTFeesList.Count; i++)
+            {
+                var item = Model.LSTFeesList[i];
+                <tr>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ROWNUMBER</p>
+                    </td>
+                    @if (item.Profile == null || item.Profile == "")
+                    {
+                        <td> <img src="~/Data/Profile/noimage.jpg" width="50" height="50" style="text-align: center"/></td>
+                    }
+                    else
+                    {
+                        <td><img src="/Data/Profile/@item.Profile" width="50" height="50"style="text-align: center"></td>
+                    }
+                    <td>
+                        <div class="d-flex px-2 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                                <h5 class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.StudentName</h5>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ClassNo</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.RollNo</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.FeesAmount</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.MonthName</p>
+                     </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.YearId</p>
+                     </td>
+                </tr>
+            }
+        </tbody>
+    }
+    else
+    {
+        <tr>
+            <td colspan="7">
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white"><b>No Record Found</b></p>
+              </td>
+        </tr>
+    }
+</table>
+<div class="quotation-body">
+    <div class="row">
+        <div class="col-lg-6 paddinglr8px">
+        </div>
+    </div>
+    <div class="col-lg-12" style="bottom: 13px;">
+        <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
+            @if (Model != null && Model.LSTFeesList != null && Model.LSTFeesList.Count > 0)
+            {
+                var start = (Model.LSTFeesList[0].PageIndex - 1) * Model.LSTFeesList[0].PageSize + 1;
+                var end = Model.LSTFeesList[0].PageSize;
+                if (Model.LSTFeesList[0].PageSize < Model.LSTFeesList[0].TotalRecord)
+                {
+                    end = Model.LSTFeesList[0].PageSize * Model.LSTFeesList[0].PageIndex;
+                    if (end > Model.LSTFeesList[0].TotalRecord)
+                    {
+                        end = Model.LSTFeesList[0].TotalRecord;
+                    }
+                }
+                else
+                {
+                    end = Model.LSTFeesList[0].TotalRecord;
+                }
+                <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: white;font-size:13px">Showing @start to @end of @Model.LSTFeesList[0].TotalRecord  entries</span>}
+            <div id="divPagination">
+                @if (Model.LSTFeesList != null && Model.LSTFeesList.Count > 0)
+                {
+                    var pager = Model.Pager;
+                    if (pager != null)
+                    {
+                        if (pager.EndPage >= 1)
+                        {
+                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
+                                @if (pager.CurrentPage > 1)
+                                {
+                                    <li class="paginate_button previous page-item">
+                                        <a onclick="GetFeesList(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+                                    </li>
+                                }
+                                @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
+                                {
+                                    if (@page1 == @pager.CurrentPage)
+                                    {
+                                        <li class="paginate_button page-item active">
+                                            <a onclick="GetFeesList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button page-item">
+                                            <a onclick="GetFeesList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
+                                        </li>
+                                    }
+                                }
+                                @if (pager.CurrentPage < pager.TotalPages)
+                                {
+                                    <li class="paginate_button page-item">
+                                        <a onclick="GetFeesList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

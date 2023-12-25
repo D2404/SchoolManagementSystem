@@ -1,0 +1,170 @@
+﻿@model InvoiceManagementSystem.Models.TeacherSubjectModel
+
+<table class="table align-items-center mb-0">
+    <thead>
+        <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr No.</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teacher</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Class No</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+            @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+            {
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+            }
+                    </tr>
+    </thead>
+    @if (Model != null && Model.LSTTeacherSubjectList.Count > 0)
+    {
+<tbody id="tblBody">
+    @for (var i = 0; i < Model.LSTTeacherSubjectList.Count; i++)
+    {
+        var item = Model.LSTTeacherSubjectList[i];
+    <tr>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.ROWNUMBER</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.TeacherName</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.SubjectName</h5>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.ClassNo</h5>
+                </div>
+            </div>
+        </td>
+        <td>
+            @if (item.IsActive == true)
+            {
+    <a style="margin-left:10px" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-success"></i> Active</a> }
+else
+{
+    <a style="margin-left:10px" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-danger"></i> In-Active </a>}
+        </td>
+        @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+        {
+    <td class="align-middle text-center">
+        <div class="dropdown">
+            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
+            </a>
+
+            <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
+                @if (item.IsActive == true)
+                {
+
+    <a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
+                else
+                {
+    <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
+
+                <a href="javascript:;" title="Edit Subject" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#TeacherSubject" onclick="GetSingleTeacherSubjectData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
+                <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_TeacherSubject" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
+            </div>
+        </div>
+    </td>
+        }
+                        </tr>}
+</tbody>
+ }
+            else
+            {
+                <tr>
+                    <td colspan="7">
+                        <p class="text-xs font-weight-bold mb-0"  style="text-align: center;"><b>No Record Found</b></p>
+                        @*<h5 style="text-align: center;"><b>No Record Found</b></h5>*@
+                    </td>
+                </tr>
+            }
+</table>
+<div class="quotation-body">
+    <div class="row">
+        <div class="col-lg-6 paddinglr8px">
+        </div>
+    </div>
+    <div class="col-lg-12" style="bottom: 13px;">
+        <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
+
+            @if (Model != null && Model.LSTTeacherSubjectList != null && Model.LSTTeacherSubjectList.Count > 0)
+            {
+
+                var start = (Model.LSTTeacherSubjectList[0].PageIndex - 1) * Model.LSTTeacherSubjectList[0].PageSize + 1;
+                var end = Model.LSTTeacherSubjectList[0].PageSize;
+
+                if (Model.LSTTeacherSubjectList[0].PageSize < Model.LSTTeacherSubjectList[0].TotalRecord)
+                {
+                    end = Model.LSTTeacherSubjectList[0].PageSize * Model.LSTTeacherSubjectList[0].PageIndex;
+                    if (end > Model.LSTTeacherSubjectList[0].TotalRecord)
+                    {
+                        end = Model.LSTTeacherSubjectList[0].TotalRecord;
+                    }
+                }
+                else
+                {
+                    end = Model.LSTTeacherSubjectList[0].TotalRecord;
+                }
+                <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: black;font-size:13px">Showing @start to @end of @Model.LSTTeacherSubjectList[0].TotalRecord  entries</span>
+            }
+
+            <div id="divPagination">
+                @if (Model.LSTTeacherSubjectList != null && Model.LSTTeacherSubjectList.Count > 0)
+                {
+                    var pager = Model.Pager;
+                    if (pager != null)
+                    {
+                        if (pager.EndPage >= 1)
+                        {
+                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
+                                @if (pager.CurrentPage > 1)
+                                {
+                                <li class="paginate_button previous page-item" >
+                                    <a onclick="GetTeacherSubjectList(@pager.CurrentPage-1)" class="page-link"style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+                                </li>
+                                }
+                                @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
+                                {
+                                    if (@page1 == @pager.CurrentPage)
+                                    {
+                                        <li class="paginate_button page-item active">
+                                            <a onclick="GetTeacherSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0"class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                        </li>
+                                    }
+                                    else
+                                    {
+                            <li class="paginate_button page-item">
+                                <a onclick="GetTeacherSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"class="page-link">@page1</a>&nbsp;
+                            </li>
+                                    }
+                                }
+                                @if (pager.CurrentPage < pager.TotalPages)
+                                {
+                                    <li class="paginate_button page-item">
+                                        <a onclick="GetTeacherSubjectList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+﻿
+@{
+    ViewBag.Title = "Fees History Collection";
+}
+
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <h6 class="font-weight-bolder text-white mb-0">Fees Collection History List</h6>
+        </nav>
+    </div>
+</nav>
+
+<br />
+<br />
+<br />
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:white">
+                    Show
+                    <select id="PageSize" onchange="GetFeesHistoryList(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Fees History List</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="tblBody"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete_FeesHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete Fees History</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-left:70px">Are you sure want to delete this Fees History ?.</p>
+            </div>
+
+            <div class="modal-footer" style="padding-right: 166px">
+
+                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteFeesHistory()">Delete</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        GetFeesHistoryList(1);
+    });
+
+    function GetFeesHistoryList(page) {
+        debugger
+        var Id = 0;
+        if (document.getElementById('PageSize') != null) {
+            PageSize = document.getElementById('PageSize').value;
+        }
+        else {
+            PageSize = 10;
+        }
+        if (page == undefined) {
+            page = 1;
+        }
+        var PageIndex = page;
+        PageIndex = page;
+        var cls = {
+            Id: Id,
+            PageSize: PageSize,
+            PageIndex: PageIndex,
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Fees/GetFeesHistory',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                $('#tblBody').empty();
+                $('#tblBody').append(data);
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+    function GetSingleFeesData(id) {
+
+        document.getElementById('btnAdd').innerHTML = "Update";
+        $("#btnAdd").attr('title', 'Update');
+        document.getElementById('PopupTitle').innerHTML = "Update Fees";
+        var cls = {
+            Id: id
+        }
+        $.ajax({
+            url: '/Fees/GetSingleFeesData',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+
+                if (data != null) {
+                    document.getElementById('hdnintId').value = data.LSTFeesList[0].Id;
+                    $('#ClassId').val(data.LSTFeesList[0].ClassId).trigger("change");
+                    $('#StudentId').val(data.LSTFeesList[0].StudentId).trigger("change");
+                    $('#MonthId').val(data.LSTFeesList[0].MonthId).trigger("change");
+                    $('#YearId').val(data.LSTFeesList[0].YearId).trigger("change");
+                    document.getElementById('RollNo').value = data.LSTFeesList[0].RollNo;
+                    document.getElementById('FeesAmount').value = data.LSTFeesList[0].FeesAmount;
+                }
+                else {
+                    alert('error');
+                }
+            },
+            error: function (xhr) {
+                alert('errors');
+            }
+        });
+    }
+    function deleteFeesHistory() {
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Fees/deleteFeesHistory',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                if (data.Response == 'Success' && Id > 0) {
+                    toastr.success('Fees History deleted successfully');
+                    document.getElementById('hdnintId').value = "0";
+                    GetFeesHistoryList(1);
+                    $('#delete_FeesHistory').click();
+                }
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function opendeleteModel(id) {
+        document.getElementById('hdnintId').value = id;
+    }
+</script>

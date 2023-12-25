@@ -1,0 +1,211 @@
+﻿@model InvoiceManagementSystem.Models.ExamModel
+
+<table class="table align-items-center mb-0">
+    <thead>
+        <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr No.</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Class No</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Student</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roll No</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Grade</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Out Of Marks</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Total Marks</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Performance</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+
+        </tr>
+    </thead>
+    @if (Model != null && Model.LSTExamList.Count > 0)
+    {
+<tbody id="tblBody">
+    @for (var i = 0; i < Model.LSTExamList.Count; i++)
+    {
+        var item = Model.LSTExamList[i];
+    <tr>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.ROWNUMBER</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.ClassNo</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.SubjectName</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.StudentName</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.RollNo</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.Grade</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.OutOfMarks</h5>
+                </div>
+            </div>
+
+        </td>
+        <td>
+            <div class="d-flex px-2 py-1">
+                <div class="d-flex flex-column justify-content-center">
+                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.TotalMarks</h5>
+                </div>
+            </div>
+
+        </td>
+        <td >
+            @if (item.Grade == "A+")
+            {
+
+            <h5 class="text-sm font-weight-bold mb-0" style="text-align: left;color:gold"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Outstanding</b></h5>}
+            else if (item.Grade == "A")
+            {
+            <h5 class="text-sm font-weight-bold mb-0" style="text-align: left;color:forestgreen"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Excellent</b></h5>}
+            else if (item.Grade == "B")
+            {
+            <h5 class="text-sm font-weight-bold mb-0" style="text-align: left;color:darkgoldenrod"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Good</b></h5>}
+            else if (item.Grade == "C")
+            {
+            <h5 class="text-sm font-weight-bold mb-0" style="text-align: left;color:dodgerblue"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Average</b></h5>}
+            else if (item.Grade == "D")
+            {
+            <h5 class="text-sm font-weight-bold mb-0" style="text-align: left;color:orange"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Below Average</b></h5>}
+            else if (item.Grade == "E")
+            {
+            <h5 class="text-sm font-weight-bold mb-0" style="text-align: left;color:yellowgreen"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Poor</b></h5>}
+            else if (item.Grade == "F")
+            {
+            <h5 class="text-sm font-weight-bold mb-0" style="text-align: left;color:red"><i class="fa fa-close" aria-hidden="true"></i>&nbsp;<b>Fail</b></h5>}
+        </td>
+        <td class="align-middle text-center">
+            <div class="dropdown">
+                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                    <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
+                </a>
+                <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
+                    <a href="javascript:;" title="Edit Exam" style="cursor: pointer; font-size: 14px" data-bs-toggle="modal" data-bs-target="#Exam" onclick="GetSingleExamData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true"></i>    Edit</a>
+                    <a href="javascript:;" style="font-size:14px" data-bs-toggle="modal" data-bs-target="#delete_Exam" onclick="opendeleteModel(@item.Id);"><i class="fa fa-trash" aria-hidden="true"></i>   Delete</a>
+                </div>
+            </div>
+        </td>
+
+    </tr>}
+</tbody>
+ }
+            else
+            {
+                <tr>
+                    <td colspan="7">
+                        <p class="text-xs font-weight-bold mb-0"  style="text-align: center;"><b>No Record Found</b></p>
+                        @*<h5 style="text-align: center;"><b>No Record Found</b></h5>*@
+                    </td>
+                </tr>
+            }
+</table>
+<div class="quotation-body">
+    <div class="row">
+        <div class="col-lg-6 paddinglr8px">
+        </div>
+    </div>
+    <div class="col-lg-12" style="bottom: 13px;">
+        <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
+
+            @if (Model != null && Model.LSTExamList != null && Model.LSTExamList.Count > 0)
+            {
+
+                var start = (Model.LSTExamList[0].PageIndex - 1) * Model.LSTExamList[0].PageSize + 1;
+                var end = Model.LSTExamList[0].PageSize;
+
+                if (Model.LSTExamList[0].PageSize < Model.LSTExamList[0].TotalRecord)
+                {
+                    end = Model.LSTExamList[0].PageSize * Model.LSTExamList[0].PageIndex;
+                    if (end > Model.LSTExamList[0].TotalRecord)
+                    {
+                        end = Model.LSTExamList[0].TotalRecord;
+                    }
+                }
+                else
+                {
+                    end = Model.LSTExamList[0].TotalRecord;
+                }
+                <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: black;font-size:13px">Showing @start to @end of @Model.LSTExamList[0].TotalRecord  entries</span>
+            }
+
+            <div id="divPagination">
+                @if (Model.LSTExamList != null && Model.LSTExamList.Count > 0)
+                {
+                    var pager = Model.Pager;
+                    if (pager != null)
+                    {
+                        if (pager.EndPage >= 1)
+                        {
+                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
+                                @if (pager.CurrentPage > 1)
+                                {
+                                <li class="paginate_button previous page-item" >
+                                    <a onclick="GetSubjectList(@pager.CurrentPage-1)" class="page-link"style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+                                </li>
+                                }
+                                @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
+                                {
+                                    if (@page1 == @pager.CurrentPage)
+                                    {
+                                        <li class="paginate_button page-item active">
+                                            <a onclick="GetSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0"class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                        </li>
+                                    }
+                                    else
+                                    {
+                            <li class="paginate_button page-item">
+                                <a onclick="GetSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"class="page-link">@page1</a>&nbsp;
+                            </li>
+                                    }
+                                }
+                                @if (pager.CurrentPage < pager.TotalPages)
+                                {
+                                    <li class="paginate_button page-item">
+                                        <a onclick="GetSubjectList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

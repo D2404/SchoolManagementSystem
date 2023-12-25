@@ -1,0 +1,240 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,500");
+* {
+    font-family: 'Roboto', cursive;
+    font-size: 16px;
+    font-weight: 400;
+    box-sizing: border-box;
+    word-wrap: break-word;
+    border-color: #222 !important;
+}
+
+b {
+    font-weight: 500;
+}
+
+section {
+    width: 100%;
+    border: 2px solid #000;
+}
+
+header {
+    position: relative;
+    border-bottom: 2px solid #000;
+}
+
+.logo {
+    position: absolute;
+    left: 10px;
+    top: 0;
+    height: 100%;
+}
+
+.logo img {
+    padding-top: 10px;
+    line-height: 74px;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+h3 {
+    font-size: 23px;
+    margin: 10px 0;
+}
+
+h4 {
+    font-size: 21px;
+    margin: 10px 0;
+}
+
+h5 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.title_section {
+    padding: 15px;
+    position: relative;
+    border-bottom: 2px solid #000;
+    overflow: auto;
+}
+
+.title_section div {
+    width: 50%;
+    float: left;
+}
+
+.title_section span {
+    text-decoration: underline;
+}
+
+.title_section p {
+    margin: 5px 0;
+}
+
+.title_section b.date {
+    margin-left: 10px;
+}
+
+.table_section table {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table_section table th {
+    text-align: center;
+    font-weight: 500;
+}
+
+.table_section table td,
+.table_section table th {
+    border: 2px solid;
+    padding: 7px;
+    border-top: 0;
+    border-right: 0;
+}
+
+.table_section table td:first-child,
+.table_section table th:first-child {
+    border-top: 0;
+    border-left: 0;
+}
+
+.table_section_bottom p {
+    padding: 200px 0 5px 5px;/*350px 0 5px 5px; old*/
+    margin: 0;
+}  
+
+.stamps {
+    position: relative;
+    overflow: auto;
+}
+
+.stamps div {
+    float: left;
+    width: 33.33%;
+    border: 2px solid;
+    border-right: 0;
+}
+
+.stamps div:first-child {
+    border-left: 0;
+}
+
+.stamps div p:first-child {
+    padding-top: 45px;
+}
+
+.stamps div p {
+    margin: 5px 0;
+}
+
+.dept {
+    border-bottom: 2px solid;
+}
+
+.dept p {
+    padding: 0 0 0 5px;
+    margin: 10px 0;
+}
+
+.purchase {
+    overflow: auto;
+}
+
+.purchase div {
+    float: left;
+    width: 50%;
+}
+
+.purchase p {
+    border: 2px solid;
+    border-right: 0;
+    border-bottom: 0;
+    margin: 0;
+    padding: 10px;
+}
+
+.purchase div p.no_left {
+    border-left: 0;
+}
+
+.purchase div p.no_top {
+    border-top: 0;
+}
+
+.form_insert td {
+    padding: 0 !important;
+}
+
+input.text {
+    width: 100%;
+    outline: 0;
+    border: 0;
+    padding: 3px;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"] + label span {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    margin: -2px 0px 0 0;
+    vertical-align: middle;
+    background: url(icon.png) -38px top no-repeat;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked + label span {
+    background: url(icon.png) -57px top no-repeat;
+}
+
+
+/* 
+#################################################
+
+Print Section 
+
+#################################################
+*/
+
+@media print {
+    table {
+        table-layout: auto !important;
+    }
+    td,
+    th {
+        padding: 3px 7px !important;
+        width: auto !important;
+    }
+    td {
+        font-size: 10px !important;
+    }
+    th , input{
+        font-size: 13px !important;
+    }
+    .title_section {
+        padding: 10px 15px !important;
+    }
+    .form_insert td {
+        padding: 3px !important;
+    }
+    * {
+        border-color: #222 !important;
+        border-width: 1px !important;
+    }
+}

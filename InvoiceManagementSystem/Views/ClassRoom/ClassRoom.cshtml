@@ -1,0 +1,462 @@
+﻿
+@{
+    ViewBag.Title = "ClassRoom";
+}
+
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <h5 class="font-weight-bolder text-white mb-0" style="margin-top:25px"><i class="fa fa-home text-lg" style="color:white"></i>&nbsp;&nbsp;Manage ClassRoom</h5>
+        </nav>
+    </div>
+</nav>
+
+<div class="row" id="FilterDiv" style="margin-left:19px">
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus">
+            <input type="text" class="form-control form-control-alternative" id="SearchText" placeholder="Search" maxlength="50">
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus select-focus">
+            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control form-control-alternative floating">
+                <option value="3">Select Status</option>
+                <option value="1">Active</option>
+                <option value="2">In-Active</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-1">
+        <a class="btn bg-gradient-info" onclick="GetClassRoomList(1)">Search</a>
+    </div>
+    <div class="col-sm-3 col-md-1">
+        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
+
+    </div>
+</div>
+
+<div class="row">
+    <div style="margin-left:868px">
+        @*<a class="btn bg-gradient-info" title="Add Subject" onclick="ExportToExcel()">Export To excel </a>*@
+        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" title="Filter"><i class="fa fa-filter"></i></a>
+        <a class="btn bg-gradient-info" title="Add Subject" data-bs-toggle="modal" data-bs-target="#Teacher" onclick="Clear()">Add Teacher </a>
+
+    </div>
+</div>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:white">
+                    Show
+                    <select id="PageSize" onchange="GetClassRoomList(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6><i class="fa fa-home text-warning text-lg" style="color:black"></i>&nbsp;&nbsp; ClassRoom List</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="tblBody"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+</div>
+
+<div class="modal fade" id="ClassRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add ClassRoom</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">ClassRoom Name <span class="text-danger">*</span></label>
+                            <input class="form-control" type="text" id="ClassNo" placeholder="Enter Class No">
+                            <span id="errClassNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()"><i class="fa fa-save" style="color:white"></i>&nbsp;Add</button>
+                <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)"><i class="fa fa-remove" style="color:white"></i>&nbsp;Clear</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete_ClassRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete ClassRoom</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-left:70px">Are you sure want to delete this ClassRoom ?.</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 166px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteClassRoom()">Delete</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-left:98px">Are you sure want to change status?</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 146px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+
+<script>
+    var type = 1
+    function ShowFilter() {
+        if (type == 1) {
+            $('#FilterDiv').show();
+            type = 2;
+        }
+        else {
+            $('#FilterDiv').hide();
+            type = 1;
+        }
+    }
+</script>
+
+<script>
+    $(document).ready(function () {
+        GetClassRoomList(1);
+        $('#FilterDiv').hide();
+
+    });
+
+    function InsertData() {
+
+        var val = true;
+        var Id = $('#hdnintId').val();
+        var SearchText = $('#SearchText').val();
+        var ClassNo = $('#ClassNo').val();
+        if (ClassNo == "" || /\S/.test(ClassNo) == false) {
+            $("#errClassNo").html("Please enter ClassNo.");
+            val = false;
+        }
+        
+        var formData = new FormData();
+        if (val == false) {
+            return;
+        }
+
+        formData.append('Id', Id);
+        formData.append('SearchText', SearchText);
+        formData.append('ClassNo', ClassNo);
+        ShowWait();
+        $.ajax({
+            type: "POST",
+            url: '/ClassRoom/InsertClassRoom',
+            contentType: "application/json; charset=utf-8",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                if (data != null) {
+                    if (data == 'Success' && Id == 0) {
+                        toastr.success('ClassRoom inserted successfully');
+                        GetClassRoomList(1);
+                        $('#ClassRoom').click();
+                        ClearData(1);
+                    }
+                    else if (data == 'Updated' && Id > 0) {
+                        toastr.success('ClassRoom updated successfully');
+                        GetClassRoomList(1);
+                        $('#ClassRoom').click();
+                        ClearData(1);
+                    }
+                    else if (data == 'Exists') {
+                        toastr.error('ClassRoom already exists!');
+                        document.getElementById('ClassNo').value = "";
+                    }
+                }
+                HideWait();
+            },
+            error: function (xyz) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function GetClassRoomList(page) {
+        debugger
+        var Id = 0;
+        var SearchText = document.getElementById('SearchText').value;
+        var intActive = document.getElementById('intActive').value;
+        if (document.getElementById('PageSize') != null) {
+            PageSize = document.getElementById('PageSize').value;
+        }
+        else {
+            PageSize = 10;
+        }
+        if (page == undefined) {
+            page = 1;
+        }
+        var PageIndex = page;
+
+        PageIndex = page;
+        var cls = {
+            Id: Id,
+            SearchText: SearchText,
+            intActive: intActive,
+            PageSize: PageSize,
+            PageIndex: PageIndex,
+        }
+        ShowWait();
+        $.ajax({
+            url: '/ClassRoom/GetClassRoom',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                $('#tblBody').empty();
+                $('#tblBody').append(data);
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function ExportToExcel() {
+        var Id = 0;
+        var SearchText = document.getElementById('SearchText').value;
+        var intActive = document.getElementById('intActive').value;
+        var cls = {
+            Id: Id,
+            SearchText: SearchText,
+            intActive: intActive,
+        };
+
+        ShowWait();
+
+        $.ajax({
+            url: '/ClassRoom/ExportToExcel',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                if (data && data.downloadUrl) {
+                    // Create a hidden iframe to trigger the file download
+                    var iframe = document.createElement('iframe');
+                    iframe.style.display = 'none';
+                    iframe.src = data.downloadUrl;
+                    document.body.appendChild(iframe);
+                } else {
+                    console.error('File download URL not found in the response.');
+                }
+
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('Error exporting file: ' + xhr.responseText);
+            }
+        });
+    }
+
+
+    function GetSingleClassRoomData(id) {
+        $('#errClassNo').html("");
+        document.getElementById('btnAdd').innerHTML = "Update";
+        $("#btnAdd").attr('title', 'Update');
+        document.getElementById('PopupTitle').innerHTML = "Update ClassRoom";
+        var cls = {
+            Id: id
+        }
+
+        $.ajax({
+            url: '/ClassRoom/GetSingleClassRoomData',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+
+                if (data != null) {
+                    document.getElementById('hdnintId').value = data.LSTClassRoomList[0].Id;
+                    document.getElementById('ClassNo').value = data.LSTClassRoomList[0].ClassNo;
+                }
+                else {
+                    alert('error');
+                }
+
+            },
+            error: function (xhr) {
+
+                alert('errors');
+            }
+        });
+    }
+
+    function deleteClassRoom() {
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/ClassRoom/deleteClassRoom',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+
+                if (data.Response == 'Success' && Id > 0) {
+
+                    toastr.success('ClassRoom deleted successfully');
+                    document.getElementById('hdnintId').value = "0";
+                    GetClassRoomList();
+                    $('#delete_ClassRoom').click();
+                }
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+
+            }
+        });
+    }
+
+    function Clear() {
+        document.getElementById('ClassNo').value = "";
+        $('#errClassNo').html("");
+        document.getElementById('btnAdd').innerHTML = "Add";
+        $("#btnAdd").attr('title', 'Upload');
+        document.getElementById('PopupTitle').innerHTML = "Add ClassRoom";
+    }
+
+    function UpdateStatus() {
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/ClassRoom/UpdateStatus',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                if (data == 'success') {
+                    toastr.success('status updated successfully.');
+                    document.getElementById('hdnintId').value = "0";
+                    GetClassRoomList(1);
+                    $('#status').click();
+                }
+                else if (data == 'Exist') {
+                    toastr.error('Exists');
+                }
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function ClearData(type) {
+
+        if (type == 1) {
+            var Id = document.getElementById('hdnintId').value;
+            document.getElementById('ClassNo').value = "";
+            $('#errClassNo').html("");
+
+            if (Id == "0") {
+
+                document.getElementById('hdnintId').value = "0";
+                document.getElementById('btnAdd').innerHTML = "Add";
+                $("#btnAdd").attr('title', 'Add');
+                document.getElementById('PopupTitle').innerHTML = "Add ClassRoom";
+            }
+            else {
+                document.getElementById('btnAdd').innerHTML = "Update";
+                $("#btnAdd").attr('title', 'Update');
+                document.getElementById('PopupTitle').innerHTML = "Update ClassRoom";
+            }
+        }
+        else {
+            document.getElementById('SearchText').value = "";
+            document.getElementById('intActive').value = '3';
+            GetClassRoomList();
+        }
+    }
+
+    function opendeleteModel(id) {
+
+        document.getElementById('hdnintId').value = id;
+    }
+
+    function openstatusModel(id) {
+
+        document.getElementById('hdnintId').value = id;
+    }
+</script>
+
+

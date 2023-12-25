@@ -1,0 +1,506 @@
+﻿
+@{
+    ViewBag.Title = "Leave";
+    ViewBag.ActionName = "Leave";
+}
+
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <h6 class="font-weight-bolder text-white mb-0">Leave List</h6>
+        </nav>
+    </div>
+
+
+
+    <!-- Modal -->
+
+</nav>
+<div class="row" id="FilterDiv" style="margin-left:19px">
+
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus">
+            <select data-placeholder="Select here.." id="ddlTeacherId" class="select2-single-placeholder form-control" style="width: 100%"></select>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-1">
+
+        <a class="btn bg-gradient-info" onclick="GetLeaveList(1)">Search</a>
+    </div>
+    <div class="col-sm-6 col-md-1">
+        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData()"> Clear </a>
+
+    </div>
+</div>
+@if (InvoiceManagementSystem.Models.SessionModel.RoleId != 1)
+{
+    @*<a href="#" class="btn bg-gradient-dark btn-tooltip" data-bs-toggle="tooltip" data-bs-target="#BulkAttendance" onclick="Clear1()" data-bs-placement="bottom" title="Filter" data-container="body" data-animation="true">Import Bulk Attendance</a>
+        <a class="btn bg-gradient-info" title="Add Leave" data-bs-toggle="modal" data-bs-target="#Leave" onclick="Clear()" style="cursor:pointer;margin-left:915px">Add Attandence</a>*@
+
+
+
+    <div style="margin-left:803px">
+        <a href="#" class="btn bg-gradient-dark btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" data-container="body" data-animation="true" onclick="ShowFilter()"><i class="fa fa-filter"></i></a>
+        <a class="btn bg-gradient-info" title="Add Leave" data-bs-toggle="modal" data-bs-target="#Leave" onclick="Clear()" style="cursor:pointer;margin-left:0px">Add Leave</a>
+    </div>
+}
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:white">
+                    Show
+                    <select id="PageSize" onchange="GetLeaveList(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Leave List</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="tblBody"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="Leave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:186px"><span id="PopupTitle">Add Leave</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">From Date</label>
+                            <input class="form-control form-control-alternative" type="date" id="FromDate">
+                            @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Date" autocomplete="off">*@
+                            <span id="errFromDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">ToDate</label>
+                            <input class="form-control form-control-alternative" type="date" id="ToDate">
+                            @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Date" autocomplete="off">*@
+                            <span id="errToDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">No.Of Days</label>
+                            <input class="form-control form-control-alternative" type="text" id="NoOfDays">
+                            @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Date" autocomplete="off">*@
+                            <span id="errDays" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Leave Type<span class="text-danger">*</span></label><br />
+                            <select class="form-control form-control-alternative" id="LeaveType">
+                                <option value="0">Select Leave Type</option>
+                                <option value="1">Half-Day</option>
+                                <option value="2">Full-Day</option>
+                            </select>
+                            <span id="errLeaveType" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Reason<span class="text-danger">*</span></label><br />
+                            <textarea class="form-control form-control-alternative" id="Reason"></textarea>
+                            <span id="errReason" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Add</button>
+                <button type="button" class="btn bg-gradient-dark" onclick="ClearData()">Clear</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-left:98px">Are you sure want to change status?</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 106px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-success" onclick="ApproveStatus()">Approve</button>
+                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="RejectStatus()">Reject</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete_Leave" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:152px"><span id="PopupTitle">Delete Leave</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-left:90px">Are you sure want to delete this Leave ?.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteLeave()">Delete</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<link href="~/Data/assets/plugins/datetimepicker/css/classic.css" rel="stylesheet" />
+<link href="~/Data/assets/plugins/datetimepicker/css/classic.time.css" rel="stylesheet" />
+<link href="~/Data/assets/plugins/datetimepicker/css/classic.date.css" rel="stylesheet" />
+<link href="~/Data/assets/plugins/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.min.css" rel="stylesheet" />
+<script src="https://dreamguys.co.in/smarthr/blue/assets/js/jquery-3.2.1.min.js"></script>
+<link rel="stylesheet" href="https://dreamguys.co.in/smarthr/blue/assets/css/bootstrap-datetimepicker.min.css">
+<script src="https://dreamguys.co.in/smarthr/blue/assets/js/moment.min.js"></script>
+<script src="https://dreamguys.co.in/smarthr/blue/assets/js/bootstrap-datetimepicker.min.js"></script>
+<!--End of Datetime js/css-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<script src="~/Data/assets/plugins/datetimepicker/js/picker.js"></script>
+<script src="~/Data/assets/plugins/datetimepicker/js/picker.time.js"></script>
+<script src="~/Data/assets/plugins/datetimepicker/js/picker.date.js"></script>
+<script src="~/Data/assets/plugins/bootstrap-material-datetimepicker/js/moment.min.js"></script>
+<script src="~/Data/assets/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.min.js"></script>
+<script>
+    var type = 1
+    function ShowFilter() {
+        if (type == 1) {
+            $('#FilterDiv').show();
+            type = 2;
+        }
+        else {
+            $('#FilterDiv').hide();
+            type = 1;
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $('#FilterDiv').hide();
+        GetLeaveList(1);
+    });
+    function myFunction() {
+        document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+
+    function InsertData() {
+
+        var val = true;
+        var Id = $('#hdnintId').val();
+        var FromDate = $('#FromDate').val();
+        if (FromDate == "" || /\S/.test(FromDate) == false) {
+            $("#errFromDate").html("Please enter Fromdate.");
+            val = false;
+        }
+        var ToDate = $('#ToDate').val();
+        if (ToDate == "" || /\S/.test(ToDate) == false) {
+            $("#errToDate").html("Please enter Todate.");
+            val = false;
+        }
+
+        var NoOfDays = $('#NoOfDays').val();
+        if (NoOfDays == "" || /\S/.test(NoOfDays) == false) {
+            $("#errDays").html("Please enter No of days.");
+            val = false;
+        }
+        var LeaveType = $('#LeaveType').val();
+        if (LeaveType == 0|| /\S/.test(LeaveType) == false) {
+            $("#errLeaveType").html("Please enter leave type.");
+            val = false;
+        }
+        var Reason = $('#Reason').val();
+        if (Reason == "" || /\S/.test(Reason) == false) {
+            $("#errReason").html("Please enter reason.");
+            val = false;
+        }
+
+        var formData = new FormData();
+        if (val == false) {
+            return;
+        }
+
+        formData.append('Id', Id);
+        formData.append('FromDate', FromDate);
+        formData.append('ToDate', ToDate);
+        formData.append('NoOfDays', NoOfDays);
+        formData.append('LeaveType', LeaveType);
+        formData.append('Reason', Reason);
+        ShowWait();
+        $.ajax({
+            type: "POST",
+            url: '/Leave/InsertLeave',
+            contentType: "application/json; charset=utf-8",
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: function (data) {
+                if (data != null) {
+                    if (data == 'Success' && Id == 0) {
+                        toastr.success('Leave inserted successfully');
+                        GetLeaveList(1);
+                        $('#Leave').click();
+                        ClearData();
+                    }
+                    else if (data == 'Updated' && Id > 0) {
+                        toastr.success('Leave updated successfully');
+                        GetLeaveList(1);
+                        $('#Leave').click();
+                        ClearData();
+                    }
+                    else if (data == 'Exists') {
+                        toastr.error('Leave already exists!');
+                        document.getElementById('Email').value = "";
+                    }
+                }
+                HideWait();
+            },
+            error: function (xyz) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function GetLeaveList(page) {
+
+
+        var Id = 0;
+        if (document.getElementById('PageSize') != null) {
+            PageSize = document.getElementById('PageSize').value;
+        }
+        else {
+            PageSize = 10;
+        }
+        if (page == undefined) {
+            page = 1;
+        }
+        var PageIndex = page;
+
+        PageIndex = page;
+        var cls = {
+            Id: Id,
+            PageSize: PageSize,
+            PageIndex: PageIndex,
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Leave/GetLeave',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                debugger
+                $('#tblBody').empty();
+                $('#tblBody').append(data);
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function deleteLeave() {
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Leave/deleteLeave',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+
+                if (data.Response == 'Success' && Id > 0) {
+
+                    toastr.success('Leave deleted successfully');
+                    document.getElementById('hdnintId').value = "0";
+                    GetLeaveList();
+                    $('#delete_Leave').click();
+                }
+
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+
+            }
+        });
+    }
+
+    function Clear() {
+        debugger
+        document.getElementById('FromDate').value = "";
+        document.getElementById('ToDate').value = "";
+        document.getElementById('NoOfDays').value = "";
+        document.getElementById('Reason').value = "";
+        $('#errFromDate').html("");
+        $('#errToDate').html("");
+        $('#errDays').html("");
+        $('#errReason').html("");
+        $('#errLeaveType').html("");
+        $("#LeaveType").val('0').trigger('change');
+        document.getElementById('btnAdd').innerHTML = "Add";
+        $("#btnAdd").attr('title', 'Upload');
+        document.getElementById('PopupTitle').innerHTML = "Add Leave";
+    }
+
+    function ClearData() {
+        debugger
+        var Id = document.getElementById('hdnintId').value;
+        document.getElementById('FromDate').value = "";
+        document.getElementById('ToDate').value = "";
+        document.getElementById('NoOfDays').value = "";
+        document.getElementById('Reason').value = "";
+        $('#errFromDate').html("");
+        $('#errToDate').html("");
+        $('#errDays').html("");
+        $('#errReason').html("");
+        $('#errLeaveType').html("");
+        $("#LeaveType").val('0').trigger('change');
+
+
+        document.getElementById('hdnintId').value = "0";
+        document.getElementById('btnAdd').innerHTML = "Add";
+        $("#btnAdd").attr('title', 'Add');
+        document.getElementById('PopupTitle').innerHTML = "Add Leave";
+    }
+    
+    function opendeleteModel(id) {
+
+        document.getElementById('hdnintId').value = id;
+    }
+
+    function openstatusModel(id) {
+        debugger
+        document.getElementById('hdnintId').value = id;
+    }
+    function ApproveStatus() {
+        debugger
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Leave/ApproveStatus',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                if (data == 'success') {
+                    toastr.success('Leave approved successfully.');
+                    document.getElementById('hdnintId').value = "0";
+                    updateNotificationBadge();
+                    GetLeaveList(1);
+                    $('#status').click();
+                }
+                else if (data == 'Exist') {
+                    toastr.error('Exists');
+                }
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+
+    function RejectStatus() {
+        var Id = document.getElementById('hdnintId').value;
+        var cls = {
+            Id: Id
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Leave/RejectStatus',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                if (data == 'success') {
+                    toastr.success('Leave rejected successfully.');
+                    document.getElementById('hdnintId').value = "0";
+                    updateNotificationBadge();
+                    GetLeaveList(1);
+                    $('#status').click();
+                }
+                else if (data == 'Exist') {
+                    toastr.error('Exists');
+                }
+                else {
+                    alert('error');
+                }
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
+</script>
