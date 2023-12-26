@@ -919,6 +919,7 @@
     <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\Home\_MonthlyCollectFeesList.cshtml" />
     <Content Include="Views\Home\_YearlyCollectFeesList.cshtml" />
+    <Content Include="Views\Home\_MonthlyPendingCollectFeesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

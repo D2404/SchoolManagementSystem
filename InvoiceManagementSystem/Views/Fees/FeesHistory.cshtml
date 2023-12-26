@@ -64,6 +64,8 @@
                 <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteFeesHistory()">Delete</button>
                 <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
                 <input type="hidden" id="hdnintId" value="0" />
+                <input type="hidden" id="hdnstudentid" value="0" />
+                <input type="hidden" id="hdnmonthid" value="0" />
             </div>
         </div>
     </div>
@@ -149,9 +151,14 @@
         });
     }
     function deleteFeesHistory() {
+        debugger
         var Id = document.getElementById('hdnintId').value;
+        var StudentId = document.getElementById('hdnstudentid').value;
+        var MonthId = document.getElementById('hdnmonthid').value;
         var cls = {
-            Id: Id
+            Id: Id,
+            StudentId: StudentId,
+            MonthId : MonthId,
         }
         ShowWait();
         $.ajax({
@@ -180,7 +187,9 @@
         });
     }
 
-    function opendeleteModel(id) {
+    function opendeleteModel(id,studentid,monthid) {
         document.getElementById('hdnintId').value = id;
+        document.getElementById('hdnstudentid').value = studentid;
+        document.getElementById('hdnmonthid').value = monthid;
     }
 </script>

@@ -26,6 +26,9 @@ namespace InvoiceManagementSystem.Models
         public int TotalTeacherSubject { get; set; }
        
         public int TotalSubject { get; set; }
+        public string NextHolidayName { get; set; }
+        public string NextHolidayDate { get; set; }
+        public string NextHolidayDay { get; set; }
         
         public decimal TotalAttendance { get; set; }
         public decimal PresentDays { get; set; }
@@ -69,6 +72,9 @@ namespace InvoiceManagementSystem.Models
                         obj.ThisYearCollection = Convert.ToInt32(dt.Rows[i]["ThisYearCollection"] == null || dt.Rows[i]["ThisYearCollection"].ToString().Trim() == "" ? null : dt.Rows[i]["ThisYearCollection"].ToString());
                         obj.TotalPendingThisYear = Convert.ToInt32(dt.Rows[i]["TotalPendingThisYear"] == null || dt.Rows[i]["TotalPendingThisYear"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalPendingThisYear"].ToString());
                         obj.TotalAmountForThisYear = Convert.ToInt32(dt.Rows[i]["TotalAmountForthisYear"] == null || dt.Rows[i]["TotalAmountForthisYear"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalAmountForthisYear"].ToString());
+                        obj.NextHolidayName = dt.Rows[i]["NextHolidayName"] == null || dt.Rows[i]["NextHolidayName"].ToString().Trim() == "" ? null : dt.Rows[i]["NextHolidayName"].ToString();
+                        obj.NextHolidayDate= dt.Rows[i]["NextHolidayDate"] == null || dt.Rows[i]["NextHolidayDate"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["NextHolidayDate"]).ToString("dd/MM/yyyy");
+                        obj.NextHolidayDay = dt.Rows[i]["NextHolidayDay"] == null || dt.Rows[i]["NextHolidayDay"].ToString().Trim() == "" ? null : dt.Rows[i]["NextHolidayDay"].ToString();
 
                         LSTList.Add(obj);
                     }

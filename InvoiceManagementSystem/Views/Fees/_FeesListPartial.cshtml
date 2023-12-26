@@ -121,7 +121,16 @@
             }
             else if (item.Status == 3)
             {
-                <span class="text-xs font-weight-bold mb-0"><i class="fa fa-check text-success"></i> <b style="color:dodgerblue">Current Month Pending</b></span>
+                <span class="text-xs font-weight-bold mb-0"><i class="fa fa-check text-success"></i> <b style="color: forestgreen">Success</b></span>
+            }
+          
+            else if (item.Status == 4)
+            {
+                 <span class="text-xs font-weight-bold mb-0"><i class="fa fa-check text-danger"></i> <b style="color: red">Current Month Pending</b></span>
+            }
+             else if (item.Status == 5)
+            {
+                 <span class="text-xs font-weight-bold mb-0"><i class="fa fa-check text-danger"></i> <b style="color: red">Previous Month Pending</b></span>
             }
             else
             {

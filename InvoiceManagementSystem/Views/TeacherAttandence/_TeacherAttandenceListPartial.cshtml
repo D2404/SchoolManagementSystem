@@ -1,15 +1,18 @@
 ﻿@model InvoiceManagementSystem.Models.TeacherAttandenceModel
+@{
+    int no = 0;
+}
 <table class="table align-items-center mb-0">
     <thead>
         <tr>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr No.</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teacher</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Leave Type</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Sr No.</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Teacher</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Leave Type</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Status</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Date</th>
             @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
             {
-                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+                <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Action</th>
             }
         </tr>
     </thead>
@@ -19,53 +22,48 @@
             @for (var i = 0; i < Model.LSTTeacherAttandenceList.Count; i++)
             {
                 var item = Model.LSTTeacherAttandenceList[i];
+                no = no + 1;
+                string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
                 <tr>
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.ROWNUMBER</p>
-                        @*
-                            <p class="text-xs text-secondary mb-0">Organization</p>
-                        *@
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@SrNo</p>
                     </td>
                     <td>
-                        <div class="d-flex px-2 py-1">
-                            <div class="d-flex flex-column justify-content-center">
-                                <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.TeacherName</h5>
-                            </div>
-                        </div>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
                     </td>
                     @if (@item.LeaveType == 1)
                     {
                         <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: left;">Half-Day</p>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Half-Day</p>
                         </td>
                     }
                     else
                     {
                         <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: left;">Full-Day</p>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Full-Day</p>
                         </td>
                     }
                     @if (item.Status == "Present")
                     {
                         <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: left;">Present</p>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Present</p>
                         </td>
                     }
                     else
                     {
                         <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: left;">Absent</p>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Absent</p>
                         </td>
                     }
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.Date</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Date</p>
                         @*
                             <p class="text-xs text-secondary mb-0">Organization</p>
                         *@
                     </td>
                     @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
                     {
-                        <td class="align-middle text-center">
+                        <td class="align-middle text-center" style="text-align: center;">
                             <div class="dropdown">
                                 <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                                     <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>

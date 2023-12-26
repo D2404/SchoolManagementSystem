@@ -395,6 +395,8 @@ namespace InvoiceManagementSystem.Models
                 SqlCommand cmd = new SqlCommand("sp_DeleteFeesCollectionHistoryy", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@Id", cls.Id);
+                cmd.Parameters.Add("@StudentId", cls.StudentId);
+                cmd.Parameters.Add("@MonthId", cls.MonthId);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;
