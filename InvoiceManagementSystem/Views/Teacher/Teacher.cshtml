@@ -1,88 +1,245 @@
-﻿﻿@model InvoiceManagementSystem.Models.TeacherModel
-@{
-    ViewBag.Title = "Teacher";
-}
+﻿@model InvoiceManagementSystem.Models.TeacherModel
+<br />
+<br />
 
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-    <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-            <h5 class="font-weight-bolder text-white mb-0"><i class="fas fa-chalkboard-teacher text-lg opacity-10" style="color:white"></i>&nbsp;&nbsp;Manage Teacher</h5>
-        </nav>
-    </div>
-</nav>
+@if (Model.LSTTeacherList != null && Model.LSTTeacherList.Any())
+{
+<input type="hidden" id="hdnId" value="@Model.Id" />
+       }
 
-<div class="row" id="FilterDiv" style="margin-left:19px">
-    <div class="col-sm-4 col-md-3">
-        <div class="form-group form-focus">
-            <input type="text" class="form-control floating" id="SearchText" placeholder="Search" maxlength="50">
-        </div>
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+    <div class="card shadow-lg mx-4 card-profile-bottom">
     </div>
-    <div class="col-sm-4 col-md-2">
-        <div class="form-group form-focus select-focus">
-            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control floating">
-                <option value="3">Select Status</option>
-                <option value="1">Active</option>
-                <option value="2">In-Active</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
-        <div class="form-group form-focus">
-            <label style="color:white">From Date</label>
-            <input class="form-control floating datetimepicker" type="date" id="FromDate" autocomplete="off">
-        </div>
-    </div>
-    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
-        <div class="form-group form-focus">
-            <label style="color:white">To Date</label>
-            <input class="form-control floating datetimepicker" type="date" id="ToDate" autocomplete="off">
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-1">
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
+                            <h5 class="mb-0" style="color:black">
+                                <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
+                                @if (Model.Id > 0)
+                                {
+                                    <span>Edit Teacher</span>
+                                }
+                                else
+                                {
+                                    <span>Add Teacher</span>
+                                }
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <input type="hidden" id="hdnintId" value="" />
+                            @*<div class="col-md-6">
+                                <div class="form-group">
+                                    <div class="avatar avatar-xl position-relative">
+                                        @{
+                                            string profileImagePath = Model.Id > 0 ? Model.LSTTeacherList[0].ProfileImg : "~/Data/Profile/Image_not_available.png";
+                                        }
+                                        <img src="@profileImagePath" alt="Profile Image" id="dummyImage" style="cursor: pointer;" />
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].ProfileImg, new { @id = "ProfileImg", @class = "form-control form-control-alternative", @type = "file", @style = "display: none;" })
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="hidden" id="hdnfile" />
+                                    <label for="example-text-input" class="form-control-label">
+                                        Profile
+                                    </label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => Model.Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file" })
+                                    }
+                                </div>
+                                <div class="form-group" id="divFile" style="display:none">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Full Name <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].FullName, new { @id = "FullName", @placeholder = "Full Name.", @class = "form-control form-control-alternative" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => Model.FullName, new { @id = "FullName", @placeholder = "Full Name.", @class = "form-control form-control-alternative" })
+                                    }
+                                    <span id="errFullName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].UserName, new { @id = "UserName", @placeholder = "User Name.", @class = "form-control form-control-alternative" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => Model.UserName, new { @id = "UserName", @placeholder = "User Name.", @class = "form-control form-control-alternative" })
+                                    }
+                                    @*<input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Teacher Name">*@
+                                    <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Gender<span class="text-danger">*</span></label><br />
+                                    <div class="form-radio">
+                                        <div class="radio radio-outline radio-inline">
+                                            <label>
+                                                @Html.RadioButtonFor(model => model.Gender, true, new { @id = "Male", @class = "rd" })
+                                                <i class="helper"></i>Male
 
-        <a class="btn bg-gradient-info" onclick="GetTeacherList(1)">Search</a>
-    </div>
+                                                @Html.RadioButtonFor(model => model.Gender, false, new { @id = "Female", @class = "rd" })
+                                                <i class="helper"></i>Female
 
-    <div class="col-sm-6 col-md-1">
-        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].Email, new { @id = "Email", @placeholder = "example@gmail.com", @class = "form-control form-control-alternative" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => Model.Email, new { @id = "Email", @placeholder = "example@gmail.com", @class = "form-control form-control-alternative" })
+                                    }
+                                    @*<input class="form-control form-control-alternative" type="text" id="Email" placeholder="Enter Email">*@
+                                    <span id="errEmail" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="Passworddiv">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label" id="labelpass">Password <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.PasswordFor(model => model.LSTTeacherList[0].Password, new { @id = "Password", @placeholder = "**********", @class = "form-control form-control-alternative" })
+                                    }
+                                    else
+                                    {
+                                        @Html.PasswordFor(model => Model.Password, new { @id = "Password", @placeholder = "**********", @class = "form-control form-control-alternative" })
+                                    }
+                                    @*<input class="form-control form-control-alternative" type="text" id="Password" placeholder="Enter Password">*@
+                                    <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Mobile <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => Model.MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative" })
+                                    }
+                                    @*<input class="form-control form-control-alternative" type="text" id="MobileNo" placeholder="Enter Mobile" onkeypress="return isNumber(event);">*@
+                                    <span id="errMobile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Class Room</b><span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.DropDownListFor(model => model.LSTTeacherList[0].ClassId,
+                       new SelectList(Model.LSTTeacherList, "ClassId", "ClassNo"),
+                       "Select ClassRoom",
+                       new { @class = "form-control form-control-alternative", style = "width: 100%" , @id = "ClassId" })
 
-    </div>
-</div>
+                                    }
+                                    else
+                                    {
+                                        <select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%">
+                                            <option value="0">Select ClassRoom</option>
+                                            @{ if (Model != null && Model.LSTTeacherList.Count > 0)
+                                                {
+                                                    for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+                                                    {
+                                                        var item = Model.LSTTeacherList[i];
 
-<div class="row">
+                                                        if (item.Id == Model.ClassId)
+                                                        {
+                                                            <option value="@item.Id" selected>@(item.ClassNo + " (" + item.ClassNo + ")")</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Id">@(item.ClassNo + " (" + item.ClassNo + ")")</option>
+                                                        }
+                                                    }
+                                                } }
+                                        </select>
+                                    }
+                                    <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6" id="Dobdiv">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Date Of Birth <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].Dob, new { @id = "Dob", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => Model.Dob, new { @id = "Dob", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                    }
+                                    @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Dob" autocomplete="off">*@
+                                    <span id="errDob" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
 
-    <div style="margin-left:843px">
-        <a href="#" class="btn bg-gradient-dark btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" data-container="body" data-animation="true" onclick="ShowFilter()"><i class="fa fa-filter"></i></a>
-        <a href="~/Teacher/AddUpdateTeacher" class="btn bg-gradient-info"  onclick="Clear()">Add Teacher </a>
-    </div>
-</div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Education <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].Education, new { @id = "Education", @placeholder = "Education.", @class = "form-control form-control-alternative" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(model => Model.Education, new { @id = "Education", @placeholder = "Education.", @class = "form-control form-control-alternative" })
+                                    }
+                                    @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
+                                    <span id="errEducation" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
 
-
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <div class="dataTables_length" id="DataTables_Table_0_length">
-                <label style="color:white">
-                    Show
-                    <select id="PageSize" onchange="GetTeacherList(1)" class="drpselect">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select> entries
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6><i class="fas fa-chalkboard-teacher text-info text-lg opacity-10"></i>&nbsp;&nbsp;Teacher List</h6>
-                </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <div id="tblBody"></div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Address <span class="text-danger">*</span></label>
+                                    @if (Model.Id > 0)
+                                    {
+                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].Address, new { @id = "Address", @placeholder = "Address", @class = "form-control form-control-alternative" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextAreaFor(model => Model.Address, new { @id = "Address", @placeholder = "Address", @class = "form-control form-control-alternative" })
+                                    }
+                                    @*<textarea class="form-control form-control-alternative" id="Address"></textarea>*@
+                                    <span id="errAddress" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="footer" style="text-align:right">
+                                <button class="btn bg-gradient-info btn-sm ms-auto" onclick="javascript: return InsertData();">Save</button>
+                                <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearData(1)">Clear</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -90,60 +247,8 @@
     </div>
 </div>
 
-
-<div class="modal fade" id="delete_Teacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title"><span id="PopupTitle">Add Teacher</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p>Are you sure want to delete this Teacher ?.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteTeacher()">Delete</button>
-                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p style="margin-left:98px">Are you sure want to change status?</p>
-            </div>
-            <div class="modal-footer" style="padding-right: 146px">
-                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
-                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="~/Scripts/School/Teacher.js"></script>
 <script>
-    var type = 1
 
-    function ShowFilter() {
-        if (type == 1) {
-            $('#FilterDiv').show();
-            type = 2;
-        }
-        else {
-            $('#FilterDiv').hide();
-            type = 1;
-        }
-    }
 </script>

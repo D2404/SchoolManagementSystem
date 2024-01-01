@@ -319,16 +319,23 @@ Re-login is required after profile change" aria-hidden="true" style="font-size: 
 <script>
     $(document).ready(function () {
         MyProfile();
-        $('#profile').show()
-        jQuery('a').on('click', function () {
-            jQuery('#profile').toggle();
-        })
-        $('#setting').hide()
-        jQuery('a').on('click', function () {
-            jQuery('#setting').toggle();
-        })
+        $('#profile').show();
+        $('#setting').hide();
+
+        // Event handler for profile tab
+        $('li[data-tab-id="profile"]').on('click', function () {
+            $('#profile').show();
+            $('#setting').hide();
+        });
+
+        // Event handler for setting tab
+        $('li[data-tab-id="setting"]').on('click', function () {
+            $('#profile').hide();
+            $('#setting').show();
+        });
 
     });
+
 
 
 

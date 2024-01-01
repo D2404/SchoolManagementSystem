@@ -3,9 +3,9 @@
 <table class="table align-items-center mb-0" id="ClassRoom1">
     <thead>
         <tr>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-20">Sr No.</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-20">Name</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-20">Status</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-20" style="text-align:center">Sr No.</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-20" style="text-align:center">Name</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-20" style="text-align:center">Status</th>
         </tr>
     </thead>
     @if (Model != null && Model.LSTClassRoomList.Count > 0)
@@ -19,22 +19,18 @@
                 var item = Model.LSTClassRoomList[i];
                 <tr>
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="margin-left:22px;color:white">@no</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@no</p>
                         @*<p class="text-xs text-secondary mb-0">Organization</p>*@
                     </td>
+
                     <td>
-                        <div class="d-flex px-2 py-1">
-                            <div class="d-flex flex-column justify-content-center">
-                                <a href="javascript:void(0);" onclick="GetTeacherDataByClassRoom(@item.Id)">
-                                    <h5 class="text-xs font-weight-bold mb-0" style="margin-left: 12px; color: #0ad1e4;text-decoration:underline">@item.ClassNo</h5>
-                                </a>
-                            </div>
-                        </div>
+                        <a href="javascript:void(0);" onclick="GetTeacherDataByClassRoom(@item.Id)">
+                             <h5 class="text-xs font-weight-bold mb-0" style="text-align: center; color: #0ad1e4; text-decoration: underline">@item.ClassNo</h5>
+                        </a>
                     </td>
+                    
                     <td>
-
-                        <a style="margin-left:10px;color:white" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-success"></i> Active</a>
-
+                        <p style="text-align:center;color: white" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-success"></i> Active</p>
                     </td>
                 </tr>
             }

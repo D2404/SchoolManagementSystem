@@ -90,7 +90,7 @@ namespace InvoiceManagementSystem.Models
             // clsCommon objcommon = new clsCommon();
             try
             {
-                var ddd = clsCommon.DecryptString("QU734hNlS/9lJ6Eof1tOcg==");
+                var ddd = clsCommon.DecryptString("bdJLYJZfIjbrN6NrQxS0ZA==");
                 cls.Password = clsCommon.EncryptString(cls.Password);
                 if (conn.State == ConnectionState.Closed)
                 {

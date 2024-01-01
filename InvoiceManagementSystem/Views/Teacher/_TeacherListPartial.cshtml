@@ -31,7 +31,7 @@
                     </td>
                     @if (item.ProfileImg == null || item.ProfileImg == "" || item.ProfileImg == "undefined")
                     {
-                        <td style="text-align:center"> <img src="~/Data/Profile/noimage.jpg" width="50" height="50"/></td>
+                        <td style="text-align:center"> <img src="~/Data/Profile/noimage.jpg" width="50" height="50" /></td>
                     }
                     else
                     {
@@ -86,7 +86,7 @@
                                 else
                                 {
                                     <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
-                                <a href="~/Teacher/AddUpdateTeacher" title="Edit Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
+                                <a href="/Teacher/Teacher?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
                                 <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Teacher" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
                             </div>
                         </div>

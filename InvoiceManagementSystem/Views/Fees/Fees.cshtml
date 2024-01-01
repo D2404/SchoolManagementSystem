@@ -123,7 +123,8 @@
                             <label for="basicinput"><b>Year</b></label>
                             <select class="form-control" id="YearId"> 
                             <option value="0" selected="">Select Year</option>
-                            <option value="2023">2023</option></select>
+                            <option value="2023">2023</option>
+                            <option value="2024">2024</option></select>
                             <span id="errYear" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                         </div>
                     </div>
@@ -153,7 +154,7 @@
             </div>
             <div class="modal-footer">
                 <div style="margin-left:120px">
-                    <button type="button" id="btnAdd1" class="btn bg-gradient-danger"  onclick="InsertandPayData()">Save & Pay</button>
+                    <button type="button" id="btnAdd1" class="btn bg-gradient-success"  onclick="InsertandPayData()">Save & Pay</button>
                     <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Save</button>
                     <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)">Clear</button>
                     <input type="hidden" id="hdnintId" value="0" />

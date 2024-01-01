@@ -1,30 +1,32 @@
 ﻿
 $(document).ready(function () {
-    $('#FilterDiv').hide();
     GetClassRoom();
     GetTeacherList(1);
-});
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
-function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
+    GetTeacherGrid();
+    $('#FilterDiv').hide();
+    $('#list-view').show();
+    $('#grid-view').hide();
+
+    // Event handler for list-view tab
+    $('li[data-tab-id="list-view"]').on('click', function () {
+        $('#list-view').show();
+        $('#grid-view').hide();
+    });
+
+    // Event handler for grid-view tab
+    $('li[data-tab-id="grid-view"]').on('click', function () {
+        $('#list-view').hide();
+        $('#grid-view').show();
+    });
+    var Id = $('#hdnId').val();
+
+    if (Id > 0) {
+        $('#Passworddiv').hide();
     }
-    return true;
-}
-
-
-$(function () {
-    $("#Dob").datetimepicker({
-        format: 'DD/MM/YYYY',
-        maxDate: new Date,
-        useCurrent: true,
-        ignoreReadonly: true
-    })
+    
 });
+
+
 
 function GetClassRoom() {
     var cls = {
@@ -50,6 +52,7 @@ function GetClassRoom() {
         }
     });
 }
+
 function GetTeacherList(page) {
 
     var Id = 0;
@@ -97,10 +100,44 @@ function GetTeacherList(page) {
         }
     });
 }
+function GetTeacherGrid() {
+
+    var Id = 0;
+    var SearchText = document.getElementById('SearchText').value;
+    var FromDate = document.getElementById('FromDate').value;
+    var ToDate = document.getElementById('ToDate').value;
+    var intActive = document.getElementById('intActive').value;
+    var cls = {
+        Id: Id,
+        SearchText: SearchText,
+        Date: FromDate,
+        Date: ToDate,
+        intActive: intActive,
+    }
+    ShowWait();
+    $.ajax({
+        url: '/Teacher/GetTeacherGrid',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            $('#gridView').empty();
+            $('#gridView').append(data);
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('errors');
+        }
+    });
+}
+
 function InsertData() {
-    debugger
+    
     var val = true;
-    var Id = $('#hdnintId').val();
+    var Id = $('#hdnId').val();
     var SearchText = $('#SearchText').val();
     var FullName = $('#FullName').val();
     var UserName = $('#UserName').val();
@@ -111,36 +148,18 @@ function InsertData() {
     var Dob = $('#Dob').val();
     var Address = $('#Address').val();
     var Education = $('#Education').val();
-    var Salary = $('#Salary').val();
+    /*var Salary = $('#Salary').val();*/
     var RoleId = 2
     if (FullName == "" || /\S/.test(FullName) == false) {
         $("#errFullName").html("Please enter first name.");
         val = false;
     }
-    else {
-        var isValid = FullName.match(".*[a-zA-Z]+.*");
-        if (isValid == null) {
-            $("#errFullName").html("Please enter valid name.");
-            val = false;
-        }
-        else {
-            $("#errFullName").html("");
-        }
-    }
+    
     if (UserName == "" || /\S/.test(UserName) == false) {
         $("#errUserName").html("Please enter last name.");
         val = false;
     }
-    else {
-        var isValid = FullName.match(".*[a-zA-Z]+.*");
-        if (isValid == null) {
-            $("#errUserName").html("Please enter valid name.");
-            val = false;
-        }
-        else {
-            $("#errFullName").html("");
-        }
-    }
+    
     if (ClassId == 0) {
         $("#errClassId").html("Please select classroom");
         val = false;
@@ -158,10 +177,7 @@ function InsertData() {
         $("#errEducation").html("Please enter education.");
         val = false;
     }
-    if (Salary == "" || Salary.trim() == '') {
-        $("#errSalary").html("Please enter salary.");
-        val = false;
-    }
+   
     var Gender = $("input[type='radio']:checked").val();
     if (Gender == "Active") {
         Gender = 1
@@ -173,18 +189,25 @@ function InsertData() {
         $("#errEmail").html('Please enter email id.');
         return;
     }
-    //var atpos = Email.indexOf("@@");
-    //var dotpos = Email.lastIndexOf(".");
-    //if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= Email.length) {
-    //    $("#errEmail").html("Please enter valid email id.");
-    //    return false;
-    //}
+   
+    var formData = new FormData();
+    var fileCount = document.getElementById("Profile").files.length;
+    var hdnfile = document.getElementById("hdnfile").value;
+
+    var formData = new FormData();
+    var fileCount = document.getElementById("Profile").files.length;
+    var hdnfile = document.getElementById("hdnfile").value;
+
     var formData = new FormData();
     var fileCount = document.getElementById("Profile").files.length;
     var hdnfile = document.getElementById("hdnfile").value;
 
     if (hdnfile == null || hdnfile == "") {
         var Profile = document.getElementById('Profile').value;
+        if (Profile == null || Profile == "") {
+            $("#errProfile").html('Please select image.');
+            return;
+        }
         if (fileCount > 0) {
             for (var i = 0; i < fileCount; i++) {
                 var Profile = document.getElementById("Profile").files[i];
@@ -201,7 +224,7 @@ function InsertData() {
     }
     else {
 
-        var ProfileImg = Profile;
+        var ProfileImg = hdnfile;
 
     }
     if (val == false) {
@@ -220,14 +243,14 @@ function InsertData() {
     formData.append('Gender', Gender);
     formData.append('Address', Address);
     formData.append('Education', Education);
-    formData.append('Salary', Salary);
+    /*formData.append('Salary', Salary);*/
     formData.append('SearchText', SearchText);
     formData.append('Profile', Profile);
     formData.append('ProfileImg', ProfileImg);
     ShowWait();
     $.ajax({
         type: "POST",
-        url: '/Teacher/InsertTeacher',
+        url: '/Teacher/Teacher',
         contentType: "application/json; charset=utf-8",
         contentType: false,
         processData: false,
@@ -236,12 +259,12 @@ function InsertData() {
             if (data != null) {
                 if (data == 'Success' && Id == 0) {
                     toastr.success('Teacher inserted successfully');
-                    GetTeacherList(1);
+                    window.location.replace("/Teacher/TeacherList");
                     
                 }
                 else if (data == 'Updated' && Id > 0) {
                     toastr.success('Teacher updated successfully');
-                    GetTeacherList(1);
+                    window.location.replace("/Teacher/TeacherList");
                 }
                 else if (data == 'Exists') {
                     toastr.error('Teacher already exists!');
@@ -252,80 +275,6 @@ function InsertData() {
         },
         error: function (xyz) {
             HideWait();
-            alert('errors');
-        }
-    });
-}
-function GetSingleTeacherData(id) {
-    $('#Passworddiv').hide();
-
-    $('#Profilediv').hide();
-    $('#errName').html("");
-    document.getElementById('btnAdd').innerHTML = "Update";
-    $("#btnAdd").attr('title', 'Update');
-    document.getElementById('PopupTitle').innerHTML = "Update Teacher";
-    var cls = {
-        Id: id
-    }
-
-    $.ajax({
-        url: '/Teacher/GetSingleTeacherData',
-        contentType: "application/json; charset=utf-8",
-        type: "POST",
-        data: JSON.stringify({
-            cls: cls
-        }),
-        success: function (data) {
-            debugger
-            if (data != null) {
-                document.getElementById('hdnintId').value = data.LSTTeacherList[0].Id;
-                document.getElementById('FullName').value = data.LSTTeacherList[0].FullName;
-                document.getElementById('UserName').value = data.LSTTeacherList[0].UserName;
-                document.getElementById('Email').value = data.LSTTeacherList[0].Email;
-                if (data.LSTTeacherList[0].Password != 0) {
-                    document.getElementById('Password').value = data.LSTTeacherList[0].Password;
-                }
-                else {
-                    document.getElementById('Password').style.display = "none";
-                }
-                document.getElementById('MobileNo').value = data.LSTTeacherList[0].MobileNo;
-                document.getElementById('Address').value = data.LSTTeacherList[0].Address;
-                document.getElementById('Education').value = data.LSTTeacherList[0].Education;
-                document.getElementById('Salary').value = data.LSTTeacherList[0].Salary;
-                document.getElementById('Dob').value = data.LSTTeacherList[0].Dob;
-                $('#ClassId').val(data.LSTTeacherList[0].ClassId).trigger("change");
-                //document.getElementById('Dob').value = ConvertRazorToDate(data.Dob);
-                if (data.LSTTeacherList[0].Gender == false) {
-                    $("#Active").prop('checked', true);
-                }
-                else {
-                    $("#InActive").prop('checked', true);
-                }
-                if (data.ProfileImg != null && data.ProfileImg != "") {
-                    document.getElementById('hdnfile').value = data.ProfileImg;
-
-                    document.getElementById('divUploadFile').style.display = "none";
-                    document.getElementById('divFile').style.display = "block";
-
-                    $('#divFile').empty();
-                    var strHTML = "";
-                    strHTML += '<label>File</label><br>';
-                    strHTML += '<span><img src="/Data/Profile/' + data.ProfileImg + '" alt="attachment" title="Download attachment" style="width:80px;" ></span >';
-                    strHTML += '&nbsp;<span title="remove" style="cursor: pointer;font-size: 15px;color: red;" onclick="RemoveFile()">×</span>';
-                    $('#divFile').append(strHTML);
-                }
-                else {
-                    document.getElementById('divUploadFile').style.display = "block";
-                    document.getElementById('divFile').style.display = "none";
-                }
-            }
-            else {
-                alert('error');
-            }
-
-        },
-        error: function (xhr) {
-
             alert('errors');
         }
     });
@@ -396,8 +345,8 @@ function Clear() {
     $('#Address').val('');
     document.getElementById('Education').value = "";
     $('#errEducation').html("");
-    document.getElementById('Salary').value = "";
-    $('#errSalary').html("");
+    //document.getElementById('Salary').value = "";
+    //$('#errSalary').html("");
     $("#ClassId").val('0').trigger('change');
     $('#errClassId').html("");
     document.getElementById('btnAdd').innerHTML = "Add";
@@ -422,8 +371,9 @@ function ClearData(type) {
         $('#Address').val('');
         document.getElementById('Education').value = "";
         $('#errEducation').html("");
-        document.getElementById('Salary').value = "";
-        $('#errSalary').html("");
+        document.getElementById('Dob').value = "";
+        $('#errDob').html("");
+
         $("#ClassId").val('0').trigger('change');
         $('#errClassId').html("");
         if (Id == "0") {

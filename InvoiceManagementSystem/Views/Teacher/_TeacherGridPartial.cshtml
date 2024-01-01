@@ -1,0 +1,36 @@
+﻿@model InvoiceManagementSystem.Models.TeacherModel
+
+<div class="scrollable-container" style="max-height: 500px; overflow-y: auto;">
+    <div class="row" id="gridview">
+        @for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+        {
+            var item = Model.LSTTeacherList[i];
+
+            <br /> <!-- Add line break before each new row -->
+
+            <div class="col-md-4">
+                <div class="grid">
+                    <figure class="effect-oscar">
+                        @if (item.ProfileImg == null || item.ProfileImg == "")
+                        {
+                            <img src="~/Data/Profile/Image_not_available.png" alt="img03" class="card-img-top">
+                        }
+                        else
+                        {
+                            <img src="~/Data/Profile/@item.ProfileImg" alt="Image placeholder" class="card-img-top">
+                        }
+                    <figcaption style="color:black">
+                        <span style="color:black"><i class="fas fa-user"></i> @item.UserName</span>
+                        <p class="nowrap" style="color:black"><i class="fas fa-user"></i> <b>@item.FullName</b></p>
+                        <p class="nowrap" style="color:black"><i class="fas fa-calendar"></i> <b>@item.Dob</b></p>
+                        <p class="nowrap" style="color:black"><i class="fas fa-envelope"></i><b> @item.Email</b></p>
+                        <p class="nowrap" style="color:black"><i class="fas fa-phone"></i> <b>@item.MobileNo</b></p>
+                        <p class="nowrap" style="color:black"><i class="fas fa-address-book"></i><b>@item.Address</b></p>
+                    </figcaption>
+                    </figure>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

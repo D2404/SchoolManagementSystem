@@ -569,6 +569,7 @@
     <Content Include="Data\Profile\BackgroundImage.jpg" />
     <Content Include="Data\Profile\bg.jpg" />
     <Content Include="Data\Profile\download.jpg" />
+    <Content Include="Data\Profile\Image_not_available.png" />
     <Content Include="Data\Profile\istockphoto-818533812-612x612.jpg" />
     <Content Include="Data\Profile\noimage.jpg" />
     <Content Include="Data\Profile\Profile_0_638118821277851663.png" />
@@ -878,7 +879,7 @@
     <Content Include="Views\Subject\_SubjectListPartial.cshtml" />
     <Content Include="Views\Subject\Subject.cshtml" />
     <Content Include="Views\Teacher\_TeacherListPartial.cshtml" />
-    <Content Include="Views\Teacher\Teacher.cshtml" />
+    <Content Include="Views\Teacher\TeacherList.cshtml" />
     <Content Include="Views\TeacherAttandence\_TeacherAttandenceListPartial.cshtml" />
     <Content Include="Views\TeacherAttandence\TeacherAttandence.cshtml" />
     <Content Include="Views\Exam\_ExamMarksListPartial.cshtml" />
@@ -915,11 +916,16 @@
     <Content Include="Views\Fees\_FeesHistoryListPartial.cshtml" />
     <Content Include="Views\ClassRoom\_ClassRoomListPartial.cshtml" />
     <Content Include="Views\ClassRoom\ClassRoom.cshtml" />
-    <Content Include="Views\Teacher\AddUpdateTeacher.cshtml" />
+    <Content Include="Views\Teacher\Teacher.cshtml" />
     <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\Home\_MonthlyCollectFeesList.cshtml" />
     <Content Include="Views\Home\_YearlyCollectFeesList.cshtml" />
     <Content Include="Views\Home\_MonthlyPendingCollectFeesList.cshtml" />
+    <Content Include="Views\ClassRoom\OldClassRoom.cshtml" />
+    <Content Include="Views\Teacher\OldTeacher.cshtml" />
+    <Content Include="Views\Teacher\_TeacherGridPartial.cshtml" />
+    <Content Include="Views\Shared\_Layout2.cshtml" />
+    <Content Include="Views\Home\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

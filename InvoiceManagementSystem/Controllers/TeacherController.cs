@@ -15,27 +15,45 @@ namespace InvoiceManagementSystem.Controllers
         clsCommon objCommon = new clsCommon();
 
         // GET: Teacher
-        public ActionResult Teacher()
+        public ActionResult TeacherList()
         {
             if (objCommon.getUserIdFromSession() != 0)
             {
-                return View();
+                
+                    return View();
             }
             else
             {
                 return RedirectToAction("Login", "Account");
             }
         }
-        public ActionResult AddUpdateTeacher()
+        public ActionResult Teacher(int? id)
         {
             if (objCommon.getUserIdFromSession() != 0)
             {
-                return View();
+                TeacherModel cls = new TeacherModel();
+                if (id != null || id > 0)
+                {
+                    cls = cls.GetSingleTeacher(cls, id);
+                }
+                else
+                {
+                    cls= cls.FillClassRoomList(cls);
+                }
+                return View(cls);
             }
             else
             {
                 return RedirectToAction("Login", "Account");
             }
+        }
+
+        [HttpPost]
+
+        public ActionResult Teacher(TeacherModel model)
+        {
+            model = model.addTeacher(model);
+            return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
 
@@ -119,19 +137,59 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetSingleTeacherData(TeacherModel cls)
+
+        public ActionResult GetTeacherGrid(TeacherModel cls)
         {
             try
             {
-                cls = cls.GetTeacher(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                List<TeacherModel> lstTeacherList = new List<TeacherModel>();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetTeacherGrid", conn);
+                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
+                cmd.Parameters.AddWithValue("@FromDate", cls.Date);
+                cmd.Parameters.AddWithValue("@ToDate", cls.Date);
+                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        TeacherModel obj = new TeacherModel();
+                        obj.ProfileImg = dt.Rows[i]["Profile"] == null ? "" : dt.Rows[i]["Profile"].ToString();
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
+                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
+                        obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
+                        obj.UserName = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
+                        obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
+                        obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
+                        obj.Address = dt.Rows[i]["Address"] == null || dt.Rows[i]["Address"].ToString().Trim() == "" ? null : dt.Rows[i]["Address"].ToString();
+                        obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("dd/MM/yyyy");
+                        obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
+                        obj.Salary = dt.Rows[i]["Salary"] == null || dt.Rows[i]["Salary"].ToString().Trim() == "" ? null : dt.Rows[i]["Salary"].ToString();
+                        obj.Gender = Convert.ToBoolean(dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString());
+                        lstTeacherList.Add(obj);
+                    }
+                }
+                cls.LSTTeacherList = lstTeacherList;
+                return PartialView("_TeacherGridPartial", cls);
+
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
         public ActionResult deleteTeacher(TeacherModel cls)
         {
             try
