@@ -41,7 +41,7 @@
                         <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@item.FullName</b></p>
                     </td>
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.UserName</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
                     </td>
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Email</p>
@@ -52,18 +52,9 @@
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Dob</p>
                     </td>
-                    @if (item.Gender == false)
-                    {
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Male</p>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Female</p>
-                        </td>
-                    }
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Gender</p>
+                    </td>
                     <td>
                         @if (item.IsActive == true)
                         {
@@ -87,6 +78,7 @@
                                 {
                                     <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
                                 <a href="/Teacher/Teacher?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
+                                <a href="/Teacher/ViewTeacher?Id=@item.Id" title="View Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;View</i></a>
                                 <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Teacher" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
                             </div>
                         </div>

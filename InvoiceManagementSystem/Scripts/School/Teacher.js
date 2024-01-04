@@ -3,6 +3,7 @@ $(document).ready(function () {
     GetClassRoom();
     GetTeacherList(1);
     GetTeacherGrid();
+
     $('#FilterDiv').hide();
     $('#list-view').show();
     $('#grid-view').hide();
@@ -11,13 +12,24 @@ $(document).ready(function () {
     $('li[data-tab-id="list-view"]').on('click', function () {
         $('#list-view').show();
         $('#grid-view').hide();
+        $('#bank-view').hide();
     });
 
     // Event handler for grid-view tab
     $('li[data-tab-id="grid-view"]').on('click', function () {
         $('#list-view').hide();
+        $('#bank-view').hide();
         $('#grid-view').show();
     });
+    $('li[data-tab-id="bank-view"]').on('click', function () {
+        $('#list-view').hide();
+        $('#grid-view').hide();
+        $('#bank-view').show();
+       
+    });
+    var currentDate = new Date().toISOString().slice(0, 10);
+    document.getElementById('DateOfJoining').value = currentDate;
+
     var Id = $('#hdnId').val();
 
     if (Id > 0) {
@@ -100,19 +112,33 @@ function GetTeacherList(page) {
         }
     });
 }
-function GetTeacherGrid() {
+function GetTeacherGrid(page) {
 
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
     var FromDate = document.getElementById('FromDate').value;
     var ToDate = document.getElementById('ToDate').value;
     var intActive = document.getElementById('intActive').value;
+    if (document.getElementById('PageSize') != null) {
+        PageSize = document.getElementById('PageSize').value;
+    }
+    else {
+        PageSize = 10;
+    }
+    if (page == undefined) {
+        page = 1;
+    }
+    var PageIndex = page;
+
+    PageIndex = page;
     var cls = {
         Id: Id,
         SearchText: SearchText,
         Date: FromDate,
         Date: ToDate,
         intActive: intActive,
+        PageSize: PageSize,
+        PageIndex: PageIndex,
     }
     ShowWait();
     $.ajax({
@@ -134,61 +160,96 @@ function GetTeacherGrid() {
     });
 }
 
-function InsertData() {
+function InsertBasicDetails() {
     
     var val = true;
     var Id = $('#hdnId').val();
-    var SearchText = $('#SearchText').val();
-    var FullName = $('#FullName').val();
-    var UserName = $('#UserName').val();
+    var Title = $('#Title').val();
+    var TeacherName = $('#TeacherName').val();
+    var FatherName = $('#FatherName').val();
+    var Surname = $('#Surname').val();
+    var Gender = $('#Gender').val();
+    var BloodGroup = $('#BloodGroup').val();
+    var Dob = $('#Dob').val();
     var Email = $('#Email').val();
     var Password = $('#Password').val();
     var MobileNo = $('#MobileNo').val();
+    var AlternateMobileNo = $('#AlternateMobileNo').val();
+    var DateOfJoining = $('#DateOfJoining').val();
+    var DateOfLeaving = $('#DateOfLeaving').val();
     var ClassId = $('#ClassId').val();
-    var Dob = $('#Dob').val();
-    var Address = $('#Address').val();
     var Education = $('#Education').val();
-    /*var Salary = $('#Salary').val();*/
+    var MaritalStatus = $('#MaritalStatus').val();
+    var AnniversaryDate = $('#AnniversaryDate').val();
+    var Experience = $('#Experience').val();
     var RoleId = 2
-    if (FullName == "" || /\S/.test(FullName) == false) {
-        $("#errFullName").html("Please enter first name.");
+    if (Title == 0) {
+        $("#errTitle").html("Please select title");
         val = false;
     }
     
-    if (UserName == "" || /\S/.test(UserName) == false) {
-        $("#errUserName").html("Please enter last name.");
+    if (TeacherName == "" || /\S/.test(TeacherName) == false) {
+        $("#errTeacherName").html("Please enter teacher name.");
         val = false;
     }
-    
+    if (FatherName == "" || /\S/.test(FatherName) == false) {
+        $("#errFatherName").html("Please enter father name.");
+        val = false;
+    }
+    if (Surname == "" || /\S/.test(Surname) == false) {
+        $("#errSurname").html("Please enter surname.");
+        val = false;
+    }
+    if (Gender == 0) {
+        $("#errGender").html("Please select gender.");
+        val = false;
+    }
+    if (BloodGroup == 0) {
+        $("#errBloodGroup").html("Please select bloodroup.");
+        val = false;
+    }
+    if (Dob == "" || /\S/.test(Dob) == false) {
+        $("#errDob").html("Please select dob.");
+        val = false;
+    }
     if (ClassId == 0) {
         $("#errClassId").html("Please select classroom");
         val = false;
     }
-
-    if (MobileNo == "" || MobileNo.trim() == '') {
-        $("#errMobile").html("Please enter mobile.");
+    if (Email == "" || Email.trim() == '') {
+        $("#errEmail").html("Please enter email.");
         val = false;
     }
     if (Password == "" || Password.trim() == '') {
         $("#errPassword").html("Please enter password.");
         val = false;
     }
+    if (MobileNo == "" || MobileNo.trim() == '') {
+        $("#errMobile").html("Please enter mobile.");
+        val = false;
+    }
+    if (DateOfJoining == "" || /\S/.test(DateOfJoining) == false) {
+        $("#errDateOfJoining").html("Please select DateOfJoining.");
+        val = false;
+    }
+    if (DateOfLeaving == "" || /\S/.test(DateOfLeaving) == false) {
+        $("#errDateOfLeaving").html("Please select DateOfLeaving.");
+        val = false;
+    }
+    if (MaritalStatus == 0) {
+        $("#errMaritalStatus").html("Please select maritalstatus.");
+        val = false;
+    }
     if (Education == "" || Education.trim() == '') {
         $("#errEducation").html("Please enter education.");
         val = false;
     }
+
+    if (Experience == "" || /\S/.test(Experience) == false) {
+        $("#errExperience").html("Please select Experience.");
+        val = false;
+    }
    
-    var Gender = $("input[type='radio']:checked").val();
-    if (Gender == "Active") {
-        Gender = 1
-    }
-    else {
-        Gender = 0
-    }
-    if (Email == '' || Email.trim() == '') {
-        $("#errEmail").html('Please enter email id.');
-        return;
-    }
    
     var formData = new FormData();
     var fileCount = document.getElementById("Profile").files.length;
@@ -233,18 +294,26 @@ function InsertData() {
 
     formData.append('Id', Id);
     formData.append('RoleId', RoleId);
-    formData.append('FullName', FullName);
-    formData.append('UserName', UserName);
-    formData.append('ClassId', ClassId);
+    formData.append('Title', Title);
+    formData.append('TeacherName', TeacherName);
+    formData.append('FatherName', FatherName);
+    formData.append('Surname', Surname);
+    formData.append('Gender', Gender);
+    formData.append('BloodGroup', BloodGroup);
+    formData.append('Dob', Dob);
     formData.append('Email', Email);
     formData.append('Password', Password);
     formData.append('MobileNo', MobileNo);
-    formData.append('Dob', Dob);
-    formData.append('Gender', Gender);
-    formData.append('Address', Address);
+    formData.append('AlternateMobileNo', AlternateMobileNo);
+    formData.append('DateOfJoining', DateOfJoining);
+    formData.append('DateOfLeaving', DateOfLeaving);
+    formData.append('ClassId', ClassId);
     formData.append('Education', Education);
-    /*formData.append('Salary', Salary);*/
-    formData.append('SearchText', SearchText);
+    formData.append('MaritalStatus', MaritalStatus);
+    formData.append('AnniversaryDate', AnniversaryDate);
+    formData.append('Experience', Experience);
+    formData.append('Profile', Profile);
+    formData.append('ProfileImg', ProfileImg);
     formData.append('Profile', Profile);
     formData.append('ProfileImg', ProfileImg);
     ShowWait();
@@ -258,12 +327,182 @@ function InsertData() {
         success: function (data) {
             if (data != null) {
                 if (data == 'Success' && Id == 0) {
-                    toastr.success('Teacher inserted successfully');
+                    toastr.success('Teacher basic details inserted successfully');
                     window.location.replace("/Teacher/TeacherList");
                     
                 }
                 else if (data == 'Updated' && Id > 0) {
-                    toastr.success('Teacher updated successfully');
+                    toastr.success('Teacher  basic details updated successfully');
+                    window.location.replace("/Teacher/TeacherList");
+                }
+                else if (data == 'Exists') {
+                    toastr.error('Teacher already exists!');
+                    document.getElementById('Email').value = "";
+                }
+            }
+            HideWait();
+        },
+        error: function (xyz) {
+            HideWait();
+            alert('errors');
+        }
+    });
+}
+
+function InsertAddressDetails() {
+
+    var val = true;
+    var Id = $('#hdnId').val();
+    var CurrentAddress = $('#CurrentAddress').val();
+    var CurrentPincode = $('#CurrentPincode').val();
+    var CurrentCity = $('#CurrentCity').val();
+    var CurrentState = $('#CurrentState').val();
+
+    var PermenantAddress = $('#CurrentAddress').val();
+    var PermenantPincode = $('#CurrentPincode').val();
+    var PermenantCity = $('#CurrentCity').val();
+    var PermenantState = $('#CurrentState').val();
+   
+    var RoleId = 2
+    
+
+
+    if (CurrentAddress == "" || /\S/.test(CurrentAddress) == false) {
+        $("#errCurrentAddress").html("Please enter current address.");
+        val = false;
+    }
+    if (CurrentPincode == "" || /\S/.test(CurrentPincode) == false) {
+        $("#errCurrentPincode").html("Please enter current pincode.");
+        val = false;
+    }
+    if (CurrentCity == "" || /\S/.test(CurrentCity) == false) {
+        $("#errCurrentCity").html("Please enter current city.");
+        val = false;
+    }
+    if (CurrentState == "" || /\S/.test(CurrentState) == false) {
+        $("#errCurrentState").html("Please enter current state.");
+        val = false;
+    }
+    if (PermenantAddress == "" || /\S/.test(PermenantAddress) == false) {
+        $("#errPermenantAddress").html("Please enter permanent address.");
+        val = false;
+    }
+    if (PermenantPincode == "" || /\S/.test(PermenantPincode) == false) {
+        $("#errPermenantPincode").html("Please enter permanent pincode.");
+        val = false;
+    }
+    if (PermenantCity == "" || /\S/.test(PermenantCity) == false) {
+        $("#errPermenantCity").html("Please enter permanent city.");
+        val = false;
+    }
+    if (PermenantState == "" || /\S/.test(PermenantState) == false) {
+        $("#errPermenantState").html("Please enter permanent city.");
+        val = false;
+    }
+
+    
+    if (val == false) {
+        return;
+    }
+
+    formData.append('Id', Id);
+    formData.append('RoleId', RoleId);
+    formData.append('CurrentAddress', CurrentAddress);
+    formData.append('CurrentPincode', CurrentPincode);
+    formData.append('CurrentCity', CurrentCity);
+    formData.append('CurrentState', CurrentState);
+    formData.append('PermenantAddress', PermenantAddress);
+    formData.append('PermenantPincode', PermenantPincode);
+    formData.append('PermenantCity', PermenantCity);
+    formData.append('PermenantState', PermenantState);
+    ShowWait();
+    $.ajax({
+        type: "POST",
+        url: '/Teacher/Teacher',
+        contentType: "application/json; charset=utf-8",
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            if (data != null) {
+                if (data == 'Success' && Id == 0) {
+                    toastr.success('Teacher address details inserted successfully');
+                    window.location.replace("/Teacher/TeacherList");
+
+                }
+                else if (data == 'Updated' && Id > 0) {
+                    toastr.success('Teacher address details updated successfully');
+                    window.location.replace("/Teacher/TeacherList");
+                }
+                else if (data == 'Exists') {
+                    toastr.error('Teacher already exists!');
+                    document.getElementById('Email').value = "";
+                }
+            }
+            HideWait();
+        },
+        error: function (xyz) {
+            HideWait();
+            alert('errors');
+        }
+    });
+}
+function InsertBankDetails() {
+
+    var val = true;
+    var Id = $('#hdnId').val();
+    var BankName = $('#BankName').val();
+    var BankBranch = $('#BankBranch').val();
+    var AccountNo = $('#AccountNo').val();
+    var IFSCCode = $('#IFSCCode').val();
+    var RoleId = 2
+
+    if (BankName == "" || /\S/.test(BankName) == false) {
+        $("#errBankName").html("Please enter bankname.");
+        val = false;
+    }
+    if (BankBranch == "" || /\S/.test(BankBranch) == false) {
+        $("#errBankBranch").html("Please enter bankbranch.");
+        val = false;
+    }
+    if (AccountNo == "" || /\S/.test(AccountNo) == false) {
+        $("#errAccountNo").html("Please enter accountno.");
+        val = false;
+    }
+    if (IFSCCode == "" || /\S/.test(IFSCCode) == false) {
+        $("#errIFSCCode").html("Please enter ifsccode.");
+        val = false;
+    }
+
+
+
+    if (val == false) {
+        return;
+    }
+
+    formData.append('Id', Id);
+    formData.append('RoleId', RoleId);
+    formData.append('BankName', BankName);
+    formData.append('BankBranch', BankBranch);
+    formData.append('AccountNo', AccountNo);
+    formData.append('IFSCCode', IFSCCode);
+    ShowWait();
+    $.ajax({
+        type: "POST",
+        url: '/Teacher/Teacher',
+        contentType: "application/json; charset=utf-8",
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            if (data != null) {
+                if (data == 'Success' && Id == 0) {
+                    toastr.success('Teacher bank details inserted successfully');
+                    window.location.replace("/Teacher/TeacherList");
+
+                }
+                else if (data == 'Updated' && Id > 0) {
+                    toastr.success('Teacher bank details updated successfully');
                     window.location.replace("/Teacher/TeacherList");
                 }
                 else if (data == 'Exists') {
@@ -306,6 +545,7 @@ function deleteTeacher() {
                 //  toastr.success(data.Response, 'Teacher deleted successfully.', new {timeOut: 300 });
                 document.getElementById('hdnintId').value = "0";
                 GetTeacherList();
+                GetTeacherGrid();
                 $('#delete_Teacher').click();
             }
             //else if (data.Response == 'dependency') {

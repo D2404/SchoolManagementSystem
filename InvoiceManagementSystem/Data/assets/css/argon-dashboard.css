@@ -23680,7 +23680,7 @@ hr {
     }
 
         .nav.nav-pills .nav-link.active {
-            animation: 0.2s ease;
+            animation: 0.1s ease;
         }
 
         .nav.nav-pills .nav-link:hover:not(.active) {

@@ -1,11 +1,14 @@
 ﻿@model InvoiceManagementSystem.Models.TeacherModel
-
-<div class="scrollable-container" style="max-height: 500px; overflow-y: auto;">
+@{
+    int no = 0;
+}
+<div class="scrollable-container">
     <div class="row" id="gridview">
         @for (var i = 0; i < Model.LSTTeacherList.Count; i++)
         {
             var item = Model.LSTTeacherList[i];
-
+            no = no + 1;
+            string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
             <br /> <!-- Add line break before each new row -->
 
             <div class="col-md-4">
@@ -19,18 +22,92 @@
                         {
                             <img src="~/Data/Profile/@item.ProfileImg" alt="Image placeholder" class="card-img-top">
                         }
-                    <figcaption style="color:black">
-                        <h3 style="color:black"><i class="fas fa-user"></i> @item.UserName</h3>
-                        <p class="nowrap" style="color:black"><i class="fas fa-user"></i> <b>@item.FullName</b></p>
-                        <p class="nowrap" style="color:black"><i class="fas fa-calendar"></i> <b>@item.Dob</b></p>
-                        <p class="nowrap" style="color:black"><i class="fas fa-envelope"></i><b> @item.Email</b></p>
-                        <p class="nowrap" style="color:black"><i class="fas fa-phone"></i> <b>@item.MobileNo</b></p>
-                        <p class="nowrap" style="color:black"><i class="fas fa-address-book"></i><b>@item.Address</b></p>
+                    <figcaption style="color: black">
+                        <h4 style="color: black">@SrNo    <b>@item.TeacherName</b></h4>
+                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-user"></i>  @item.FullName</p>
+                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-calendar"></i>  @item.Dob</p>
+                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-envelope"></i>  @item.Email</p>
+                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-phone"></i>  @item.MobileNo</p>
+                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-address-book"></i>  @item.CurrentAddress</p>
+
+                        <p>
+                            <a href="/Teacher/Teacher?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;color:blue " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: blue">  <b>Edit</b></i></a>  |
+                            <a href="/Teacher/ViewTeacher?Id=@item.Id" title="View Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;  color: yellow " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: yellow">  <b>View</b></i></a>  |
+                            <a href="javascript:;" style="font-size: 13px; padding-top: 1px;  color: red" data-bs-toggle="modal" data-bs-target="#delete_Teacher" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: red">  <b>Delete</b></i></a>
+                        </p>
                     </figcaption>
-                    </figure>
+                    </figure>   
                 </div>
 
             </div>
         }
+    </div>
+</div>
+<div class="quotation-body">
+    <div class="row">
+        <div class="col-lg-6 paddinglr8px">
+        </div>
+    </div>
+    <div class="col-lg-12" style="bottom: 13px;">
+        <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
+            @if (Model != null && Model.LSTTeacherList != null && Model.LSTTeacherList.Count > 0)
+            {
+                var start = (Model.LSTTeacherList[0].PageIndex - 1) * Model.LSTTeacherList[0].PageSize + 1;
+                var end = Model.LSTTeacherList[0].PageSize;
+                if (Model.LSTTeacherList[0].PageSize < Model.LSTTeacherList[0].TotalRecord)
+                {
+                    end = Model.LSTTeacherList[0].PageSize * Model.LSTTeacherList[0].PageIndex;
+                    if (end > Model.LSTTeacherList[0].TotalRecord)
+                    {
+                        end = Model.LSTTeacherList[0].TotalRecord;
+                    }
+                }
+                else
+                {
+                    end = Model.LSTTeacherList[0].TotalRecord;
+                }
+                <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: black;font-size:13px">Showing @start to @end of @Model.LSTTeacherList[0].TotalRecord  entries</span>}
+            <div id="divPagination">
+                @if (Model.LSTTeacherList != null && Model.LSTTeacherList.Count > 0)
+                {
+                    var pager = Model.Pager;
+                    if (pager != null)
+                    {
+                        if (pager.EndPage >= 1)
+                        {
+                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
+                                @if (pager.CurrentPage > 1)
+                                {
+                                    <li class="paginate_button previous page-item">
+                                        <a onclick="GetTeacherList(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+                                    </li>
+                                }
+                                @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
+                                {
+                                    if (@page1 == @pager.CurrentPage)
+                                    {
+                                        <li class="paginate_button page-item active">
+                                            <a onclick="GetTeacherList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button page-item">
+                                            <a onclick="GetTeacherList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
+                                        </li>
+                                    }
+                                }
+                                @if (pager.CurrentPage < pager.TotalPages)
+                                {
+                                    <li class="paginate_button page-item">
+                                        <a onclick="GetTeacherList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+                                    </li>
+                                }
+                            </ol>
+                        }
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>

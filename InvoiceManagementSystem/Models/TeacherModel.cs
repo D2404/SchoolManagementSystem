@@ -19,14 +19,37 @@ namespace InvoiceManagementSystem.Models
         public int TeacherId { get; set; }
         public int ClassId { get; set; }
         public string ClassNo { get; set; }
+        public string Title { get; set; }
         public string FullName { get; set; }
-        public string UserName { get; set; }
+        public string TeacherName { get; set; }
+        public string FatherName { get; set; }
+        public string Surname { get; set; }
+        public string Dob { get; set; }
+        public string MobileNo { get; set; }
+        public string AlternateMobileNo { get; set; }
+        public string Gender { get; set; }
+        public string BloodGroup { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public string MobileNo { get; set; }
-        public string Address { get; set; }
         public string Education { get; set; }
-        public string Salary { get; set; }
+        public string DateOfJoining { get; set; }
+        public string DateOfLeaving { get; set; }
+
+        public string MaritalStatus { get; set; }
+        public string AnniversaryDate { get; set; }
+        public string Experience { get; set; }
+        public string CurrentAddress { get; set; }
+        public string CurrentPincode { get; set; }
+        public string CurrentCity { get; set; }
+        public string CurrentState { get; set; }
+        public string PermenantAddress { get; set; }
+        public string PermenantPincode { get; set; }
+        public string PermenantCity { get; set; }
+        public string PermenantState { get; set; }
+        public string BankName { get; set; }
+        public string AccountNo { get; set; }
+        public string IFSCCode { get; set; }
+        public string BankBranch { get; set; }
         public string Response { get; set; }
         public string SearchText { get; set; }
         public int? PageIndex { get; set; }
@@ -39,10 +62,10 @@ namespace InvoiceManagementSystem.Models
         public int ShowingEntries { get; set; }
         public int fromEntries { get; set; }
         public string Date { get; set; }
-        public string Dob { get; set; }
+        
         public int intActive { get; set; }
         public bool IsActive { get; set; }
-        public bool Gender { get; set; }
+       
         public Pager Pager { get; set; }
         public HttpPostedFileBase[] Profile { get; set; }
         public string ProfileImg { get; set; }
@@ -84,15 +107,34 @@ namespace InvoiceManagementSystem.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
                 cmd.Parameters.Add("@FullName", SqlDbType.VarChar).Value = cls.FullName;
-                cmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = cls.UserName;
+                cmd.Parameters.Add("@TeacherName", SqlDbType.VarChar).Value = cls.TeacherName;
+                cmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = cls.TeacherName;
+                cmd.Parameters.Add("@Surname", SqlDbType.VarChar).Value = cls.Surname;
+                cmd.Parameters.Add("@Dob", SqlDbType.DateTime).Value = cls.Dob;
+                cmd.Parameters.Add("@Gender", SqlDbType.VarChar).Value = cls.Gender;
+                cmd.Parameters.Add("@BloodGroup", SqlDbType.VarChar).Value = cls.BloodGroup;
+                cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar).Value = cls.MobileNo;
+                cmd.Parameters.Add("@AlternateMobileNo", SqlDbType.VarChar).Value = cls.AlternateMobileNo;
                 cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = cls.Email;
                 cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = cls.Password;
-                cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar).Value = cls.MobileNo;
-                cmd.Parameters.Add("@Address", SqlDbType.VarChar).Value = cls.Address;
                 cmd.Parameters.Add("@Education", SqlDbType.VarChar).Value = cls.Education;
-                //cmd.Parameters.Add("@Salary", SqlDbType.VarChar).Value = cls.Salary;
-                cmd.Parameters.Add("@Dob", SqlDbType.DateTime).Value = cls.Dob;
-                cmd.Parameters.Add("@Gender", SqlDbType.Bit).Value = cls.Gender;
+                cmd.Parameters.Add("@DateOfJoining", SqlDbType.DateTime).Value = cls.DateOfJoining;
+                cmd.Parameters.Add("@DateOfLeaving", SqlDbType.DateTime).Value = cls.DateOfLeaving;
+                cmd.Parameters.Add("@MaritalStatus", SqlDbType.VarChar).Value = cls.MaritalStatus;
+                cmd.Parameters.Add("@AnniversaryDate", SqlDbType.DateTime).Value = cls.AnniversaryDate;
+                cmd.Parameters.Add("@Experience", SqlDbType.VarChar).Value = cls.Experience;
+                cmd.Parameters.Add("@CurrentAddress", SqlDbType.VarChar).Value = cls.CurrentAddress;
+                cmd.Parameters.Add("@CurrentPincode", SqlDbType.VarChar).Value = cls.CurrentPincode;
+                cmd.Parameters.Add("@CurrentCity", SqlDbType.VarChar).Value = cls.CurrentCity;
+                cmd.Parameters.Add("@CurrentState", SqlDbType.VarChar).Value = cls.CurrentState;
+                cmd.Parameters.Add("@PermenantAddress", SqlDbType.VarChar).Value = cls.PermenantAddress;
+                cmd.Parameters.Add("@PermenantPincode", SqlDbType.VarChar).Value = cls.PermenantPincode;
+                cmd.Parameters.Add("@PermenantCity", SqlDbType.VarChar).Value = cls.PermenantCity;
+                cmd.Parameters.Add("@PermenantState", SqlDbType.VarChar).Value = cls.PermenantState;
+                cmd.Parameters.Add("@BankName", SqlDbType.VarChar).Value = cls.BankName;
+                cmd.Parameters.Add("@BankBranch", SqlDbType.VarChar).Value = cls.BankBranch;
+                cmd.Parameters.Add("@AccountNo", SqlDbType.VarChar).Value = cls.AccountNo;
+                cmd.Parameters.Add("@IFSCCode", SqlDbType.VarChar).Value = cls.IFSCCode;
                 cmd.Parameters.AddWithValue("@Profile", SqlDbType.VarChar).Value = cls.ProfileImg;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@RoleId", cls.RoleId);
@@ -156,14 +198,14 @@ namespace InvoiceManagementSystem.Models
                         obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.UserName = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
+                        obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.Password = dt.Rows[i]["Password"] == null || dt.Rows[i]["Password"].ToString().Trim() == "" ? null : dt.Rows[i]["Password"].ToString();
                         obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
-                        obj.Address = dt.Rows[i]["Address"] == null || dt.Rows[i]["Address"].ToString().Trim() == "" ? null : dt.Rows[i]["Address"].ToString();
+                        obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
                         obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("yyyy-MM-dd");
                         obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
-                        obj.Gender = Convert.ToBoolean(dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString());
+                        obj.Gender = dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString();
                         obj.ProfileImg = dt.Rows[i]["Profile"] == null || dt.Rows[i]["Profile"].ToString().Trim() == "" ? null : dt.Rows[i]["Profile"].ToString();
                         lst.Add(obj);
                     }
@@ -200,15 +242,14 @@ namespace InvoiceManagementSystem.Models
                     teacher.ClassId = Convert.ToInt32(row["ClassId"]);
                     teacher.ClassNo = row["ClassNo"].ToString();
                     teacher.FullName = row["FullName"].ToString();
-                    teacher.UserName = row["UserName"].ToString();
+                    teacher.TeacherName = row["TeacherName"].ToString();
                     teacher.Email = row["Email"].ToString();
                     teacher.Password = row["Password"].ToString();
                     teacher.MobileNo = row["MobileNo"].ToString();
-                    teacher.Address = row["Address"].ToString();
+                    teacher.CurrentAddress = row["CurrentAddress"].ToString();
                     teacher.Dob = (row["Dob"] == DBNull.Value) ? null : Convert.ToDateTime(row["Dob"]).ToString("yyyy/MM/dd");
                     teacher.Education = row["Education"].ToString();
-                    teacher.Salary = row["Salary"].ToString();
-                    teacher.Gender = Convert.ToBoolean(row["Gender"]);
+                    teacher.Gender = row["Gender"].ToString();
                     teacher.ProfileImg = row["Profile"].ToString();
                 }
             }

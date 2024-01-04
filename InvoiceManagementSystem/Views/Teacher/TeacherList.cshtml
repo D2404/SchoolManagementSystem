@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "Teacher";
 }
-
+<br />
+<br />
 <style>
     .tab-pane {
         display: none;
@@ -14,14 +15,16 @@
 </style>
 
 <div class="row" id="FilterDiv" style="margin-left:19px">
-    <div class="col-sm-4 col-md-3">
+    <div class="col-sm-4 col-md-3"style="margin-top: -32px;">
         <div class="form-group form-focus">
-            <input type="text" class="form-control floating" id="SearchText" placeholder="Search" maxlength="50">
+            <label style="color:white">Search</label>
+            <input type="text" class="form-control form-control-alternative" id="SearchText" placeholder="Search" maxlength="50">
         </div>
     </div>
-    <div class="col-sm-4 col-md-2">
+    <div class="col-sm-4 col-md-2"style="margin-top: -32px;">
         <div class="form-group form-focus select-focus">
-            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control floating">
+            <label style="color:white">Status</label>
+            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control form-control-alternative">
                 <option value="3">Select Status</option>
                 <option value="1">Active</option>
                 <option value="2">In-Active</option>
@@ -31,13 +34,13 @@
     <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
         <div class="form-group form-focus">
             <label style="color:white">From Date</label>
-            <input class="form-control floating datetimepicker" type="date" id="FromDate" autocomplete="off">
+            <input class="form-control form-control-alternative" type="date" id="FromDate" autocomplete="off">
         </div>
     </div>
     <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
         <div class="form-group form-focus">
             <label style="color:white">To Date</label>
-            <input class="form-control floating datetimepicker" type="date" id="ToDate" autocomplete="off">
+            <input class="form-control form-control-alternative" type="date" id="ToDate" autocomplete="off">
         </div>
     </div>
     <div class="col-sm-6 col-md-1">
@@ -58,7 +61,7 @@
                 <div class="col-auto my-auto">
                     <div class="h-100">
                         <h5 class="mb-1">
-                            <i class="fas fa-chalkboard-teacher text-info text-sm opacity-10"></i>&nbsp;&nbsp; Manage Teacher
+                            <i class="fas fa-chalkboard-teacher text-info text-lg opacity-10"></i>&nbsp;&nbsp; Manage Teacher
                         </h5>
                     </div>
                 </div>
@@ -90,7 +93,7 @@
             <div class="container-fluid py-4">
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
-                        <div class="dataTables_length" id="DataTables_Table_0_length">
+                        <div class="dataTables_length" id="DataTables_Table_0_length" style="margin-top:-18px">
                             <label style="color:white">
                                 Show
                                 <select id="PageSize" onchange="GetClassRoomList(1)" class="drpselect">
@@ -124,95 +127,130 @@
 
 
         </div>
+
         <div id="grid-view" class="tab-pane">
             <div class="container-fluid py-4">
-                <h5 style="color:white"><i class="fas fa-list-alt text-white text-sm opacity-10"></i>&nbsp;&nbsp;Teacher Grid</h5>
-                <div id="gridView"></div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="delete_Teacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><span id="PopupTitle">Add Teacher</span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                <div class="row">
+                    <div class="col-sm-12 col-md-12">
+                        <div class="dataTables_length" id="DataTables_Table_0_length"style="margin-top:-18px">
+                            <label style="color:white">
+                                Show
+                                <select id="PageSize" onchange="GetClassRoomList(1)" class="drpselect">
+                                    <option value="10">10</option>
+                                    <option value="25">25</option>
+                                    <option value="50">50</option>
+                                    <option value="100">100</option>
+                                </select>
+                                entries
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <p>Are you sure want to delete this Teacher ?.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteTeacher()">Delete</button>
-                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p style="margin-left:98px">Are you sure want to change status?</p>
-                </div>
-                <div class="modal-footer" style="padding-right: 146px">
-                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
-                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card mb-4">
+                            <div class="card-header pb-0">
+                                <h6><i class="fas fa-chalkboard-teacher text-info text-sm opacity-10"></i>&nbsp;&nbsp;Teacher Grid</h6>
+                                <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" title="Filter" style="margin-left: 770px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
+                                <a href="~/Teacher/Teacher" class="btn bg-gradient-info" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add Teacher</a>
+                            </div>
+                            <div class="card-body px-0 pt-0 pb-2">
+                                <div class="table-responsive p-0">
+                                    <div id="gridView"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="modal fade" id="delete_Teacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><span id="PopupTitle">Add Teacher</span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure want to delete this Teacher ?.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteTeacher()">Delete</button>
-                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
 
+
+        </div>
+
+
+        <div class="modal fade" id="delete_Teacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete Teacher</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color:black">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="margin-left:70px;color:black">Are you sure want to delete this Teacher ?.</p>
+                    </div>
+                    <div class="modal-footer" style="padding-right: 166px">
+                        <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteTeacher()">Delete</button>
+                        <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                        <input type="hidden" id="hdnintId" value="0" />
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p style="margin-left:98px">Are you sure want to change status?</p>
-                </div>
-                <div class="modal-footer" style="padding-right: 146px">
-                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
-                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+        <div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="margin-left:98px">Are you sure want to change status?</p>
+                    </div>
+                    <div class="modal-footer" style="padding-right: 146px">
+                        <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                        <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
 
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="delete_Teacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title"><span id="PopupTitle">Add Teacher</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure want to delete this Teacher ?.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteTeacher()">Delete</button>
+                        <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p style="margin-left:98px">Are you sure want to change status?</p>
+                    </div>
+                    <div class="modal-footer" style="padding-right: 146px">
+                        <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                        <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="~/Scripts/School/Teacher.js"></script>
 <script>
