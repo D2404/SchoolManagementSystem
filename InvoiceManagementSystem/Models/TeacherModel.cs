@@ -103,12 +103,12 @@ namespace InvoiceManagementSystem.Models
                 var ddd = clsCommon.DecryptString("QU734hNlS/9lJ6Eof1tOcg==");
                 cls.Password = clsCommon.EncryptString(cls.Password);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("AddUpdateTeacher", conn);
+                SqlCommand cmd = new SqlCommand("AddUpdateTeacherBasicDetails", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@Id", SqlDbType.Int).Value = Id;
-                cmd.Parameters.Add("@FullName", SqlDbType.VarChar).Value = cls.FullName;
+                cmd.Parameters.Add("@Title", SqlDbType.VarChar).Value = cls.Title;
                 cmd.Parameters.Add("@TeacherName", SqlDbType.VarChar).Value = cls.TeacherName;
-                cmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = cls.TeacherName;
+                cmd.Parameters.Add("@FatherName", SqlDbType.VarChar).Value = cls.FatherName;
                 cmd.Parameters.Add("@Surname", SqlDbType.VarChar).Value = cls.Surname;
                 cmd.Parameters.Add("@Dob", SqlDbType.DateTime).Value = cls.Dob;
                 cmd.Parameters.Add("@Gender", SqlDbType.VarChar).Value = cls.Gender;
@@ -123,18 +123,6 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.Add("@MaritalStatus", SqlDbType.VarChar).Value = cls.MaritalStatus;
                 cmd.Parameters.Add("@AnniversaryDate", SqlDbType.DateTime).Value = cls.AnniversaryDate;
                 cmd.Parameters.Add("@Experience", SqlDbType.VarChar).Value = cls.Experience;
-                cmd.Parameters.Add("@CurrentAddress", SqlDbType.VarChar).Value = cls.CurrentAddress;
-                cmd.Parameters.Add("@CurrentPincode", SqlDbType.VarChar).Value = cls.CurrentPincode;
-                cmd.Parameters.Add("@CurrentCity", SqlDbType.VarChar).Value = cls.CurrentCity;
-                cmd.Parameters.Add("@CurrentState", SqlDbType.VarChar).Value = cls.CurrentState;
-                cmd.Parameters.Add("@PermenantAddress", SqlDbType.VarChar).Value = cls.PermenantAddress;
-                cmd.Parameters.Add("@PermenantPincode", SqlDbType.VarChar).Value = cls.PermenantPincode;
-                cmd.Parameters.Add("@PermenantCity", SqlDbType.VarChar).Value = cls.PermenantCity;
-                cmd.Parameters.Add("@PermenantState", SqlDbType.VarChar).Value = cls.PermenantState;
-                cmd.Parameters.Add("@BankName", SqlDbType.VarChar).Value = cls.BankName;
-                cmd.Parameters.Add("@BankBranch", SqlDbType.VarChar).Value = cls.BankBranch;
-                cmd.Parameters.Add("@AccountNo", SqlDbType.VarChar).Value = cls.AccountNo;
-                cmd.Parameters.Add("@IFSCCode", SqlDbType.VarChar).Value = cls.IFSCCode;
                 cmd.Parameters.AddWithValue("@Profile", SqlDbType.VarChar).Value = cls.ProfileImg;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@RoleId", cls.RoleId);
@@ -195,18 +183,31 @@ namespace InvoiceManagementSystem.Models
 
 
                         cls.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
-                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        
+                        obj.Title = dt.Rows[i]["Title"] == null || dt.Rows[i]["Title"].ToString().Trim() == "" ? null : dt.Rows[i]["Title"].ToString();
+                        obj.ProfileImg = dt.Rows[i]["Profile"] == null || dt.Rows[i]["Profile"].ToString().Trim() == "" ? null : dt.Rows[i]["Profile"].ToString();
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
                         obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
-                        obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
-                        obj.Password = dt.Rows[i]["Password"] == null || dt.Rows[i]["Password"].ToString().Trim() == "" ? null : dt.Rows[i]["Password"].ToString();
-                        obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
-                        obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
-                        obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("yyyy-MM-dd");
-                        obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
+                        obj.FatherName = dt.Rows[i]["FatherName"] == null || dt.Rows[i]["FatherName"].ToString().Trim() == "" ? null : dt.Rows[i]["FatherName"].ToString();
+                        obj.Surname = dt.Rows[i]["Surname"] == null || dt.Rows[i]["Surname"].ToString().Trim() == "" ? null : dt.Rows[i]["Surname"].ToString();
                         obj.Gender = dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString();
-                        obj.ProfileImg = dt.Rows[i]["Profile"] == null || dt.Rows[i]["Profile"].ToString().Trim() == "" ? null : dt.Rows[i]["Profile"].ToString();
+                        obj.BloodGroup = dt.Rows[i]["BloodGroup"] == null || dt.Rows[i]["BloodGroup"].ToString().Trim() == "" ? null : dt.Rows[i]["BloodGroup"].ToString();
+                        obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("yyyy-MM-dd");
+                        obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
+                        obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
+                        obj.AlternateMobileNo = dt.Rows[i]["AlternateMobileNo"] == null || dt.Rows[i]["AlternateMobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["AlternateMobileNo"].ToString();
+                        obj.DateOfJoining = dt.Rows[i]["DateOfJoining"] == null || dt.Rows[i]["DateOfJoining"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["DateOfJoining"]).ToString("yyyy-MM-dd");
+                        obj.DateOfLeaving = dt.Rows[i]["DateOfLeaving"] == null || dt.Rows[i]["DateOfLeaving"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["DateOfLeaving"]).ToString("yyyy-MM-dd");
+                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
+                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
+                        obj.MaritalStatus = dt.Rows[i]["MaritalStatus"] == null || dt.Rows[i]["MaritalStatus"].ToString().Trim() == "" ? null : dt.Rows[i]["MaritalStatus"].ToString();
+                        obj.AnniversaryDate = dt.Rows[i]["AnniversaryDate"] == null || dt.Rows[i]["AnniversaryDate"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["AnniversaryDate"]).ToString("yyyy-MM-dd");
+                        obj.Experience = dt.Rows[i]["Experience"] == null || dt.Rows[i]["Experience"].ToString().Trim() == "" ? null : dt.Rows[i]["Experience"].ToString();
+                        obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
+                        
+                        
+                        
                         lst.Add(obj);
                     }
                 }
