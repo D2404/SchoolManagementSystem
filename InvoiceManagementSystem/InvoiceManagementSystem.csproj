@@ -569,6 +569,7 @@
     <Content Include="Data\Profile\BackgroundImage.jpg" />
     <Content Include="Data\Profile\bg.jpg" />
     <Content Include="Data\Profile\download.jpg" />
+    <Content Include="Data\Profile\dummy.jpg" />
     <Content Include="Data\Profile\Image_not_available.png" />
     <Content Include="Data\Profile\istockphoto-818533812-612x612.jpg" />
     <Content Include="Data\Profile\noimage.jpg" />

@@ -3,10 +3,11 @@ $(document).ready(function () {
     GetClassRoom();
     GetTeacherList(1);
     GetTeacherGrid();
-
+    $('#removeButton').hide();
     $('#FilterDiv').hide();
     $('#list-view').show();
     $('#grid-view').hide();
+    $(".gambar").attr("src", "/Data/Profile/dummy.jpg");
 
     // Event handler for list-view tab
     $('li[data-tab-id="list-view"]').on('click', function () {
@@ -30,10 +31,12 @@ $(document).ready(function () {
     var currentDate = new Date().toISOString().slice(0, 10);
     document.getElementById('DateOfJoining').value = currentDate;
 
-    var Id = $('#hdnId').val();
-
+    var Id = $('#hdnintId').val();
+    
     if (Id > 0) {
         $('#Passworddiv').hide();
+        $('#Profilediv').hide();
+        $('#ClassRoomdiv').hide();
     }
     $("#sameAsAbove").on("change", function () {
         if ($(this).prop("checked")) {
@@ -54,17 +57,43 @@ $(document).ready(function () {
     });
     
 });
+function openFileInput() {
+    document.getElementById('Profile').click();
+}
 
+function displaySelectedImage(input) {
+    var profileImage = document.getElementById('profileImage');
 
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            profileImage.src = e.target.result;
+            $('#removeButton').show(); // Show remove button when an image is selected
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        profileImage.src = "~/Data/Profile/dummy.jpg";
+        $('#removeButton').hide();
+    }
+}
+
+function removeImage() {
+    debugger
+    //$('#profileImage').attr('src', '~/Data/Profile/dummy.jpg');
+
+    // Create a new file input with the default image and replace the existing one
+   // var newFileInput = $('<input type="file" id="Profile" class="form-control form-control-alternative" style="display: none;" onchange="displaySelectedImage(this)">');
+    //$('#Profile').replaceWith(newFileInput);
+    $(".gambar").attr("src", "/Data/Profile/dummy.jpg");
+
+}
 function onlyNumbers(event) {
-    // Get the key code of the pressed key
     var keyCode = event.which || event.keyCode;
 
-    // Check if the key is a number (0-9) or a backspace
     if ((keyCode >= 48 && keyCode <= 57) || keyCode === 8) {
-        return true; // Allow input
+        return true; 
     } else {
-        event.preventDefault(); // Block input
+        event.preventDefault();
         return false;
     }
 }
@@ -189,7 +218,8 @@ function GetTeacherGrid(page) {
 }
 
 function ValidateBasicDetails(id) {
-    
+
+    var Id = $('#hdnintId').val();
     var val = true;
     var Title = $('#Title').val();
     var TeacherName = $('#TeacherName').val();
@@ -239,10 +269,6 @@ function ValidateBasicDetails(id) {
         $("#errDob").html("Please select dob.");
         val = false;
     }
-    if (ClassId == 0) {
-        $("#errClassId").html("Please select classroom");
-        val = false;
-    }
     if (Email == "" || Email.trim() == '') {
         $("#errEmail").html("Please enter email.");
         val = false;
@@ -277,36 +303,41 @@ function ValidateBasicDetails(id) {
         val = false;
     }
    
-   
-    //var formData = new FormData();
-    //var fileCount = document.getElementById("Profile").files.length;
-    //var hdnfile = document.getElementById("hdnfile").value;
+    if (Id == 0) {
+        if (ClassId == 0) {
+            $("#errClassId").html("Please select classroom");
+            val = false;
+        }
+        var formData = new FormData();
+        var fileCount = document.getElementById("Profile").files.length;
+        var hdnfile = document.getElementById("Profile").value;
 
-    //if (hdnfile == null || hdnfile == "") {
-    //    var Profile = document.getElementById('Profile').value;
-    //    if (Profile == null || Profile == "") {
-    //        $("#errProfile").html('Please select image.');
-    //        return;
-    //    }
-    //    if (fileCount > 0) {
-    //        for (var i = 0; i < fileCount; i++) {
-    //            var Profile = document.getElementById("Profile").files[i];
-    //            var ext = Profile.name.split('.').pop();
-    //            if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
-    //                formData.append("Profile", Profile);
-    //            }
-    //            else {
-    //                alert('Please upload valid file.');
-    //                return;
-    //            }
-    //        }
-    //    }
-    //}
-    //else {
+        if (hdnfile == null || hdnfile == "") {
+            var Profile = document.getElementById('Profile').value;
+            if (Profile == null || Profile == "") {
+                $("#errProfile").html('Please select image.');
+                return;
+            }
+            if (fileCount > 0) {
+                for (var i = 0; i < fileCount; i++) {
+                    var Profile = document.getElementById("Profile").files[i];
+                    var ext = Profile.name.split('.').pop();
+                    if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
+                        formData.append("Profile", Profile);
+                    }
+                    else {
+                        alert('Please upload valid file.');
+                        return;
+                    }
+                }
+            }
+        }
+        else {
 
-    //    var ProfileImg = hdnfile;
+            var ProfileImg = hdnfile;
 
-    //}
+        }
+    }
     if (val == false) {
         return;
     }
@@ -389,12 +420,12 @@ function InsertData() {
     debugger
 
     var val = true;
-    var Id = $('#hdnId').val();
+    var Id = $('#hdnintId').val();
     var Title = $('#Title').val();
     var TeacherName = $('#TeacherName').val();
     var FatherName = $('#FatherName').val();
     var Surname = $('#Surname').val();
-    var Gender = $('#Gender').val();
+    var Gender = $("input[name='LSTTeacherList[0].Gender']:checked").val();
     var BloodGroup = $('#BloodGroup').val();
     var Dob = $('#Dob').val();
     var Email = $('#Email').val();
@@ -403,12 +434,12 @@ function InsertData() {
     var AlternateMobileNo = $('#AlternateMobileNo').val();
     var DateOfJoining = $('#DateOfJoining').val();
     var DateOfLeaving = $('#DateOfLeaving').val();
-    var ClassId = $('#ClassId').val();
+    
     var Education = $('#Education').val();
     var MaritalStatus = $('#MaritalStatus').val();
     var AnniversaryDate = $('#AnniversaryDate').val();
     var Experience = $('#Experience').val();
-    var hdnfile = document.getElementById("hdnfile").value;
+    var Profile = $('#Profile').val();
     /*var ProfileImg = hdnfile;*/
     var CurrentAddress = $('#CurrentAddress').val();
     var CurrentPincode = $('#CurrentPincode').val();
@@ -440,11 +471,48 @@ function InsertData() {
         $("#errIFSCCode").html("Please enter ifsccode.");
         val = false;
     }
+    if (Gender == "Male") {
+        Gender = 1
+    }
+    else {
+        Gender = 0
+    }
+    var formData = new FormData();
+    if (Id == 0) {
+        var ClassId = $('#ClassId').val();
+        
+        var fileCount = document.getElementById("Profile").files.length;
+        var hdnfile = document.getElementById("hdnfile").value;
 
+        if (hdnfile == null || hdnfile == "") {
+            var Profile = document.getElementById('Profile').value;
+            if (Profile == null || Profile == "") {
+                $("#errProfile").html('Please select image.');
+                return;
+            }
+            if (fileCount > 0) {
+                for (var i = 0; i < fileCount; i++) {
+                    var Profile = document.getElementById("Profile").files[i];
+                    var ext = Profile.name.split('.').pop();
+                    if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
+                        formData.append("Profile", Profile);
+                    }
+                    else {
+                        alert('Please upload valid file.');
+                        return;
+                    }
+                }
+            }
+        }
+        else {
+
+            var ProfileImg = hdnfile;
+
+        }
+    }
     if (val == false) {
         return;
     }
-    var formData = new FormData();
     formData.append('Id', Id);
     formData.append('RoleId', RoleId);
     formData.append('Title', Title);
@@ -465,8 +533,7 @@ function InsertData() {
     formData.append('MaritalStatus', MaritalStatus);
     formData.append('AnniversaryDate', AnniversaryDate);
     formData.append('Experience', Experience);
-    //formData.append('Profile', Profile);
-    //formData.append('ProfileImg', ProfileImg);
+    formData.append('Profile', Profile);
     formData.append('CurrentAddress', CurrentAddress);
     formData.append('CurrentPincode', CurrentPincode);
     formData.append('CurrentCity', CurrentCity);
@@ -482,8 +549,9 @@ function InsertData() {
     ShowWait();
     $.ajax({
         type: "POST",
-        url: '/Teacher/Teacher',
+        url: '/Teacher/InsertTeacher',
         contentType: "application/json; charset=utf-8",
+        contentType: false,
         processData: false,
         data: formData,
         success: function (data) {

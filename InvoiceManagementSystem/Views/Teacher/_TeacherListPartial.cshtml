@@ -53,7 +53,14 @@
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Dob</p>
                     </td>
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Gender</p>
+                        @if (item.Gender == true)
+                        {
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Male</p>
+                        }
+                        else
+                        {
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Female</p>
+                        }
                     </td>
                     <td>
                         @if (item.IsActive == true)

@@ -107,12 +107,52 @@
                                     </h5>
                                 </div><br />
                                 <div class="row">
-                                    <input type="hidden" id="hdnintId" value="" />
+                                    <input type="hidden" id="hdnintId" value="@Model.Id" />
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="form-group" id="divUploadFile" style="display:block">
+                                                <input type="hidden" id="hdnfile" />
+                                                <label for="example-text-input" class="form-control-label">
+                                                    Profile
+                                                </label>
+                                                <span id="removeButton" onclick="removeImage()" style="color: #100f0f;margin-left: 110px;">x</span>
+                                                @if (@Model.Id > 0)
+                                                {
+                                                    <div>
+                                                        @Html.TextBoxFor(model => model.LSTTeacherList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;" })
+                                                        @if (!string.IsNullOrEmpty(Model.LSTTeacherList[0].ProfileImg))
+                                                        {
+                                                            var item = Model.LSTTeacherList[0];
+                                                            <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
+                                                        }
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                            <div>
+                                                @Html.TextBoxFor(model => model.LSTTeacherList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;", onchange = "displaySelectedImage(this)" })
 
+                                                @if (!string.IsNullOrEmpty(Model.LSTTeacherList[0].ProfileImg))
+                                                {
+                                                    <img id="profileImage" src="~/Data/Profile/@Model.LSTTeacherList[0].ProfileImg" alt="Profile Image" style="margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
+                                                }
+                                                else
+                                                {
+                                                    <img id="profileImage" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
+                                                }
+                                            </div>
+                                                }
+
+                                            </div>
+                                            <div class="form-group" id="divFile" style="display:none">
+                                            </div>
+                                        </div>
+
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Title <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.DropDownListFor(model => model.LSTTeacherList[0].Title,
                                                  new List<SelectListItem>
@@ -140,29 +180,12 @@
                                             <span id="errTitle" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
-                                    @*<div class="col-md-6">
-                                        <div class="form-group">
-                                            <input type="hidden" id="hdnfile" />
-                                            <label for="example-text-input" class="form-control-label">
-                                                Profile
-                                            </label>
-                                            @if (Model.Id > 0)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTTeacherList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file" })
-                                            }
-                                        </div>
-                                        <div class="form-group" id="divFile" style="display:none">
-                                        </div>
-                                    </div>*@
+
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Teacher Name <span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].TeacherName, new { @id = "TeacherName", @placeholder = "Teacher Name.", @class = "form-control form-control-alternative" })
                                                 }
@@ -176,7 +199,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Father Name <span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].FatherName, new { @id = "FatherName", @placeholder = "Father Name.", @class = "form-control form-control-alternative" })
                                                 }
@@ -190,7 +213,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Surname <span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].Surname, new { @id = "Surname", @placeholder = "Surname.", @class = "form-control form-control-alternative" })
                                                 }
@@ -204,28 +227,30 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Gender <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            <label for="example-text-input" class="form-control-label">Gender <span class="text-danger">*</span></label><br />
+                                            @if (@Model.Id > 0)
                                             {
-                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].Gender,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select Gender", Value = "0" },
-                                                     new SelectListItem { Text = "Male", Value = "Male", Selected = Model.LSTTeacherList[0].Gender == "Male" },
-                                                     new SelectListItem { Text = "Female", Value = "Female", Selected = Model.LSTTeacherList[0].Gender == "Female" },
-                                                 },
-                                                 new { @id = "Gender", @class = "form-control form-control-alternative" })
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Male", Model.LSTTeacherList[0].Gender == true ? new { @checked = "checked" } : null)
+                                                    Male
+                                                </label>
+
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Female", Model.LSTTeacherList[0].Gender == false ? new { @checked = "checked" } : null)
+                                                    Female
+                                                </label>
                                             }
                                             else
                                             {
-                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].Gender,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select Gender", Value = "0" },
-                                                     new SelectListItem { Text = "Male", Value = "Male"},
-                                                     new SelectListItem { Text = "Female", Value = "Female"},
-                                                 },
-                                                 new { @id = "Gender", @class = "form-control form-control-alternative" })
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Male", new { @checked = "checked" })
+                                                    Male
+                                                </label>
+
+                                                <label>
+                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Female")
+                                                    Female
+                                                </label>
                                             }
                                             <span id="errGender" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
@@ -233,9 +258,9 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Blood Group <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
-                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].Gender,
+                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].BloodGroup,
                                                  new List<SelectListItem>
                                                  {
                                                      new SelectListItem { Text = "Select BloodGroup", Value = "0" },
@@ -252,7 +277,7 @@
                                             }
                                             else
                                             {
-                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].Gender,
+                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].BloodGroup,
                                                  new List<SelectListItem>
                                                  {
                                                      new SelectListItem { Text = "Select BloodGroup", Value = "0" },
@@ -274,7 +299,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Birth Date <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].Dob, new { @id = "Dob", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
                                             }
@@ -290,7 +315,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].Email, new { @id = "Email", @placeholder = "example@gmail.com", @class = "form-control form-control-alternative" })
                                             }
@@ -305,7 +330,7 @@
                                     <div class="col-md-4" id="Passworddiv">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label" id="labelpass">Password <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.PasswordFor(model => model.LSTTeacherList[0].Password, new { @id = "Password", @placeholder = "**********", @class = "form-control form-control-alternative" })
                                             }
@@ -320,13 +345,13 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Mobile <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
-                                                @Html.TextBoxFor(model => model.LSTTeacherList[0].MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative" ,@maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
+                                                @Html.TextBoxFor(model => model.LSTTeacherList[0].MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(model => Model.MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative" , @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
+                                                @Html.TextBoxFor(model => Model.MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
                                             }
                                             @*<input class="form-control form-control-alternative" type="text" id="MobileNo" placeholder="Enter Mobile" onkeypress="return isNumber(event);">*@
                                             <span id="errMobile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
@@ -335,9 +360,9 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Alternate Mobile <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
-                                                @Html.TextBoxFor(model => model.LSTTeacherList[0].AlternateMobileNo, new { @id = "AlternateMobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative" , @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
+                                                @Html.TextBoxFor(model => model.LSTTeacherList[0].AlternateMobileNo, new { @id = "AlternateMobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
                                             }
                                             else
                                             {
@@ -350,7 +375,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Date Of Joining <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].DateOfJoining, new { @id = "DateOfJoining", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
                                             }
@@ -365,7 +390,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Date Of Leaving <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].DateOfLeaving, new { @id = "DateOfLeaving", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
                                             }
@@ -377,53 +402,47 @@
                                             <span id="errDateOfLeaving" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4" id="ClassRoomdiv">
                                         <div class="form-group">
                                             <label for="basicinput"><b>Assign Class</b><span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
-                                                <select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%">
+                                                <select class="form-control form-control-alternative @(@Model.Id > 0 ? "" : "form-control-alternative")" id="ClassId">
                                                     <option value="0">Select ClassRoom</option>
-                                                    @foreach (var item in Model.LSTTeacherList)
+                                                    @foreach (var classItem in Model.LSTTeacherList)
                                                     {
-                                                        if (item.ClassId == Model.LSTTeacherList[0].ClassId)
-                                                        {
-                                                            <option value="@item.ClassId" selected>@(item.ClassNo + " (" + item.ClassNo + ")")</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@item.ClassId">@(item.ClassNo + " (" + item.ClassNo + ")")</option>
-                                                        }
+                                                        <option value="@classItem.ClassId" @(classItem.ClassId == Model.LSTTeacherList[0].ClassId ? "selected" : "")>@classItem.ClassId</option>
                                                     }
                                                 </select>
-
-
                                             }
                                             else
                                             {
-                                                @*<select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%">
+                                                <select class="form-control form-control-alternative" id="ClassId">
                                                     <option value="0">Select ClassRoom</option>
-                                                    @{ if (Model != null && Model.LSTTeacherList.Count > 0)
-                                                        {
-                                                            for (var i = 0; i < Model.LSTTeacherList.Count; i++)
-                                                            {
-                                                                var item = Model.LSTTeacherList[i];
+                                                </select>
+                                                @*<select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%">
+                                                       <option value="0">Select ClassRoom</option>
+                                                       @{ if (Model != null && Model.LSTTeacherList.Count > 0)
+                                                           {
+                                                               for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+                                                               {
+                                                                   var item = Model.LSTTeacherList[i];
 
-                                                                if (item.Id == Model.ClassId)
-                                                                {
-                                                                    <option value="@item.Id" selected>@(item.ClassNo + " (" + item.ClassNo + ")")</option>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value="@item.Id">@(item.ClassNo + " (" + item.ClassNo + ")")</option>
-                                                                }
-                                                            }
-                                                        } }
-                                                 </select>*@
-                                                @Html.DropDownListFor(model => model.ClassId,
-                                                new SelectList(Model.LSTTeacherList, "Id", "ClassNo"),
-                                                "Select ClassRoom",
-                                                new { @class = "form-control form-control-alternative", @style = "width: 100%" })
+                                                                   if (item.Id == Model.ClassId)
+                                                                   {
+                                                                       <option value="@item.Id" selected>@(item.ClassNo + " (" + item.ClassNo + ")")</option>
+                                                                   }
+                                                                   else
+                                                                   {
+                                                                       <option value="@item.Id">@(item.ClassNo + " (" + item.ClassNo + ")")</option>
+                                                                   }
+                                                               }
+                                                           } }
+                                                    </select>*@
+                                                @*@Html.DropDownListFor(model => model.ClassId,
+                                                    new SelectList(Model.LSTTeacherList, "Id", "ClassNo"),
+                                                    "Select ClassRoom",
+                                                    new { @class = "form-control form-control-alternative", @style = "width: 100%" })*@
 
                                             }
                                             <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
@@ -433,7 +452,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Qualification <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].Education, new { @id = "Education", @placeholder = "Education.", @class = "form-control form-control-alternative" })
                                             }
@@ -447,7 +466,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Marital Status<span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.DropDownListFor(model => model.LSTTeacherList[0].MaritalStatus,
                                                 new List<SelectListItem>
@@ -477,7 +496,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Annivarsary Date <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].AnniversaryDate, new { @id = "AnniversaryDate", @placeholder = "dd/mm/yyyy", @class = "form-control form-control-alternative", @type = "date" })
                                             }
@@ -491,7 +510,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Work Experience <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].Experience, new { @id = "Experience", @placeholder = "Experience", @class = "form-control form-control-alternative" })
                                             }
@@ -536,11 +555,10 @@
                                         </div>
                                         <br />
                                         <br />*@
-                                    <input type="hidden" id="hdnintId" value="" />
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Current Address <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].CurrentAddress, new { @id = "CurrentAddress", @placeholder = "Current Address.", @class = "form-control form-control-alternative" })
                                             }
@@ -557,7 +575,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Current Pincode<span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].CurrentPincode, new { @id = "CurrentPincode", @placeholder = "Current Pincode.", @class = "form-control form-control-alternative" })
                                                 }
@@ -571,7 +589,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Current City<span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].CurrentCity, new { @id = "CurrentCity", @placeholder = "Current City.", @class = "form-control form-control-alternative" })
                                                 }
@@ -587,7 +605,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Current State <span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].CurrentState, new { @id = "CurrentState", @placeholder = "Current State", @class = "form-control form-control-alternative" })
                                                 }
@@ -609,7 +627,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Permenant Address <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].PermenantAddress, new { @id = "PermenantAddress", @placeholder = "Permenant Address.", @class = "form-control form-control-alternative" })
                                             }
@@ -626,7 +644,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Permenant Pincode<span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].PermenantPincode, new { @id = "PermenantPincode", @placeholder = "Permenant Pincode.", @class = "form-control form-control-alternative" })
                                                 }
@@ -640,7 +658,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Permenant City<span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].PermenantCity, new { @id = "PermenantCity", @placeholder = "Permenant City.", @class = "form-control form-control-alternative" })
                                                 }
@@ -656,7 +674,7 @@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <label for="example-text-input" class="form-control-label">Permenant State <span class="text-danger">*</span></label>
-                                                @if (Model.Id > 0)
+                                                @if (@Model.Id > 0)
                                                 {
                                                     @Html.TextBoxFor(model => model.LSTTeacherList[0].PermenantState, new { @id = "PermenantState", @placeholder = "Permenant State", @class = "form-control form-control-alternative" })
                                                 }
@@ -694,13 +712,12 @@
                                     </h5>
                                 </div><br />
                                 <div class="row">
-                                    <input type="hidden" id="hdnintId" value="" />
 
 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Bank Name <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].BankName, new { @id = "BankName", @placeholder = "Bank Name.", @class = "form-control form-control-alternative" })
                                             }
@@ -715,7 +732,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Bank Branch <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].BankBranch, new { @id = "BankBranch", @placeholder = "Bank Branch.", @class = "form-control form-control-alternative" })
                                             }
@@ -730,7 +747,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Account No <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].AccountNo, new { @id = "AccountNo", @placeholder = "Account No.", @class = "form-control form-control-alternative" })
                                             }
@@ -745,7 +762,7 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">IFSC Code <span class="text-danger">*</span></label>
-                                            @if (Model.Id > 0)
+                                            @if (@Model.Id > 0)
                                             {
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].IFSCCode, new { @id = "IFSCCode", @placeholder = "IFSC Code.", @class = "form-control form-control-alternative" })
                                             }
