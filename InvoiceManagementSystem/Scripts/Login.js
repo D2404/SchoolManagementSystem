@@ -9,13 +9,13 @@ function SignUp() {
 
     var val = true;
     var UserName = $('#UserName').val();
-    if (UserName == "" || /\S/.test(UserName) == false) {
+    if (UserName === "" || /\S/.test(UserName) === false) {
         $("#errName").html("Please enter username.");
         val = false;
     }
 
     var Email = $('#Email1').val();
-    if (Email == '' || Email.trim() == '') {
+    if (Email === '' || Email.trim() === '') {
         $("#errEmail").html('Please enter email id.');
         val = false;
     }
@@ -27,11 +27,11 @@ function SignUp() {
     //    val = false;
     //}
     var Password = $('#Password1').val();
-    if (Password == "" || /\S/.test(Password) == false) {
+    if (Password === "" || /\S/.test(Password) === false) {
         $("#errPassword").html("Please enter password.");
         val = false;
     }
-    if (val == false) {
+    if (val === false) {
         return;
     }
     var cls = {
@@ -48,13 +48,13 @@ function SignUp() {
             cls: cls
         }),
         success: function (data) {
-            if (data != null) {
-                if (data == 'Success') {
+            if (data !== null) {
+                if (data === 'Success') {
                     toastr.success('User registered inserted successfully');
                     $('.login').click();
                     //window.location.href = '/Home/Index';
                 }
-                else if (data == 'Exists') {
+                else if (data === 'Exists') {
                     toastr.error('Email already exists!');
                     document.getElementById('Email').value = "";
                 }
@@ -69,19 +69,19 @@ function SignUp() {
 }
 
 function Login() {
-    debugger
+    
     var val = true;
     var UserName = document.getElementById('UserName').value;
     var Password = document.getElementById('Password').value;
-    if (UserName == "" || /\S/.test(UserName) == false) {
+    if (UserName === "" || /\S/.test(UserName) === false) {
         $("#errUserName").html("Please Enter Username.");
         val = false;
     }
-    if (Password == "" || /\S/.test(Password) == false) {
+    if (Password === "" || /\S/.test(Password) === false) {
         $("#errPassword").html("Please Enter Password.");
         val = false;
     }
-    if (val == false) {
+    if (val === false) {
         return;
     }
 
@@ -98,14 +98,11 @@ function Login() {
         }),
         success: function (data) {
 
-            if (data == 'Success') {
+            if (data === 'Success') {
                 window.location.href = '/Home/Index';
-
+                toastr.success('Logged in successfully.');
             }
-            //else if (data.intId == 0) {
-            //    alert(data.strResponse);
-            //}
-            else if (data == 'Error' || data == null) {
+            else if (data === 'Error' || data === null) {
                 toastr.error('Invalid Username or Password.');
             }
             document.getElementById('Email').value = '';
@@ -117,13 +114,35 @@ function Login() {
         }
     });
 }
+function openFileInput() {
+    document.getElementById('Profile').click();
+}
 
+function displaySelectedImage(input) {
+    var ProfileImg = document.getElementById('ProfileImg');
+
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            ProfileImg.src = e.target.result;
+            $('#removeButton').show(); // Show remove button when an image is selected
+        };
+        reader.readAsDataURL(input.files[0]);
+    } else {
+        ProfileImg.src = "~/Data/Profile/dummy.jpg";
+    }
+}
+
+function removeImage() {
+
+    $(".gambar").attr("src", "/Data/Profile/dummy.jpg");
+    $('#removeButton').hide();
+}
 function CheckPassword() {
-    debugger
     var val = true;
     var Password = document.getElementById('oldPassword').value;
    
-    if (val == false) {
+    if (val === false) {
         return;
     }
 
@@ -139,14 +158,14 @@ function CheckPassword() {
         }),
         success: function (data) {
 
-            if (data == 'Success') {
+            if (data === 'Success') {
                 window.location.href = '/Home/Index';
 
             }
-            //else if (data.intId == 0) {
+            //else if (data.intId === 0) {
             //    alert(data.strResponse);
             //}
-            else if (data == 'Error' || data == null) {
+            else if (data === 'Error' || data === null) {
                 toastr.error('Invalid Username or Password.');
             }
             document.getElementById('Email').value = '';
@@ -169,15 +188,13 @@ function MyProfile() {
         type: "POST",
         data: {},
         success: function (data) {
-            debugger
-            if (data != null) {
+            if (data !== null) {
                 document.getElementById('hdnintId').value = data.LSTAccountList[0].Id;
                 document.getElementById('FullName').value = data.LSTAccountList[0].FullName;
                 document.getElementById('Email').value = data.LSTAccountList[0].Email;
                 document.getElementById('MobileNo').value = data.LSTAccountList[0].Mobile;
                 document.getElementById('Address').value = data.LSTAccountList[0].Address;
                 document.getElementById('UserName').value = data.LSTAccountList[0].UserName;
-               // document.getElementById('hdnfile').value = data.ProfileImg;
             }
             else {
                 alert('error');
@@ -204,7 +221,7 @@ function MyProfile() {
 //        for (var i = 0; i < fileCount; i++) {
 //            var Profile = document.getElementById("Profile").files[i];
 //            var ext = Profile.name.split('.').pop();
-//            if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
+//            if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
 //                formData.append("Profile", Profile);
 //            }
 //            else {
@@ -215,28 +232,28 @@ function MyProfile() {
 //    }
 //    var formData = new FormData();
 //    var UserName = document.getElementById('UserName').value;
-//    if (UserName == "" || /\S/.test(UserName) == false) {
+//    if (UserName === "" || /\S/.test(UserName) === false) {
 //        $("#errusername").html("Please enter Username.");
 //        val = false;
 //    }
 //    var FullName = document.getElementById('FullName').value;
-//    if (FullName == "" || /\S/.test(FullName) == false) {
+//    if (FullName === "" || /\S/.test(FullName) === false) {
 //        $("#errname").html("Please enter FullName.");
 //        val = false;
 //    }
 //    var Email = document.getElementById('Email').value;
 
 //    var MobileNo = document.getElementById('MobileNo').value;
-//    if (MobileNo == "" || /\S/.test(MobileNo) == false) {
+//    if (MobileNo === "" || /\S/.test(MobileNo) === false) {
 //        $("#errmobile").html("Please enter MobileNo.");
 //        val = false;
 //    }
 //    var Address = document.getElementById('Address').value;
-//    if (Address == "" || /\S/.test(Address) == false) {
+//    if (Address === "" || /\S/.test(Address) === false) {
 //        $("#erraddress").html("Please enter Address.");
 //        val = false;
 //    }
-//    if (val == false) {
+//    if (val === false) {
 //        return;
 //    }
 
@@ -258,7 +275,7 @@ function MyProfile() {
 //        success: function (data) {
 
 //            if (data != null) {
-//                if (data.Response == 'Success') {
+//                if (data.Response === 'Success') {
 //                    toastr.success('Profile updated successfully');
 //                    MyProfile();
 //                }
@@ -274,7 +291,7 @@ function MyProfile() {
 
 
 function UpdateProfile(id) {
-debugger
+
     var val = true;
     var Id =id;
     var FullName = $('#FullName').val();
@@ -283,36 +300,36 @@ debugger
     var MobileNo = $('#MobileNo').val();
     var Address = $('#Address').val();
    
-    if (FullName == "" || /\S/.test(FullName) == false) {
+    if (FullName === "" || /\S/.test(FullName) === false) {
         $("#errFullName").html("Please enter first name.");
         val = false;
     }
    
-    if (UserName == "" || /\S/.test(UserName) == false) {
+    if (UserName === "" || /\S/.test(UserName) === false) {
         $("#errUserName").html("Please enter last name.");
         val = false;
     }
     
    
-    if (MobileNo == "" || MobileNo.trim() == '') {
+    if (MobileNo === "" || MobileNo.trim() === '') {
         $("#errMobile").html("Please enter mobile.");
         val = false;
     }
    
    
     
-    if (Email == '' || Email.trim() == '') {
+    if (Email === '' || Email.trim() === '') {
         $("#errEmail").html('Please enter email id.');
         return;
     }
    
     var formData = new FormData();
     var fileCount = document.getElementById("Profile").files.length;
-    var hdnfile = document.getElementById("hdnfile").value;
+    var hdnfile = document.getElementById("HiddenfileForImage").value;
 
-    if (hdnfile == null || hdnfile == "") {
+    if (hdnfile === null || hdnfile === "") {
         var Profile = document.getElementById('Profile').value;
-        if (Profile == null || Profile == "") {
+        if (Profile === null || Profile === "") {
             $("#errProfile").html("Please select Profile.");
             return;
         }
@@ -320,7 +337,7 @@ debugger
             for (var i = 0; i < fileCount; i++) {
                 var Profile = document.getElementById("Profile").files[i];
                 var ext = Profile.name.split('.').pop();
-                if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
+                if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
                     formData.append("Profile", Profile);
                 }
                 else {
@@ -336,7 +353,7 @@ debugger
 
     }
     
-    if (val == false) {
+    if (val === false) {
         return;
     }
 
@@ -358,8 +375,8 @@ debugger
         processData: false,
         data: formData,
         success: function (data) {
-            if (data != null) {
-                if (data.Response == 'Success') {
+            if (data !== null) {
+                if (data.Response === 'Success') {
                     toastr.success('Profile updated successfully');
                     MyProfile();
                 }
@@ -384,15 +401,15 @@ function ChangePassword() {
     var retypePassword = document.getElementById('retypePassword').value;
     var newPassword = document.getElementById('newPassword').value;
 
-    if (oldPassword == "" || /\S/.test(oldPassword) == false) {
+    if (oldPassword === "" || /\S/.test(oldPassword) === false) {
         $("#errOldPass").html("Please enter old Password.");
         val = false;
     }
-    if (retypePassword == "" || /\S/.test(retypePassword) == false) {
+    if (retypePassword === "" || /\S/.test(retypePassword) === false) {
         $("#errRetypePass").html("Please enter re-type Password.");
         val = false;
     }
-    if (newPassword == "" || /\S/.test(newPassword) == false) {
+    if (newPassword === "" || /\S/.test(newPassword) === false) {
         $("#errNewPass").html("Please enter New Password.");
         val = false;
     }
@@ -400,12 +417,12 @@ function ChangePassword() {
         toastr.error('OldPassword and Re-TypePassword do not match.');
         val = false;
     }
-    if (newPassword == oldPassword && newPassword != "" && oldPassword != "") {
+    if (newPassword === oldPassword && newPassword !== "" && oldPassword !== "") {
         toastr.error('NewPassword and OldPassword are same.');
         val = false;
     }
 
-    if (val == false) {
+    if (val === false) {
         return;
     }
 
@@ -424,8 +441,8 @@ function ChangePassword() {
         }),
         success: function (data) {
 
-            if (data != null) {
-                if (data.Response == 'Success') {
+            if (data !== null) {
+                if (data.Response === 'Success') {
                     toastr.success('Password changed successfully');
                     MyProfile();
                 }

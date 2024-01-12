@@ -70,6 +70,8 @@ namespace InvoiceManagementSystem.Models
         public HttpPostedFileBase[] Profile { get; set; }
         public string ProfileImg { get; set; }
 
+        public string HiddenfileForImage { get; set; }
+
         public List<TeacherModel> LSTTeacherList { get; set; }
         public List<ClassRoomModel> LSTClassRoomList { get; set; }
 
@@ -192,7 +194,6 @@ namespace InvoiceManagementSystem.Models
                     for (var i = 0; i < dt.Rows.Count; i++)
                     {
                         TeacherModel obj = new TeacherModel();
-
 
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.Title = dt.Rows[i]["Title"] == null || dt.Rows[i]["Title"].ToString().Trim() == "" ? null : dt.Rows[i]["Title"].ToString();

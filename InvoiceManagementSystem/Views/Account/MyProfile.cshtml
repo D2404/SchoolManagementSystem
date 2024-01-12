@@ -20,15 +20,15 @@
             <div class="row gx-4">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
-                        <img src="/Data/Profile/@Session["Profile"]" alt="profile_image" class="w-100 border-radius-lg shadow-sm" style="height:55px">
+                        <i class="fas fa-user text-info text-lg opacity-10"></i>
                     </div>
                 </div>
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        <h5 class="mb-1">
+                        <h5 class="mb-1" style="color:black">
                             @Session["FullName"]
                         </h5>
-                        <p class="mb-0 font-weight-bold text-sm">
+                        <p class="mb-0 font-weight-bold text-sm" style="color:black">
                             @Session["RoleName"]
                         </p>
                     </div>
@@ -60,6 +60,66 @@
         <div id="profile" class="tab-pane">
             <div class="container-fluid py-4">
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="card card-profile">
+                            <img src="~/Data//assets/img/bg-profile.jpg" alt="Image placeholder" class="card-img-top">
+                            <div class="row justify-content-center">
+                                <div class="col-4 col-lg-4 order-lg-2">
+                                    <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                                        <a href="javascript:;">
+                                            @*<img src="/Data/Profile/@Session["Profile"]" class="rounded-circle img-fluid border border-2 border-white">*@
+
+                                            <img src="/Data/Profile/@Session["Profile"]" class="w-100 border-radius-lg shadow-sm rounded-circle img-fluid border border-2 border-white" style="height:85px">
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
+                    <div class="d-flex justify-content-between">
+                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
+                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-block d-lg-none"><i class="ni ni-collection"></i></a>
+                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-none d-lg-block">Message</a>
+                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-block d-lg-none"><i class="ni ni-email-83"></i></a>
+                    </div>
+                </div>*@
+                            <div class="card-body pt-0">
+                                @*<div class="row">
+                        <div class="col">
+                            <div class="d-flex justify-content-center">
+                                <div class="d-grid text-center">
+                                    <span class="text-lg font-weight-bolder">22</span>
+                                    <span class="text-sm opacity-8">Friends</span>
+                                </div>
+                                <div class="d-grid text-center mx-4">
+                                    <span class="text-lg font-weight-bolder">10</span>
+                                    <span class="text-sm opacity-8">Photos</span>
+                                </div>
+                                <div class="d-grid text-center">
+                                    <span class="text-lg font-weight-bolder">89</span>
+                                    <span class="text-sm opacity-8">Comments</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                                <div class="text-center mt-4">
+                                    <h5 style="font-size:15px;">
+                                        <i class="fa fa-user"></i>
+                                        @Model.LSTAccountList[0].UserName
+                                    </h5>
+                                    <div class="h6 font-weight-300" style="font-size:15px;">
+                                        <span class="font-weight-light"><i class="fa fa-envelope"></i> @Model.LSTAccountList[0].Email</span>
+                                    </div>
+                                    <span class="font-weight-light" style="font-size:15px;"><i class="fa fa-phone"></i> @Model.LSTAccountList[0].Mobile</span>
+                                    <div class="p mt-4" style="font-size:15px;">
+                                        <i class="fa fa-address-book mr-2"></i> &nbsp; <b>@Model.LSTAccountList[0].Address</b>
+                                    </div>
+                                    @*<div>
+                            <i class="ni education_hat mr-2"></i>University of Computer Science
+                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-header pb-0">
@@ -86,9 +146,11 @@
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <input type="hidden" id="hdnfile" />
-                                            <label for="example-text-input" class="form-control-label">Profile&nbsp;&nbsp;
-                                            <i class="fa fa-info-circle btn-tooltip"  data-bs-toggle="tooltip" data-bs-placement="top" title="
-Re-login is required after profile change" aria-hidden="true" style="font-size: 21px;color: dodgerblue;"></i></label>
+                                            <label for="example-text-input" class="form-control-label">
+                                                Profile&nbsp;&nbsp;
+                                                <i class="fa fa-info-circle btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="
+Re-login is required after profile change" aria-hidden="true" style="font-size: 21px;color: dodgerblue;"></i>
+                                            </label>
                                             <input class="form-control form-control" id="Profile" type="file">
                                         </div>
                                         <div class="form-group" id="divFile" style="display:none">
@@ -125,7 +187,7 @@ Re-login is required after profile change" aria-hidden="true" style="font-size: 
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="example-text-input" class="form-control-label">Address <span style="color: red">*</span></label>
-                                            <textarea class="form-control form-control" id="Address"  value="@Model.LSTAccountList[0].Address"></textarea>
+                                            <textarea class="form-control form-control" id="Address" value="@Model.LSTAccountList[0].Address"></textarea>
                                             <span id="erraddress" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
@@ -136,6 +198,16 @@ Re-login is required after profile change" aria-hidden="true" style="font-size: 
                     </div>
 
 
+
+
+                </div>
+            </div>
+
+
+        </div>
+        <div id="setting" class="tab-pane">
+            <div class="container-fluid py-4">
+                <div class="row">
                     <div class="col-md-4">
                         <div class="card card-profile">
                             <img src="~/Data//assets/img/bg-profile.jpg" alt="Image placeholder" class="card-img-top">
@@ -143,40 +215,38 @@ Re-login is required after profile change" aria-hidden="true" style="font-size: 
                                 <div class="col-4 col-lg-4 order-lg-2">
                                     <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                                         <a href="javascript:;">
-                                            @*<img src="/Data/Profile/@Session["Profile"]" class="rounded-circle img-fluid border border-2 border-white">*@
-
                                             <img src="/Data/Profile/@Session["Profile"]" class="w-100 border-radius-lg shadow-sm rounded-circle img-fluid border border-2 border-white" style="height:85px">
                                         </a>
                                     </div>
                                 </div>
                             </div>
                             @*<div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
-                                    <div class="d-flex justify-content-between">
-                                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
-                                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-block d-lg-none"><i class="ni ni-collection"></i></a>
-                                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-none d-lg-block">Message</a>
-                                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-block d-lg-none"><i class="ni ni-email-83"></i></a>
-                                    </div>
-                                </div>*@
+                    <div class="d-flex justify-content-between">
+                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
+                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-block d-lg-none"><i class="ni ni-collection"></i></a>
+                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-none d-lg-block">Message</a>
+                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-block d-lg-none"><i class="ni ni-email-83"></i></a>
+                    </div>
+                </div>*@
                             <div class="card-body pt-0">
                                 @*<div class="row">
-                                        <div class="col">
-                                            <div class="d-flex justify-content-center">
-                                                <div class="d-grid text-center">
-                                                    <span class="text-lg font-weight-bolder">22</span>
-                                                    <span class="text-sm opacity-8">Friends</span>
-                                                </div>
-                                                <div class="d-grid text-center mx-4">
-                                                    <span class="text-lg font-weight-bolder">10</span>
-                                                    <span class="text-sm opacity-8">Photos</span>
-                                                </div>
-                                                <div class="d-grid text-center">
-                                                    <span class="text-lg font-weight-bolder">89</span>
-                                                    <span class="text-sm opacity-8">Comments</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>*@
+                        <div class="col">
+                            <div class="d-flex justify-content-center">
+                                <div class="d-grid text-center">
+                                    <span class="text-lg font-weight-bolder">22</span>
+                                    <span class="text-sm opacity-8">Friends</span>
+                                </div>
+                                <div class="d-grid text-center mx-4">
+                                    <span class="text-lg font-weight-bolder">10</span>
+                                    <span class="text-sm opacity-8">Photos</span>
+                                </div>
+                                <div class="d-grid text-center">
+                                    <span class="text-lg font-weight-bolder">89</span>
+                                    <span class="text-sm opacity-8">Comments</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
                                 <div class="text-center mt-4">
                                     <h5 style="font-size:15px;">
                                         <i class="fa fa-user"></i>
@@ -190,21 +260,12 @@ Re-login is required after profile change" aria-hidden="true" style="font-size: 
                                         <i class="fa fa-address-book mr-2"></i> &nbsp; <b>@Model.LSTAccountList[0].Address</b>
                                     </div>
                                     @*<div>
-                                            <i class="ni education_hat mr-2"></i>University of Computer Science
-                                        </div>*@
+                            <i class="ni education_hat mr-2"></i>University of Computer Science
+                        </div>*@
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                </div>
-            </div>
-
-
-        </div>
-        <div id="setting" class="tab-pane">
-            <div class="container-fluid py-4">
-                <div class="row">
                     <div class="col-md-8">
                         <div class="card">
                             <div class="card-header pb-0">
@@ -244,64 +305,7 @@ Re-login is required after profile change" aria-hidden="true" style="font-size: 
                     </div>
 
 
-                    <div class="col-md-4">
-                        <div class="card card-profile">
-                            <img src="~/Data//assets/img/bg-profile.jpg" alt="Image placeholder" class="card-img-top">
-                            <div class="row justify-content-center">
-                                <div class="col-4 col-lg-4 order-lg-2">
-                                    <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
-                                        <a href="javascript:;">
-                                            <img src="/Data/Profile/@Session["Profile"]" class="w-100 border-radius-lg shadow-sm rounded-circle img-fluid border border-2 border-white" style="height:85px">
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            @*<div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
-                                    <div class="d-flex justify-content-between">
-                                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
-                                        <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-block d-lg-none"><i class="ni ni-collection"></i></a>
-                                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-none d-lg-block">Message</a>
-                                        <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-block d-lg-none"><i class="ni ni-email-83"></i></a>
-                                    </div>
-                                </div>*@
-                            <div class="card-body pt-0">
-                                @*<div class="row">
-                                        <div class="col">
-                                            <div class="d-flex justify-content-center">
-                                                <div class="d-grid text-center">
-                                                    <span class="text-lg font-weight-bolder">22</span>
-                                                    <span class="text-sm opacity-8">Friends</span>
-                                                </div>
-                                                <div class="d-grid text-center mx-4">
-                                                    <span class="text-lg font-weight-bolder">10</span>
-                                                    <span class="text-sm opacity-8">Photos</span>
-                                                </div>
-                                                <div class="d-grid text-center">
-                                                    <span class="text-lg font-weight-bolder">89</span>
-                                                    <span class="text-sm opacity-8">Comments</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>*@
-                                <div class="text-center mt-4">
-                                    <h5 style="font-size:15px;">
-                                        <i class="fa fa-user"></i>
-                                        @Model.LSTAccountList[0].UserName
-                                    </h5>
-                                    <div class="h6 font-weight-300" style="font-size:15px;">
-                                        <span class="font-weight-light"><i class="fa fa-envelope"></i> @Model.LSTAccountList[0].Email</span>
-                                    </div>
-                                    <span class="font-weight-light" style="font-size:15px;"><i class="fa fa-phone"></i> @Model.LSTAccountList[0].Mobile</span>
-                                    <div class="p mt-4" style="font-size:15px;">
-                                        <i class="fa fa-address-book mr-2"></i> &nbsp; <b>@Model.LSTAccountList[0].Address</b>
-                                    </div>
-                                    @*<div>
-                                            <i class="ni education_hat mr-2"></i>University of Computer Science
-                                        </div>*@
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
 
                 </div>
             </div>

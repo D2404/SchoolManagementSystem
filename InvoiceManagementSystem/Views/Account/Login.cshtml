@@ -14,18 +14,8 @@
 
 <!-- Mirrored from html.codedthemes.com/gradient-able/default/auth-normal-sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 27 Dec 2017 07:41:03 GMT -->
 <head>
-    <title>SMS - School Management System</title>
-
-    <!--[if lt IE 10]>
-          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-          <![endif]-->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="File Tracking,approval Management system" />
-    <meta name="keywords" content="Nagarpalika File Tracking,approval Management system" />
-    <meta name="author" content="Nagarpalika File Management system" />
+    <link rel="icon" type="image/png" href="~/Data/assets/img/muktajivan-school-logo.png">
+    <title>Login</title>
     <link rel="shortcut icon" href="" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/Content/files/bower_components/bootstrap/css/bootstrap.min.css">
@@ -34,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/files/assets/icon/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="~/Content/files/assets/css/style.css">
     <link href="~/Content/files/assets/icon/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
     <script src="~/Content/files/bower_components/jquery-ui/js/jquery-3.3.1.min.js"></script>
     <script src="~/Content/files/bower_components/jquery-ui/js/jquery-3.3.1.js"></script>
     <script src="~/Scripts/jquery.validate.js"></script>
@@ -56,11 +47,11 @@
                         <div class="auth-box">
                             <div class="row m-b-20">
                                 <div class="col-md-12">
-                                    <img src="~/Data/assets/img/muktajivan-school-logo.png" style="width:120px"/>
+                                    <img src="~/Data/assets/img/muktajivan-school-logo.png" style="width:120px" />
                                     <h5 style="color:#666666">SMS <br />Shree Muktajivan School</h5>
 
 
-                                </div>     
+                                </div>
                             </div>
 
 
@@ -116,12 +107,12 @@
     <script src="~/Content/files/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
     <script src="~/Content/files/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
     <script src="~/Content/files/bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
     <script src="~/Content/files/assets/js/common-pages.js"></script>
-    <script src="~/Scripts/General/aes.js"></script>
-    
+
     <script>
         function Login() {
-            
+
             var val = true;
             var UserName = document.getElementById('UserName').value;
             var Password = document.getElementById('Password').value;

@@ -62,10 +62,10 @@ namespace InvoiceManagementSystem.Controllers
                 cls = cls.Login(cls);
                 if (cls.Id > 0)
                 {
-
                     Session["Id"] = cls.Id;
                     Session["UserName"] = cls.UserName;
-                    Session["FullName"] = cls.FullName;
+                    Session["FatherName"] = cls.FatherName;
+                    Session["SurName"] = cls.SurName;
                     Session["RoleId"] = cls.RoleId;
                     Session["RoleName"] = cls.RoleName;
                     Session["Mobile"] = cls.Mobile;
@@ -75,21 +75,19 @@ namespace InvoiceManagementSystem.Controllers
                     Session["StudentId"] = cls.StudentId;
                     Session["ClassId"] = cls.ClassId;
                     
-                    //  Session["strPassword"] = res.strPassword;
-                    //Session["UserId"] = .intId;
-                    //Session["ProfilePic"] = "/Data/images/Profilepic/" + cls.strFile;
-                    //int id = cls.insertTodayAttendance();
-                    //Session["intDailyEntryId"] = id;
                     Session.Timeout = 22500;
                     HttpCookie userInfo = new HttpCookie("userInfo");
                     if (userInfo.Value == null)
                     {
                         userInfo["UserName"] = cls.Email;
-                        //userInfo["Password"] = clsCommon.DecryptString(res.strPassword);
                         Response.Cookies.Add(userInfo);
                         Response.Cookies["userInfo"].Expires = DateTime.Now.AddMonths(2);
                     }
-
+                }
+                if (cls.Response == "Success")
+                {
+                    // Set a success message in TempData to be accessed in the redirected action
+                    TempData["SuccessMessage"] = "Logged in successfully.";
                 }
                 return Json(cls.Response, JsonRequestBehavior.AllowGet);
             }

@@ -29,6 +29,10 @@ namespace InvoiceManagementSystem.Controllers
                     }
                     cls.LSTTeacherList = cls.GetTeacherDetailsList(cls);
                     cls.LSTStudentList = cls.GetStudentDetailsList(cls);
+                    var successMessage = TempData["SuccessMessage"] as string;
+
+                    // Pass success message to the view
+                    ViewBag.SuccessMessage = successMessage;
                     return View(cls);
                 }
                 else

@@ -15,11 +15,13 @@ namespace InvoiceManagementSystem.Models
         clsCommon objCommon = new clsCommon();
         public int? Id { get; set; }
         public string FullName { get; set; }
+        public string UserName { get; set; }
+        public string FatherName { get; set; }
+        public string SurName { get; set; }
         public HttpPostedFileBase[] Profile { get; set; }
 
         public string ProfileImg { get; set; }
 
-        public string UserName { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
         public string Password { get; set; }
@@ -112,8 +114,8 @@ namespace InvoiceManagementSystem.Models
                 {
                     obj.Id = Convert.ToInt32(dt.Rows[0]["Id"] == null || dt.Rows[0]["Id"].ToString().Trim() == "" ? "0" : dt.Rows[0]["Id"].ToString());
                     obj.Email = dt.Rows[0]["Email"] == null || dt.Rows[0]["Email"].ToString().Trim() == "" ? "" : dt.Rows[0]["Email"].ToString();
-                    obj.UserName = dt.Rows[0]["UserName"] == null || dt.Rows[0]["UserName"].ToString().Trim() == "" ? "" : dt.Rows[0]["UserName"].ToString();
                     obj.FullName = dt.Rows[0]["FullName"] == null || dt.Rows[0]["FullName"].ToString().Trim() == "" ? "" : dt.Rows[0]["FullName"].ToString();
+                    obj.UserName = dt.Rows[0]["UserName"] == null || dt.Rows[0]["UserName"].ToString().Trim() == "" ? "" : dt.Rows[0]["UserName"].ToString();
                     obj.Email = dt.Rows[0]["Email"] == null || dt.Rows[0]["Email"].ToString().Trim() == "" ? "" : dt.Rows[0]["Email"].ToString();
                     obj.Mobile = dt.Rows[0]["Mobile"] == null || dt.Rows[0]["Mobile"].ToString().Trim() == "" ? "" : dt.Rows[0]["Mobile"].ToString();
                     obj.ProfileImg = dt.Rows[0]["Profile"] == null || dt.Rows[0]["Profile"].ToString().Trim() == "" ? "" : dt.Rows[0]["Profile"].ToString();
@@ -183,9 +185,10 @@ namespace InvoiceManagementSystem.Models
                         AccountModel obj = new AccountModel();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.RoleId = Convert.ToInt32(dt.Rows[i]["RoleId"] == null || dt.Rows[i]["RoleId"].ToString().Trim() == "" ? null : dt.Rows[i]["RoleId"].ToString());
-                        obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.ProfileImg = dt.Rows[i]["Profile"] == null || dt.Rows[i]["Profile"].ToString().Trim() == "" ? null : dt.Rows[i]["Profile"].ToString();
                         obj.UserName = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
+                        obj.FatherName = dt.Rows[i]["FatherName"] == null || dt.Rows[i]["FatherName"].ToString().Trim() == "" ? null : dt.Rows[i]["FatherName"].ToString();
+                        obj.SurName = dt.Rows[i]["SurName"] == null || dt.Rows[i]["SurName"].ToString().Trim() == "" ? null : dt.Rows[i]["SurName"].ToString();
+                        obj.ProfileImg = dt.Rows[i]["Profile"] == null || dt.Rows[i]["Profile"].ToString().Trim() == "" ? null : dt.Rows[i]["Profile"].ToString();
                         obj.Mobile = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.Address = dt.Rows[i]["Address"] == null || dt.Rows[i]["Address"].ToString().Trim() == "" ? null : dt.Rows[i]["Address"].ToString();
@@ -237,11 +240,11 @@ namespace InvoiceManagementSystem.Models
                 SqlCommand cmd = new SqlCommand("Sp_UpdateProfile", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@FullName", cls.FullName);
-                //cmd.Parameters.AddWithValue("@RoleId", cls.RoleId);
+                cmd.Parameters.AddWithValue("@UserName", cls.UserName);
+                cmd.Parameters.AddWithValue("@FatherName", cls.FatherName);
+                cmd.Parameters.AddWithValue("@SurName", cls.SurName);
                 cmd.Parameters.AddWithValue("@MobileNo", cls.Mobile);
                 cmd.Parameters.AddWithValue("@Email", cls.Email);
-                cmd.Parameters.AddWithValue("@UserName", cls.UserName);
                 cmd.Parameters.AddWithValue("@Address", cls.Address);
                 cmd.Parameters.AddWithValue("@Profile", cls.ProfileImg);
 

@@ -3,6 +3,7 @@ $(document).ready(function () {
     GetClassRoom();
     GetTeacherList(1);
     GetTeacherGrid();
+    DisabledAnniversaryDate();
     $('#removeButton').hide();
     $('#FilterDiv').hide();
     $('#list-view').show();
@@ -26,16 +27,15 @@ $(document).ready(function () {
         $('#list-view').hide();
         $('#grid-view').hide();
         $('#bank-view').show();
-       
+
     });
     var currentDate = new Date().toISOString().slice(0, 10);
     document.getElementById('DateOfJoining').value = currentDate;
 
     var Id = $('#hdnintId').val();
-    
-    if (Id > 0) {
+
+    if (Id > 1) {
         $('#Passworddiv').hide();
-        $('#Profilediv').hide();
         $('#ClassRoomdiv').hide();
     }
     $("#sameAsAbove").on("change", function () {
@@ -55,43 +55,47 @@ $(document).ready(function () {
             $("#PermenantState").$('#PermenantState').val();
         }
     });
-    
+    $("#MaritalStatus").change(function () {
+        DisabledAnniversaryDate();
+    });
+
 });
 function openFileInput() {
     document.getElementById('Profile').click();
 }
 
 function displaySelectedImage(input) {
-    var profileImage = document.getElementById('profileImage');
+    var ProfileImg = document.getElementById('ProfileImg');
 
     if (input.files && input.files[0]) {
         var reader = new FileReader();
         reader.onload = function (e) {
-            profileImage.src = e.target.result;
+            ProfileImg.src = e.target.result;
             $('#removeButton').show(); // Show remove button when an image is selected
         };
         reader.readAsDataURL(input.files[0]);
     } else {
-        profileImage.src = "~/Data/Profile/dummy.jpg";
-        $('#removeButton').hide();
+        ProfileImg.src = "~/Data/Profile/dummy.jpg";
     }
 }
 
 function removeImage() {
-    debugger
-    //$('#profileImage').attr('src', '~/Data/Profile/dummy.jpg');
 
-    // Create a new file input with the default image and replace the existing one
-   // var newFileInput = $('<input type="file" id="Profile" class="form-control form-control-alternative" style="display: none;" onchange="displaySelectedImage(this)">');
-    //$('#Profile').replaceWith(newFileInput);
     $(".gambar").attr("src", "/Data/Profile/dummy.jpg");
-
+    $('#removeButton').hide();
+}
+function DisabledAnniversaryDate() {
+    if ($("#MaritalStatus").val() === "Single") {
+        $("#AnniversaryDate").prop("disabled", true);
+    } else {
+        $("#AnniversaryDate").prop("disabled", false);
+    }
 }
 function onlyNumbers(event) {
     var keyCode = event.which || event.keyCode;
 
     if ((keyCode >= 48 && keyCode <= 57) || keyCode === 8) {
-        return true; 
+        return true;
     } else {
         event.preventDefault();
         return false;
@@ -129,13 +133,13 @@ function GetTeacherList(page) {
     var FromDate = document.getElementById('FromDate').value;
     var ToDate = document.getElementById('ToDate').value;
     var intActive = document.getElementById('intActive').value;
-    if (document.getElementById('PageSize') != null) {
+    if (document.getElementById('PageSize') !== null) {
         PageSize = document.getElementById('PageSize').value;
     }
     else {
         PageSize = 10;
     }
-    if (page == undefined) {
+    if (page === undefined) {
         page = 1;
     }
     var PageIndex = page;
@@ -176,13 +180,13 @@ function GetTeacherGrid(page) {
     var FromDate = document.getElementById('FromDate').value;
     var ToDate = document.getElementById('ToDate').value;
     var intActive = document.getElementById('intActive').value;
-    if (document.getElementById('PageSize') != null) {
+    if (document.getElementById('PageSize') !== null) {
         PageSize = document.getElementById('PageSize').value;
     }
     else {
         PageSize = 10;
     }
-    if (page == undefined) {
+    if (page === undefined) {
         page = 1;
     }
     var PageIndex = page;
@@ -233,78 +237,73 @@ function ValidateBasicDetails(id) {
     var MobileNo = $('#MobileNo').val();
     var AlternateMobileNo = $('#AlternateMobileNo').val();
     var DateOfJoining = $('#DateOfJoining').val();
-    var DateOfLeaving = $('#DateOfLeaving').val();
     var ClassId = $('#ClassId').val();
     var Education = $('#Education').val();
     var MaritalStatus = $('#MaritalStatus').val();
     var AnniversaryDate = $('#AnniversaryDate').val();
     var Experience = $('#Experience').val();
     var RoleId = 2
-    if (Title == 0) {
+    if (Title === 0) {
         $("#errTitle").html("Please select title");
         val = false;
     }
-    
-    if (TeacherName == "" || /\S/.test(TeacherName) == false) {
+
+    if (TeacherName === "" || /\S/.test(TeacherName) === false) {
         $("#errTeacherName").html("Please enter teacher name.");
         val = false;
     }
-    if (FatherName == "" || /\S/.test(FatherName) == false) {
+    if (FatherName === "" || /\S/.test(FatherName) === false) {
         $("#errFatherName").html("Please enter father name.");
         val = false;
     }
-    if (Surname == "" || /\S/.test(Surname) == false) {
+    if (Surname === "" || /\S/.test(Surname) === false) {
         $("#errSurname").html("Please enter surname.");
         val = false;
     }
-    if (Gender == 0) {
+    if (Gender === 0) {
         $("#errGender").html("Please select gender.");
         val = false;
     }
-    if (BloodGroup == 0) {
+    if (BloodGroup === 0) {
         $("#errBloodGroup").html("Please select bloodroup.");
         val = false;
     }
-    if (Dob == "" || /\S/.test(Dob) == false) {
+    if (Dob === "" || /\S/.test(Dob) === false) {
         $("#errDob").html("Please select dob.");
         val = false;
     }
-    if (Email == "" || Email.trim() == '') {
+    if (Email === "" || Email.trim() === '') {
         $("#errEmail").html("Please enter email.");
         val = false;
     }
-    if (Password == "" || Password.trim() == '') {
+    if (Password === "" || Password.trim() === '') {
         $("#errPassword").html("Please enter password.");
         val = false;
     }
-    if (MobileNo == "" || MobileNo.trim() == '') {
+    if (MobileNo === "" || MobileNo.trim() === '') {
         $("#errMobile").html("Please enter mobile.");
         val = false;
     }
-    if (DateOfJoining == "" || /\S/.test(DateOfJoining) == false) {
+    if (DateOfJoining === "" || /\S/.test(DateOfJoining) === false) {
         $("#errDateOfJoining").html("Please select DateOfJoining.");
         val = false;
     }
-    if (DateOfLeaving == "" || /\S/.test(DateOfLeaving) == false) {
-        $("#errDateOfLeaving").html("Please select DateOfLeaving.");
-        val = false;
-    }
-    if (MaritalStatus == 0) {
+    if (MaritalStatus === 0) {
         $("#errMaritalStatus").html("Please select maritalstatus.");
         val = false;
     }
-    if (Education == "" || Education.trim() == '') {
+    if (Education === "" || Education.trim() === '') {
         $("#errEducation").html("Please enter education.");
         val = false;
     }
 
-    if (Experience == "" || /\S/.test(Experience) == false) {
+    if (Experience === "" || /\S/.test(Experience) === false) {
         $("#errExperience").html("Please select Experience.");
         val = false;
     }
-   
-    if (Id == 0) {
-        if (ClassId == 0) {
+
+    if (Id === 0) {
+        if (ClassId === 0) {
             $("#errClassId").html("Please select classroom");
             val = false;
         }
@@ -312,9 +311,9 @@ function ValidateBasicDetails(id) {
         var fileCount = document.getElementById("Profile").files.length;
         var hdnfile = document.getElementById("Profile").value;
 
-        if (hdnfile == null || hdnfile == "") {
+        if (hdnfile === null || hdnfile === "") {
             var Profile = document.getElementById('Profile').value;
-            if (Profile == null || Profile == "") {
+            if (Profile === null || Profile === "") {
                 $("#errProfile").html('Please select image.');
                 return;
             }
@@ -322,7 +321,7 @@ function ValidateBasicDetails(id) {
                 for (var i = 0; i < fileCount; i++) {
                     var Profile = document.getElementById("Profile").files[i];
                     var ext = Profile.name.split('.').pop();
-                    if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
+                    if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
                         formData.append("Profile", Profile);
                     }
                     else {
@@ -338,11 +337,11 @@ function ValidateBasicDetails(id) {
 
         }
     }
-    if (val == false) {
+    if (val === false) {
         return;
     }
 
-   
+
     ShowWait();
     if (id > 0) {
         $('#list-view').show();
@@ -355,7 +354,7 @@ function ValidateBasicDetails(id) {
     HideWait();
 }
 function ValidateAddressDetails(id) {
-    
+
     var val = true;
     var CurrentAddress = $('#CurrentAddress').val();
     var CurrentPincode = $('#CurrentPincode').val();
@@ -366,44 +365,44 @@ function ValidateAddressDetails(id) {
     var PermenantCity = $('#PermenantCity').val();
     var PermenantState = $('#PermenantState').val();
 
-    if (CurrentAddress == "" || /\S/.test(CurrentAddress) == false) {
+    if (CurrentAddress === "" || /\S/.test(CurrentAddress) === false) {
         $("#errCurrentAddress").html("Please enter current address.");
         val = false;
     }
-    if (CurrentPincode == "" || /\S/.test(CurrentPincode) == false) {
+    if (CurrentPincode === "" || /\S/.test(CurrentPincode) === false) {
         $("#errCurrentPincode").html("Please enter current pincode.");
         val = false;
     }
-    if (CurrentCity == "" || /\S/.test(CurrentCity) == false) {
+    if (CurrentCity === "" || /\S/.test(CurrentCity) === false) {
         $("#errCurrentCity").html("Please enter current city.");
         val = false;
     }
-    if (CurrentState == "" || /\S/.test(CurrentState) == false) {
+    if (CurrentState === "" || /\S/.test(CurrentState) === false) {
         $("#errCurrentState").html("Please enter current state.");
         val = false;
     }
-    if (PermenantAddress == "" || /\S/.test(PermenantAddress) == false) {
+    if (PermenantAddress === "" || /\S/.test(PermenantAddress) === false) {
         $("#errPermenantAddress").html("Please enter permanent address.");
         val = false;
     }
-    if (PermenantPincode == "" || /\S/.test(PermenantPincode) == false) {
+    if (PermenantPincode === "" || /\S/.test(PermenantPincode) === false) {
         $("#errPermenantPincode").html("Please enter permanent pincode.");
         val = false;
     }
-    if (PermenantCity == "" || /\S/.test(PermenantCity) == false) {
+    if (PermenantCity === "" || /\S/.test(PermenantCity) === false) {
         $("#errPermenantCity").html("Please enter permanent city.");
         val = false;
     }
-    if (PermenantState == "" || /\S/.test(PermenantState) == false) {
+    if (PermenantState === "" || /\S/.test(PermenantState) === false) {
         $("#errPermenantState").html("Please enter permanent city.");
         val = false;
     }
 
-    
-    if (val == false) {
+
+    if (val === false) {
         return;
     }
-  
+
     ShowWait();
     if (id > 0) {
         $('#grid-view').show();
@@ -416,11 +415,9 @@ function ValidateAddressDetails(id) {
     HideWait();
 }
 
-function InsertData() {
-    debugger
-
+function InsertData(id) {
     var val = true;
-    var Id = $('#hdnintId').val();
+    var Id = id;
     var Title = $('#Title').val();
     var TeacherName = $('#TeacherName').val();
     var FatherName = $('#FatherName').val();
@@ -433,14 +430,18 @@ function InsertData() {
     var MobileNo = $('#MobileNo').val();
     var AlternateMobileNo = $('#AlternateMobileNo').val();
     var DateOfJoining = $('#DateOfJoining').val();
-    var DateOfLeaving = $('#DateOfLeaving').val();
-    
     var Education = $('#Education').val();
     var MaritalStatus = $('#MaritalStatus').val();
     var AnniversaryDate = $('#AnniversaryDate').val();
     var Experience = $('#Experience').val();
-    var Profile = $('#Profile').val();
-    /*var ProfileImg = hdnfile;*/
+    if (id > 0) {
+
+        var hdnClassId = $('#hdnClassId').val();
+        var ClassId = hdnClassId;
+    }
+    else {
+        var ClassId = $('#ClassId').val();
+    }
     var CurrentAddress = $('#CurrentAddress').val();
     var CurrentPincode = $('#CurrentPincode').val();
     var CurrentCity = $('#CurrentCity').val();
@@ -453,64 +454,64 @@ function InsertData() {
     var BankBranch = $('#BankBranch').val();
     var AccountNo = $('#AccountNo').val();
     var IFSCCode = $('#IFSCCode').val();
+    
     var RoleId = 2
 
-    if (BankName == "" || /\S/.test(BankName) == false) {
+    if (BankName === "" || /\S/.test(BankName) === false) {
         $("#errBankName").html("Please enter bankname.");
         val = false;
     }
-    if (BankBranch == "" || /\S/.test(BankBranch) == false) {
+    if (BankBranch === "" || /\S/.test(BankBranch) === false) {
         $("#errBankBranch").html("Please enter bankbranch.");
         val = false;
     }
-    if (AccountNo == "" || /\S/.test(AccountNo) == false) {
+    if (AccountNo === "" || /\S/.test(AccountNo) === false) {
         $("#errAccountNo").html("Please enter accountno.");
         val = false;
     }
-    if (IFSCCode == "" || /\S/.test(IFSCCode) == false) {
+    if (IFSCCode === "" || /\S/.test(IFSCCode) === false) {
         $("#errIFSCCode").html("Please enter ifsccode.");
         val = false;
     }
-    if (Gender == "Male") {
+    if (Gender === "Male") {
         Gender = 1
     }
     else {
         Gender = 0
     }
     var formData = new FormData();
-    if (Id == 0) {
-        var ClassId = $('#ClassId').val();
-        
-        var fileCount = document.getElementById("Profile").files.length;
-        var hdnfile = document.getElementById("hdnfile").value;
 
-        if (hdnfile == null || hdnfile == "") {
-            var Profile = document.getElementById('Profile').value;
-            if (Profile == null || Profile == "") {
-                $("#errProfile").html('Please select image.');
-                return;
-            }
-            if (fileCount > 0) {
-                for (var i = 0; i < fileCount; i++) {
-                    var Profile = document.getElementById("Profile").files[i];
-                    var ext = Profile.name.split('.').pop();
-                    if (ext.toLowerCase() == "jpg" || ext.toLowerCase() == "jpeg" || ext.toLowerCase() == "png") {
-                        formData.append("Profile", Profile);
-                    }
-                    else {
-                        alert('Please upload valid file.');
-                        return;
-                    }
+    var fileCount = document.getElementById("Profile").files.length;
+    var hdnfile = $('#HiddenfileForImage').val();
+
+    if (hdnfile === null || hdnfile === "") {
+        var Profile = document.getElementById('Profile').value;
+        if (Profile === null || Profile === "") {
+            $("#errProfile").html('Please select image.');
+            return;
+        }
+        if (fileCount > 0) {
+            for (var i = 0; i < fileCount; i++) {
+                var Profile = document.getElementById("Profile").files[i];
+                var ext = Profile.name.split('.').pop();
+                if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
+                    formData.append("Profile", Profile);
+                }
+                else {
+                    alert('Please upload valid file.');
+                    return;
                 }
             }
         }
-        else {
-
-            var ProfileImg = hdnfile;
-
-        }
     }
-    if (val == false) {
+    else {
+
+        var ProfileImg = hdnfile;
+
+    }
+    
+
+    if (val === false) {
         return;
     }
     formData.append('Id', Id);
@@ -527,13 +528,13 @@ function InsertData() {
     formData.append('MobileNo', MobileNo);
     formData.append('AlternateMobileNo', AlternateMobileNo);
     formData.append('DateOfJoining', DateOfJoining);
-    formData.append('DateOfLeaving', DateOfLeaving);
     formData.append('ClassId', ClassId);
     formData.append('Education', Education);
     formData.append('MaritalStatus', MaritalStatus);
     formData.append('AnniversaryDate', AnniversaryDate);
     formData.append('Experience', Experience);
     formData.append('Profile', Profile);
+    formData.append('ProfileImg', ProfileImg);
     formData.append('CurrentAddress', CurrentAddress);
     formData.append('CurrentPincode', CurrentPincode);
     formData.append('CurrentCity', CurrentCity);
@@ -555,17 +556,17 @@ function InsertData() {
         processData: false,
         data: formData,
         success: function (data) {
-            if (data != null) {
-                if (data == 'Success' && Id == 0) {
+            if (data !== null) {
+                if (data === 'Success' && Id === 0) {
                     toastr.success('Teacher inserted successfully');
                     window.location.replace("/Teacher/TeacherList");
 
                 }
-                else if (data == 'Updated' && Id > 0) {
+                else if (data === 'Updated' && Id > 0) {
                     toastr.success('Teacher updated successfully');
                     window.location.replace("/Teacher/TeacherList");
                 }
-                else if (data == 'Exists') {
+                else if (data === 'Exists') {
                     toastr.error('Teacher already exists!');
                     document.getElementById('Email').value = "";
                 }
@@ -594,7 +595,7 @@ function deleteTeacher() {
         }),
         success: function (data) {
 
-            if (data.Response == 'Success' && Id > 0) {
+            if (data.Response === 'Success' && Id > 0) {
                 //alert('Teacher deleted successfully.');
                 toastr.success('Teacher deleted successfully');
                 //swal(
@@ -608,7 +609,7 @@ function deleteTeacher() {
                 GetTeacherGrid();
                 $('#delete_Teacher').click();
             }
-            //else if (data.Response == 'dependency') {
+            //else if (data.Response === 'dependency') {
             //    alert('Teacher already used in system.');
             //    document.getElementById('hdnintId').value = "0";
             //    GetTeacherList();
@@ -656,7 +657,7 @@ function Clear() {
 
 function ClearData(type) {
 
-    if (type == 1) {
+    if (type === 1) {
         var Id = document.getElementById('hdnintId').value;
         document.getElementById('FullName').value = "";
         $('#errFullName').html("");
@@ -676,7 +677,7 @@ function ClearData(type) {
 
         $("#ClassId").val('0').trigger('change');
         $('#errClassId').html("");
-        if (Id == "0") {
+        if (Id === "0") {
 
             document.getElementById('hdnintId').value = "0";
             document.getElementById('btnAdd').innerHTML = "Add";
@@ -725,13 +726,13 @@ function UpdateStatus() {
             cls: cls
         }),
         success: function (data) {
-            if (data == 'success') {
+            if (data === 'success') {
                 toastr.success('status updated successfully.');
                 document.getElementById('hdnintId').value = "0";
                 GetTeacherList(1);
                 $('#status').click();
             }
-            else if (data == 'Exist') {
+            else if (data === 'Exist') {
                 toastr.error('Exists');
             }
             else {

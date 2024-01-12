@@ -4,42 +4,44 @@
 }
 <div class="scrollable-container">
     <div class="row" id="gridview">
-        @for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+        @if (Model != null && Model.LSTTeacherList.Count > 0)
         {
-            var item = Model.LSTTeacherList[i];
-            no = no + 1;
-            string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
-            <br /> <!-- Add line break before each new row -->
-
-            <div class="col-md-4">
-                <div class="grid">
-                    <figure class="effect-oscar">
-                        @if (item.ProfileImg == null || item.ProfileImg == "")
-                        {
-                            <img src="~/Data/Profile/Image_not_available.png" alt="img03" class="card-img-top">
-                        }
-                        else
-                        {
-                            <img src="~/Data/Profile/@item.ProfileImg" alt="Image placeholder" class="card-img-top">
-                        }
-                    <figcaption style="color: black">
-                        <h4 style="color: black">@SrNo    <b>@item.TeacherName</b></h4>
-                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-user"></i>  @item.FullName</p>
-                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-calendar"></i>  @item.Dob</p>
-                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-envelope"></i>  @item.Email</p>
-                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-phone"></i>  @item.MobileNo</p>
-                        <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-address-book"></i>  @item.CurrentAddress</p>
-
-                        <p>
-                            <a href="/Teacher/Teacher?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;color:blue " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: blue">  <b>Edit</b></i></a>  |
-                            <a href="/Teacher/ViewTeacher?Id=@item.Id" title="View Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;  color: yellow " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: yellow">  <b>View</b></i></a>  |
-                            <a href="javascript:;" style="font-size: 13px; padding-top: 1px;  color: red" data-bs-toggle="modal" data-bs-target="#delete_Teacher" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: red">  <b>Delete</b></i></a>
-                        </p>
-                    </figcaption>
-                    </figure>   
+            for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+            {
+                var item = Model.LSTTeacherList[i];
+                no = no + 1;
+                string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
+                <br /> <!-- Add line break before each new row -->
+                <div class="col-md-4">
+                    <div class="grid">
+                        <figure class="effect-oscar">
+                            @if (item.ProfileImg == null || item.ProfileImg == "" || item.ProfileImg == "undefined")
+                            {
+                                <img src="/Data/Profile/dummy.jpg" alt="Image placeholder" class="card-img-top"> }
+                            else
+                            {
+                                <img src="~/Data/Profile/@item.ProfileImg" alt="Image placeholder" class="card-img-top">}
+                            <figcaption style="color: black">
+                                <h4 style="color: black">@SrNo    <b>@item.TeacherName</b></h4>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-user"></i>  @item.FullName</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-calendar"></i>  @item.Dob</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-envelope"></i>  @item.Email</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-phone"></i>  @item.MobileNo</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-address-book"></i>  @item.CurrentAddress</p>
+                                <p>
+                                    <a href="/Teacher/Teacher?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;color:blue " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: blue">  <b>Edit</b></i></a>  |
+                                    <a href="/Teacher/ViewTeacher?Id=@item.Id" title="View Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;  color: yellow " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: yellow">  <b>View</b></i></a>  |
+                                    <a href="javascript:;" style="font-size: 13px; padding-top: 1px;  color: red" data-bs-toggle="modal" data-bs-target="#delete_Teacher" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: red">  <b>Delete</b></i></a>
+                                </p>
+                            </figcaption>
+                        </figure>
+                    </div>
                 </div>
-
-            </div>
+            }
+        }
+        else
+        {
+        <p class="text-xs font-weight-bold mb-0" style="text-align: center;color:black"><b>No Record Found</b></p>
         }
     </div>
 </div>
@@ -109,5 +111,3 @@
                 }
             </div>
         </div>
-    </div>
-</div>
