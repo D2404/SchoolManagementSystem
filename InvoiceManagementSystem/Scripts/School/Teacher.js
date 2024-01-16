@@ -434,14 +434,7 @@ function InsertData(id) {
     var MaritalStatus = $('#MaritalStatus').val();
     var AnniversaryDate = $('#AnniversaryDate').val();
     var Experience = $('#Experience').val();
-    if (id > 0) {
-
-        var hdnClassId = $('#hdnClassId').val();
-        var ClassId = hdnClassId;
-    }
-    else {
-        var ClassId = $('#ClassId').val();
-    }
+    
     var CurrentAddress = $('#CurrentAddress').val();
     var CurrentPincode = $('#CurrentPincode').val();
     var CurrentCity = $('#CurrentCity').val();
@@ -473,18 +466,26 @@ function InsertData(id) {
         $("#errIFSCCode").html("Please enter ifsccode.");
         val = false;
     }
-    if (Gender === "Male") {
+    if (Gender === true) {
         Gender = 1
     }
     else {
         Gender = 0
+    }
+    if (id > 0) {
+
+        var hdnClassId = $('#hdnClassId').val();
+        var ClassId = hdnClassId;
+    }
+    else {
+        var ClassId = $('#ClassId').val();
     }
     var formData = new FormData();
 
     var fileCount = document.getElementById("Profile").files.length;
     var hdnfile = $('#HiddenfileForImage').val();
 
-    if (hdnfile === null || hdnfile === "") {
+    if (hdnfile === null || hdnfile === "" || hdnfile === undefined) {
         var Profile = document.getElementById('Profile').value;
         if (Profile === null || Profile === "") {
             $("#errProfile").html('Please select image.');

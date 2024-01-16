@@ -1,5 +1,7 @@
 ﻿@model InvoiceManagementSystem.Models.TeacherModel
-
+@{
+    int no = 0;
+}
 <a href="#" class="btn bg-gradient-dark" onclick="GoBack(1)" style="margin-left: 860px;">
     <i class="fa fa-arrow-left" aria-hidden="true"></i>
     Back
@@ -7,90 +9,99 @@
 <table class="table align-items-center mb-0">
     <thead>
         <tr>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Sr No.</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Profile</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Full Name</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">User Name</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Email</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Mobile</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Dob</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Gender</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
-
-
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Sr No.</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Profile</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Full Name</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">User Name</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Email</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Mobile</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Dob</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Gender</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7 ps-2" style="text-align: center;">Status</th>
         </tr>
     </thead>
     @if (Model != null && Model.LSTTeacherList.Count > 0)
     {
-        <tbody id="tblBody">
-            @for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+<tbody id="tblBody">
+    <h6 style="margin-left: 428px; color:white;margin-top:-53px">(<b>ClassRoom -</b> @Model.LSTTeacherList[0].ClassNo)</h6>
+    @for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+    {
+        var item = Model.LSTTeacherList[i];
+        no = no + 1;
+        string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
+
+        <tr>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@SrNo</p>
+            </td>
+            @if (item.ProfileImg == null || item.ProfileImg == "")
             {
-                var item = Model.LSTTeacherList[i];
-
-                <h6 style="margin-left: 428px; color:white;margin-top:-53px">(<b>ClassRoom -</b> @item.ClassNo)</h6>
-                <tr>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.TotalRecord</p>
-                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
-                    </td>
-                    @if (item.ProfileImg == null || item.ProfileImg == "")
-                    {
-                        <td> <img src="~/Data/Profile/noimage.jpg" width="150" height="150" /></td>
-                    }
-                    else
-                    {
-                        <td><img src="/Data/Profile/@item.ProfileImg" width="50" height="50"></td>
-                    }
-                    <td>
-                        <div class="d-flex px-2 py-1">
-                            <div class="d-flex flex-column justify-content-center">
-                                <a href="javascript:void(0);" onclick="GetStudentByTeacher(@item.Id)">
-                                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;color: #0ad1e4;text-decoration:underline">@item.FullName</h5>
-                                </a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.UserName</p>
-                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.Email</p>
-                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.MobileNo</p>
-                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.Dob</p>
-                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
-                    </td>
-                    @if (item.Gender == false)
-                    {
-                        <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Male</p></td>
-                    }
-                    else
-                    {
-                        <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Female</p></td>
-                    }
-                    <td>
-
-                        <a style="margin-left: 10px;color: white" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-success"></i> Active</a>
-                    </td>
-
-
-
-                </tr>
+                <td> <img src="~/Data/Profile/noimage.jpg" width="150" height="150" /></td>
             }
-        </tbody>
+            else
+            {
+                <td><img src="/Data/Profile/@item.ProfileImg" width="50" height="50"></td>
+            }
+            <td>
+                <div class="d-flex px-2 py-1">
+                    <div class="d-flex flex-column justify-content-center">
+                        <a href="javascript:void(0);" onclick="GetStudentByTeacher(@item.Id)">
+                            <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;color: #0ad1e4;text-decoration:underline">@item.TeacherName</h5>
+                        </a>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.Surname</p>
+                @*
+                    <p class="text-xs text-secondary mb-0">Organization</p>
+                *@
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.Email</p>
+                @*
+                    <p class="text-xs text-secondary mb-0">Organization</p>
+                *@
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.MobileNo</p>
+                @*
+                    <p class="text-xs text-secondary mb-0">Organization</p>
+                *@
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.Dob</p>
+                @*
+                    <p class="text-xs text-secondary mb-0">Organization</p>
+                *@
+            </td>
+            @if (item.Gender == false)
+            {
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">Male</p>
+                </td>
+            }
+            else
+            {
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">Female</p>
+                </td>
+            }
+            <td>
+                <a style="margin-left: 10px;color: white" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-success"></i> Active</a>
+            </td>
+        </tr>
+    }
+</tbody>
     }
     else
     {
         <tr>
             <td colspan="7">
                 <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white"><b>No Record Found</b></p>
-                @*<h5 style="text-align: center;"><b>No Record Found</b></h5>*@
+                @*
+                    <h5 style="text-align: center;"><b>No Record Found</b></h5>
+                *@
             </td>
         </tr>
     }
@@ -102,13 +113,10 @@
     </div>
     <div class="col-lg-12" style="bottom: 13px;">
         <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
-
             @if (Model != null && Model.LSTTeacherList != null && Model.LSTTeacherList.Count > 0)
             {
-
                 var start = (Model.LSTTeacherList[0].PageIndex - 1) * Model.LSTTeacherList[0].PageSize + 1;
                 var end = Model.LSTTeacherList[0].PageSize;
-
                 if (Model.LSTTeacherList[0].PageSize < Model.LSTTeacherList[0].TotalRecord)
                 {
                     end = Model.LSTTeacherList[0].PageSize * Model.LSTTeacherList[0].PageIndex;
@@ -122,7 +130,6 @@
                     end = Model.LSTTeacherList[0].TotalRecord;
                 }
                 <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: white;font-size:13px">Showing @start to @end of @Model.LSTTeacherList[0].TotalRecord  entries</span>}
-
             <div id="divPagination">
                 @if (Model.LSTTeacherList != null && Model.LSTTeacherList.Count > 0)
                 {
@@ -159,16 +166,12 @@
                                         <a onclick="GetTeacherList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
                                     </li>
                                 }
-                            </ol>}
+                            </ol>
+                        }
                     }
                 }
             </div>
         </div>
     </div>
 </div>
-<script>
-
-
-
-
-</script>
+<script></script>

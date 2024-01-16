@@ -114,7 +114,7 @@ namespace InvoiceManagementSystem.Models
                 {
                     obj.Id = Convert.ToInt32(dt.Rows[0]["Id"] == null || dt.Rows[0]["Id"].ToString().Trim() == "" ? "0" : dt.Rows[0]["Id"].ToString());
                     obj.Email = dt.Rows[0]["Email"] == null || dt.Rows[0]["Email"].ToString().Trim() == "" ? "" : dt.Rows[0]["Email"].ToString();
-                    obj.FullName = dt.Rows[0]["FullName"] == null || dt.Rows[0]["FullName"].ToString().Trim() == "" ? "" : dt.Rows[0]["FullName"].ToString();
+                    obj.SurName = dt.Rows[0]["SurName"] == null || dt.Rows[0]["SurName"].ToString().Trim() == "" ? "" : dt.Rows[0]["SurName"].ToString();
                     obj.UserName = dt.Rows[0]["UserName"] == null || dt.Rows[0]["UserName"].ToString().Trim() == "" ? "" : dt.Rows[0]["UserName"].ToString();
                     obj.Email = dt.Rows[0]["Email"] == null || dt.Rows[0]["Email"].ToString().Trim() == "" ? "" : dt.Rows[0]["Email"].ToString();
                     obj.Mobile = dt.Rows[0]["Mobile"] == null || dt.Rows[0]["Mobile"].ToString().Trim() == "" ? "" : dt.Rows[0]["Mobile"].ToString();
@@ -173,7 +173,7 @@ namespace InvoiceManagementSystem.Models
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("sp_GetMyProfile", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", cls.Id);
+                cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -183,7 +183,7 @@ namespace InvoiceManagementSystem.Models
                     for (var i = 0; i < dt.Rows.Count; i++)
                     {
                         AccountModel obj = new AccountModel();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.TeacherId = Convert.ToInt32(dt.Rows[i]["TeacherId"] == null || dt.Rows[i]["TeacherId"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherId"].ToString());
                         obj.RoleId = Convert.ToInt32(dt.Rows[i]["RoleId"] == null || dt.Rows[i]["RoleId"].ToString().Trim() == "" ? null : dt.Rows[i]["RoleId"].ToString());
                         obj.UserName = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
                         obj.FatherName = dt.Rows[i]["FatherName"] == null || dt.Rows[i]["FatherName"].ToString().Trim() == "" ? null : dt.Rows[i]["FatherName"].ToString();
@@ -211,7 +211,7 @@ namespace InvoiceManagementSystem.Models
         {
             AccountModel res = new AccountModel();
             try
-            {
+            {   
                 if (cls.Profile != null && cls.Profile.Length > 0)
                 {
                     string Profile = ("Profile_" + cls.Id + "_" + DateTime.Now.Ticks).ToString();
@@ -239,7 +239,7 @@ namespace InvoiceManagementSystem.Models
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Sp_UpdateProfile", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 cmd.Parameters.AddWithValue("@UserName", cls.UserName);
                 cmd.Parameters.AddWithValue("@FatherName", cls.FatherName);
                 cmd.Parameters.AddWithValue("@SurName", cls.SurName);
