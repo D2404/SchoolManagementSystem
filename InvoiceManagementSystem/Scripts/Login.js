@@ -191,27 +191,17 @@ function CheckPassword() {
 
 
 function MyProfile() {
+    var cls = {}
     ShowWait();
     $.ajax({
         url: '/Account/GetMyProfile',
         contentType: "application/json; charset=utf-8",
         type: "POST",
-        data: {},
+        data: JSON.stringify({
+            cls: cls
+        }),
         success: function (data) {
-            if (data !== null) {
-                document.getElementById('hdnintId').value = data.LSTAccountList[0].Id;
-                document.getElementById('UserName').value = data.LSTAccountList[0].UserName;
-                document.getElementById('FatherName').value = data.LSTAccountList[0].FatherName;
-                document.getElementById('SurName').value = data.LSTAccountList[0].SurName;
-                document.getElementById('Email').value = data.LSTAccountList[0].Email;
-                document.getElementById('MobileNo').value = data.LSTAccountList[0].Mobile;
-                document.getElementById('Address').value = data.LSTAccountList[0].Address;
-            }
-            else {
-                alert('error');
-            }
             HideWait();
-
         },
         error: function (xhr) {
             HideWait();
@@ -225,12 +215,15 @@ function UpdateProfile(id) {
     var val = true;
     var Id =id;
     var UserName = $('#UserName').val();
+    var UserName1 = $('#UserName1').val();
     var FatherName = $('#FatherName').val();
-    var Surname = $('#Surname').val();
+    var SurName = $('#SurName').val();
+    var SurName1 = $('#SurName1').val();
     var Email = $('#Email').val();
     var MobileNo = $('#MobileNo').val();
     var Address = $('#Address').val();
-
+    UserName1 = UserName;
+    SurName1 = SurName;
     if (UserName === "" || /\S/.test(UserName) === false) {
         $("#errUserName").html("Please enter last name.");
         val = false;
@@ -239,8 +232,8 @@ function UpdateProfile(id) {
         $("#errFatherName").html("Please enter father name.");
         val = false;
     }
-    if (Surname === "" || /\S/.test(Surname) === false) {
-        $("#errSurname").html("Please enter surname.");
+    if (SurName === "" || /\S/.test(SurName) === false) {
+        $("#errSurName").html("Please enter surname.");
         val = false;
     }
    
@@ -256,26 +249,29 @@ function UpdateProfile(id) {
    
     var formData = new FormData();
 
+    var hdnfile = document.getElementById('HiddenfileForImage').value;
     var fileCount = document.getElementById("Profile").files.length;
 
-        var Profile = document.getElementById('Profile').value;
-        if (Profile === null || Profile === "") {
-            $("#errProfile").html('Please select image.');
-            return;
-        }
-        if (fileCount > 0) {
-            for (var i = 0; i < fileCount; i++) {
-                var Profile = document.getElementById("Profile").files[i];
-                var ext = Profile.name.split('.').pop();
-                if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
-                    formData.append("Profile", Profile);
-                }
-                else {
-                    alert('Please upload valid file.');
-                    return;
-                }
+    var Profile = document.getElementById('Profile').value;
+
+    if (Profile === null || Profile === "") {
+        // Use the old image if Profile is empty
+        Profile = hdnfile;
+    }
+
+    if (fileCount > 0) {
+        for (var i = 0; i < fileCount; i++) {
+            var Profile = document.getElementById("Profile").files[i];
+            var ext = Profile.name.split('.').pop();
+
+            if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
+                formData.append("Profile", Profile);
+            } else {
+                alert('Please upload valid file.');
+                return;
             }
         }
+    }
 
     if (val === false) {
         return;
@@ -283,7 +279,7 @@ function UpdateProfile(id) {
 
     formData.append('Id', Id);
     formData.append('FatherName', FatherName);
-    formData.append('Surname', Surname);
+    formData.append('SurName', SurName);
     formData.append('UserName', UserName);
     formData.append('Email', Email);
     formData.append('Mobile', MobileNo);

@@ -245,30 +245,30 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Gender <span class="text-danger">*</span></label><br />
+                                            <label for="example-text-input" class="                                                                                                                                 form-control-label">Gender <span class="text-danger">*</span></label><br />
                                             @if (Model.LSTTeacherList[0].Id > 1)
                                             {
-                                                <label>
-                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Male", Model.LSTTeacherList[0].Gender == true ? new { @checked = "checked" } : null)
-                                                    Male
-                                                </label>
-
-                                                <label>
-                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Female", Model.LSTTeacherList[0].Gender == false ? new { @checked = "checked" } : null)
-                                                    Female
-                                                </label>
+                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].Gender,
+                                                 new List<SelectListItem>
+                                                 {
+                                                     new SelectListItem { Text = "Select Gender", Value = "0" },
+                                                     new SelectListItem { Text = "Male", Value = "Male", Selected = Model.LSTTeacherList[0].Gender == "Male" },
+                                                     new SelectListItem { Text = "Female", Value = "Female", Selected = Model.LSTTeacherList[0].Gender == "Female" },
+                                                     new SelectListItem { Text = "Other", Value = "Other", Selected = Model.LSTTeacherList[0].Gender == "Other" }
+                                                 },
+                                                 new { @id = "Gender", @class = "form-control form-control-alternative" })
                                             }
                                             else
                                             {
-                                                <label>
-                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Male", new { @checked = "checked" })
-                                                    Male
-                                                </label>
-
-                                                <label>
-                                                    @Html.RadioButtonFor(model => model.LSTTeacherList[0].Gender, "Female")
-                                                    Female
-                                                </label>
+                                                @Html.DropDownListFor(model => model.LSTTeacherList[0].Gender,
+                                                 new List<SelectListItem>
+                                                 {
+                                                     new SelectListItem { Text = "Select Title", Value = "0" },
+                                                     new SelectListItem { Text = "Male", Value = "Male" },
+                                                     new SelectListItem { Text = "Female", Value = "Female"},
+                                                     new SelectListItem { Text = "Other", Value = "Other"}
+                                                 },
+                                                 new { @id = "Gender", @class = "form-control form-control-alternative" })
                                             }
                                             <span id="errGender" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>

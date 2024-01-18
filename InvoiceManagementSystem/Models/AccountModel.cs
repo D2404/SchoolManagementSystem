@@ -174,6 +174,8 @@ namespace InvoiceManagementSystem.Models
                 SqlCommand cmd = new SqlCommand("sp_GetMyProfile", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
+                cmd.Parameters.AddWithValue("@StudentId", cls.StudentId);
+                cmd.Parameters.AddWithValue("@UserId", cls.Id);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -183,6 +185,8 @@ namespace InvoiceManagementSystem.Models
                     for (var i = 0; i < dt.Rows.Count; i++)
                     {
                         AccountModel obj = new AccountModel();
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.StudentId = Convert.ToInt32(dt.Rows[i]["StudentId"] == null || dt.Rows[i]["StudentId"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentId"].ToString());
                         obj.TeacherId = Convert.ToInt32(dt.Rows[i]["TeacherId"] == null || dt.Rows[i]["TeacherId"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherId"].ToString());
                         obj.RoleId = Convert.ToInt32(dt.Rows[i]["RoleId"] == null || dt.Rows[i]["RoleId"].ToString().Trim() == "" ? null : dt.Rows[i]["RoleId"].ToString());
                         obj.UserName = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
@@ -239,7 +243,7 @@ namespace InvoiceManagementSystem.Models
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Sp_UpdateProfile", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                cmd.Parameters.AddWithValue("@Id", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@UserName", cls.UserName);
                 cmd.Parameters.AddWithValue("@FatherName", cls.FatherName);
                 cmd.Parameters.AddWithValue("@SurName", cls.SurName);

@@ -27,7 +27,7 @@ namespace InvoiceManagementSystem.Models
         public string Dob { get; set; }
         public string MobileNo { get; set; }
         public string AlternateMobileNo { get; set; }
-        public bool Gender { get; set; }
+        public string Gender { get; set; }
         public string BloodGroup { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
@@ -113,7 +113,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.Add("@FatherName", SqlDbType.VarChar).Value = cls.FatherName;
                 cmd.Parameters.Add("@Surname", SqlDbType.VarChar).Value = cls.Surname;
                 cmd.Parameters.Add("@Dob", SqlDbType.DateTime).Value = cls.Dob;
-                cmd.Parameters.Add("@Gender", SqlDbType.Bit).Value = cls.Gender;
+                cmd.Parameters.Add("@Gender", SqlDbType.VarChar).Value = cls.Gender;
                 cmd.Parameters.Add("@BloodGroup", SqlDbType.VarChar).Value = cls.BloodGroup;
                 cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar).Value = cls.MobileNo;
                 cmd.Parameters.Add("@AlternateMobileNo", SqlDbType.VarChar).Value = cls.AlternateMobileNo;
@@ -202,7 +202,7 @@ namespace InvoiceManagementSystem.Models
                         obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
                         obj.FatherName = dt.Rows[i]["FatherName"] == null || dt.Rows[i]["FatherName"].ToString().Trim() == "" ? null : dt.Rows[i]["FatherName"].ToString();
                         obj.Surname = dt.Rows[i]["Surname"] == null || dt.Rows[i]["Surname"].ToString().Trim() == "" ? null : dt.Rows[i]["Surname"].ToString();
-                        obj.Gender = Convert.ToBoolean(dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString());
+                        obj.Gender = dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString();
                         obj.BloodGroup = dt.Rows[i]["BloodGroup"] == null || dt.Rows[i]["BloodGroup"].ToString().Trim() == "" ? null : dt.Rows[i]["BloodGroup"].ToString();
                         obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("yyyy-MM-dd");
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
@@ -273,7 +273,7 @@ namespace InvoiceManagementSystem.Models
                     teacher.CurrentAddress = row["CurrentAddress"].ToString();
                     teacher.Dob = (row["Dob"] == DBNull.Value) ? null : Convert.ToDateTime(row["Dob"]).ToString("yyyy/MM/dd");
                     teacher.Education = row["Education"].ToString();
-                    teacher.Gender = Convert.ToBoolean(row["Gender"].ToString());
+                    teacher.Gender = row["Gender"].ToString();
                     teacher.ProfileImg = row["Profile"].ToString();
                 }
             }

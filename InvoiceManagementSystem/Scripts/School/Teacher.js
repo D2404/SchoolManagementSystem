@@ -422,7 +422,7 @@ function InsertData(id) {
     var TeacherName = $('#TeacherName').val();
     var FatherName = $('#FatherName').val();
     var Surname = $('#Surname').val();
-    var Gender = $("input[name='LSTTeacherList[0].Gender']:checked").val();
+    var Gender = $('#Gender').val();
     var BloodGroup = $('#BloodGroup').val();
     var Dob = $('#Dob').val();
     var Email = $('#Email').val();
@@ -465,12 +465,6 @@ function InsertData(id) {
     if (IFSCCode === "" || /\S/.test(IFSCCode) === false) {
         $("#errIFSCCode").html("Please enter ifsccode.");
         val = false;
-    }
-    if (Gender === true) {
-        Gender = 1
-    }
-    else {
-        Gender = 0
     }
     if (id > 0) {
 

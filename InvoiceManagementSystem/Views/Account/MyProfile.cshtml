@@ -25,7 +25,7 @@
                     <div class="h-100">
 
                         <h5 class="mb-1" style="color:black">
-                            @Session["UserName"]  @Session["SurName"]
+                            <span id="Username1">@Model.LSTAccountList[0].UserName</span> <span id="Surname1"> @Model.LSTAccountList[0].SurName</span>
                         </h5>
                         <p class="mb-0 font-weight-bold text-sm" style="color:black">
                             @Session["RoleName"]
@@ -93,14 +93,16 @@
                             <div class="card-header pb-0">
                                 <div class="d-flex align-items-center">
                                     <h5 class="mb-0" style="color:black"><i class="fa fa-user" aria-hidden="true"></i>&nbsp; Edit Profile</h5>
-                                    <button class="btn btn-primary btn-sm ms-auto" onclick="UpdateProfile(@Session["TeacherId"])"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Update Profile</button>
+                                    <button class="btn btn-primary btn-sm ms-auto" onclick="UpdateProfile(@Model.LSTAccountList[0].Id)"><i class="fa fa-pencil" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;Update Profile</button>
                                 </div>
                             </div>
                             <div class="card-body">
                                 <p class="text-uppercase text-sm">User Information</p>
                                 <br />
                                 <div class="row">
-                                    <input type="hidden" id="hdnintId" value="@Session["Id"]" />
+                                    <input type="hidden" id="hdnId" value="@Model.LSTAccountList[0].Id" />
+                                    <input type="hidden" id="hdnTeacherId" value="@Model.LSTAccountList[0].TeacherId" />
+                                    <input type="hidden" id="hdnStudentId" value="@Model.LSTAccountList[0].StudentId" />
                                     <div class="col-md-6">
                                         <div class="form-group">
 
@@ -258,10 +260,11 @@
 <script src="~/Scripts/Login.js"></script>
 <script>
     $(document).ready(function () {
+
+        
         MyProfile();
         $('#profile').show();
         $('#setting').hide();
-
         // Event handler for profile tab
         $('li[data-tab-id="profile"]').on('click', function () {
             $('#profile').show();
@@ -273,7 +276,6 @@
             $('#profile').hide();
             $('#setting').show();
         });
-
     });
 
 

@@ -12,31 +12,29 @@ namespace InvoiceManagementSystem.Controllers
 
         public ActionResult MyProfile(AccountModel cls)
         {
-            if (objCommon.getTeacherIdFromSession() != 0)
+
+            int? TeacherId = objCommon.getTeacherIdFromSession();
+            int? UserId = objCommon.getUserIdFromSession();
+            int? StudentId = objCommon.getStudentIdFromSession();
+            if (TeacherId > 0 || UserId > 0 || StudentId >0)
             {
-                int? TeacherId = objCommon.getTeacherIdFromSession();
-                if (TeacherId.HasValue)
-                {
-                    cls.TeacherId = TeacherId.Value;
-                    cls = cls.MyProfile(cls);
-                }
-                
+                cls.TeacherId = TeacherId.Value;
+                cls.Id = UserId.Value;
+                cls.StudentId = StudentId.Value;
+                cls = cls.MyProfile(cls);
+                return View(cls);
             }
-            else if (objCommon.getStudentIdFromSession() != 0)
+           
+            else 
             {
-                int? StudentId = objCommon.getStudentIdFromSession();
-                if (StudentId.HasValue)
-                {
-                    cls.TeacherId = StudentId.Value;
-                    cls = cls.MyProfile(cls);
-                }
+                return RedirectToAction("Login", "Account");
             }
-            return View(cls);
+           
         }
 
 
-     
-        
+
+
         public ActionResult GetMyProfile(AccountModel cls)
         {
             cls.Id = objCommon.getUserIdFromSession();
@@ -50,7 +48,7 @@ namespace InvoiceManagementSystem.Controllers
             cls = cls.UpdateProfile(cls);
             return Json(cls, JsonRequestBehavior.AllowGet);
         }
-    
+
         public ActionResult UpdatePassword(AccountModel cls)
         {
             //Parameter param = new Parameter();
@@ -63,7 +61,7 @@ namespace InvoiceManagementSystem.Controllers
             return View();
         }
 
-        
+
         [HttpPost, ValidateInput(false)]
         public ActionResult Login(AccountModel cls)
         {
@@ -84,7 +82,7 @@ namespace InvoiceManagementSystem.Controllers
                     Session["TeacherId"] = cls.TeacherId;
                     Session["StudentId"] = cls.StudentId;
                     Session["ClassId"] = cls.ClassId;
-                    
+
                     Session.Timeout = 22500;
                     HttpCookie userInfo = new HttpCookie("userInfo");
                     if (userInfo.Value == null)
