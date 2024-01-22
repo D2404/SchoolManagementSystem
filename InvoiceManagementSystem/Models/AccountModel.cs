@@ -20,6 +20,7 @@ namespace InvoiceManagementSystem.Models
         public string SurName { get; set; }
         public HttpPostedFileBase[] Profile { get; set; }
 
+        public HttpPostedFileBase[] hdnProfile { get; set; }
         public string ProfileImg { get; set; }
 
         public string Email { get; set; }

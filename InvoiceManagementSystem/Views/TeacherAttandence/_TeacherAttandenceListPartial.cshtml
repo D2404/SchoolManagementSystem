@@ -24,64 +24,64 @@
                 var item = Model.LSTTeacherAttandenceList[i];
                 no = no + 1;
                 string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
-                <tr>
+            <tr>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>@SrNo</b></p>
+                </td>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
+                </td>
+                @if (@item.LeaveType == 1)
+                {
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@SrNo</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Half-Day</p>
                     </td>
+                }
+                else
+                {
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Full-Day</p>
                     </td>
-                    @if (@item.LeaveType == 1)
-                    {
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Half-Day</p>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Full-Day</p>
-                        </td>
-                    }
-                    @if (item.Status == "Present")
-                    {
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Present</p>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Absent</p>
-                        </td>
-                    }
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Date</p>
-                        @*
-                            <p class="text-xs text-secondary mb-0">Organization</p>
-                        *@
-                    </td>
-                    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
-                    {
-                        <td class="align-middle text-center" style="text-align: center;">
-                            <div class="dropdown">
-                                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                                    <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
-                                </a>
-                                <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
-                                    @if (item.Status == "Present")
-                                    {
-                                        <a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
-                                    else
-                                    {
-                                        <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
-                                    <a href="javascript:;" title="Edit Teacher Attandence" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#TeacherAttandence" onclick="GetSingleTeacherAttandenceData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
-                                    <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_TeacherAttandence" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
-                                </div>
+                }
+                @if (item.Status.ToString().ToLower() == "true" || item.Status == "True")
+                {
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Present</p>
+                </td>
+                }
+                else
+                {
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Absent</p>
+                </td>
+                }
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Date</p>
+                    @*
+            <p class="text-xs text-secondary mb-0">Organization</p>
+                    *@
+                </td>
+                @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+                {
+                    <td class="align-middle text-center" style="text-align: center;">
+                        <div class="dropdown">
+                            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                                <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
+                            </a>
+                            <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
+                                @if (item.Status == "Present")
+                                {
+                                    <a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
+                                else
+                                {
+                                    <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
+                                <a href="javascript:;" title="Edit Teacher Attandence" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#TeacherAttandence" onclick="GetSingleTeacherAttandenceData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
+                                <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_TeacherAttandence" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
                             </div>
-                        </td>
-                    }
-                </tr>
+                        </div>
+                    </td>
+                }
+            </tr>
             }
         </tbody>
     }

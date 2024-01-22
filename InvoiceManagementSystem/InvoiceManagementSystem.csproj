@@ -198,6 +198,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
     <Compile Include="Controllers\ClassRoomController.cs" />
@@ -433,6 +434,8 @@
     <Content Include="Data\assets\css\nucleo-icons.css" />
     <Content Include="Data\assets\css\nucleo-svg.css" />
     <Content Include="Data\assets\css\select2.min.css" />
+    <Content Include="Data\Profile\pngtree-school-building-illustration-background-image_1948855.jpg" />
+    <Content Include="Data\Profile\pngtree-school-teaching-building-retro-illustration-background-image_1948854.jpg" />
     <Content Include="Data\assets\js\argon-dashboard.min9c7f.js" />
     <Content Include="Data\assets\js\plugins\choices.min.js" />
     <Content Include="Data\assets\js\plugins\countup.min.js" />
@@ -573,6 +576,7 @@
     <Content Include="Data\Profile\Image_not_available.png" />
     <Content Include="Data\Profile\istockphoto-818533812-612x612.jpg" />
     <Content Include="Data\Profile\noimage.jpg" />
+    <Content Include="Data\Profile\pngtree-university-campus-school-retro-illustration-background-image_1948853.jpg" />
     <Content Include="Data\Profile\Profile_0_638118821277851663.png" />
     <Content Include="Data\Profile\Profile_0_638118821402273183.png" />
     <Content Include="Data\Profile\Profile_0_638118825699135664.png" />
@@ -858,7 +862,15 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\School\ClassRoom.js" />
+    <Content Include="Scripts\School\ClassWiseFees.js" />
+    <Content Include="Scripts\School\ExamDetails.js" />
+    <Content Include="Scripts\School\ExamMarks.js" />
+    <Content Include="Scripts\School\Subject.js" />
     <Content Include="Scripts\School\Teacher.js" />
+    <Content Include="Scripts\School\TeacherAttandence.js" />
+    <Content Include="Scripts\School\TeacherSubject.js" />
+    <Content Include="Scripts\School\Timetable.js" />
     <Content Include="Scripts\select2.js" />
     <Content Include="Scripts\select2.min.js" />
     <Content Include="Theme\assets\css\argon-dashboard.min9c7f.css" />

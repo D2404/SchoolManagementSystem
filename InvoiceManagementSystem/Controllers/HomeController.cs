@@ -15,6 +15,10 @@ namespace InvoiceManagementSystem.Controllers
         clsCommon objCommon = new clsCommon();
         public ActionResult Index(DashboardModel cls)
         {
+            if (TempData["SuccessMessage"] != null)
+            {
+                cls.IsMessage = "True";
+            }
             try
             {
                 if (objCommon.getUserIdFromSession() != 0)

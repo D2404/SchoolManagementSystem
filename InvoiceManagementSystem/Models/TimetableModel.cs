@@ -21,7 +21,7 @@ namespace InvoiceManagementSystem.Models
         public int TeacherId { get; set; }
         public int SubjectId { get; set; }
         public int ClassId { get; set; }
-        public int Days { get; set; }
+        public string Days { get; set; }
 
         public string SubjectName { get; set; }
         public string TeacherName { get; set; }
@@ -59,7 +59,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.Add("@ClassId", SqlDbType.Int).Value = cls.ClassId;
                 cmd.Parameters.Add("@SubjectId", SqlDbType.Int).Value = cls.SubjectId;
                 cmd.Parameters.Add("@TeacherId", SqlDbType.Int).Value = cls.TeacherId;
-                cmd.Parameters.Add("@Day", SqlDbType.Int).Value = cls.Days;
+                cmd.Parameters.Add("@Day", SqlDbType.VarChar).Value = cls.Days;
                 cmd.Parameters.Add("@StartTime", SqlDbType.VarChar).Value = cls.StartTime;
                 cmd.Parameters.Add("@EndTime", SqlDbType.VarChar).Value = cls.EndTime;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
@@ -120,7 +120,7 @@ namespace InvoiceManagementSystem.Models
                         obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
                         obj.SubjectId = Convert.ToInt32(dt.Rows[i]["SubjectId"] == null || dt.Rows[i]["SubjectId"].ToString().Trim() == "" ? null : dt.Rows[i]["SubjectId"].ToString());
                         obj.TeacherId = Convert.ToInt32(dt.Rows[i]["TeacherId"] == null || dt.Rows[i]["TeacherId"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherId"].ToString());
-                        obj.Days = Convert.ToInt32(dt.Rows[i]["Days"] == null || dt.Rows[i]["Days"].ToString().Trim() == "" ? null : dt.Rows[i]["Days"].ToString());
+                        obj.Days =dt.Rows[i]["Days"] == null || dt.Rows[i]["Days"].ToString().Trim() == "" ? null : dt.Rows[i]["Days"].ToString();
                         obj.StartTime = dt.Rows[i]["StartTime"] == null || dt.Rows[i]["StartTime"].ToString().Trim() == "" ? null : dt.Rows[i]["StartTime"].ToString();
                         obj.EndTime = dt.Rows[i]["EndTime"] == null || dt.Rows[i]["EndTime"].ToString().Trim() == "" ? null : dt.Rows[i]["EndTime"].ToString();
                         LSTList.Add(obj);

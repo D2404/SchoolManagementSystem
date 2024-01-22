@@ -56,7 +56,7 @@
                         $('#ClassRoom').click();
                         ClearData(1);
                     }
-                    else if (data == 'Updated' && Id > 0) {
+                    else if (data == 'Updated' ) {
                         toastr.success('ClassRoom updated successfully');
                         GetClassRoomList(1);
                         $('#ClassRoom').click();
@@ -77,7 +77,7 @@
     }
 
     function GetClassRoomList(page) {
-        debugger
+        
         var Id = 0;
         var SearchText = document.getElementById('SearchText').value;
         var intActive = document.getElementById('intActive').value;
@@ -209,7 +209,7 @@
             }),
             success: function (data) {
 
-                if (data.Response == 'Success' && Id > 0) {
+                if (data.Response == 'Success' ) {
 
                     toastr.success('ClassRoom deleted successfully');
                     document.getElementById('hdnintId').value = "0";

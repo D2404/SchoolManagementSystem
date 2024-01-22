@@ -195,47 +195,7 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetTeacher(TeacherModel cls)
-        {
-            try
-            {
-                List<TeacherModel> lstClientList = new List<TeacherModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetTeacherList", conn);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        TeacherModel obj = new TeacherModel();
-
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-
-                        lstClientList.Add(obj);
-                    }
-                }
-                cls.LSTTeacherList = lstClientList;
-
-                return Json(cls, JsonRequestBehavior.AllowGet);
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-
-            }
-        }
+        
 
         public ActionResult GetMonth(MonthModel cls)
         {

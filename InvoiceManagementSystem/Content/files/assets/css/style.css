@@ -16097,7 +16097,8 @@ table.footable-paging-center > tfoot > tr.footable-paging > td {
     
    /* background-image: url('../../../../Data/Profile/b3ffb2857c6422fa3d13a3d474032194.jpg');*/
      background-image: url('../../../../Data/Profile/BackgroundImage.jpg');
-    /*background: linear-gradient(45deg, #4099ff, #73b4ff);*/
+
+        /*background: linear-gradient(45deg, #4099ff, #73b4ff);*/
     /*background: linear-gradient(to right,#000000,#0fb3c2);*/
     height: auto;
 }

@@ -199,7 +199,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Are you sure want to delete this Student Attandence ?.</p>
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Student Attandence ?.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteStudentAttandence()">Delete</button>
@@ -339,7 +339,7 @@
                         $('#StudentAttandence').click();
                         ClearData(1);
                     }
-                    else if (data == 'Updated' && Id > 0) {
+                    else if (data == 'Updated' ) {
                         toastr.success('StudentAttandence updated successfully');
                         GetStudentAttandenceList(1);
                         $('#StudentAttandence').click();
@@ -493,7 +493,7 @@
             }),
             success: function (data) {
 
-                if (data.Response == 'Success' && Id > 0) {
+                if (data.Response == 'Success' ) {
 
                     toastr.success('StudentAttandence deleted successfully');
                     document.getElementById('hdnintId').value = "0";

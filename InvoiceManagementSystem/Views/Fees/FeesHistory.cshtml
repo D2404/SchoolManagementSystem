@@ -56,7 +56,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p style="margin-left:70px">Are you sure want to delete this Fees History ?.</p>
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Fees History ?.</p>
             </div>
 
             <div class="modal-footer" style="padding-right: 166px">
@@ -78,7 +78,7 @@
     });
 
     function GetFeesHistoryList(page) {
-        debugger
+        
         var Id = 0;
         if (document.getElementById('PageSize') != null) {
             PageSize = document.getElementById('PageSize').value;
@@ -151,7 +151,7 @@
         });
     }
     function deleteFeesHistory() {
-        debugger
+        
         var Id = document.getElementById('hdnintId').value;
         var StudentId = document.getElementById('hdnstudentid').value;
         var MonthId = document.getElementById('hdnmonthid').value;
@@ -169,7 +169,7 @@
                 cls: cls
             }),
             success: function (data) {
-                if (data.Response == 'Success' && Id > 0) {
+                if (data.Response == 'Success' ) {
                     toastr.success('Fees History deleted successfully');
                     document.getElementById('hdnintId').value = "0";
                     GetFeesHistoryList(1);

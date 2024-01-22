@@ -16,7 +16,6 @@ namespace InvoiceManagementSystem.Controllers
     {
         clsCommon objCommon = new clsCommon();
 
-        // GET: ClassRoom
         public ActionResult ClassRoom()
         {
             if (objCommon.getUserIdFromSession() != 0)
@@ -30,7 +29,6 @@ namespace InvoiceManagementSystem.Controllers
         }
 
         [HttpPost]
-
         public ActionResult InsertClassRoom(ClassRoomModel model)
         {
             model = model.addClassRoom(model);
@@ -139,54 +137,6 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
-
-        //public ActionResult ExportToExcel(ClassRoomModel cls)
-        //{
-        //    try
-        //    {
-        //        List<ClassRoomModel> lstClassRoomList = new List<ClassRoomModel>();
-        //        SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-        //        conn.Open();
-        //        SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
-        //        cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-        //        cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-        //        cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-        //        cmd.CommandType = CommandType.StoredProcedure;
-        //        cmd.CommandTimeout = 0;
-        //        SqlDataAdapter da = new SqlDataAdapter(cmd);
-        //        System.Data.DataTable dt = new System.Data.DataTable();
-        //        da.Fill(dt);
-        //        conn.Close();
-        //        if (dt != null && dt.Rows.Count > 0)
-        //        {
-        //            dt.TableName = "ClassRoomMaster";
-        //            using (XLWorkbook  wb = new XLWorkbook())
-        //            {
-        //                wb.Worksheets.Add(dt);
-        //                wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-        //                wb.Style.Font.Bold = true;
-        //                Response.Clear();
-        //                Response.Buffer = true;
-        //                Response.Charset = "";
-        //                Response.ContentType = "application/vnd.openxml/formats-officedocument.spreadsheetml.sheet";
-        //                Response.AddHeader("content-disposition","attachment;filename=ClassRoomList.xlsx");
-        //                using(MemoryStream MyMemorystream = new MemoryStream())
-        //                {
-        //                    wb.SaveAs(MyMemorystream);
-        //                    string fileBase64 = Convert.ToBase64String(fileBytes);
-        //                    string fileUrl = "data:application/vnd.openxml/formats-officedocument.spreadsheetml.sheet;base64," + fileBase64;
-
-        //                    return Json(new { downloadUrl = fileUrl }, JsonRequestBehavior.AllowGet);
-        //                }
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
-        //    }
-        //    return Json(new { error = "No data available for export." }, JsonRequestBehavior.AllowGet);
-        //}
 
         public ActionResult ExportToExcel(ClassRoomModel cls)
         {

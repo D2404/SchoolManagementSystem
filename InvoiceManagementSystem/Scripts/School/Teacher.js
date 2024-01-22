@@ -340,9 +340,6 @@ function ValidateBasicDetails(id) {
     if (val === false) {
         return;
     }
-
-
-    ShowWait();
     if (id > 0) {
         $('#list-view').show();
         $('#grid-view').hide();
@@ -351,7 +348,6 @@ function ValidateBasicDetails(id) {
         $('#list-view').hide();
         $('#grid-view').show();
     }
-    HideWait();
 }
 function ValidateAddressDetails(id) {
 
@@ -403,7 +399,6 @@ function ValidateAddressDetails(id) {
         return;
     }
 
-    ShowWait();
     if (id > 0) {
         $('#grid-view').show();
         $('#bank-view').hide();
@@ -412,7 +407,6 @@ function ValidateAddressDetails(id) {
         $('#grid-view').hide();
         $('#bank-view').show();
     }
-    HideWait();
 }
 
 function InsertData(id) {
@@ -552,12 +546,12 @@ function InsertData(id) {
         data: formData,
         success: function (data) {
             if (data !== null) {
-                if (data === 'Success' && Id === 0) {
+                if (data === 'Success' ) {
                     toastr.success('Teacher inserted successfully');
                     window.location.replace("/Teacher/TeacherList");
 
                 }
-                else if (data === 'Updated' && Id > 0) {
+                else if (data === 'Updated' ) {
                     toastr.success('Teacher updated successfully');
                     window.location.replace("/Teacher/TeacherList");
                 }
@@ -590,7 +584,7 @@ function deleteTeacher() {
         }),
         success: function (data) {
 
-            if (data.Response === 'Success' && Id > 0) {
+            if (data.Response === 'Success' ) {
                 //alert('Teacher deleted successfully.');
                 toastr.success('Teacher deleted successfully');
                 //swal(

@@ -22,6 +22,8 @@ namespace InvoiceManagementSystem.Models
         public int YearId { get; set; }
         public string Name { get; set; }
         public string TeacherName { get; set; }
+        public string FatherName { get; set; }
+        public string SurName { get; set; }
         public int LeaveType { get; set; }
         public string Reason { get; set; }
         public int TeacherId { get; set; }

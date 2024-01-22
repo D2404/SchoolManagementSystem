@@ -173,7 +173,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p style="margin-left:70px">Are you sure want to delete this Fees ?.</p>
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Fees ?.</p>
             </div>
 
             <div class="modal-footer" style="padding-right: 166px">
@@ -295,7 +295,7 @@
                         $('#Fees').click();
                         ClearData(1);
                     }
-                    else if (data == 'Updated' && Id > 0) {
+                    else if (data == 'Updated' ) {
                         toastr.success('Fees updated successfully');
                         GetFeesList(1);
                         $('#Fees').click();
@@ -387,7 +387,7 @@
                         $('#Fees').click();
                         ClearData(1);
                     }
-                    else if (data == 'Updated' && Id > 0) {
+                    else if (data == 'Updated' ) {
                         toastr.success('Fees updated successfully');
                         GetFeesList(1);
                         $('#Fees').click();
@@ -539,7 +539,7 @@
     }
 
     function onddlClass() {
-        debugger
+        
         var ClassId = $('#ddlClassId').val();
         $.ajax({
             type: "GET",
@@ -563,7 +563,7 @@
         });
     }
     function GetFeesList(page) {
-        debugger
+        
         var Id = 0;
         //var SearchText = document.getElementById('SearchText').value;
         var ClassId = document.getElementById('ddlClassId').value;
@@ -607,7 +607,7 @@
         });
     }
     function GetSingleFeesData(id) {
-        debugger
+        
         document.getElementById('btnAdd').innerHTML = "Update";
         $("#btnAdd").attr('title', 'Update');
         document.getElementById('btnAdd1').innerHTML = "Update & Pay";
@@ -624,7 +624,7 @@
                 cls: cls
             }),
             success: function (data) {
-                debugger
+                
                 if (data != null) {
                     document.getElementById('hdnintId').value = data.LSTFeesList[0].Id;
                     $('#ClassId').val(data.LSTFeesList[0].ClassId).trigger("change");
@@ -661,7 +661,7 @@
                 cls: cls
             }),
             success: function (data) {
-                if (data.Response == 'Success' && Id > 0) {
+                if (data.Response == 'Success' ) {
                     toastr.success('Fees deleted successfully');
                     document.getElementById('hdnintId').value = "0";
                     GetFeesList();

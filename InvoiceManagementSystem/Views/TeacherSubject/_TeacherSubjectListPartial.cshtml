@@ -5,11 +5,11 @@
 <table class="table align-items-center mb-0">
     <thead>
         <tr>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr No.</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Teacher</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Class No</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Sr No.</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Teacher</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Subject</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Class No</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Status</th>
             @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
             {
 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>            }
@@ -25,46 +25,32 @@
         string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
 <tr>
     <td>
-        <div class="d-flex px-2 py-1">
-            <div class="d-flex flex-column justify-content-center">
-                <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@SrNo</h5>
-            </div>
-        </div>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@SrNo</b></p>
 
     </td>
     <td>
-        <div class="d-flex px-2 py-1">
-            <div class="d-flex flex-column justify-content-center">
-                <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.TeacherName</h5>
-            </div>
-        </div>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@item.TeacherName</b></p>
 
     </td>
     <td>
-        <div class="d-flex px-2 py-1">
-            <div class="d-flex flex-column justify-content-center">
-                <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.SubjectName</h5>
-            </div>
-        </div>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@item.SubjectName</b></p>
     </td>
     <td>
-        <div class="d-flex px-2 py-1">
-            <div class="d-flex flex-column justify-content-center">
-                <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.ClassNo</h5>
-            </div>
-        </div>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@item.ClassNo</b></p>
     </td>
     <td>
         @if (item.IsActive == true)
         {
-<a style="margin-left:10px" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-success"></i> Active</a> }
-else
-{
-<a style="margin-left:10px" class="text-xs font-weight-bold mb-0"><i class="fa fa-dot-circle-o text-danger"></i> In-Active </a>}
+            <p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-success"></i> Active</p>
+        }
+        else
+        {
+            <p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-danger"></i> In-Active </p>
+        }
     </td>
     @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
     {
-<td class="align-middle text-center">
+<td class="align-middle text-center" style="text-align: center">
     <div class="dropdown">
         <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
             <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>

@@ -241,7 +241,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p style="margin-left:70px">Are you sure want to delete this Student ?.</p>
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Student ?.</p>
             </div>
             <div class="modal-footer" style="padding-right: 166px">
                 <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteStudent()">Delete</button>
@@ -261,7 +261,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p style="margin-left:98px">Are you sure want to change status?</p>
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to change status?</p>
             </div>
             <div class="modal-footer" style="padding-right: 146px">
                 <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
@@ -454,7 +454,7 @@
                         $('#Student').click();
                         ClearData(1);
                     }
-                    else if (data == 'Updated' && Id > 0) {
+                    else if (data == 'Updated' ) {
                         toastr.success('Student updated successfully');
                         GetStudentList(1);
                         $('#Student').click();
@@ -622,7 +622,7 @@
             }),
             success: function (data) {
 
-                if (data.Response == 'Success' && Id > 0) {
+                if (data.Response == 'Success' ) {
                     //alert('Student deleted successfully.');
                     toastr.success('Student deleted successfully');
                     //swal(
@@ -655,7 +655,7 @@
         });
     }
     function UpdateStatus() {
-        debugger
+        
         var Id = document.getElementById('hdnintId').value;
         var cls = {
             Id: Id

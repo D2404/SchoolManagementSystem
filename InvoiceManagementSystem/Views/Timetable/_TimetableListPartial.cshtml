@@ -27,31 +27,12 @@
         string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
 <tr>
     <td>
-        <p class="text-xs font-weight-bold mb-0" style="text-align:center">@SrNo</p>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@SrNo</b></p>
     </td>
     <td>
-        @if (item.Days == 1)
-        {
-<p style="margin-left: 10px; text-align: center" class="text-xs font-weight-bold mb-0 text-success"><b>Monday</b></p> }
-else if (item.Days == 2)
-{
-<p style="margin-left: 10px; text-align: center" class="text-xs font-weight-bold mb-0 text-primary"><b>Tuesday</b></p>}
+       
+<p style="margin-left: 10px; text-align: center" class="text-xs font-weight-bold mb-0 text-success"><b>@item.Days</b></p> 
 
-else if (item.Days == 3)
-{
-<p style="margin-left: 10px; text-align: center" class="text-xs font-weight-bold mb-0 text-danger"><b>Wednesday</b></p>}
-
-else if (item.Days == 4)
-{
-<p style="margin-left: 10px; text-align: center" class="text-xs font-weight-bold mb-0 text-secondary"><b>Thursday</b></p>}
-
-else if (item.Days == 5)
-{
-<p style="margin-left: 10px; text-align: center" class="text-xs font-weight-bold mb-0 text-info"><b>Friday</b></p>}
-
-else if (item.Days == 6)
-{
-<p style="margin-left: 10px; text-align: center" class="text-xs font-weight-bold mb-0 text-warning"> <b>Satureday</b></p>}
     </td>
     <td>
         <p class="text-xs font-weight-bold mb-0" style="text-align:center">@item.TeacherName</p>

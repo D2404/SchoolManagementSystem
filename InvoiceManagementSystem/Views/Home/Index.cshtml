@@ -1073,13 +1073,19 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
+    <input type="hidden" id="IsMessage" value="@Model.IsMessage" />
 </div>
 <!--End of Datetime js/css-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
     $(document).ready(function () {
+        var IsMessage = $('#IsMessage').val();
+        if (IsMessage == "True") {
+            toastr.success('Welcome <strong>' + '@Session["UserName"]' + ' ' + '@Session["SurName"]' + '</strong>  !.')
+        }
 
         $('#MonthlyCollectFees').hide();
         $('#MonthlyPendingCollectFees').hide();
@@ -1093,7 +1099,7 @@
     });
 
     function GoBack(page) {
-        debugger
+
         $('#Subject').hide();
         $('#Teacher').hide();
         $('#Student').hide();
@@ -1201,7 +1207,7 @@
                 ClassId: ClassId
             }),
             success: function (data) {
-                debugger
+
                 $('#TeacherList').empty();
                 $('#TeacherList').append(data);
                 HideWait();
@@ -1215,7 +1221,7 @@
 
 
     function GetStudentByTeacher(TeacherId) {
-        debugger
+
         $('#Teacher').hide();
         $('#Student').show();
         ShowWait();
@@ -1227,7 +1233,7 @@
                 TeacherId: TeacherId
             }),
             success: function (data) {
-                debugger
+
                 $('#StudentList').empty();
                 $('#StudentList').append(data);
                 HideWait();

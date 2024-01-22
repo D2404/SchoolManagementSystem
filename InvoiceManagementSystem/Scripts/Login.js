@@ -211,7 +211,7 @@ function MyProfile() {
 }
 
 function UpdateProfile(id) {
-    debugger
+    
     var val = true;
     var Id =id;
     var UserName = $('#UserName').val();
@@ -255,13 +255,12 @@ function UpdateProfile(id) {
     var Profile = document.getElementById('Profile').value;
 
     if (Profile === null || Profile === "") {
-        // Use the old image if Profile is empty
         Profile = hdnfile;
     }
 
     if (fileCount > 0) {
         for (var i = 0; i < fileCount; i++) {
-            var Profile = document.getElementById("Profile").files[i];
+            Profile = document.getElementById("Profile").files[i];
             var ext = Profile.name.split('.').pop();
 
             if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {

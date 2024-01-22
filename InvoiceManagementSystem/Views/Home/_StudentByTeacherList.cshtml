@@ -169,7 +169,7 @@
 <script>
 
     function GoBack1(ClassId) {
-        debugger
+        
         $('#Class').hide();
         $('#Student').hide();
         $('#Teacher').show();
@@ -182,7 +182,7 @@
                 ClassId: ClassId
             }),
             success: function (data) {
-                debugger
+                
                 $('#TeacherList').empty();
                 $('#TeacherList').append(data);
                 HideWait();
