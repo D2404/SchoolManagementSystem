@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace InvoiceManagementSystem.Models
@@ -179,5 +180,45 @@ namespace InvoiceManagementSystem.Models
             }
             return Status;
         }
+
+        public DataTable ExportSubject(SubjectModel cls)
+        {
+            try
+            {
+                List<SubjectModel> LSTList = new List<SubjectModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
+                cmd.Parameters.AddWithValue("@Mode", 2);
+                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
+                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        // HTML Tags Code Remove.
+                        dr["Subject"] = Regex.Replace(dr["Subject"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Class"] = Regex.Replace(dr["Class"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                    }
+                }
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                throw ex;
+            }
+        }
     }
+
 }

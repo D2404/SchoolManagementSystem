@@ -5,9 +5,9 @@
 <table class="table align-items-center mb-0">
     <thead>
         <tr>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center"><input type="checkbox" onclick="SelectAll()" id="selectAllCheckbox" /></th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Sr No.</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Teacher</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Leave Type</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Status</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Date</th>
             @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
@@ -16,7 +16,67 @@
             }
         </tr>
     </thead>
-    @if (Model != null && Model.LSTTeacherAttandenceList.Count > 0)
+    @if (Model != null && Model.LSTTeacherAttandenceList[0].Date != null)
+    {
+        <tbody id="tblBody">
+            @for (var i = 0; i < Model.LSTTeacherAttandenceList.Count; i++)
+            {
+                var item = Model.LSTTeacherAttandenceList[i];
+                no = no + 1;
+                string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
+                <tr>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="chkVersIDs" name="chkVersIDs" id="chkVersIDs" data-id="@item.Id">
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>@SrNo</b></p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
+                    </td>
+                    @if (item.Status.ToString().ToLower() == "true" || item.Status == "True")
+                    {
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Present</p>
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Absent</p>
+                        </td>
+                    }
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Date</p>
+                        @*
+                            <p class="text-xs text-secondary mb-0">Organization</p>
+                        *@
+                    </td>
+                    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+                    {
+                        <td class="align-middle text-center" style="text-align: center;">
+                            <div class="dropdown">
+                                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                                    <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
+                                </a>
+                                <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
+                                    @if (item.Status == "Present")
+                                    {
+                                        <a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
+                                    else
+                                    {
+                                        <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
+                                    <a href="javascript:;" title="Edit Teacher Attandence" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#TeacherAttandence" onclick="GetSingleTeacherAttandenceData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
+                                    <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_TeacherAttandence" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
+                                </div>
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    }
+    else
     {
         <tbody id="tblBody">
             @for (var i = 0; i < Model.LSTTeacherAttandenceList.Count; i++)
@@ -25,42 +85,29 @@
                 no = no + 1;
                 string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
             <tr>
+                <td style="text-align: center;">
+                    <input type="checkbox" class="chkVersIDs" name="chkVersIDs" id="chkVersIDs" data-id="@item.Id">
+                </td>
                 <td>
                     <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>@SrNo</b></p>
                 </td>
                 <td>
                     <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
                 </td>
-                @if (@item.LeaveType == 1)
-                {
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Half-Day</p>
-                    </td>
-                }
-                else
-                {
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Full-Day</p>
-                    </td>
-                }
-                @if (item.Status.ToString().ToLower() == "true" || item.Status == "True")
-                {
+
                 <td>
-                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Present</p>
+                    <label>
+                        <input type="radio" name="radio" checked="checked" value="Active" class="rd" id="Active" onclick="Hide()" />
+                        <p class="text-xs font-weight-bold  mb-0">Present</p>
+                    </label>
+                    <label>
+                        <input type="radio" name="radio" value="InActive" class="rd" id="InActive" onclick="Show()" />
+                        <p class="text-xs font-weight-bold  mb-0">Absent</p>
+                    </label>
                 </td>
-                }
-                else
-                {
-                <td>
-                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Absent</p>
-                </td>
-                }
-                <td>
-                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Date</p>
-                    @*
-            <p class="text-xs text-secondary mb-0">Organization</p>
-                    *@
-                </td>
+
+
+
                 @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
                 {
                     <td class="align-middle text-center" style="text-align: center;">
@@ -84,17 +131,6 @@
             </tr>
             }
         </tbody>
-    }
-    else
-    {
-        <tr>
-            <td colspan="7">
-                <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>No Record Found</b></p>
-                @*
-                    <h5 style="text-align: center;"><b>No Record Found</b></h5>
-                *@
-            </td>
-        </tr>
     }
 </table>
 <div class="quotation-body">

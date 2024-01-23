@@ -144,6 +144,17 @@ namespace InvoiceManagementSystem.Models
 
             return intid;
         }
+        public int? getLeaveCountFromSession()
+        {
+            int? intid = 0;
+            if (HttpContext.Current.Session["LeaveCount"] != null && HttpContext.Current.Session["LeaveCount"] != "")
+            {
+                intid = Convert.ToInt32(HttpContext.Current.Session["LeaveCount"]);
+            }
+
+            return intid;
+        }
+
 
         public string convertMMDDYYYY(string date)
         {

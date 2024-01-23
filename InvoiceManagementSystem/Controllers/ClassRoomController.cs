@@ -7,6 +7,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 
@@ -138,68 +139,124 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult ExportToExcel(ClassRoomModel cls)
+        public ActionResult ExpotToExcelClassRoomReport(ClassRoomModel cls)
         {
             try
             {
-                // ... your data retrieval logic ...
-                DataTable dt = GetDataFromDatabase(cls);
-
-                if (dt != null && dt.Rows.Count > 0)
+                if (objCommon.getUserIdFromSession() != 0)
                 {
-                    dt.TableName = "ClassRoomMaster";
-                    using (XLWorkbook wb = new XLWorkbook())
+                    DataTable dt = new DataTable();
+                    dt = cls.ExportClassRoom(cls);
+                    if (dt != null && dt.Rows.Count > 0)
                     {
-                        var ws = wb.Worksheets.Add(dt);
-
-                        // Apply styles if needed
-                        ws.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                        ws.Style.Font.Bold = true;
-
-                        // Save the workbook to a MemoryStream
-                        using (MemoryStream memoryStream = new MemoryStream())
-                        {
-                            wb.SaveAs(memoryStream);
-
-                            // Get the file bytes
-                            byte[] fileBytes = memoryStream.ToArray();
-
-                            // Return the file download URL in the JSON response
-                            string fileBase64 = Convert.ToBase64String(fileBytes);
-                            string fileUrl = "data:application/vnd.openxml/formats-officedocument.spreadsheetml.sheet;base64," + fileBase64;
-
-                            return Json(new { downloadUrl = fileUrl }, JsonRequestBehavior.AllowGet);
-                        }
+                        Session["ExpotToExcelClassRoomReport"] = dt;
+                        return Json("success", JsonRequestBehavior.AllowGet);
                     }
+                    else
+                    {
+                        return Json("error", JsonRequestBehavior.AllowGet);
+                    }
+                }
+                else
+                {
+                    return Redirect(objCommon.RedirectToLogin(2));
                 }
             }
             catch (Exception ex)
             {
-                // Handle exceptions appropriately
-                return Json(new { error = ex.Message }, JsonRequestBehavior.AllowGet);
+                throw ex;
+            }
+        }
+        public void ExportToExcel()
+        {
+            DataTable data = (DataTable)Session["ExpotToExcelClassRoomReport"];
+
+            string Filepath = Path.Combine(Server.MapPath("~/Data/Item"));
+            string fileName = "ClassRoomReport" + DateTime.Now.ToString("ddMMyyyymmss");
+            string file = Filepath + fileName;
+
+            DataTable dtcolumn = new DataTable();
+            for (int i = 0; i < data.Columns.Count; i++)
+            {
+                dtcolumn.Columns.Add(data.Columns[i].ToString());
             }
 
-            return Json(new { error = "No data available for export." }, JsonRequestBehavior.AllowGet);
-        }
-
-        private DataTable GetDataFromDatabase(ClassRoomModel cls)
-        {
-            // Implement your data retrieval logic here
-            // Example: Fetch data from a SQL Server database using ADO.NET
-
-            using (SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString))
+            dtcolumn.Rows.Add();
+            for (int i = 0; i < data.Columns.Count; i++)
             {
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                return dt;
+                dtcolumn.Rows[0][i] = (data.Columns[i].ToString());
+            }
+
+            using (XLWorkbook wb = new XLWorkbook())
+            {
+                var ws = wb.Worksheets.Add("ClassRoomReport");
+
+                 //          var schoolLogo = ws.AddPicture(Server.MapPath("~/Data/assets/img/muktajivan-school-logo.png"))
+                 //.MoveTo(ws.Cell(1, 1))
+                 //.WithSize(50, 50);
+
+                  // Add school name to cell (1, 2)
+                  var schoolNameCell = ws.Cell(1, 1);
+                  schoolNameCell.Value = "Shree Mukta Jivan School";
+                  schoolNameCell.Style.Font.Bold = true;
+                  schoolNameCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                  schoolNameCell.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                  schoolNameCell.Style.Font.FontSize = 16;
+                ws.Range(schoolNameCell, ws.Cell(1, data.Columns.Count + 4)).Merge();
+
+                // Add title "Manage Classroom" above column headers
+                var titleCell = ws.Cell(3, 1);
+                titleCell.Value = "Classroom Data";
+                titleCell.Style.Font.Bold = true;
+                titleCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                titleCell.Style.Fill.BackgroundColor = XLColor.LightGray;
+                titleCell.Style.Font.FontSize = 14;
+                ws.Range(titleCell, ws.Cell(3, data.Columns.Count + 3)).Merge();
+
+                // Add header row and make it bold with borders
+                for (int i = 0; i < data.Columns.Count; i++)
+                {
+                    var cell = ws.Cell(5, i + 1);
+                    cell.Value = data.Columns[i].ToString();
+                    cell.Style.Font.Bold = true;
+                    cell.Style.Fill.BackgroundColor = XLColor.LightBlue;
+
+                    // Add borders to header row
+                    cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                    cell.Style.Border.BottomBorderColor = XLColor.Black;
+                }
+
+                // Add data rows with borders
+                for (int i = 0; i < data.Rows.Count; i++)
+                {
+                    for (int j = 0; j < data.Columns.Count; j++)
+                    {
+                        var cell = ws.Cell(i + 6, j + 1);
+                        cell.Value = data.Rows[i][j].ToString();
+                        cell.Style.Border.BottomBorder = XLBorderStyleValues.Thin;
+                        cell.Style.Border.BottomBorderColor = XLColor.Black;
+                    }
+                }
+
+                // Add data rows
+                ws.Cell(6, 1).InsertData(data.Rows);
+
+                // Auto-adjust column widths
+                ws.Columns().AdjustToContents();
+
+                Response.Clear();
+                Response.Buffer = true;
+                Response.Charset = "";
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                Response.AddHeader("content-disposition", "attachment;filename=" + fileName + ".xlsx");
+
+                using (MemoryStream MyMemoryStream = new MemoryStream())
+                {
+                    wb.SaveAs(MyMemoryStream);
+                    MyMemoryStream.WriteTo(Response.OutputStream);
+                    Response.Flush();
+                    Response.End();
+                }
             }
         }
     }

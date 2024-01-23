@@ -1,750 +1,753 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <style>
-       
-        .loding-bg {
-            position: fixed;
-            background: rgba(0, 0, 0, 0.5);
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            z-index: 9999;
-            left: 0;
-            top: 0px;
-        }
+﻿@*@{
+    HttpContext context = HttpContext.Current;
+    long EventCartCount = (long)context.Session["CompanyUserId"];
+}*@
 
-        .loding-img {
-            width: 300px;
-            margin: 0px auto;
-            border-radius: 100%;
-            background: #e5eff1;
-            margin-top: 12%;
-        }
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
 
-            .loding-img img {
+            .loding-bg {
+                position: fixed;
+                background: rgba(0, 0, 0, 0.5);
                 width: 100%;
                 height: 100%;
-                border-radius: 100%;
+                margin: 0;
+                padding: 0;
+                z-index: 9999;
+                left: 0;
+                top: 0px;
             }
 
-        .dropbtn {
-            color: white;
-            padding: 16px;
-            font-size: 16px;
-            border: none;
-        }
+            .loding-img {
+                width: 300px;
+                margin: 0px auto;
+                border-radius: 100%;
+                background: #e5eff1;
+                margin-top: 12%;
+            }
 
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
+                .loding-img img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 100%;
+                }
 
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f1f1f1;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
+            .dropbtn {
+                color: white;
+                padding: 16px;
+                font-size: 16px;
+                border: none;
+            }
 
-            .dropdown-content a {
-                color: black;
-                padding: 12px 16px;
-                text-decoration: none;
+            .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f1f1f1;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+                .dropdown-content a {
+                    color: black;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                }
+
+                    .dropdown-content a:hover {
+                        background-color: #ddd;
+                    }
+
+            .dropdown:hover .dropdown-content {
                 display: block;
             }
 
-                .dropdown-content a:hover {
-                    background-color: #ddd;
-                }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-
-        .dropdown:hover .dropbtn {
-            background-color: #fe3809;
-        }
-
-        .badge {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            padding: 5px 10px;
-            border-radius: 50%;
-            background-color: red;
-            color: white;
-        }
-
-        
-    </style>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="apple-touch-icon" sizes="76x76" href="~/Data/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="~/Data/assets/img/muktajivan-school-logo.png">
-   
-    <title>@ViewBag.Title</title>
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-    <link href="~/Data/assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="~/Data/assets/css/nucleo-icons.css" rel="stylesheet" />
-    <link href="~/Data/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-    <link href="~/Data/assets/css/nucleo-svg.css" rel="stylesheet" />
-    <link id="pagestyle" href="~/Data/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
-    <link href="~/Content/Loder.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-</head>
-<body class="g-sidenav-show   bg-gray-100">
-    <center>
-        <div id="divloader" class="loding-bg" style="display: none;opacity:1;">
-            <img href="" class="loding-img img" style="width:300px;" src="~/Data/assets/img/loading.gif" />
-        </div>
-    </center>
-    <div class="min-height-300 bg-primary1 position-absolute w-100"></div>
-    <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
-        <div class="sidenav-header">
-            <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-            <a class="navbar-brand m-0" href="~/Home/Index">
-                <img src="~/Data/assets/img/muktajivan-school-logo.png" class="navbar-brand-img h-100" alt="main_logo" style="width: 50px; max-height: 58px;" />
-                @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
-                {
-                    <div class="sidebar-brand-text mx-3" style="margin-left: 45px;margin-top: -33px;padding-left: 39px;font-size: 18px;color: Highlight;"><b>ADMIN</b></div>
-                }
-                else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
-                {
-                    <div class="sidebar-brand-text mx-3" style="margin-left: 45px; margin-top: -33px; padding-left: 39px; font-size: 18px; color: Highlight;"><b>TEACHER</b></div>
-                }
-                else
-                {
-                    <div class="sidebar-brand-text mx-3" style="margin-left: 45px; margin-top: -33px; padding-left: 39px; font-size: 18px; color: Highlight;"><b>STUDENT</b></div>
-                }
-            </a>
-        </div>
-        <hr class="horizontal dark mt-0">
-        <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
-            @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)// SUPER ADMIN ROLE ===1
-            {
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="~/Home/Index">
-                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                            <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
-                        </div>
-                        <span class="sidenav-mini-icon"> D </span>
-                        <span class="sidenav-normal"> Dashboard </span>
-                    </a>
-                </li>
-                <hr class="horizontal dark mt-0">
-                <li class="nav-item">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MASTERS</h6>
-                </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link" aria-controls="pagesExamples" role="button" aria-expanded="false">
-                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1" style="color:black">Masters</span>
-                    </a>
-                    <div class="collapse" id="pagesExamples">
-                        <ul class="nav ms-4">
-                            <li class="nav-item">
-                                <a class="nav-link" href="~/ClassRoom/ClassRoom">
-                                    <i class="fa fa-home text-primary text-sm"></i>
-                                    <span class="sidenav-normal"> ClassRoom </span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#subject">
-                                    <i class="fa fa-book text-danger text-sm"></i>
-                                    <span class="sidenav-normal"> Subject <b class="caret"></b></span>
-                                </a>
-                                <div class="collapse " id="subject">
-                                    <ul class="nav nav-sm flex-column">
-
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="~/Subject/Subject">
-                                                <i class="fa fa-genderless text-dark text-sm"></i>
-                                                <span class="sidenav-normal"> Subject List </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="~/TeacherSubject/TeacherSubject">
-                                                <i class="fa fa-genderless text-dark text-sm"></i>
-                                                <span class="sidenav-normal">Teacher Subject</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#teacher">
-                                    <i class="fas fa-chalkboard-teacher text-info text-sm opacity-10"></i>
-                                    <span class="sidenav-normal"> Teacher <b class="caret"></b></span>
-                                </a>
-                                <div class="collapse " id="teacher">
-                                    <ul class="nav nav-sm flex-column">
-
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="~/Teacher/TeacherList">
-                                                <i class="fa fa-genderless text-dark text-sm"></i>
-                                                <span class="sidenav-normal"> Teacher List </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="~/Teacher/Teacher">
-                                                <i class="fa fa-genderless text-dark text-sm"></i>
-                                                <span class="sidenav-normal"> Add Teacher </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="~/TeacherAttandence/TeacherAttandence">
-                                    <i class="fa fa-calendar-o text-success text-sm"></i>
-                                    <span class="sidenav-normal"> Teacher Attendance </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="~/Timetable/Timetable">
-                                    <i class="fa fa-calendar-plus-o text-warning text-sm"></i>
-                                    <span class="sidenav-normal"> Timetable </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <hr class="horizontal dark mt-0">
-                <li class="nav-item">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">EXAM INFO</h6>
-                </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
-                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                            <i class="ni ni-books text-info text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1" style="color:black">Exam Info</span>
-                    </a>
-                    <div class="collapse " id="applicationsExamples">
-                        <ul class="nav ms-4">
-                            <li class="nav-item">
-                                <a class="nav-link" href="~/Exam/ExamDetails">
-                                    <i class="fa fa-book text-success text-sm"></i>
-                                    <span class="sidenav-normal"> Exam Details </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <hr class="horizontal dark mt-0">
-                <li class="nav-item">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">FEES INFO</h6>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#fees">
-                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                            <i class="fa fa-inr text-success text-sm opacity-10"></i>
-                        </div>
-
-                        <span class="sidenav-normal" style="color:black"> Fees Info <b class="caret"></b></span>
-                    </a>
-                    <div class="collapse " id="fees">
-                        <ul class="nav nav-sm flex-column">
-
-                            <li class="nav-item">
-                                <a class="nav-link " href="~/Fees/ClassWiseFees">
-                                    <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
-                                    <span class="sidenav-normal"> Fees Master </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="~/Fees/Fees">
-                                    <i class="fa fa-inr text-primary text-sm opacity-10"></i>
-                                    <span class="sidenav-normal"> Fees Collection </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <hr class="horizontal dark mt-0">
-                <li class="nav-item">
-                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#classroomreport">
-                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                            <i class="fa fa-list text-primary text-sm opacity-10"></i>
-                        </div>
-
-                        <span class="sidenav-normal" style="color:black"> Reports <b class="caret"></b></span>
-                    </a>
-                    <div class="collapse " id="classroomreport">
-                        <ul class="nav nav-sm flex-column">
-
-                            <li class="nav-item">
-                                <a class="nav-link " href="~/ClassRoom/ClassRoom">
-                                    <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
-                                    <span class="sidenav-normal"> ClassRoom Report </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link " href="~/Fees/Fees">
-                                    <i class="fa fa-inr text-primary text-sm opacity-10"></i>
-                                    <span class="sidenav-normal"> Fees Report </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+            .dropdown:hover .dropbtn {
+                background-color: #fe3809;
             }
-            else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)// TEACHER===2
-            {
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="~/Home/Index">
-                    <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
-                    </div>
-                    <span class="sidenav-mini-icon"> D </span>
-                    <span class="sidenav-normal"> Dashboard </span>
+
+            .badge {
+                position: absolute;
+                top: -10px;
+                right: -10px;
+                padding: 5px 10px;
+                border-radius: 50%;
+                background-color: red;
+                color: white;
+            }
+        </style>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="apple-touch-icon" sizes="76x76" href="~/Data/assets/img/apple-icon.png">
+        <link rel="icon" type="image/png" href="~/Data/assets/img/muktajivan-school-logo.png">
+
+        <title>@ViewBag.Title</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+        <link href="~/Data/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="~/Data/assets/css/nucleo-icons.css" rel="stylesheet" />
+        <link href="~/Data/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+        <link href="~/Data/assets/css/nucleo-svg.css" rel="stylesheet" />
+        <link id="pagestyle" href="~/Data/assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+        <link href="~/Content/Loder.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+    </head>
+    <body class="g-sidenav-show   bg-gray-100">
+        <center>
+            <div id="divloader" class="loding-bg" style="display: none;opacity:1;">
+                <img href="" class="loding-img img" style="width:300px;" src="~/Data/assets/img/loading.gif" />
+            </div>
+        </center>
+        <div class="min-height-300 bg-primary1 position-absolute w-100"></div>
+        <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+            <div class="sidenav-header">
+                <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+                <a class="navbar-brand m-0" href="~/Home/Index">
+                    <img src="~/Data/assets/img/muktajivan-school-logo.png" class="navbar-brand-img h-100" alt="main_logo" style="width: 50px; max-height: 58px;" />
+                    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+                    {
+                        <div class="sidebar-brand-text mx-3" style="margin-left: 45px;margin-top: -33px;padding-left: 39px;font-size: 18px;color: Highlight;"><b>ADMIN</b></div>
+                    }
+                    else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
+                    {
+                        <div class="sidebar-brand-text mx-3" style="margin-left: 45px; margin-top: -33px; padding-left: 39px; font-size: 18px; color: Highlight;"><b>TEACHER</b></div>
+                    }
+                    else
+                    {
+                        <div class="sidebar-brand-text mx-3" style="margin-left: 45px; margin-top: -33px; padding-left: 39px; font-size: 18px; color: Highlight;"><b>STUDENT</b></div>
+                    }
                 </a>
-            </li>
+            </div>
             <hr class="horizontal dark mt-0">
-            <li class="nav-item">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MASTERS</h6>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link" aria-controls="pagesExamples" role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1" style="color:black">Masters</span>
-                </a>
-                <div class="collapse" id="pagesExamples">
-                    <ul class="nav ms-4">
+            <div class="collapse navbar-collapse w-auto h-auto" id="sidenav-collapse-main">
+                @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)// SUPER ADMIN ROLE ===1
+                {
+                    <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="~/TeacherAttandence/TeacherAttandence">
-                                <i class="fa fa-user text-primary text-sm"></i>
-                                <span class="sidenav-normal"> Teacher Attendance </span>
+                            <a class="nav-link" href="~/Home/Index">
+                                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
+                                </div>
+                                <span class="sidenav-mini-icon"> D </span>
+                                <span class="sidenav-normal"> Dashboard </span>
                             </a>
                         </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#subject">
-                                <i class="fa fa-user-circle-o text-danger text-sm"></i>
-                                <span class="sidenav-normal"> Student <b class="caret"></b></span>
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MASTERS</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link" aria-controls="pagesExamples" role="button" aria-expanded="false">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1" style="color:black">Masters</span>
                             </a>
-                            <div class="collapse " id="subject">
-                                <ul class="nav nav-sm flex-column">
-
+                            <div class="collapse" id="pagesExamples">
+                                <ul class="nav ms-4">
                                     <li class="nav-item">
-                                        <a class="nav-link " href="~/Student/Student">
-                                            <i class="fa fa-genderless text-dark text-sm"></i>
-                                            <span class="sidenav-normal"> Student List </span>
+                                        <a class="nav-link" href="~/ClassRoom/ClassRoom">
+                                            <i class="fa fa-home text-primary text-sm"></i>
+                                            <span class="sidenav-normal"> ClassRoom </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#subject">
+                                            <i class="fa fa-book text-danger text-sm"></i>
+                                            <span class="sidenav-normal"> Subject <b class="caret"></b></span>
+                                        </a>
+                                        <div class="collapse " id="subject">
+                                            <ul class="nav nav-sm flex-column">
+
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/Subject/Subject">
+                                                        <i class="fa fa-genderless text-dark text-sm"></i>
+                                                        <span class="sidenav-normal"> Subject List </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/TeacherSubject/TeacherSubject">
+                                                        <i class="fa fa-genderless text-dark text-sm"></i>
+                                                        <span class="sidenav-normal">Teacher Subject</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#teacher">
+                                            <i class="fas fa-chalkboard-teacher text-info text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Teacher <b class="caret"></b></span>
+                                        </a>
+                                        <div class="collapse " id="teacher">
+                                            <ul class="nav nav-sm flex-column">
+
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/Teacher/TeacherList">
+                                                        <i class="fa fa-genderless text-dark text-sm"></i>
+                                                        <span class="sidenav-normal"> Teacher List </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/Teacher/Teacher">
+                                                        <i class="fa fa-genderless text-dark text-sm"></i>
+                                                        <span class="sidenav-normal"> Add Teacher </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/TeacherAttandence/TeacherAttandence">
+                                            <i class="fa fa-calendar-o text-success text-sm"></i>
+                                            <span class="sidenav-normal"> Teacher Attendance </span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link " href="~/Student/Student">
-                                            <i class="fa fa-genderless text-dark text-sm"></i>
-                                            <span class="sidenav-normal">Add Student</span>
+                                        <a class="nav-link" href="~/Timetable/Timetable">
+                                            <i class="fa fa-calendar-plus-o text-warning text-sm"></i>
+                                            <span class="sidenav-normal"> Timetable </span>
                                         </a>
                                     </li>
                                 </ul>
                             </div>
                         </li>
+                        <hr class="horizontal dark mt-0">
                         <li class="nav-item">
-                            <a class="nav-link" href="~/Timetable/Timetable">
-                                <i class="fa fa-calendar-plus-o text-success text-sm"></i>
-                                <span class="sidenav-normal"> Timetable </span>
-                            </a>
-                        </li>
-                       
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Leave/Leave">
-                                <i class="far fa-calendar-alt text-info text-sm opacity-10"></i>
-                                <span class="sidenav-normal"> Leave </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <hr class="horizontal dark mt-0">
-            <li class="nav-item">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">EXAM INFO</h6>
-            </li>
-            <li class="nav-item">
-                <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="ni ni-books text-info text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1" style="color:black">Exam Info</span>
-                </a>
-                <div class="collapse " id="applicationsExamples">
-                    <ul class="nav ms-4">
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Exam/ExamDetails">
-                                <i class="fa fa-book text-success text-sm"></i>
-                                <span class="sidenav-normal"> Exam Details </span>
-                            </a>
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">EXAM INFO</h6>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="~/Exam/ExamMarks">
-                                <i class="fas fa-book-reader text-warning text-sm opacity-10"></i>
-                                <span class="sidenav-normal"> Exam Marks </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <hr class="horizontal dark mt-0">
-            <li class="nav-item">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">FEES INFO</h6>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#fees">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="fa fa-inr text-success text-sm opacity-10"></i>
-                    </div>
-
-                    <span class="sidenav-normal" style="color:black"> Fees Info <b class="caret"></b></span>
-                </a>
-                <div class="collapse " id="fees">
-                    <ul class="nav nav-sm flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link " href="~/Fees/Fees">
-                                <i class="fa fa-inr text-primary text-sm opacity-10"></i>
-                                <span class="sidenav-normal"> Fees Collection </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-
-            <hr class="horizontal dark mt-0">
-            <li class="nav-item">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#classroomreport">
-                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                        <i class="fa fa-list text-primary text-sm opacity-10"></i>
-                    </div>
-
-                    <span class="sidenav-normal" style="color:black"> Reports <b class="caret"></b></span>
-                </a>
-                <div class="collapse " id="classroomreport">
-                    <ul class="nav nav-sm flex-column">
-
-                        <li class="nav-item">
-                            <a class="nav-link " href="~/ClassRoom/ClassRoom">
-                                <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
-                                <span class="sidenav-normal"> ClassRoom Report </span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link " href="~/Fees/Fees">
-                                <i class="fa fa-inr text-primary text-sm opacity-10"></i>
-                                <span class="sidenav-normal"> Fees Report </span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-            }
-            else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 3)// ST  UDENT ===2
-            {
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="~/Home/Index">
-                            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
-                            </div>
-                            <span class="sidenav-mini-icon"> D </span>
-                            <span class="sidenav-normal"> Dashboard </span>
-                        </a>
-                    </li>
-
-                    <li class="nav-item mt-3">
-                        <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">PAGES</h6>
-                    </li>
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link" aria-controls="pagesExamples" role="button" aria-expanded="false">
-                            <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Pages</span>
-                        </a>
-                        <div class="collapse" id="pagesExamples">
-                            <ul class="nav ms-4">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="~/ClassRoom/ClassRoom">
-                                        <span class="sidenav-mini-icon"> P </span>
-                                        <span class="sidenav-normal"> ClassRoom </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="~/Subject/Subject">
-                                        <span class="sidenav-mini-icon"> P </span>
-                                        <span class="sidenav-normal"> Subject </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#teacher">
-                                        <span class="sidenav-mini-icon"> P </span>
-                                        <span class="sidenav-normal"> Teacher <b class="caret"></b></span>
-                                    </a>
-                                    <div class="collapse " id="teacher">
-                                        <ul class="nav nav-sm flex-column">
-
-                                            <li class="nav-item">
-                                                <a class="nav-link " href="~/Teacher/TeacherList">
-                                                    <span class="sidenav-mini-icon text-xs"> T </span>
-                                                    <span class="sidenav-normal"> Teacher List </span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link " href="~/Teacher/Teacher">
-                                                    <span class="sidenav-mini-icon text-xs"> A </span>
-                                                    <span class="sidenav-normal"> Add Teacher </span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
-                            <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
-                            </div>
-                            <span class="nav-link-text ms-1">Applications</span>
-                        </a>
-                        <div class="collapse " id="applicationsExamples">
-                            <ul class="nav ms-4">
-                                <li class="nav-item ">
-                                    <a class="nav-link " href="../../pages/applications/kanban.html">
-                                        <span class="sidenav-mini-icon"> K </span>
-                                        <span class="sidenav-normal"> Kanban </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link " href="../../pages/applications/wizard.html">
-                                        <span class="sidenav-mini-icon"> W </span>
-                                        <span class="sidenav-normal"> Wizard </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link " href="../../pages/applications/datatables.html">
-                                        <span class="sidenav-mini-icon"> D </span>
-                                        <span class="sidenav-normal"> DataTables </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link " href="../../pages/applications/calendar.html">
-                                        <span class="sidenav-mini-icon"> C </span>
-                                        <span class="sidenav-normal"> Calendar </span>
-                                    </a>
-                                </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link " href="../../pages/applications/analytics.html">
-                                        <span class="sidenav-mini-icon"> A </span>
-                                        <span class="sidenav-normal"> Analytics </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </li>
-                </ul>
-            }
-        </div>
-    </aside>
-
-    <main class="main-content position-relative border-radius-lg ">
-        <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-            <div class="container-fluid py-1 px-3"style="margin-right:8px">
-                <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-                    <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-                        <a href="javascript:;" class="nav-link text-white font-weight-bold px-0" style="margin-right:670px">
-                            <i class="fa fa-school me-sm-1" style="color: burlywood"></i>
-                            <span class="d-sm-inline d-none"style="color: burlywood">SHREE MUKTAJIVAN SCHOOL</span>
-                        </a>
-                    </div>
-                    <ul class="navbar-nav  justify-content-end" style="margin-left:-53px">
-                        <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-white p-0">
-                                <span class="d-sm-inline d-none" style="color:white;margin-left: -191px" id="datetime"></span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown pe-2 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" onclick="Leavedata()" aria-expanded="false">
-                                <i class="fa fa-bell cursor-pointer" aria-hidden="true"></i>
-                                <span class="badge" id="notificationBadge"></span>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                                <li class="mb-2">
-                                    <a href="javascript:;" class="dropdown-item border-radius-md">
-                                        <div id="leavedata"></div>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
-                        <li class="nav-item d-flex align-items-center">
-                            <div class="dropdown">
-                                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                                    <i class="fa fa-user me-sm-1"></i>
-                                    <span class="d-sm-inline d-none">@Session["UserName"]</span>
-                                </a>
-                                <div class="dropdown-content" style="top: 30px; right: 10px;width:130px">
-                                    <a href="/Account/MyProfile" style="font-size:14px"><i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i><span class="d-sm-inline d-none"><b> My Profile</b></span></a>
-                                    <a href="javascript:;" style="font-size:14px" onclick="Logout();"><i class="fa fa-sign-out" aria-hidden="true"></i><span class="d-sm-inline d-none"><b>  Logout</b></span></a>
+                            <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-books text-info text-sm opacity-10"></i>
                                 </div>
+                                <span class="nav-link-text ms-1" style="color:black">Exam Info</span>
+                            </a>
+                            <div class="collapse " id="applicationsExamples">
+                                <ul class="nav ms-4">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Exam/ExamDetails">
+                                            <i class="fa fa-book text-success text-sm"></i>
+                                            <span class="sidenav-normal"> Exam Details </span>
+                                        </a>
+                                    </li>
+                                </ul>
                             </div>
                         </li>
-                        <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-                            <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav" style="background-color:white">
-                                <div class="sidenav-toggler-inner">
-                                    <i class="sidenav-toggler-line bg-white"></i>
-                                    <i class="sidenav-toggler-line bg-white"></i>
-                                    <i class="sidenav-toggler-line bg-white"></i>
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">FEES INFO</h6>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#fees">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-inr text-success text-sm opacity-10"></i>
                                 </div>
+
+                                <span class="sidenav-normal" style="color:black"> Fees Info <b class="caret"></b></span>
                             </a>
+                            <div class="collapse " id="fees">
+                                <ul class="nav nav-sm flex-column">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="~/Fees/ClassWiseFees">
+                                            <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Fees Master </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="~/Fees/Fees">
+                                            <i class="fa fa-inr text-primary text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Fees Collection </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#classroomreport">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-list text-primary text-sm opacity-10"></i>
+                                </div>
+
+                                <span class="sidenav-normal" style="color:black"> Reports <b class="caret"></b></span>
+                            </a>
+                            <div class="collapse " id="classroomreport">
+                                <ul class="nav nav-sm flex-column">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="~/ClassRoom/ClassRoom">
+                                            <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> ClassRoom Report </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="~/Fees/Fees">
+                                            <i class="fa fa-inr text-primary text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Fees Report </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
-                </div>
+                }
+                else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)// TEACHER===2
+                {
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Index">
+                                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
+                                </div>
+                                <span class="sidenav-mini-icon"> D </span>
+                                <span class="sidenav-normal"> Dashboard </span>
+                            </a>
+                        </li>
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MASTERS</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link" aria-controls="pagesExamples" role="button" aria-expanded="false">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1" style="color:black">Masters</span>
+                            </a>
+                            <div class="collapse" id="pagesExamples">
+                                <ul class="nav ms-4">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/TeacherAttandence/TeacherAttandence">
+                                            <i class="fa fa-user text-primary text-sm"></i>
+                                            <span class="sidenav-normal"> Teacher Attendance </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#subject">
+                                            <i class="fa fa-user-circle-o text-danger text-sm"></i>
+                                            <span class="sidenav-normal"> Student <b class="caret"></b></span>
+                                        </a>
+                                        <div class="collapse " id="subject">
+                                            <ul class="nav nav-sm flex-column">
+
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/Student/Student">
+                                                        <i class="fa fa-genderless text-dark text-sm"></i>
+                                                        <span class="sidenav-normal"> Student List </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/Student/Student">
+                                                        <i class="fa fa-genderless text-dark text-sm"></i>
+                                                        <span class="sidenav-normal">Add Student</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Timetable/Timetable">
+                                            <i class="fa fa-calendar-plus-o text-success text-sm"></i>
+                                            <span class="sidenav-normal"> Timetable </span>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Leave/Leave">
+                                            <i class="far fa-calendar-alt text-info text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Leave </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">EXAM INFO</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-books text-info text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1" style="color:black">Exam Info</span>
+                            </a>
+                            <div class="collapse " id="applicationsExamples">
+                                <ul class="nav ms-4">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Exam/ExamDetails">
+                                            <i class="fa fa-book text-success text-sm"></i>
+                                            <span class="sidenav-normal"> Exam Details </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Exam/ExamMarks">
+                                            <i class="fas fa-book-reader text-warning text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Exam Marks </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">FEES INFO</h6>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#fees">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-inr text-success text-sm opacity-10"></i>
+                                </div>
+
+                                <span class="sidenav-normal" style="color:black"> Fees Info <b class="caret"></b></span>
+                            </a>
+                            <div class="collapse " id="fees">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="~/Fees/Fees">
+                                            <i class="fa fa-inr text-primary text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Fees Collection </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        <hr class="horizontal dark mt-0">
+                        <li class="nav-item">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#classroomreport">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="fa fa-list text-primary text-sm opacity-10"></i>
+                                </div>
+
+                                <span class="sidenav-normal" style="color:black"> Reports <b class="caret"></b></span>
+                            </a>
+                            <div class="collapse " id="classroomreport">
+                                <ul class="nav nav-sm flex-column">
+
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="~/ClassRoom/ClassRoom">
+                                            <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> ClassRoom Report </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link " href="~/Fees/Fees">
+                                            <i class="fa fa-inr text-primary text-sm opacity-10"></i>
+                                            <span class="sidenav-normal"> Fees Report </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                }
+                else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 3)// ST  UDENT ===2
+                {
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="~/Home/Index">
+                                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                                    <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
+                                </div>
+                                <span class="sidenav-mini-icon"> D </span>
+                                <span class="sidenav-normal"> Dashboard </span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item mt-3">
+                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">PAGES</h6>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link" aria-controls="pagesExamples" role="button" aria-expanded="false">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1">Pages</span>
+                            </a>
+                            <div class="collapse" id="pagesExamples">
+                                <ul class="nav ms-4">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/ClassRoom/ClassRoom">
+                                            <span class="sidenav-mini-icon"> P </span>
+                                            <span class="sidenav-normal"> ClassRoom </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Subject/Subject">
+                                            <span class="sidenav-mini-icon"> P </span>
+                                            <span class="sidenav-normal"> Subject </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#teacher">
+                                            <span class="sidenav-mini-icon"> P </span>
+                                            <span class="sidenav-normal"> Teacher <b class="caret"></b></span>
+                                        </a>
+                                        <div class="collapse " id="teacher">
+                                            <ul class="nav nav-sm flex-column">
+
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/Teacher/TeacherList">
+                                                        <span class="sidenav-mini-icon text-xs"> T </span>
+                                                        <span class="sidenav-normal"> Teacher List </span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link " href="~/Teacher/Teacher">
+                                                        <span class="sidenav-mini-icon text-xs"> A </span>
+                                                        <span class="sidenav-normal"> Add Teacher </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
+                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                    <i class="ni ni-ui-04 text-info text-sm opacity-10"></i>
+                                </div>
+                                <span class="nav-link-text ms-1">Applications</span>
+                            </a>
+                            <div class="collapse " id="applicationsExamples">
+                                <ul class="nav ms-4">
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="../../pages/applications/kanban.html">
+                                            <span class="sidenav-mini-icon"> K </span>
+                                            <span class="sidenav-normal"> Kanban </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="../../pages/applications/wizard.html">
+                                            <span class="sidenav-mini-icon"> W </span>
+                                            <span class="sidenav-normal"> Wizard </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="../../pages/applications/datatables.html">
+                                            <span class="sidenav-mini-icon"> D </span>
+                                            <span class="sidenav-normal"> DataTables </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="../../pages/applications/calendar.html">
+                                            <span class="sidenav-mini-icon"> C </span>
+                                            <span class="sidenav-normal"> Calendar </span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item ">
+                                        <a class="nav-link " href="../../pages/applications/analytics.html">
+                                            <span class="sidenav-mini-icon"> A </span>
+                                            <span class="sidenav-normal"> Analytics </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                }
             </div>
-        </nav>
-        @RenderBody()
-    </main>
-    
-    <script src="~/Data/assets/js/core/popper.min.js"></script>
-    <script src="~/Data/assets/js/core/bootstrap.min.js"></script>
-    <script src="~/Data/assets/js/plugins/perfect-scrollbar.min.js"></script>
-    <script src="~/Data/assets/js/plugins/smooth-scrollbar.min.js"></script>
-    <script src="~/Data/assets/js/plugins/chartjs.min.js"></script>
-    <script src="~/Data/assets/js/plugins/dragula/dragula.min.js"></script>
-    <script src="~/Data/assets/js/plugins/jkanban/jkanban.js"></script>
-    <script src="~/Data/assets/js/argon-dashboard.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-    <script src="~/Scripts/Login.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet" />
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854" integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg==" data-cf-beacon='{"rayId":"7f14abba3a721bca","version":"2023.7.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function () {
-            updateDateTime();
-            updateNotificationBadge();
-             $('#sidenav-main').find('[href="' + window.location.pathname + '"]').addClass('active');
-            var currentPath = window.location.pathname;
-            var activeMenuItem = $('a[href="' + currentPath + '"]');
-            activeMenuItem.addClass('active');
-            activeMenuItem.parents('.collapse').addClass('show');
+        </aside>
 
-        })
+        <main class="main-content position-relative border-radius-lg ">
+            <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+                <div class="container-fluid py-1 px-3" style="margin-right:8px">
+                    <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
+                        <div class="ms-md-auto pe-md-3 d-flex align-items-center">
+                            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0" style="margin-right:670px">
+                                <i class="fa fa-school me-sm-1" style="color: burlywood"></i>
+                                <span class="d-sm-inline d-none" style="color: burlywood">SHREE MUKTAJIVAN SCHOOL</span>
+                            </a>
+                        </div>
+                        <ul class="navbar-nav  justify-content-end" style="margin-left:-53px">
+                            <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-white p-0">
+                                    <span class="d-sm-inline d-none" style="color:white;margin-left: -191px" id="datetime"></span>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" onclick="Leavedata()" aria-expanded="false">
+                                    <i class="fa fa-bell cursor-pointer" aria-hidden="true"></i>
+                                    <span class="badge" id="notificationBadge"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
+                                    <li class="mb-2">
+                                        <a href="javascript:;" class="dropdown-item border-radius-md">
+                                            <div id="leavedata"></div>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;
+                            <li class="nav-item d-flex align-items-center">
+                                <div class="dropdown">
+                                    <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                                        <i class="fa fa-user me-sm-1"></i>
+                                        <span class="d-sm-inline d-none">@Session["UserName"]</span>
+                                    </a>
+                                    <div class="dropdown-content" style="top: 30px; right: 10px;width:130px">
+                                        <a href="/Account/MyProfile" style="font-size:14px"><i class="fa fa-cog fixed-plugin-button-nav cursor-pointer" aria-hidden="true"></i><span class="d-sm-inline d-none"><b> My Profile</b></span></a>
+                                        <a href="javascript:;" style="font-size:14px" onclick="Logout();"><i class="fa fa-sign-out" aria-hidden="true"></i><span class="d-sm-inline d-none"><b>  Logout</b></span></a>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
+                                <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav" style="background-color:white">
+                                    <div class="sidenav-toggler-inner">
+                                        <i class="sidenav-toggler-line bg-white"></i>
+                                        <i class="sidenav-toggler-line bg-white"></i>
+                                        <i class="sidenav-toggler-line bg-white"></i>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            @RenderBody()
+        </main>
 
-        function updateDateTime() {
-            var now = new Date();
-            var options = {
-                weekday: 'long',
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
+        <script src="~/Data/assets/js/core/popper.min.js"></script>
+        <script src="~/Data/assets/js/core/bootstrap.min.js"></script>
+        <script src="~/Data/assets/js/plugins/perfect-scrollbar.min.js"></script>
+        <script src="~/Data/assets/js/plugins/smooth-scrollbar.min.js"></script>
+        <script src="~/Data/assets/js/plugins/chartjs.min.js"></script>
+        <script src="~/Data/assets/js/plugins/dragula/dragula.min.js"></script>
+        <script src="~/Data/assets/js/plugins/jkanban/jkanban.js"></script>
+        <script src="~/Data/assets/js/argon-dashboard.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+        <script src="~/Scripts/Login.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet" />
+        <script defer src="https://static.cloudflareinsights.com/beacon.min.js/v8b253dfea2ab4077af8c6f58422dfbfd1689876627854" integrity="sha512-bjgnUKX4azu3dLTVtie9u6TKqgx29RBwfj3QXYt5EKfWM/9hPSAI/4qcV5NACjwAo8UtTeWefx6Zq5PHcMm7Tg==" data-cf-beacon='{"rayId":"7f14abba3a721bca","version":"2023.7.0","r":1,"token":"1b7cbb72744b40c580f8633c6b62637e","si":100}' crossorigin="anonymous"></script>
+        <script>
+            $(document).ready(function () {
+                updateDateTime();
+                updateNotificationBadge();
+                $('#sidenav-main').find('[href="' + window.location.pathname + '"]').addClass('active');
+                var currentPath = window.location.pathname;
+                var activeMenuItem = $('a[href="' + currentPath + '"]');
+                activeMenuItem.addClass('active');
+                activeMenuItem.parents('.collapse').addClass('show');
 
-            };
-            var formattedDateTime = now.toLocaleString('en-IN', options);
-            $("#datetime").text(formattedDateTime);
-        }
+            })
 
+            function updateDateTime() {
+                var now = new Date();
+                var options = {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
 
-        setInterval(updateDateTime, 1000);
-        function updateNotificationBadge() {
-            $.ajax({
-                url: '/Home/GetNotificationCount',
-                type: 'GET',
-                success: function (notificationCount) {
-                    
-                    $('#notificationBadge').text(notificationCount);
-                },
-                error: function () {
-                    console.log('Error occurred while retrieving the notification count.');
-                }
-            });
-        }
-
-        function Leavedata() {
-            var cls = {}
-            $.ajax({
-                url: '/Home/LeaveData',
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({
-                    cls: cls
-                }),
-                success: function (data) {
-                    $('#leavedata').empty();
-                    $('#leavedata').append(data);
-                },
-                error: function (xhr) {
-                    alert('errors');
-                }
-            });
-        }
+                };
+                var formattedDateTime = now.toLocaleString('en-IN', options);
+                $("#datetime").text(formattedDateTime);
+            }
 
 
-        function myFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
+            setInterval(updateDateTime, 1000);
+            function updateNotificationBadge() {
+                $.ajax({
+                    url: '/Home/GetNotificationCount',
+                    type: 'GET',
+                    success: function (notificationCount) {
 
-        function ShowWait() {
-            $('#divloader').fadeIn();
-        }
-        function HideWait() {
-            $('#divloader').fadeOut();
-        }
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
+                        $('#notificationBadge').text(notificationCount);
+                    },
+                    error: function () {
+                        console.log('Error occurred while retrieving the notification count.');
+                    }
+                });
+            }
+
+            function Leavedata() {
+                var cls = {}
+                $.ajax({
+                    url: '/Home/LeaveData',
+                    contentType: "application/json; charset=utf-8",
+                    type: "POST",
+                    data: JSON.stringify({
+                        cls: cls
+                    }),
+                    success: function (data) {
+                        $('#leavedata').empty();
+                        $('#leavedata').append(data);
+                    },
+                    error: function (xhr) {
+                        alert('errors');
+                    }
+                });
+            }
+
+
+            function myFunction() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            function ShowWait() {
+                $('#divloader').fadeIn();
+            }
+            function HideWait() {
+                $('#divloader').fadeOut();
+            }
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
+                        }
                     }
                 }
             }
-        }
-    </script>
-    <script>
-        $(window).on('load', function () {
-            $(".loader").fadeOut(1000);
-            $(".content").fadeIn(1000);
-        })
-    </script>
+        </script>
+        <script>
+            $(window).on('load', function () {
+                $(".loader").fadeOut(1000);
+                $(".content").fadeIn(1000);
+            })
+        </script>
 
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <script src="~/Data/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-        (function () {
-            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/64b69706cc26a871b0292ae6/1h5kjrtds';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
-</body>
+        <script async defer src="https://buttons.github.io/buttons.js"></script>
+        <script src="~/Data/assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+        <script type="text/javascript">
+            var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+            (function () {
+                var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+                s1.async = true;
+                s1.src = 'https://embed.tawk.to/64b69706cc26a871b0292ae6/1h5kjrtds';
+                s1.charset = 'UTF-8';
+                s1.setAttribute('crossorigin', '*');
+                s0.parentNode.insertBefore(s1, s0);
+            })();
+        </script>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>
 </html>

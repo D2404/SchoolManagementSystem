@@ -72,6 +72,43 @@ function GetClassRoomList(page) {
     });
 }
 
+function ExportClassRoom() {
+    var Id = 0;
+    var SearchText = document.getElementById('SearchText').value;
+    var intActive = document.getElementById('intActive').value;
+    
+    var cls = {
+        Id: Id,
+        SearchText: SearchText,
+        intActive: intActive,
+    };
+
+    ShowWait();
+    $.ajax({
+        url: '/ClassRoom/ExpotToExcelClassRoomReport',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            if (data === "success") {
+                window.location.href = "/ClassRoom/ExportToExcel";
+            }
+            else {
+                alert("No Record Found.");
+                HideWait();
+            }
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('Error');
+        }
+    });
+}
+
+
 function InsertData() {
 
     var val = true;

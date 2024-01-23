@@ -304,3 +304,41 @@ function openstatusModel(id) {
 
     document.getElementById('hdnintId').value = id;
 }
+
+function ExportSubject() {
+    var Id = 0;
+    var SearchText = document.getElementById('SearchText').value;
+    var intActive = document.getElementById('intActive').value;
+    var ClassId = document.getElementById('ddlClassId').value;
+
+    var cls = {
+        Id: Id,
+        SearchText: SearchText,
+        intActive: intActive,
+        ClassId: ClassId,
+    };
+
+    ShowWait();
+    $.ajax({
+        url: '/Subject/ExpotToExcelSubjectReport',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            if (data === "success") {
+                window.location.href = "/Subject/ExportToExcel";
+            }
+            else {
+                alert("No Record Found.");
+                HideWait();
+            }
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('Error');
+        }
+    });
+}

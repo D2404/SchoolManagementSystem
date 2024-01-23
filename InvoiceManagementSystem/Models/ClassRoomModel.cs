@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace InvoiceManagementSystem.Models
@@ -175,5 +176,43 @@ namespace InvoiceManagementSystem.Models
             }
             return Status;
         }
+
+        public DataTable ExportClassRoom(ClassRoomModel cls)
+        {
+            try
+            {
+                List<ClassRoomModel> LSTList = new List<ClassRoomModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
+                cmd.Parameters.AddWithValue("@Mode", 1);
+                cmd.Parameters.AddWithValue("@Search",cls.ClassNo);
+                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        // HTML Tags Code Remove.
+                        dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                    }
+                }
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                throw ex;
+            }
+        }
+
     }
 }

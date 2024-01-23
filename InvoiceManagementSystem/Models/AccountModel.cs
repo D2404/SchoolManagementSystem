@@ -34,6 +34,7 @@ namespace InvoiceManagementSystem.Models
         public int TeacherId { get; set; }
         public int StudentId { get; set; }
         public int ClassId { get; set; }
+        public int LeaveCount { get; set; }
         public string ClassNo { get; set; }
         public HttpPostedFileBase[] strFile { get; set; }
         public string Response { get; set; }

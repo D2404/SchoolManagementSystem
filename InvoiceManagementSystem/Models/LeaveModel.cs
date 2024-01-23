@@ -88,6 +88,7 @@ namespace InvoiceManagementSystem.Models
         }
         public LeaveModel addLeave(LeaveModel cls)
         {
+            int count = 0;
             try
             {
                 conn.Open();

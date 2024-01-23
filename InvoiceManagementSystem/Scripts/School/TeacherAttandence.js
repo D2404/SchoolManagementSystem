@@ -17,7 +17,23 @@ $(document).ready(function () {
     GetTeacher();
 });
 
+function SelectAll() {
+    var selectAllChecked = $('#selectAllCheckbox').prop('checked');
+    $('.chkVersIDs').prop('checked', selectAllChecked);
+}
 
+$('.chkVersIDs').change(function () {
+    var allChecked = $('.chkVersIDs:checked').length === $('.chkVersIDs').length;
+    $('#selectAllCheckbox').prop('checked', allChecked);
+});
+
+function GetSelectedId() {
+    var selectedValues = [];
+    $('input[type="checkbox"][name="chkVersIDs"]:checked').each(function () {
+        selectedValues.push($(this).data("id"));
+    });
+    return selectedValues;
+}
 function Show() {
 
     if (document.getElementById('InActive').checked) {
