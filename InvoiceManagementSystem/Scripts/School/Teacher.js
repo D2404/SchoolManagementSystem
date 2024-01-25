@@ -64,6 +64,8 @@ function openFileInput() {
     document.getElementById('Profile').click();
 }
 
+
+
 function displaySelectedImage(input) {
     var ProfileImg = document.getElementById('ProfileImg');
 
@@ -78,9 +80,7 @@ function displaySelectedImage(input) {
         ProfileImg.src = "~/Data/Profile/dummy.jpg";
     }
 }
-
 function removeImage() {
-
     $(".gambar").attr("src", "/Data/Profile/dummy.jpg");
     $('#removeButton').hide();
 }

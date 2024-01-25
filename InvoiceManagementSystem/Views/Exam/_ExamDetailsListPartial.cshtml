@@ -1,13 +1,13 @@
 ﻿@model InvoiceManagementSystem.Models.ExamModel
-
+@{ int no = 0; }
 <table class="table align-items-center mb-0">
     <thead>
         <tr>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Sr No.</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Class No</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Subject</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Date</th>
-            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Sr No.</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Class No</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Subject</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Date</th>
+            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolderstyle=" text-align:center" opacity-7">Action</th>
 
         </tr>
     </thead>
@@ -17,64 +17,46 @@
     @for (var i = 0; i < Model.LSTExamList.Count; i++)
     {
         var item = Model.LSTExamList[i];
-    <tr>
-        <td>
-            <div class="d-flex px-2 py-1">
-                <div class="d-flex flex-column justify-content-center">
-                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.ROWNUMBER</h5>
-                </div>
+        no = no + 1;
+        string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
+<tr>
+    <td>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@SrNo</b></p>
+
+    </td>
+    <td>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center">@item.ClassNo</p>
+    </td>
+    <td>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center">@item.SubjectName</p>
+    </td>
+    <td>
+        <p class="text-xs font-weight-bold mb-0" style="text-align:center">@item.Date</p>
+    </td>
+    <td class="align-middle text-center" style="text-align: center;">
+        <div class="dropdown">
+            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
+            </a>
+
+            <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
+                <a href="javascript:;" title="Edit Exam" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#Exam" onclick="GetSingleExamData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
+                <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Exam" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
             </div>
+        </div>
+    </td>
 
-        </td>
-        <td>
-            <div class="d-flex px-2 py-1">
-                <div class="d-flex flex-column justify-content-center">
-                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.ClassNo</h5>
-                </div>
-            </div>
-
-        </td>
-        <td>
-            <div class="d-flex px-2 py-1">
-                <div class="d-flex flex-column justify-content-center">
-                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.SubjectName</h5>
-                </div>
-            </div>
-
-        </td>
-        <td>
-            <div class="d-flex px-2 py-1">
-                <div class="d-flex flex-column justify-content-center">
-                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left;">@item.Date</h5>
-                </div>
-            </div>
-
-        </td>
-        <td class="align-middle text-center">
-            <div class="dropdown">
-                <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                    <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
-                </a>
-
-                <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
-                    <a href="javascript:;" title="Edit Exam" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#Exam" onclick="GetSingleExamData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
-                    <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Exam" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
-                </div>
-            </div>
-        </td>
-
-    </tr>}
-</tbody>
- }
+</tr>
+}
+</tbody> }
             else
             {
-                <tr>
-                    <td colspan="7">
-                        <p class="text-xs font-weight-bold mb-0"  style="text-align: center;"><b>No Record Found</b></p>
-                        @*<h5 style="text-align: center;"><b>No Record Found</b></h5>*@
-                    </td>
-                </tr>
-            }
+<tr>
+    <td colspan="7">
+        <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>No Record Found</b></p>
+        @*<h5 style="text-align: center;"><b>No Record Found</b></h5>*@
+    </td>
+</tr>            }
 </table>
 <div class="quotation-body">
     <div class="row">
@@ -102,8 +84,7 @@
                 {
                     end = Model.LSTExamList[0].TotalRecord;
                 }
-                <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: black;font-size:13px">Showing @start to @end of @Model.LSTExamList[0].TotalRecord  entries</span>
-            }
+<span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: black;font-size:13px">Showing @start to @end of @Model.LSTExamList[0].TotalRecord  entries</span>            }
 
             <div id="divPagination">
                 @if (Model.LSTExamList != null && Model.LSTExamList.Count > 0)
@@ -113,36 +94,31 @@
                     {
                         if (pager.EndPage >= 1)
                         {
-                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
-                                @if (pager.CurrentPage > 1)
-                                {
-                                <li class="paginate_button previous page-item" >
-                                    <a onclick="GetSubjectList(@pager.CurrentPage-1)" class="page-link"style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
-                                </li>
-                                }
-                                @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
-                                {
-                                    if (@page1 == @pager.CurrentPage)
-                                    {
-                                        <li class="paginate_button page-item active">
-                                            <a onclick="GetSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0"class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
-                                        </li>
-                                    }
-                                    else
-                                    {
-                            <li class="paginate_button page-item">
-                                <a onclick="GetSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"class="page-link">@page1</a>&nbsp;
-                            </li>
-                                    }
-                                }
-                                @if (pager.CurrentPage < pager.TotalPages)
-                                {
-                                    <li class="paginate_button page-item">
-                                        <a onclick="GetSubjectList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
-                                    </li>
-                                }
-                            </ol>
+    <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
+        @if (pager.CurrentPage > 1)
+        {
+<li class="paginate_button previous page-item">
+    <a onclick="GetSubjectList(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+</li>}
+        @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
+        {
+            if (@page1 == @pager.CurrentPage)
+            {
+<li class="paginate_button page-item active">
+    <a onclick="GetSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+</li> }
+                            else
+                            {
+<li class="paginate_button page-item">
+    <a onclick="GetSubjectList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
+</li>}
                         }
+        @if (pager.CurrentPage < pager.TotalPages)
+        {
+<li class="paginate_button page-item">
+    <a onclick="GetSubjectList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+</li>}
+    </ol>}
                     }
                 }
             </div>

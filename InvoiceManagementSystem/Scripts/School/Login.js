@@ -5,68 +5,6 @@ function HideWait() {
     $('#divloader').hide();
 }
 
-function SignUp() {
-
-    var val = true;
-    var UserName = $('#UserName').val();
-    if (UserName === "" || /\S/.test(UserName) === false) {
-        $("#errName").html("Please enter username.");
-        val = false;
-    }
-
-    var Email = $('#Email1').val();
-    if (Email === '' || Email.trim() === '') {
-        $("#errEmail").html('Please enter email id.');
-        val = false;
-    }
-
-    //var atpos = Email.indexOf("@@");
-    //var dotpos = Email.lastIndexOf(".");
-    //if (atpos < 1 || dotpos  < atpos + 2 || dotpos + 2 >= Email.length) {
-    //    $("#errEmail").html("Please enter valid email id.");
-    //    val = false;
-    //}
-    var Password = $('#Password1').val();
-    if (Password === "" || /\S/.test(Password) === false) {
-        $("#errPassword").html("Please enter password.");
-        val = false;
-    }
-    if (val === false) {
-        return;
-    }
-    var cls = {
-        UserName: UserName,
-        Email: Email,
-        Password: Password,
-    }
-    ShowWait();
-    $.ajax({
-        type: "POST",
-        url: '/Account/SignUp',
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({
-            cls: cls
-        }),
-        success: function (data) {
-            if (data !== null) {
-                if (data === 'Success') {
-                    toastr.success('User registered inserted successfully');
-                    $('.login').click();
-                    //window.location.href = '/Home/Index';
-                }
-                else if (data === 'Exists') {
-                    toastr.error('Email already exists!');
-                    document.getElementById('Email').value = "";
-                }
-            }
-            HideWait();
-        },
-        error: function (xyz) {
-            HideWait();
-            alert('errors');
-        }
-    });
-}
 
 function Login() {
     

@@ -145,19 +145,15 @@
                                                 else
                                                 {
                                             <div>
-                                                <input type="hidden" id="hdnfile" />
-                                                @*<input type="file" class="form-control form-control-alternative" name="Profile" id="Profile" accept="image/*" style="display: none;" onchange="displaySelectedImage(this)">*@
                                                 @Html.TextBoxFor(model => model.LSTTeacherList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;", onchange = "displaySelectedImage(this)" })
 
                                                 @if (!string.IsNullOrEmpty(Model.LSTTeacherList[0].ProfileImg))
                                                 {
-
-                                                    <img id="ProfileImg" src="~/Data/Profile/@Model.LSTTeacherList[0].ProfileImg" alt="Profile Image" style="margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
-                                                }
-                                                else
-                                                {
-                                                    <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
-                                                }
+                                                    var item = Model.LSTTeacherList[0];
+                                            <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" /> }
+                                        else
+                                        {
+                                            <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />}
                                             </div>
                                                 }
 

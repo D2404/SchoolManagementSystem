@@ -1,7 +1,7 @@
-﻿
-@{ ViewBag.Title = "TeacherAttandence";
-    ViewBag.ActionName = "TeacherAttandence"; }
-
+﻿@model InvoiceManagementSystem.Models.TeacherAttandenceModel
+@{
+    ViewBag.Title = "TeacherAttendance";
+}
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
@@ -16,7 +16,7 @@
             <select data-placeholder="Select here.." id="ddlTeacherId" class="select2-single-placeholder form-control" style="width: 100%"></select>
         </div>
     </div>
-    <div class="col-sm-6 col-md-3">
+    @*<div class="col-sm-6 col-md-3">
         <div class="form-group form-focus select-focus">
             <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control floating">
                 <option value="3">Select Status</option>
@@ -24,7 +24,7 @@
                 <option value="2">Absent</option>
             </select>
         </div>
-    </div>
+    </div>*@
     <div class="col-sm-6 col-md-1">
 
         <a class="btn bg-gradient-info" onclick="GetTeacherAttandenceList(1)">Search</a>
@@ -34,15 +34,6 @@
 
     </div>
 </div>
-@if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
-{
-
-<div style="margin-left:803px">
-    <a href="#" class="btn bg-gradient-dark btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" data-container="body" data-animation="true" onclick="ShowFilter()"><i class="fa fa-filter"></i></a>
-    @*<a class="btn bg-gradient-secondary" title="Add TeacherAttandence" data-bs-toggle="modal" data-bs-target="#BulkAttendance" onclick="Clear1()" style="cursor:pointer;margin-left:0px">Import Bulk Attandence</a>*@
-
-    <a class="btn bg-gradient-info" title="Add TeacherAttandence" data-bs-toggle="modal" data-bs-target="#TeacherAttandence" onclick="Clear()" style="cursor:pointer;margin-left:0px">Add Attandence</a>
-</div>}
 
 <div class="container-fluid py-4">
     <div class="row">
@@ -68,10 +59,34 @@
                         <i class="far fa-calendar-alt text-primary text-lg opacity-10"></i> &nbsp;&nbsp;
                         TeacherAttandence List
                         <div class="row">
+
+
+                            <input type="hidden" id="TeacherId" value="" />
+
                             <div class="col-sm-3"> </div>
                             <div class="col-sm-2" style="margin-top:-31px">
                                 <div class="form-group">
-                                    <input type="date" id="Date" class="form-control form-control-alternative" />
+                                    <input type="date" id="Date" class="form-control form-control-alternative" onchange="GetTeacherAttandenceList()" />
+                                </div>
+                            </div>
+                            <div class="col-sm-3" style="margin-top:-31px">
+                                <div class="form-group">
+                                    <select class="form-control form-control-alternative" id="Status">
+                                        <option value="2"> Select Attendance Type </option>
+                                        <option value="1">Present</option>
+                                        <option value="0">Absent</option>
+                                    </select>
+                                </div>
+                                <span id="errStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                            <div class="col-sm-2" style="margin-top:-31px">
+                                <div class="form-group">
+                                    <a class="btn bg-gradient-info" title="Add TeacherAttandence" onclick="UpgradeAttendanceData()" style="cursor:pointer;margin-left:0px">Fill Attandence</a>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="margin-top:-31px">
+                                <div class="form-group">
+                                    <a href="#" class="btn bg-gradient-dark btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" data-container="body" data-animation="true" onclick="ShowFilter()"><i class="fa fa-filter"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -176,6 +191,25 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="Status_TeacherAttandence" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:73px;">Are you sure want to fill this Attandence for teacher ?.</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 166px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Save</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="~/Scripts/School/TeacherAttandence.js"></script>

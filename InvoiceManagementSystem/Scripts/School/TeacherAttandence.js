@@ -11,8 +11,10 @@ function ShowFilter() {
 }
 $(document).ready(function () {
     $('#FilterDiv').hide();
-    var currentDate = new Date().toISOString().slice(0, 10);
-    document.getElementById('Date').value = currentDate;
+    var currentDate = new Date();
+    var formattedCurrentDate = currentDate.toISOString().split('T')[0];
+    document.getElementById('Date').value = formattedCurrentDate;
+    document.getElementById('Date').max = formattedCurrentDate;
     GetTeacherAttandenceList(1);
     GetTeacher();
 });
@@ -20,6 +22,7 @@ $(document).ready(function () {
 function SelectAll() {
     var selectAllChecked = $('#selectAllCheckbox').prop('checked');
     $('.chkVersIDs').prop('checked', selectAllChecked);
+
 }
 
 $('.chkVersIDs').change(function () {
@@ -34,6 +37,7 @@ function GetSelectedId() {
     });
     return selectedValues;
 }
+
 function Show() {
 
     if (document.getElementById('InActive').checked) {
@@ -57,85 +61,95 @@ function Hide() {
     }
 }
 
+function LoadAttendanceData() {
+    var ids = GetSelectedId();
+    var TeacherId = "";
+    for (var i = 0; i < ids.length; i++) {
+        TeacherId += ids[i] + ",";
+    }
+    TeacherId = TeacherId.slice(0, -1); // Remove the trailing comma
+
+    // Set the value of the hidden field
+    $("#chkVersIDs").val(TeacherId);
+
+    var VersData = {
+        Status: $("#Status").val(),
+        Date: $("#Date").val(),
+        TeacherId: TeacherId
+    };
+    return VersData;
+}
+
+
+
+function UpgradeAttendanceData() {
+    try {
+        var isValid = true;
+        var UpgradeAttendanceData = LoadAttendanceData();
+        if (UpgradeAttendanceData.Status === "2") {
+            $("#errStatus").html("Please select status.");
+            isValid = false;
+        }
+        if (UpgradeAttendanceData.TeacherId === undefined || UpgradeAttendanceData.TeacherId === null || UpgradeAttendanceData.TeacherId.length <= 0) {
+            toastr.error("Please select at least one Store.");
+            isValid = false;
+        }
+        if (!isValid) {
+            return false;
+        }
+        $('#Status_TeacherAttandence').modal('show');
+    }
+    catch (e) {
+        toastr.error("An error occurred. Please check the console for details.");
+        console.error(e);
+    }
+}
 function InsertData() {
+    var UpgradeAttendanceData = LoadAttendanceData();
+    var TeacherId = UpgradeAttendanceData.TeacherId;
+    var Status = UpgradeAttendanceData.Status;
+    var Date = UpgradeAttendanceData.Date;
 
-    var val = true;
-    var Id = $('#hdnintId').val();
-    var SearchText = $('#SearchText').val();
-    var TeacherId = $('#TeacherId').val();
-    if (TeacherId === 0) {
-        $("#errTeacher").html("Please select teacher.");
-        val = false;
-    }
-    var Date = $('#Date').val();
-    var LeaveType = $('#LeaveType').val();
-    var Reason = $('#Reason').val();
-    var Status = $("input[type='radio']:checked").val();
-    if (Status === "Active") {
-        Status = true
-    }
-    else {
-        Status = false
-    }
-
-    if (Status === 0) {
-        if (LeaveType === 0) {
-            $("#errLeaveType").html("Please enter leave type.");
-            val = false;
-        }
-        if (Reason === "" || /\S/.test(Reason) === false) {
-            $("#errReason").html("Please enter reason.");
-            val = false;
-        }
-    }
-
-    var formData = new FormData();
-    if (val === false) {
-        return;
-    }
-
-    formData.append('Id', Id);
-    formData.append('TeacherId', TeacherId);
-    formData.append('Status', Status);
-    formData.append('SearchText', SearchText);
-    formData.append('Date', Date);
-    formData.append('LeaveType', LeaveType);
-    formData.append('Reason', Reason);
+    // Create an object to represent the data
+    var model = {
+        TeacherId: TeacherId,
+        Status: Status,
+        Date: Date
+    };
+    $('#TeacherId').val(TeacherId);
     ShowWait();
     $.ajax({
         type: "POST",
         url: '/TeacherAttandence/InsertTeacherAttandence',
         contentType: "application/json; charset=utf-8",
-        contentType: false,
-        processData: false,
-        data: formData,
+        data: JSON.stringify(model), // Send data as JSON string
         success: function (data) {
             if (data !== null) {
                 if (data === 'Success') {
-                    toastr.success('TeacherAttandence inserted successfully');
+                    toastr.success("Attedance inserted successfully.");
+                    document.getElementById('Status').value = "2";
+                    $('#errStatus').html("");
+                    $('#Status_TeacherAttandence').modal('hide');
                     GetTeacherAttandenceList(1);
-                    $('#TeacherAttandence').click();
-                    ClearData(1);
                 }
-                else if (data === 'Updated') {
-                    toastr.success('TeacherAttandence updated successfully');
+                else {
+                    toastr.success("Attedance updated successfully.");
+                    document.getElementById('Status').value = "2";
+                    $('#errStatus').html("");
+                    $('#Status_TeacherAttandence').modal('hide');
                     GetTeacherAttandenceList(1);
-                    $('#TeacherAttandence').click();
-                    ClearData(1);
-                }
-                else if (data === 'Exists') {
-                    toastr.error('TeacherAttandence already exists!');
-                    document.getElementById('Date').value = "";
                 }
             }
-            HideWait();
         },
-        error: function (xyz) {
-            HideWait();
-            alert('errors');
+        error: function (response) {
+            toastr.error("Error");
+            console.error(response);
         }
     });
 }
+
+
+
 
 function ClearData1(type) {
 
@@ -146,9 +160,7 @@ function ClearData1(type) {
         $('#tblMsg').html("");
     }
 }
-
 function GetTeacher() {
-
     var cls = {
     }
     $.ajax({
@@ -173,11 +185,11 @@ function GetTeacher() {
     });
 }
 
+
 function GetTeacherAttandenceList(page) {
 
 
     var Id = 0;
-    var intActive = document.getElementById('intActive').value;
     var TeacherId = document.getElementById('ddlTeacherId').value
     var Date = document.getElementById('Date').value
     if (document.getElementById('PageSize') !== null) {
@@ -196,7 +208,6 @@ function GetTeacherAttandenceList(page) {
         Id: Id,
         TeacherId: TeacherId,
         Date: Date,
-        intActive: intActive,
         PageSize: PageSize,
         PageIndex: PageIndex,
     }
@@ -333,7 +344,6 @@ function ClearData(type) {
         document.getElementById('errTeacher').value = "";
         $("#LeaveType").val('0').trigger('change');
         $("#TeacherId").val('0').trigger('change');
-        document.getElementById('intActive').value = '3';
         if (Id === "0") {
 
             document.getElementById('hdnintId').value = "0";
@@ -348,7 +358,6 @@ function ClearData(type) {
         }
     }
     else {
-        document.getElementById('intActive').value = '3';
         $("#ddlTeacherId").val('0').trigger('change');
         GetTeacherAttandenceList();
     }

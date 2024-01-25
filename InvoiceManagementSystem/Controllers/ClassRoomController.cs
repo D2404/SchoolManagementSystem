@@ -171,7 +171,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             DataTable data = (DataTable)Session["ExpotToExcelClassRoomReport"];
 
-            string Filepath = Path.Combine(Server.MapPath("~/Data/Item"));
+            string Filepath = Path.Combine(Server.MapPath("~/Data/Item/"));
             string fileName = "ClassRoomReport" + DateTime.Now.ToString("ddMMyyyymmss");
             string file = Filepath + fileName;
 
@@ -206,7 +206,7 @@ namespace InvoiceManagementSystem.Controllers
 
                 // Add title "Manage Classroom" above column headers
                 var titleCell = ws.Cell(3, 1);
-                titleCell.Value = "Classroom Data";
+                titleCell.Value = "ClassRoom Data";
                 titleCell.Style.Font.Bold = true;
                 titleCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 titleCell.Style.Fill.BackgroundColor = XLColor.LightGray;

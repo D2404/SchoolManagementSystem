@@ -856,7 +856,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\Login.js" />
+    <Content Include="Scripts\School\FeesCollection.js" />
+    <Content Include="Scripts\School\FeesHistory.js" />
+    <Content Include="Scripts\School\Leave.js" />
+    <Content Include="Scripts\School\Login.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
@@ -866,6 +869,8 @@
     <Content Include="Scripts\School\ClassWiseFees.js" />
     <Content Include="Scripts\School\ExamDetails.js" />
     <Content Include="Scripts\School\ExamMarks.js" />
+    <Content Include="Scripts\School\Student.js" />
+    <Content Include="Scripts\School\StudentAttandence.js" />
     <Content Include="Scripts\School\Subject.js" />
     <Content Include="Scripts\School\Teacher.js" />
     <Content Include="Scripts\School\TeacherAttandence.js" />
@@ -967,8 +972,6 @@
     <Content Include="Views\Home\_StudentByTeacherList.cshtml" />
     <Content Include="Views\Timetable\_TimetableListPartial.cshtml" />
     <Content Include="Views\Timetable\Timetable.cshtml" />
-    <Content Include="Views\Print\PrintData.cshtml" />
-    <Content Include="Views\Print\_PrintData.cshtml" />
     <Content Include="Views\Leave\_LeaveListPartial.cshtml" />
     <Content Include="Views\Leave\Leave.cshtml" />
     <Content Include="Views\Home\Index1.cshtml" />

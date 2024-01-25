@@ -1,4 +1,4 @@
-﻿@model InvoiceManagementSystem.Models.DashboardModel
+﻿﻿@model InvoiceManagementSystem.Models.DashboardModel
 @{
     ViewBag.Title = "Home";
     ViewBag.ActionName = "Home";
@@ -20,7 +20,7 @@
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3">
         <nav aria-label="breadcrumb">
-            <h6 class="font-weight-bolder text-white mb-0">Dashboard</h6>
+            <h6 class="font-weight-bolder text-white mb-0"><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i>&nbsp;&nbsp;&nbsp;Dashboard</h6>
         </nav>
     </div>
 </nav>
@@ -43,7 +43,7 @@
                                                     <div class="numbers">
                                                         <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Class</b></p>
                                                         <a href="javascript:void(0)" onclick="ClassRoom(1);">
-                                                            <h5 class="text-primary text-md font-weight-bolder" id="link" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalClassRoom == 0 ? 0 : Model.LSTDashBoardList[0].TotalClassRoom)</h5>
+                                                            <h5 class="text-md font-weight-bolder" id="link" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalClassRoom == 0 ? 0 : Model.LSTDashBoardList[0].TotalClassRoom)</h5>
                                                         </a>
                                                     </div>
                                                 </div>
@@ -67,7 +67,7 @@
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Subject</b></p>
                                             <a href="javascript:void(0)" onclick="Subject(1);">
-                                                <h5 class="text-primary text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalSubject == 0 ? 0 : Model.LSTDashBoardList[0].TotalSubject)</h5>
+                                                <h5 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalSubject == 0 ? 0 : Model.LSTDashBoardList[0].TotalSubject)</h5>
                                             </a>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Student</b></p>
                                             <a href="javascript:void(0)" onclick="Student(1);">
-                                                <h5 class="text-primary text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalStudent == 0 ? 0 : Model.LSTDashBoardList[0].TotalStudent)</h5>
+                                                <h5 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalStudent == 0 ? 0 : Model.LSTDashBoardList[0].TotalStudent)</h5>
                                             </a>
                                         </div>
                                     </div>
@@ -506,7 +506,7 @@
                 </div>
                 <br />
                 <div class="row" style="margin-left:1px">
-                    <div class="col-xl-5 col-sm-6 mb-xl-0 mb-6">
+                    <div class="col-xl-5">
                         @if (Model.LSTTeacherList != null)
                         {
                             <div class="row">
@@ -519,14 +519,14 @@
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <div class="numbers">
-                                                            <p style="text-decoration: underline; color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Teacher's   Today's Birthday</b></p>
+                                                            <p style="color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Teacher's   Today's Birthday</b></p>
                                                             <br />
                                                             @foreach (var item in Model.LSTTeacherList)
                                                             {
                                                                 if (item.Dob != null && item.Type == 1)
                                                                 {
                                                                     <div class="dash-card-container">
-                                                                        <h6 class="text-sm font-weight-bolder" style="color: #1e86f1">@item.Dob <br /> @item.Name</h6>
+                                                                        <h6 class="font-weight-bolder" style="color: #1e86f1;font-size:13px">@item.Dob <br /> @item.Name</h6>
                                                                     </div>
                                                                 }
                                                             }
@@ -548,10 +548,10 @@
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <div class="numbers">
-                                                            <p style="text-decoration: underline; color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Teacher's   Today's Birthday</b></p>
+                                                            <p style="color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Teacher's   Today's Birthday</b></p>
                                                             <br />
                                                             <div class="dash-card-container">
-                                                                <h6 class="text-sm font-weight-bolder" style="font-size: 14px; color: #1e86f1">Today is no one's birthday</h6>
+                                                                <h6 class="font-weight-bolder" style="font-size: 13px; color: #1e86f1">Today is no one's birthday</h6>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -569,7 +569,7 @@
                             </div>
                         }
                     </div>
-                    <div class="col-xl-5 col-sm-8 mb-xl-0 mb-6" style="margin-left:120px;">
+                    <div class="col-xl-5" style="margin-left:160px;">
                         @if (Model.LSTTeacherList != null)
                         {
                             <div class="row">
@@ -582,14 +582,14 @@
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <div class="numbers">
-                                                            <h5 style="text-decoration: underline; color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Teacher's  Upcoming Birthday</b></h5>
+                                                            <h5 style="color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Teacher's  Upcoming Birthday</b></h5>
                                                             <br />
                                                             @foreach (var item in Model.LSTTeacherList)
                                                             {
                                                                 if (item.Dob != null && item.Type == 2)
                                                                 {
                                                                     <div class="dash-card-container">
-                                                                        <h6 class="text-sm font-weight-bolder" style="font-size: 14px; color: #1e86f1 "> @item.ClassNo - @item.Name - @item.Dob </h6>
+                                                                        <p class="font-weight-bolder" style="font-size: 13px; color: #1e86f1 "> @item.ClassNo - @item.Name - @item.Dob </p>
                                                                     </div>
                                                                 }
                                                             }
@@ -625,14 +625,14 @@
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <div class="numbers">
-                                                            <h6 style="text-decoration:underline;font-size: 28px;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Today's Birthday</h6>
+                                                            <h6 style="font-size: 28px;" class="text-sm mb-0 text-uppercase font-weight-bold">Student's Today's Birthday</h6>
                                                             <br />
                                                             @foreach (var item in Model.LSTTeacherList)
                                                             {
                                                                 if (item.Dob != null && item.Type == 2)
                                                                 {
                                                                     <div class="dash-card-container">
-                                                                        <h6 class="text-sm font-weight-bolder" style="font-size: 14px; color: #1e86f1 ">@item.Dob - @item.Name - @item.ClassNo</h6>
+                                                                        <p class="font-weight-bolder" style="font-size: 13px; color: #1e86f1 ">@item.Dob - @item.Name - @item.ClassNo</p>
                                                                     </div>
                                                                 }
                                                             }
@@ -654,10 +654,10 @@
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <div class="numbers">
-                                                            <h5 style="text-decoration:underline;color:black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Student's Today's Birthday</b></h5>
+                                                            <h5 style="color:black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Student's Today's Birthday</b></h5>
                                                             <br />
                                                             <div class="dash-card-container">
-                                                                <h6 class="text-sm font-weight-bolder" style="font-size: 14px; color: #1e86f1 ">Today is no one's birthday</h6>
+                                                                <p class="font-weight-bolder" style="font-size: 13px; color: #1e86f1 ">Today is no one's birthday</p>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -688,14 +688,14 @@
                                                 <div class="row">
                                                     <div class="col-8">
                                                         <div class="numbers">
-                                                            <h5 style="text-decoration: underline; color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Student's  Upcoming Birthday</b></h5>
+                                                            <h5 style="color: black" class="text-sm mb-0 text-uppercase font-weight-bold"><b>Student's  Upcoming Birthday</b></h5>
                                                             <br />
                                                             @foreach (var item in Model.LSTStudentList)
                                                             {
                                                                 if (item.Dob != null && item.Type == 2)
                                                                 {
                                                                     <div class="dash-card-container">
-                                                                        <h6 class="text-sm font-weight-bolder" style="font-size: 14px; color: #1e86f1 ">@item.Dob - @item.Name - @item.ClassNo</h6>
+                                                                        <p class="font-weight-bolder" style="font-size: 13px; color: #1e86f1 ">@item.Dob - @item.Name - @item.ClassNo</p>
                                                                     </div>
                                                                 }
                                                             }
@@ -725,7 +725,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Next Holiday</b></p>
-                                            <h6 class="text-sm font-weight-bolder" style="color:#1e86f1"><br /> @(Model.LSTDashBoardList[0].NextHolidayDate)- @(Model.LSTDashBoardList[0].NextHolidayDay)<br />@(Model.LSTDashBoardList[0].NextHolidayName) </h6>
+                                            <p class="font-weight-bolder" style="color:#1e86f1;font-size:13px"><br /> @(Model.LSTDashBoardList[0].NextHolidayDate)- @(Model.LSTDashBoardList[0].NextHolidayDay) - @(Model.LSTDashBoardList[0].NextHolidayName) </p>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
