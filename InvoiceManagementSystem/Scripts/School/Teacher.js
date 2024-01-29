@@ -220,7 +220,41 @@ function GetTeacherGrid(page) {
         }
     });
 }
+function ExportTeacher() {
+    var Id = 0;
+    var SearchText = document.getElementById('SearchText').value;
+    var intActive = document.getElementById('intActive').value;
 
+    var cls = {
+        Id: Id,
+        intActive: intActive,
+        SearchText: SearchText,
+    };
+
+    ShowWait();
+    $.ajax({
+        url: '/Teacher/ExpotToExcelTeacherReport',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            if (data === "success") {
+                window.location.href = "/Teacher/ExportToExcel";
+            }
+            else {
+                alert("No Record Found.");
+                HideWait();
+            }
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('Error');
+        }
+    });
+}
 function ValidateBasicDetails(id) {
 
     var Id = $('#hdnintId').val();

@@ -229,7 +229,41 @@ function GetTimetableList(page) {
         }
     });
 }
+function ExportTimetable() {
+    var Id = 0;
+    var Days = document.getElementById('ddlDays').value;
+    var TeacherId = document.getElementById('ddlTeacherId').value;
 
+    var cls = {
+        Id: Id,
+        Days: Days,
+        TeacherId: TeacherId,
+    };
+
+    ShowWait();
+    $.ajax({
+        url: '/Timetable/ExpotToExcelTimetableReport',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            if (data === "success") {
+                window.location.href = "/Timetable/ExportToExcel";
+            }
+            else {
+                alert("No Record Found.");
+                HideWait();
+            }
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('Error');
+        }
+    });
+}
 function GetSingleTimetableData(id) {
     $('#errSubjectName').html("");
     document.getElementById('btnAdd').innerHTML = "Update";

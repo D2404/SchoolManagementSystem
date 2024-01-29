@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace InvoiceManagementSystem.Models
@@ -162,5 +163,49 @@ namespace InvoiceManagementSystem.Models
             }
             return cls;
         }
+        public DataTable ExportTeacherAttendance(TeacherAttandenceModel cls)
+        {
+            try
+            {
+                List<TeacherAttandenceModel> LSTList = new List<TeacherAttandenceModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
+                cmd.Parameters.AddWithValue("@Mode", 3);
+                //cmd.Parameters.AddWithValue("@Search", cls.SearchText);
+                //cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.Parameters.AddWithValue("@Date", cls.Date);
+                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        // HTML Tags Code Remove.
+                        dr["TeacherName"] = Regex.Replace(dr["TeacherName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Status"] = Regex.Replace(dr["Status"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Date"] = Regex.Replace(dr["Date"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        //  dr["Date"] = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
+                    }
+                }
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                throw ex;
+            }
+        }
     }
+
 }

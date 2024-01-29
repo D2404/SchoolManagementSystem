@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace InvoiceManagementSystem.Models
@@ -410,6 +411,50 @@ namespace InvoiceManagementSystem.Models
                 Status = "error";
             }
             return Status;
+        }
+
+        public DataTable ExportTeacher(TeacherModel cls)
+        {
+            try
+            {
+                List<TeacherModel> LSTList = new List<TeacherModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
+                cmd.Parameters.AddWithValue("@Mode", 5);
+                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
+                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        // HTML Tags Code Remove.
+                        dr["FullName"] = Regex.Replace(dr["FullName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["TeacherName"] = Regex.Replace(dr["TeacherName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Email"] = Regex.Replace(dr["Email"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["MobileNo"] = Regex.Replace(dr["MobileNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Dob"] = Regex.Replace(dr["Dob"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Gender"] = Regex.Replace(dr["Gender"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Status"] = Regex.Replace(dr["Status"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                    }
+                }
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                throw ex;
+            }
         }
     }
 }

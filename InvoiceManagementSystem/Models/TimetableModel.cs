@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace InvoiceManagementSystem.Models
@@ -197,6 +198,48 @@ namespace InvoiceManagementSystem.Models
                 Status = "error";
             }
             return Status;
+        }
+
+        public DataTable ExportTimeTable(TimetableModel cls)
+        {
+            try
+            {
+                List<TeacherModel> LSTList = new List<TeacherModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
+                cmd.Parameters.AddWithValue("@Mode",6);
+                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@Days", cls.Days);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        // HTML Tags Code Remove.
+                        dr["Days"] = Regex.Replace(dr["Days"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["StartTime"] = Regex.Replace(dr["StartTime"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["EndTime"] = Regex.Replace(dr["EndTime"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["TeacherName"] = Regex.Replace(dr["TeacherName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["SubjectName"] = Regex.Replace(dr["SubjectName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                    }
+                }
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                throw ex;
+            }
         }
     }
 }

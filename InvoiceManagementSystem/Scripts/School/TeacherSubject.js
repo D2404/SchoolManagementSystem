@@ -187,6 +187,44 @@ function GetTeacherSubjectList(page) {
     });
 }
 
+function ExportTeacherSubject() {
+    debugger
+    var Id = 0;
+    var SearchText = document.getElementById('SearchText').value;
+    var intActive = document.getElementById('intActive').value;
+    var ClassId = document.getElementById('ddlClassId').value;
+
+    var cls = {
+        Id: Id,
+        intActive: intActive,
+        ClassId: ClassId,
+        SearchText: SearchText,
+    };
+
+    ShowWait();
+    $.ajax({
+        url: '/TeacherSubject/ExpotToExcelTeacherSubjectReport',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            if (data === "success") {
+                window.location.href = "/TeacherSubject/ExportToExcel";
+            }
+            else {
+                alert("No Record Found.");
+                HideWait();
+            }
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('Error');
+        }
+    });
+}
 function GetSingleTeacherSubjectData(id) {
     $('#errSubjectName').html("");
     document.getElementById('btnAdd').innerHTML = "Update";

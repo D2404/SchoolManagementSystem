@@ -1,5 +1,8 @@
 ﻿using InvoiceManagementSystem.Models;
 using System;
+using System.Net;
+using System.Net.Mail;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -16,7 +19,7 @@ namespace InvoiceManagementSystem.Controllers
             int? TeacherId = objCommon.getTeacherIdFromSession();
             int? UserId = objCommon.getUserIdFromSession();
             int? StudentId = objCommon.getStudentIdFromSession();
-            if (TeacherId > 0 || UserId > 0 || StudentId >0)
+            if (TeacherId > 0 || UserId > 0 || StudentId > 0)
             {
                 cls.TeacherId = TeacherId.Value;
                 cls.Id = UserId.Value;
@@ -24,12 +27,12 @@ namespace InvoiceManagementSystem.Controllers
                 cls = cls.MyProfile(cls);
                 return View(cls);
             }
-           
-            else 
+
+            else
             {
                 return RedirectToAction("Login", "Account");
             }
-           
+
         }
 
 
@@ -60,7 +63,80 @@ namespace InvoiceManagementSystem.Controllers
         {
             return View();
         }
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost, ValidateInput(false)]
+        public ActionResult ForgotPassword(AccountModel cls)
+        {
+            try
+            {
+                cls = cls.ForgotPassword(cls);
+                var Password = clsCommon.DecryptString(cls.Password);
+                string toEmail = cls.Email;
+                string mailHeading = "Forgot password";
+                string subject = "Recover your password";
+                string message = "your password is =" + Password;
+                SendMail(mailHeading, subject, message, toEmail);
+                return Json(cls.Response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public void SendMail(string mailHeading, string subject, string message, string toEmail)
+        {
+            //try
+            //{
+            //MailMessage mail = new MailMessage();
+            //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
+            //mail.From = new MailAddress(mailHeading + " <panchaldhruv1424@gmail.com>");
+            //mail.To.Add(toEmail);
+            //mail.Subject = subject;
+            //mail.Body = message;
+            //mail.IsBodyHtml = true;
+
+            //SmtpServer.Port = 587;
+            //SmtpServer.Credentials = new System.Net.NetworkCredential("panchaldhruv1424@gmail.com", "Your-Zoho-App-Password");
+            //SmtpServer.EnableSsl = true;
+
+            //SmtpServer.Send(mail);
+
+            var fromAddress = new MailAddress("mmchauhan1906@gmail.com");
+            var fromPassword = "9737954396";
+            var toAddress = new MailAddress("panchaldhruv1424@gmail.com");
+
+            string xsubject = "subject";
+            string body = "body";
+
+            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+            };
+
+            using (var xmessage = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = xsubject,
+                Body = body
+            })
+
+                smtp.Send(xmessage);
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    // Handle the exception, log it, or rethrow if needed
+            //    throw ex;
+            //}
+        }
 
         [HttpPost, ValidateInput(false)]
         public ActionResult Login(AccountModel cls)

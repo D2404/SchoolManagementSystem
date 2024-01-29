@@ -149,6 +149,43 @@ function InsertData() {
 }
 
 
+function ExportTeacherAttendance() {
+    debugger
+    var Id = 0;
+    var TeacherId = document.getElementById('ddlTeacherId').value
+    var Date = document.getElementById('Date').value
+
+    var cls = {
+        Id: Id,
+        TeacherId: TeacherId,
+        Date: Date,
+    };
+
+    ShowWait();
+    $.ajax({
+        url: '/TeacherAttandence/ExpotToExcelTeacherAttendanceReport',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            if (data === "success") {
+                window.location.href = "/TeacherAttandence/ExportToExcel";
+            }
+            else {
+                alert("No Record Found.");
+                HideWait();
+            }
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('Error');
+        }
+    });
+}
+
 
 
 function ClearData1(type) {
