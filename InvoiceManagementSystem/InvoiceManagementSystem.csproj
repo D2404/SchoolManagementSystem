@@ -61,6 +61,9 @@
       <HintPath>..\packages\Microsoft.ApplicationBlocks.Data.2.0.0\lib\net45\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="NReco.PdfGenerator, Version=1.2.1.0, Culture=neutral, PublicKeyToken=231663d50a41b451, processorArchitecture=MSIL">
+      <HintPath>..\packages\NReco.PdfGenerator.1.2.1\lib\net45\NReco.PdfGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="SixLabors.Fonts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d998eea7b14cab13, processorArchitecture=MSIL">
       <HintPath>..\packages\SixLabors.Fonts.1.0.0\lib\netstandard2.0\SixLabors.Fonts.dll</HintPath>
     </Reference>
@@ -218,6 +221,7 @@
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\LeaveModel.cs" />
     <Compile Include="Models\ClassRoomModel.cs" />
+    <Compile Include="Models\SchoolModel.cs" />
     <Compile Include="Models\TimetableModel.cs" />
     <Compile Include="Models\DashboardModel.cs" />
     <Compile Include="Models\FeesModel.cs" />
@@ -434,6 +438,7 @@
     <Content Include="Data\assets\css\nucleo-icons.css" />
     <Content Include="Data\assets\css\nucleo-svg.css" />
     <Content Include="Data\assets\css\select2.min.css" />
+    <Content Include="Data\PDFFormat\FeesInvoice.html" />
     <Content Include="Data\Profile\pngtree-school-building-illustration-background-image_1948855.jpg" />
     <Content Include="Data\Profile\pngtree-school-teaching-building-retro-illustration-background-image_1948854.jpg" />
     <Content Include="Data\assets\js\argon-dashboard.min9c7f.js" />
@@ -992,9 +997,11 @@
     <Content Include="Views\Home\Index2.cshtml" />
     <Content Include="Views\Teacher\ViewTeacher.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Fees\FeesInvoice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Data\FeesInvoice\" />
     <Folder Include="Data\Item\" />
     <Folder Include="Data\ManageAttendance\" />
   </ItemGroup>

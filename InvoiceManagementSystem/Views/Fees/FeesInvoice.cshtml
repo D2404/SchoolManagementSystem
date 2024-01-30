@@ -1,0 +1,178 @@
+﻿@model InvoiceManagementSystem.Models.FeesModel
+@{ ViewBag.Title = "Fees Invoice"; }
+<div class="container-fluid my-5 py-2">
+    <div class="row">
+
+        <div class="col-md-12 col-sm-10 mx-auto">
+
+            <div class="card my-sm-5 my-lg-0">
+
+                @if (Model != null)
+                {
+                    if (Model.LSTSchoolList != null && Model.LSTSchoolList.Count > 0)
+                    {
+                        var item = Model.LSTSchoolList[0];
+                        var student = Model.LSTFeesList[0];
+
+                        <div class="card-header text-center">
+                            <h5 style="margin-bottom:-35px"><i class="fa fa-file-invoice"></i>    Fees Invoice</h5>
+                            <div style="margin-left:892px">
+                                <button class="btn btn-light" onclick="DownloadFees(@Model.LSTFeesList[0].StudentId)" type="button" name="button" ><i class="fa fa-file-pdf-o"style="color:red"></i> PDF</button>
+                            </div>
+                            <div class="row justify-content-between">
+
+                                <div class="col-md-4 text-start">
+                                    <img class="mb-2 w-25 p-2" style="margin-left:449px;margin-top:-21px" src="~/Data/assets/img/muktajivan-school-logo.png" alt="Logo"><br />
+
+                                </div>
+                                <h6 class="text-uppercase">@item.SchoolName</h6>
+                                <p class="d-block text-secondary opacity-15" style="font-size: 15px;"><i class="fa fa-address-book"></i> : @item.Address</p>
+                                <p class="d-block text-secondary opacity-15" style="font-size: 14px;margin-left:-397px"><i class="fa fa-envelope"></i> : @item.Email</p>
+                                <p class="d-block text-secondary opacity-15" style="font-size: 14px; margin-left: 439px"><i class="fa fa-phone"></i> : @item.MobileNo</p>
+                                @*<div class="col-lg-4 col-md-7 text-md-end text-start mt-5">
+            <h6 class="d-block mt-2 mb-0">Billed to:@student.StudentName</h6>
+            <p class="text-secondary">
+                4006 Locust View Drive<br>
+                San Francisco CA<br>
+                California
+            </p>
+        </div>*@
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3 text-start">
+                                    <h6 class="text-start text-dark">
+                                        Name
+                                    </h6>
+                                    <p class="d-block text-secondary opacity-15" style="font-size:15px">
+                                        @student.StudentName
+                                    </p>
+                                </div>
+                                <div class="col-md-3 text-start">
+                                    <h6 class="text-start text-dark">
+                                        Email
+                                    </h6>
+                                    <p class="d-block text-secondary opacity-15" style="font-size:15px">
+                                        @student.Email
+                                    </p>
+                                </div>
+                                <div class="col-md-2 text-start">
+                                    <h6 class="text-start text-dark">
+                                        Mobile No
+                                    </h6>
+                                    <p class="d-block text-secondary opacity-15" style="font-size:15px">
+                                        @student.MobileNo
+                                    </p>
+                                </div>
+                                <div class="col-md-1 text-start">
+                                    <h6 class="text-start text-dark">
+                                        Class
+                                    </h6>
+                                    <p class="d-block text-secondary opacity-15" style="font-size:15px">
+                                        @student.ClassNo
+                                    </p>
+                                </div>
+                                <div class="col-md-1 text-start">
+                                    <h6 class="text-start text-dark">
+                                        Roll No
+                                    </h6>
+                                    <p class="d-block text-secondary opacity-15" style="font-size:15px">
+                                        @student.RollNo
+                                    </p>
+                                </div>
+                                <div class="col-md-2 text-start">
+                                    <h6 class="text-start  text-dark">
+                                        Amount date
+                                    </h6>
+                                    <p class="d-block text-secondary opacity-15" style="font-size:15px">
+                                        @student.Date
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            @if (Model.LSTFeesHistoryList != null && Model.LSTFeesHistoryList.Count > 0)
+                            {
+                                <div class="table-responsive border-radius-lg">
+                                    <table class="table text-right table table-striped">
+                                        <thead class="bg-default">
+                                            <tr>
+                                                <th scope="col"  style="text-align:center" class="text-uppercase text-bg-dark text-xxs font-weight-bolder opacity-9">#</th>
+                                                <th scope="col"  style="text-align:center" class="text-uppercase text-bg-dark text-xxs font-weight-bolder opacity-9">Name</th>
+                                                <th scope="col"  style="text-align:center" class="text-uppercase text-bg-dark text-xxs font-weight-bolder opacity-9">Amount Date</th>
+                                                <th scope="col"  style="text-align:center" class="text-uppercase text-bg-dark text-xxs font-weight-bolder opacity-9">Month</th>
+                                                <th scope="col"  style="text-align:center" class="text-uppercase text-bg-dark text-xxs font-weight-bolder opacity-9" colspan="2">Year</th>
+                                                <th scope="col"  style="text-align:center" class="text-uppercase text-bg-dark text-xxs font-weight-bolder opacity-9">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @for (int i = 0; i < Model.LSTFeesHistoryList.Count; i++)
+                                            {
+                                                var detail = Model.LSTFeesHistoryList[i];
+
+                                            <tr>
+                                                <td style="font-size:15px;text-align:center" class="text-xs font-weight-bold mb-0">@(i + 1)</td>
+                                                <td style="font-size:15px;text-align:center" class="text-xs font-weight-bold mb-0">@detail.StudentName</td>
+                                                <td style="font-size:15px;text-align:center" class="text-xs font-weight-bold mb-0">@detail.Date</td>
+                                                <td style="font-size:15px;text-align:center" class="text-xs font-weight-bold mb-0">@detail.MonthName</td>
+                                                <td style="font-size:15px;text-align:center" class="text-xs font-weight-bold mb-0" colspan="2">@detail.YearId</td>
+                                                <td style="font-size:15px;text-align:center" class="text-xs font-weight-bold mb-0">@detail.FeesAmount</td>
+                                            </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                @for (int i = 0; i < Model.LSTFeesList.Count; i++)
+                                                {
+                                                    var total = Model.LSTFeesList[i];
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th></th>
+                                                    <th  style="text-align: center; color: black" class="text-sm font-weight-bold mb-0" colspan="2">Total</th>
+                                                    <th colspan="1" style="font-size:15px;text-align:center;color:black" class="text-sm font-weight-bold mb-0">@total.FeesAmount</th>
+                                                }
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    function DownloadFees(StudentId) {
+        debugger
+        var cls = {
+            StudentId: StudentId
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Fees/DownloadFees?StudentId=' + StudentId,
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+                window.open('/Data/FeesInvoice/' + data, '_blank');
+                HideWait();
+            },
+            error: function (xhr) {
+                console.log(xhr)
+                HideWait();
+            }
+        });
+
+    }
+</script>

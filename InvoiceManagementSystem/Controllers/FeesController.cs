@@ -1,10 +1,12 @@
 ﻿using InvoiceManagementSystem.Models;
 using Microsoft.ApplicationBlocks.Data;
+using NReco.PdfGenerator;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -211,6 +213,7 @@ namespace InvoiceManagementSystem.Controllers
             return View();
         }
 
+
         [HttpPost]
 
         public ActionResult InsertFees(FeesModel model)
@@ -255,7 +258,7 @@ namespace InvoiceManagementSystem.Controllers
                     {
                         FeesModel obj = new FeesModel();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                       obj.Status = Convert.ToInt32(dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString());
+                        obj.Status = Convert.ToInt32(dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString());
                         obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
                         obj.StudentId = Convert.ToInt32(dt.Rows[i]["StudentId"] == null || dt.Rows[i]["StudentId"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentId"].ToString());
                         //obj.MonthId = Convert.ToInt32(dt.Rows[i]["MonthId"] == null || dt.Rows[i]["MonthId"].ToString().Trim() == "" ? null : dt.Rows[i]["MonthId"].ToString());
@@ -363,7 +366,7 @@ namespace InvoiceManagementSystem.Controllers
                 cls.fromEntries = startentries;
                 cls.LSTFeesList = lstFeesList;
 
-                
+
                 return PartialView("_FeesHistoryListPartial", cls);
 
             }
@@ -410,6 +413,162 @@ namespace InvoiceManagementSystem.Controllers
             {
                 throw ex;
             }
+        }
+
+        public ActionResult FeesInvoice(int StudentId)
+        {
+            try
+            {
+                if (objCommon.getUserIdFromSession() != 0)
+                {
+                    FeesModel cls = new FeesModel();
+                    if (StudentId.ToString() != null && StudentId > 0)
+                    {
+                        cls.StudentId = StudentId;
+
+                        cls = cls.GetFeesByStudentId(cls);
+                        cls = cls.GetSchoolDetails(cls);
+
+                        if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
+                        {
+                            cls.StudentId = cls.LSTFeesList[0].StudentId;
+                            cls = cls.GetFeesHistoryByStudentId(cls);
+                        }
+                    }
+                    return View(cls);
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+                //}
+                //else
+                //{
+                //    return RedirectToPage();
+                //}
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        [HttpPost]
+        public ActionResult DownloadFees(int StudentId)
+        {
+            string body = "";
+            FeesModel cls = new FeesModel();
+
+            if (StudentId.ToString() != null && StudentId > 0)
+            {
+                cls.StudentId = StudentId;
+
+                cls = cls.GetFeesByStudentId(cls);
+                cls = cls.GetSchoolDetails(cls);
+
+                if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
+                {
+                    cls.StudentId = cls.LSTFeesList[0].StudentId;
+                    cls = cls.GetFeesHistoryByStudentId(cls);
+                }
+            }
+
+            using (StreamReader reader = new StreamReader(Server.MapPath("/Data/PDFFormat/FeesInvoice.html")))
+            {
+                body = reader.ReadToEnd();
+            }
+            if (cls.LSTSchoolList != null && cls.LSTSchoolList.Count > 0)
+            {
+                var item = cls.LSTSchoolList[0];
+
+                body = body.Replace("[[SchoolName]]", item.SchoolName);
+                body = body.Replace("[[Address]]", item.Address);
+                body = body.Replace("[[Email]]", "School Email.: " + item.Email); 
+                body = body.Replace("[[MobileNo]]", "School Contact.: <span>" + item.MobileNo + "</span>");
+                body = body.Replace("[[companylogo]]", "<img style = \"height:50px;width:50px;\" src=\"~/Data/assets/img/muktajivan-school-logo.png\" />");
+
+            }
+            if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
+            {
+                var item1 = cls.LSTFeesList[0];
+
+                body = body.Replace("[[StudentName]]", item1.StudentName);
+                body = body.Replace("[[StudentEmail]]", item1.Email);
+                body = body.Replace("[[StudentMobileNo]]", item1.MobileNo);
+                body = body.Replace("[[ClassNo]]", item1.ClassNo);
+                body = body.Replace("[[RollNo]]", item1.RollNo.ToString());
+                body = body.Replace("[[Date]]", item1.Date);
+
+                string InvoiceDetails = "";
+                for (int i = 0; i < cls.LSTFeesHistoryList.Count; i++)
+                {
+                    var detail = cls.LSTFeesHistoryList[i];
+                    InvoiceDetails = InvoiceDetails + "<tr>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;text-align:center'>" + (i + 1) + "</td>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.StudentName + "</td>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.Date + "</td>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;text-align:center'>" + detail.MonthName + "</td>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.YearId + "</td>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.FeesAmount + "</td>";
+                    InvoiceDetails = InvoiceDetails + "</tr>";
+
+
+                }
+
+
+                if (cls.LSTFeesHistoryList.Count < 15)
+
+                {
+
+
+                    //for (int j = cls.LSTFeesHistoryList.Count; j == cls.LSTFeesHistoryList.Count; j++)
+                    for (int j = cls.LSTFeesHistoryList.Count; j < 10; j++)
+                    {
+                        InvoiceDetails = InvoiceDetails + "<tr>";
+
+                        InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;'>&nbsp</td>";
+                        InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;'></td>";
+                        InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;'></td>";
+                        InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;'></td>";
+                        InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;'></td>";
+                        InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;'></td>";
+                        InvoiceDetails = InvoiceDetails + "</tr>";
+                    }
+
+                }
+
+                body = body.Replace("[[InvoiceDetails]]", InvoiceDetails);
+                body = body.Replace("[[FeesAmount]]", "" + item1.FeesAmount);
+            }
+
+            string dateTimeForName = "FeesInvoice_" + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_ss");
+
+            string Filepath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Data/FeesInvoice/"));
+            if (!(Directory.Exists(Filepath)))
+            {
+                Directory.CreateDirectory(Filepath);
+            }
+            System.IO.TextWriter w = new System.IO.StreamWriter(Server.MapPath("~/Data/FeesInvoice/") + dateTimeForName + ".html");
+            w.Write(body.ToString());
+            w.Flush();
+            w.Close();
+
+            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
+            var margins = new PageMargins();
+
+            margins.Top = 0;
+            margins.Bottom = 0;
+            margins.Left = 0;
+            margins.Right = 0;
+            margins.Right = 0;
+
+            htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Portrait;
+            htmlToPdf.Zoom = 1.58f;
+            htmlToPdf.Size = NReco.PdfGenerator.PageSize.A4;
+            htmlToPdf.Margins = margins;
+            htmlToPdf.GeneratePdfFromFile(Filepath + dateTimeForName + ".html", null, Filepath + dateTimeForName + ".pdf");
+            string strFilePath = Filepath + dateTimeForName + ".pdf";
+            var fileName = Path.GetFileName(strFilePath);
+            return Json(fileName, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult LoadStudent(int ClassId)
