@@ -60,11 +60,10 @@ $(document).ready(function () {
     });
 
 });
+
 function openFileInput() {
     document.getElementById('Profile').click();
 }
-
-
 
 function displaySelectedImage(input) {
     var ProfileImg = document.getElementById('ProfileImg');
@@ -80,10 +79,12 @@ function displaySelectedImage(input) {
         ProfileImg.src = "~/Data/Profile/dummy.jpg";
     }
 }
+
 function removeImage() {
     $(".gambar").attr("src", "/Data/Profile/dummy.jpg");
     $('#removeButton').hide();
 }
+
 function DisabledAnniversaryDate() {
     if ($("#MaritalStatus").val() === "Single") {
         $("#AnniversaryDate").prop("disabled", true);
@@ -91,6 +92,7 @@ function DisabledAnniversaryDate() {
         $("#AnniversaryDate").prop("disabled", false);
     }
 }
+
 function onlyNumbers(event) {
     var keyCode = event.which || event.keyCode;
 
@@ -101,6 +103,7 @@ function onlyNumbers(event) {
         return false;
     }
 }
+
 function GetClassRoom() {
     var cls = {
     }
@@ -173,6 +176,7 @@ function GetTeacherList(page) {
         }
     });
 }
+
 function GetTeacherGrid(page) {
 
     var Id = 0;
@@ -220,6 +224,7 @@ function GetTeacherGrid(page) {
         }
     });
 }
+
 function ExportTeacher() {
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
@@ -255,6 +260,7 @@ function ExportTeacher() {
         }
     });
 }
+
 function ValidateBasicDetails(id) {
 
     var Id = $('#hdnintId').val();
@@ -346,23 +352,25 @@ function ValidateBasicDetails(id) {
         var hdnfile = document.getElementById("Profile").value;
 
         if (hdnfile === null || hdnfile === "") {
-            var Profile = document.getElementById('Profile').value;
-            if (Profile === null || Profile === "") {
-                $("#errProfile").html('Please select image.');
-                return;
-            }
-            if (fileCount > 0) {
-                for (var i = 0; i < fileCount; i++) {
-                    var Profile = document.getElementById("Profile").files[i];
-                    var ext = Profile.name.split('.').pop();
-                    if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
-                        formData.append("Profile", Profile);
-                    }
-                    else {
-                        alert('Please upload valid file.');
-                        return;
-                    }
+            
+                var Profile = document.getElementById('Profile').value;
+                if (Profile === null || Profile === "") {
+                    $("#errProfile").html('Please select image.');
+                    return;
                 }
+                if (fileCount > 0) {
+                    for (var i = 0; i < fileCount; i++) {
+                        var Profile = document.getElementById("Profile").files[i];
+                        var ext = Profile.name.split('.').pop();
+                        if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
+                            formData.append("Profile", Profile);
+                        }
+                        else {
+                            alert('Please upload valid file.');
+                            return;
+                        }
+                    }
+                
             }
         }
         else {
@@ -383,6 +391,7 @@ function ValidateBasicDetails(id) {
         $('#grid-view').show();
     }
 }
+
 function ValidateAddressDetails(id) {
 
     var val = true;
@@ -462,7 +471,7 @@ function InsertData(id) {
     var MaritalStatus = $('#MaritalStatus').val();
     var AnniversaryDate = $('#AnniversaryDate').val();
     var Experience = $('#Experience').val();
-    
+
     var CurrentAddress = $('#CurrentAddress').val();
     var CurrentPincode = $('#CurrentPincode').val();
     var CurrentCity = $('#CurrentCity').val();
@@ -475,7 +484,7 @@ function InsertData(id) {
     var BankBranch = $('#BankBranch').val();
     var AccountNo = $('#AccountNo').val();
     var IFSCCode = $('#IFSCCode').val();
-    
+
     var RoleId = 2
 
     if (BankName === "" || /\S/.test(BankName) === false) {
@@ -508,21 +517,23 @@ function InsertData(id) {
     var hdnfile = $('#HiddenfileForImage').val();
 
     if (hdnfile === null || hdnfile === "" || hdnfile === undefined) {
-        var Profile = document.getElementById('Profile').value;
-        if (Profile === null || Profile === "") {
-            $("#errProfile").html('Please select image.');
-            return;
-        }
-        if (fileCount > 0) {
-            for (var i = 0; i < fileCount; i++) {
-                var Profile = document.getElementById("Profile").files[i];
-                var ext = Profile.name.split('.').pop();
-                if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
-                    formData.append("Profile", Profile);
-                }
-                else {
-                    alert('Please upload valid file.');
-                    return;
+        if (id === 0) {
+            var Profile = document.getElementById('Profile').value;
+            if (Profile === null || Profile === "") {
+                $("#errProfile").html('Please select image.');
+                return;
+            }
+            if (fileCount > 0) {
+                for (var i = 0; i < fileCount; i++) {
+                    var Profile = document.getElementById("Profile").files[i];
+                    var ext = Profile.name.split('.').pop();
+                    if (ext.toLowerCase() === "jpg" || ext.toLowerCase() === "jpeg" || ext.toLowerCase() === "png") {
+                        formData.append("Profile", Profile);
+                    }
+                    else {
+                        alert('Please upload valid file.');
+                        return;
+                    }
                 }
             }
         }
@@ -532,7 +543,7 @@ function InsertData(id) {
         var ProfileImg = hdnfile;
 
     }
-    
+
 
     if (val === false) {
         return;
@@ -580,12 +591,12 @@ function InsertData(id) {
         data: formData,
         success: function (data) {
             if (data !== null) {
-                if (data === 'Success' ) {
+                if (data === 'Success') {
                     toastr.success('Teacher inserted successfully');
                     window.location.replace("/Teacher/TeacherList");
 
                 }
-                else if (data === 'Updated' ) {
+                else if (data === 'Updated') {
                     toastr.success('Teacher updated successfully');
                     window.location.replace("/Teacher/TeacherList");
                 }
@@ -603,6 +614,102 @@ function InsertData(id) {
     });
 }
 
+function AddBulkTeacherData() {
+    var val = true;
+    $('#tblMsg').empty();
+    var formData = new FormData();
+    var totalFiles = document.getElementById("File").files.length;
+    if (totalFiles === 0) {
+        $("#errFile").html("Please select file.");
+        val = false;
+    }
+   
+    for (var i = 0; i < totalFiles; i++) {
+        var file = document.getElementById("File").files[i];
+        formData.append("file", file);
+    }
+    if (val === false) {
+        return;
+    }
+    ShowWait();
+    $.ajax({
+
+        url: '/Teacher/TeacherBulkUpload',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        contentType: false,
+        processData: false,
+        data: formData,
+        success: function (data) {
+            debugger
+
+            try {
+                var strHTML = '';
+                var j = 0;
+                if (data !== null && data.length > 0 && data[0].ErrorMessage !== 'Teacher Uploaded Successfully') {
+
+                    strHTML = strHTML + '<table class="table table-striped table-nowrap custom-table datatable">'
+                    strHTML = strHTML + '<tr class="thead-dark">'
+                    strHTML = strHTML + '<th class="thead-dark">Row No.</th>'
+                    strHTML = strHTML + '<th class="thead-dark">Error Message.</th>'
+                    strHTML = strHTML + '</tr>'
+                    strHTML = strHTML + '<tbody>'
+                    for (var i = 0; i < data.length; i++) {
+                        j = j + 1;
+
+                        strHTML = strHTML + '<tr>'
+                        strHTML = strHTML + '<td>' + j + '</td>';
+                        strHTML = strHTML + '<td style="color:red">' + data[i].ErrorMessage + '</td>';
+                        strHTML = strHTML + '</tr>'
+
+                    }
+                    strHTML = strHTML + '</tbody>'
+                    strHTML = strHTML + '</table>'
+                    $('#tblMsg').empty();
+                    $('#tblMsg').append(strHTML);
+
+                }
+                else {
+                    if (data[0].ErrorMessage === 'Teacher Uploaded Successfully') {
+                        toastr.success(data[0].ErrorMessage);
+                        GetTeacherList();
+                        $('#BulkTeacher').click();
+                        ClearData1(1);
+                    }
+                }
+                HideWait();
+            }
+
+            catch (ex) {
+                debugger
+            }
+            finally {
+                debugger
+            }
+
+        },
+        error: function (xhr) {
+
+            alert('errors');
+            GetTeacherList(1);
+            $('#BulkTeacher').click();
+            ClearData(1);
+        }
+    });
+}
+
+function PrintErrmsg(data) {
+    $('#Error_msg').modal('show');
+    $('#errormsg').text(data);
+}
+function ClearData1() {
+    document.getElementById('File').value = "";
+    $('#tblMsg').html("");
+}
+function Clear1() {
+    document.getElementById('File').value = "";
+    $('#tblMsg').html("");
+}
 function deleteTeacher() {
     var Id = document.getElementById('hdnintId').value;
     var cls = {
@@ -618,7 +725,7 @@ function deleteTeacher() {
         }),
         success: function (data) {
 
-            if (data.Response === 'Success' ) {
+            if (data.Response === 'Success') {
                 //alert('Teacher deleted successfully.');
                 toastr.success('Teacher deleted successfully');
                 //swal(
@@ -719,13 +826,13 @@ function ClearData(type) {
         GetTeacherList();
     }
 }
+
 function RemoveFile() {
     document.getElementById('divUploadFile').style.display = "block";
     document.getElementById('divFile').style.display = "none";
     //document.getElementById('hdnstrFile').value = "";
     bISFile = 0;
 }
-
 
 function opendeleteModel(id) {
 

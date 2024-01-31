@@ -1,7 +1,6 @@
 ﻿@model InvoiceManagementSystem.Models.AccountModel
 @{ ViewBag.Title = "MyProfile";
     Layout = "~/Views/Shared/_Layout.cshtml"; }
-
 <style>
     .tab-pane {
         display: none;
@@ -19,12 +18,17 @@
             <div class="row gx-4">
                 <div class="col-auto">
                     <div class="avatar avatar-xl position-relative">
-                        <img src="/Data/Profile/@Model.LSTAccountList[0].ProfileImg" id="ProfileImg2" class="navbar-brand-img h-100" alt="main_logo" style="width: 77px; max-height: 58px;" />
+                        @if (Model.LSTAccountList[0].ProfileImg != "" && Model.LSTAccountList[0].ProfileImg != "undefined" && Model.LSTAccountList[0].ProfileImg != null)
+                        {
+                            <img src="/Data/Profile/@Model.LSTAccountList[0].ProfileImg" id="ProfileImg2" class="navbar-brand-img h-100" alt="main_logo" style="width: 77px; max-height: 58px;" /> }
+                        else
+                        {
+                            <img src="~/Data/Profile/dummy.jpg" id="ProfileImg2" class="navbar-brand-img h-100" alt="main_logo" style="width: 77px; max-height: 58px;" />
+                        }
                     </div>
                 </div>
                 <div class="col-auto my-auto">
                     <div class="h-100">
-
                         <h5 class="mb-1" style="color:black">
                             <span id="Username1">@Model.LSTAccountList[0].UserName</span> <span id="Surname1"> @Model.LSTAccountList[0].SurName</span>
                         </h5>
@@ -67,7 +71,13 @@
                                 <div class="col-4 col-lg-4 order-lg-2">
                                     <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
                                         <a href="javascript:;">
-                                            <img src="/Data/Profile/@Model.LSTAccountList[0].ProfileImg" id="ProfileImg1" class="w-100 border-radius-lg shadow-sm rounded-circle img-fluid border border-2 border-white" style="height:85px">
+                                            @if (Model.LSTAccountList[0].ProfileImg != "" && Model.LSTAccountList[0].ProfileImg != "undefined" && Model.LSTAccountList[0].ProfileImg != null)
+                                            {
+                                                <img src="/Data/Profile/@Model.LSTAccountList[0].ProfileImg" id="ProfileImg1" class="w-100 border-radius-lg shadow-sm rounded-circle img-fluid border border-2 border-white" style="height:85px"> }
+                                            else
+                                            {
+                                                <img src="~/Data/Profile/dummy.jpg" id="ProfileImg1" class="w-100 border-radius-lg shadow-sm rounded-circle img-fluid border border-2 border-white" style="height:85px">
+                                            }
                                         </a>
                                     </div>
                                 </div>
@@ -106,10 +116,7 @@
                                     <input type="hidden" id="hdnStudentId" value="@Model.LSTAccountList[0].StudentId" />
                                     <div class="col-md-6">
                                         <div class="form-group">
-
-
                                             <div class="form-group" id="divUploadFile" style="display:block">
-
                                                 <label for="example-text-input" class="form-control-label">
                                                     Profile
                                                 </label>
@@ -117,13 +124,13 @@
                                                 <div>
                                                     <input type="hidden" id="HiddenfileForImage" value="@Model.LSTAccountList[0].ProfileImg" />
                                                     @Html.TextBoxFor(model => model.LSTAccountList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;", onchange = "displaySelectedImage(this)" })
-                                                    @if (!string.IsNullOrEmpty(Model.LSTAccountList[0].ProfileImg))
+                                                    @if (Model.LSTAccountList[0].ProfileImg != "" && Model.LSTAccountList[0].ProfileImg != "undefined" && Model.LSTAccountList[0].ProfileImg != null)
                                                     {
                                                         var item = Model.LSTAccountList[0];
-                                        <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" /> }
-                                    else
-                                    {
-                        <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />}
+                                                        <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" /> }
+                                                    else
+                                                    {
+                                                        <img id="ProfileImg" class="gambar" src="~/Data/Profile/dummy.jpg" alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />}
                                                 </div>
                                             </div>
                                             <div class="form-group" id="divFile" style="display:none">
@@ -193,9 +200,7 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card-body pt-0">
-
                                 <div class="text-center mt-4">
                                     <h5 style="font-size:15px;">
                                         <i class="fa fa-user"></i>
@@ -253,11 +258,8 @@
             </div>
         </div>
     </div>
-
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 <script src="~/Scripts/School/Login.js"></script>
 <script>
     $(document).ready(function () {

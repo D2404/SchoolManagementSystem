@@ -112,9 +112,10 @@
                         <div class="card mb-4">
                             <div class="card-header pb-0">
                                 <h6><i class="fas fa-chalkboard-teacher text-info text-sm opacity-10"></i>&nbsp;&nbsp;Teacher List</h6>
-                                <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" title="Filter" style="margin-left: 698px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
+                                <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()"data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" style="margin-left: 523px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
                                 <a href="~/Teacher/Teacher" class="btn bg-gradient-info" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add Teacher</a>
-                                <a class="btn bg-gradient-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export Teacher" onclick="ExportTeacher()"style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
+                                <a href="#" class="btn bg-gradient-secondary" onclick="Clear()" style="margin-top: -54px;" data-bs-toggle="modal" data-bs-target="#BulkTeacher">&nbsp;Import Bulk Teacher</a>
+                                <a class="btn bg-gradient-warning" data-bs-toggle="tooltip" data-bs-placement="bottom" title="export to excel" onclick="ExportTeacher()" style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
                             </div>
                             <div class="card-body px-0 pt-0 pb-2">
                                 <div class="table-responsive p-0">
@@ -133,7 +134,7 @@
             <div class="container-fluid py-4">
                 <div class="row">
                     <div class="col-sm-12 col-md-12">
-                        <div class="dataTables_length" id="DataTables_Table_0_length"style="margin-top:-18px">
+                        <div class="dataTables_length" id="DataTables_Table_0_length" style="margin-top:-18px">
                             <label style="color:white">
                                 Show
                                 <select id="PageSize" onchange="GetClassRoomList(1)" class="drpselect">
@@ -167,7 +168,42 @@
 
 
         </div>
+        <div class="modal fade" id="BulkTeacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Import Bulk Teacher</span></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true" style="color:black">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Select File</b></label>
+                                    <input type="file" id="File" name="File" accept=".xlsx,.xls" class="form-control">
+                                    <span id="errFile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <a class="btn btn-link" style="margin-top: 23px;margin-left: 48px;" href="~/Data/BulkTeacher/DemoBulkTeachers.xlsx" download=""><i class="fa fa-download" aria-hidden="true"></i>&nbsp;&nbsp;Sample File</a>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="col-md-12" id="tblMsg">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer" style="padding-right: 146px">
+                        <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="AddBulkTeacherData()">Import</button>
+                        <button type="button" class="btn bg-gradient-dark" onclick="ClearData1()">Clear</button>
+                        <input type="hidden" id="hdnid" />
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="modal fade" id="delete_Teacher" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">

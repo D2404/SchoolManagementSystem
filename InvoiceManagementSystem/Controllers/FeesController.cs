@@ -1,5 +1,4 @@
 ﻿using InvoiceManagementSystem.Models;
-using Microsoft.ApplicationBlocks.Data;
 using NReco.PdfGenerator;
 using System;
 using System.Collections.Generic;
@@ -7,8 +6,6 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace InvoiceManagementSystem.Controllers
@@ -484,7 +481,8 @@ namespace InvoiceManagementSystem.Controllers
                 body = body.Replace("[[Address]]", item.Address);
                 body = body.Replace("[[Email]]", "School Email.: " + item.Email); 
                 body = body.Replace("[[MobileNo]]", "School Contact.: <span>" + item.MobileNo + "</span>");
-                body = body.Replace("[[companylogo]]", "<img style = \"height:50px;width:50px;\" src=\"~/Data/assets/img/muktajivan-school-logo.png\" />");
+                string dynamicImagePath = "https://localhost:44349" + "/Data/SchoolPhoto/" + item.PhotoImg; // Assuming item.PhotoImg is a property or variable containing the image path
+                body = body.Replace("[[schoolLogo]]", $"<img style=\"height:50px;width:50px;\" src=\"{dynamicImagePath}\" />");
 
             }
             if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
@@ -496,7 +494,7 @@ namespace InvoiceManagementSystem.Controllers
                 body = body.Replace("[[StudentMobileNo]]", item1.MobileNo);
                 body = body.Replace("[[ClassNo]]", item1.ClassNo);
                 body = body.Replace("[[RollNo]]", item1.RollNo.ToString());
-                body = body.Replace("[[Date]]", item1.Date);
+                body = body.Replace("[[Date]]", item1.Date);  
 
                 string InvoiceDetails = "";
                 for (int i = 0; i < cls.LSTFeesHistoryList.Count; i++)

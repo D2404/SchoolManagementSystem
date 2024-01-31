@@ -16,6 +16,7 @@ namespace InvoiceManagementSystem.Models
 
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         public int Id { get; set; }
+        public string TeacherUniqueId { get; set; }
         public int RoleId { get; set; }
         public int TeacherId { get; set; }
         public int ClassId { get; set; }
@@ -72,6 +73,8 @@ namespace InvoiceManagementSystem.Models
         public string ProfileImg { get; set; }
 
         public string HiddenfileForImage { get; set; }
+        public string ErrorMessage { get; set; }
+        public HttpPostedFileBase[] file { get; set; }
 
         public List<TeacherModel> LSTTeacherList { get; set; }
         public List<ClassRoomModel> LSTClassRoomList { get; set; }
@@ -454,6 +457,43 @@ namespace InvoiceManagementSystem.Models
                     conn.Close();
                 }
                 throw ex;
+            }
+        }
+
+        public bool CheckEmailInBulkUpdate(string strEmail)
+        {
+            bool Status = true;
+            TeacherModel cls = new TeacherModel();
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Sp_CheckEmailForUserMst", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = strEmail;
+                //cmd.Parameters.Add("@intCompanyId", SqlDbType.Int).Value = objCommon.getCompanyIdFromSession();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                cmd.CommandTimeout = 0;
+                da.ReturnProviderSpecificTypes = true;
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    cls.Id = Convert.ToInt32(dt.Rows[0][0].ToString());
+                }
+                if (cls.Id == 1)
+                {
+                    Status = false;
+                }
+                else
+                {
+                    Status = true;
+                }
+                return Status;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

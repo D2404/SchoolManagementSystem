@@ -131,14 +131,14 @@
                                                         <input type="hidden" id="HiddenfileForImage" value="@Model.LSTTeacherList[0].ProfileImg" />
                                                         @*<input type="file" class="form-control form-control-alternative" name="Profile" id="Profile" accept="image/*" style="display: none;">*@
                                                         @Html.TextBoxFor(model => model.LSTTeacherList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;" })
-                                                        @if (!string.IsNullOrEmpty(Model.LSTTeacherList[0].ProfileImg))
+                                                        @if (Model.LSTTeacherList[0].ProfileImg != "" && Model.LSTTeacherList[0].ProfileImg != "undefined" && Model.LSTTeacherList[0].ProfileImg != null)
                                                         {
                                                             var item = Model.LSTTeacherList[0];
                                                             <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
                                                         }
                                                         else
                                                         {
-                                                            <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
+                                                            <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
                                                         }
                                                     </div>
                                                 }

@@ -201,6 +201,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\LeaveController.cs" />
@@ -787,6 +788,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Data\BulkAttendance\BulkAttendance.xlsx" />
+    <Content Include="Data\BulkTeacher\DemoBulkTeachers.xlsx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -861,6 +863,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\School\School.js" />
     <Content Include="Scripts\School\FeesCollection.js" />
     <Content Include="Scripts\School\FeesHistory.js" />
     <Content Include="Scripts\School\Leave.js" />
@@ -998,12 +1001,16 @@
     <Content Include="Views\Teacher\ViewTeacher.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Fees\FeesInvoice.cshtml" />
+    <Content Include="Views\School\_SchoolListPartial.cshtml" />
+    <Content Include="Views\School\School.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\FeesInvoice\" />
     <Folder Include="Data\Item\" />
     <Folder Include="Data\ManageAttendance\" />
+    <Folder Include="Data\SchoolPhoto\" />
+    <Folder Include="ManageBulkTeacher\Data\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
