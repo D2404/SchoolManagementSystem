@@ -9,32 +9,38 @@
         </nav>
     </div>
 </nav>
+
+<div id="teacherIdContainer" data-teacher-id="@Session["TeacherId"]"style="display:none"></div>
 <div class="row" id="FilterDiv" style="margin-left:19px">
 
     <div class="col-sm-6 col-md-3">
-        <div class="form-group form-focus">
-            <select data-placeholder="Select here.." id="ddlTeacherId" class="select2-single-placeholder form-control" style="width: 100%"></select>
+        <div class="form-group">
+            <label for="example-text-input" class="text-xs font-weight-bold mb-0" style="color:white">From Date</label>
+            <input type="date" class="form-control" id="FromDate" name = "FromDate">
+            <span id="errFromDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
         </div>
     </div>
-    @*<div class="col-sm-6 col-md-3">
-        <div class="form-group form-focus select-focus">
-            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control floating">
-                <option value="3">Select Status</option>
-                <option value="1">Present</option>
-                <option value="2">Absent</option>
-            </select>
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group">
+            <label for="example-text-input" class="text-xs font-weight-bold mb-0"style="color:white">To Date</label>
+            <input type="date" class="form-control" id="ToDate" name = "ToDate">
+            <span id="errToDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
         </div>
-    </div>*@
-    <div class="col-sm-6 col-md-1">
+    </div>
+    <div class="col-sm-6 col-md-1 mt-4">
 
-        <a class="btn bg-gradient-info" onclick="GetTeacherAttandenceList(1)">Search</a>
+        <a class="btn bg-gradient-info" onclick="GetTeacherAttandenceListByTeacherId(1)">Search</a>
     </div>
-    <div class="col-sm-6 col-md-1">
+    <div class="col-sm-6 col-md-1 mt-4">
         <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
 
     </div>
 </div>
-
+<div class="row">
+    <div style="margin-left:968px">
+        <a href="#" class="btn bg-gradient-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="ShowFilter()" title="Filter"><i class="fa fa-filter"></i></a>
+    </div>
+</div>
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-sm-12 col-md-12">
@@ -58,6 +64,9 @@
                     <h6>
                         <i class="far fa-calendar-alt text-primary text-lg opacity-10"></i> &nbsp;&nbsp;
                         TeacherAttandence List
+
+                        @if ((int)Session["TeacherId"] == 0)
+                        {
                         <div class="row">
 
 
@@ -95,6 +104,7 @@
                                 </div>
                             </div>
                         </div>
+                        }
                     </h6>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">

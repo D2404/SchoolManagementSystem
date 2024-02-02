@@ -15,9 +15,7 @@ $(document).ready(function () {
     GetMonth();
     GetFeesList(1);
 });
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
+
 $("#FeesAmount").keyup(function () {
 
     var amt = $('#FeesAmount').val();
@@ -29,14 +27,7 @@ $("#FeesAmount").keyup(function () {
         return false;
     }
 });
-$(function () {
-    $("#Dob").datetimepicker({
-        format: 'DD/MM/YYYY',
-        maxDate: new Date,
-        useCurrent: true,
-        ignoreReadonly: true
-    })
-});
+
 function InsertData() {
 
     var val = true;

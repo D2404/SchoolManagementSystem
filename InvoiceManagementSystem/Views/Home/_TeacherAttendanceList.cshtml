@@ -1,16 +1,21 @@
 ﻿@model InvoiceManagementSystem.Models.TeacherAttandenceModel
-
+@{
+    int no = 0;
+}
+<label class="text-sm font-weight-bold mb-0" style="text-align: center;color: white;text-decoration:underline;margin-left:760px">
+    <b>Present Days: </b><span class="text-sm font-weight-bold mb-0" style="text-align: center;color: white"><b>@Model.LSTTeacherAttandenceList[0].TotalPresentDays</b></span>
+</label>      /
+<label class="text-sm font-weight-bold mb-0" style="text-align: center; color: white; text-decoration: underline"><b>
+    Absent Days:
+</b><span class="text-xs font-weight-bold mb-0" style="text-align: center;color: white"><b>@Model.LSTTeacherAttandenceList[0].TotalAbsentDays</b></span></b>
+</label>
 <table class="table align-items-center mb-0">
     <thead>
         <tr>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Sr No.</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Teacher</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Leave Type</th>
-
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Status</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Date</th>
-          
-
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Sr No.</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Teacher</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Status</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center;">Date</th>
         </tr>
     </thead>
     @if (Model != null && Model.LSTTeacherAttandenceList.Count > 0)
@@ -19,39 +24,35 @@
             @for (var i = 0; i < Model.LSTTeacherAttandenceList.Count; i++)
             {
                 var item = Model.LSTTeacherAttandenceList[i];
+                no = no + 1;
+                string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
                 <tr>
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.ROWNUMBER</p>
-                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;color: white">@SrNo</p>
+                        @*
+                            <p class="text-xs text-secondary mb-0">Organization</p>
+                        *@
                     </td>
                     <td>
-                        <div class="d-flex px-2 py-1">
-                            <div class="d-flex flex-column justify-content-center">
-                                <h5 class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.TeacherName</h5>
-                            </div>
-                        </div>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;color: white">@item.TeacherName</p>
                     </td>
-                    @if (@item.LeaveType == 1)
+                    @if (item.Status == "True")
                     {
-                        <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Half-Day</p></td>
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: deepskyblue"><b>Present</b></p>
+                        </td>
                     }
                     else
                     {
-                        <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Full-Day</p></td>
-}
-
-
-                    @if (item.Status == true)
-                    {
-                        <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Present</p></td>
-                    }
-                    else
-                    {
-                        <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Absent</p></td>
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: orangered"><b>Absent</b></p>
+                        </td>
                     }
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.Date</p>
-                        @*<p class="text-xs text-secondary mb-0">Organization</p>*@
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.Date</p>
+                        @*
+                            <p class="text-xs text-secondary mb-0">Organization</p>
+                        *@
                     </td>
                     @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
                     {
@@ -60,24 +61,21 @@
                                 <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                                     <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
                                 </a>
-
                                 <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
-                                    @if (item.Status == true)
+                                    @if (item.Status == "True")
                                     {
-
                                         <a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
                                     else
                                     {
                                         <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
-
                                     <a href="javascript:;" title="Edit Teacher Attandence" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#TeacherAttandence" onclick="GetSingleTeacherAttandenceData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
                                     <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_TeacherAttandence" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
                                 </div>
                             </div>
                         </td>
-}
+                    }
                 </tr>
-}
+            }
         </tbody>
     }
     else
@@ -85,7 +83,9 @@
         <tr>
             <td colspan="7">
                 <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>No Record Found</b></p>
-                @*<h5 style="text-align: center;"><b>No Record Found</b></h5>*@
+                @*
+                    <h5 style="text-align: center;"><b>No Record Found</b></h5>
+                *@
             </td>
         </tr>
     }
@@ -97,13 +97,10 @@
     </div>
     <div class="col-lg-12" style="bottom: 13px;">
         <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
-
             @if (Model != null && Model.LSTTeacherAttandenceList != null && Model.LSTTeacherAttandenceList.Count > 0)
             {
-
                 var start = (Model.LSTTeacherAttandenceList[0].PageIndex - 1) * Model.LSTTeacherAttandenceList[0].PageSize + 1;
                 var end = Model.LSTTeacherAttandenceList[0].PageSize;
-
                 if (Model.LSTTeacherAttandenceList[0].PageSize < Model.LSTTeacherAttandenceList[0].TotalRecord)
                 {
                     end = Model.LSTTeacherAttandenceList[0].PageSize * Model.LSTTeacherAttandenceList[0].PageIndex;
@@ -117,7 +114,6 @@
                     end = Model.LSTTeacherAttandenceList[0].TotalRecord;
                 }
                 <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: white;font-size:13px">Showing @start to @end of @Model.LSTTeacherAttandenceList[0].TotalRecord  entries</span>}
-
             <div id="divPagination">
                 @if (Model.LSTTeacherAttandenceList != null && Model.LSTTeacherAttandenceList.Count > 0)
                 {
@@ -130,7 +126,7 @@
                                 @if (pager.CurrentPage > 1)
                                 {
                                     <li class="paginate_button previous page-item">
-                                        <a onclick="GetTeacherAttandenceList(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+                                        <a onclick="TeacherAttendance(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
                                     </li>
                                 }
                                 @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
@@ -138,23 +134,24 @@
                                     if (@page1 == @pager.CurrentPage)
                                     {
                                         <li class="paginate_button page-item active">
-                                            <a onclick="GetTeacherAttandenceList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                            <a onclick="TeacherAttendance(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
                                         </li>
                                     }
                                     else
                                     {
                                         <li class="paginate_button page-item">
-                                            <a onclick="GetTeacherAttandenceList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
+                                            <a onclick="TeacherAttendance(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
                                         </li>
                                     }
                                 }
                                 @if (pager.CurrentPage < pager.TotalPages)
                                 {
                                     <li class="paginate_button page-item">
-                                        <a onclick="GetTeacherAttandenceList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+                                        <a onclick="TeacherAttendance(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
                                     </li>
                                 }
-                            </ol>}
+                            </ol>
+                        }
                     }
                 }
             </div>

@@ -23,6 +23,8 @@ namespace InvoiceManagementSystem.Models
         public int YearId { get; set; }
         public string Name { get; set; }
         public string TeacherName { get; set; }
+        public string TotalPresentDays { get; set; }
+        public string TotalAbsentDays { get; set; }
         public string FatherName { get; set; }
         public string SurName { get; set; }
         public int LeaveType { get; set; }
@@ -32,6 +34,8 @@ namespace InvoiceManagementSystem.Models
         public int intActive { get; set; }
         
         public string Date { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
         public string Response { get; set; }
         public string SearchText { get; set; }
         public int? PageIndex { get; set; }

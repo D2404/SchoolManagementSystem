@@ -11,11 +11,18 @@ function ShowFilter() {
 }
 $(document).ready(function () {
     $('#FilterDiv').hide();
-    var currentDate = new Date();
-    var formattedCurrentDate = currentDate.toISOString().split('T')[0];
-    document.getElementById('Date').value = formattedCurrentDate;
-    document.getElementById('Date').max = formattedCurrentDate;
-    GetTeacherAttandenceList(1);
+    
+    var teacherId = $("#teacherIdContainer").data("teacher-id");
+    if (teacherId === null || teacherId === 0) {
+        var currentDate = new Date();
+        var formattedCurrentDate = currentDate.toISOString().split('T')[0];
+        document.getElementById('Date').value = formattedCurrentDate;
+        document.getElementById('Date').max = formattedCurrentDate;
+        GetTeacherAttandenceList(1);
+    }
+    else {
+        GetTeacherAttandenceListByTeacherId(1);
+    }
     GetTeacher();
 });
 
@@ -267,6 +274,52 @@ function GetTeacherAttandenceList(page) {
         }
     });
 }
+
+function GetTeacherAttandenceListByTeacherId(page) {
+    debugger
+    var TeacherId = $("#teacherIdContainer").data("teacher-id");
+    var FromDate = document.getElementById('FromDate').value
+    var ToDate = document.getElementById('ToDate').value
+    if (document.getElementById('PageSize') !== null) {
+        PageSize = document.getElementById('PageSize').value;
+    }
+    else {
+        PageSize = 10;
+    }
+    if (page === undefined) {
+        page = 1;
+    }
+    var PageIndex = page;
+
+    PageIndex = page;
+    var cls = {
+       
+        TeacherId: TeacherId,
+        FromDate: FromDate,
+        ToDate: ToDate,
+        PageSize: PageSize,
+        PageIndex: PageIndex,
+    }
+    ShowWait();
+    $.ajax({
+        url: '/TeacherAttandence/GetTeacherAttandenceByTeacherId',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            $('#tblBody').empty();
+            $('#tblBody').append(data);
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('errors');
+        }
+    });
+}
+
 
 function GetSingleTeacherAttandenceData(id) {
     $('#errName').html("");

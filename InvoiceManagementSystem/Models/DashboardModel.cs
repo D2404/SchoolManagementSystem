@@ -30,7 +30,8 @@ namespace InvoiceManagementSystem.Models
         public string NextHolidayDate { get; set; }
         public string NextHolidayDay { get; set; }
 
-        public decimal TotalAttendance { get; set; }
+        public decimal MonthlyAttendance { get; set; }
+        public decimal YearlyAttendance { get; set; }
         public decimal PresentDays { get; set; }
         public decimal AbsentDays { get; set; }
         public string Response { get; set; }
@@ -38,6 +39,10 @@ namespace InvoiceManagementSystem.Models
         public string Name { get; set; }
 
         public string ClassNo { get; set; }
+        public string CurrentClass { get; set; }
+        public string CurrentSubject { get; set; }
+        public string NextClass { get; set; }
+        public string NextSubject { get; set; }
         public int Type { get; set; }
 
         public string IsMessage { get; set; }
@@ -116,8 +121,18 @@ namespace InvoiceManagementSystem.Models
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
                         obj.TotalStudent = Convert.ToInt32(dt.Rows[i]["TotalStudent"] == null || dt.Rows[i]["TotalStudent"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalStudent"].ToString());
                         obj.TotalTeacherSubject = Convert.ToInt32(dt.Rows[i]["TotalTeacherSubject"] == null || dt.Rows[i]["TotalTeacherSubject"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalTeacherSubject"].ToString());
-                        //obj.TotalAttendance = Convert.ToDecimal(dt.Rows[i]["PresentDays"] == null || dt.Rows[i]["PresentDays"].ToString().Trim() == "" ? null : dt.Rows[i]["PresentDays"]);
-
+                        obj.MonthlyAttendance = Convert.ToDecimal(dt.Rows[i]["MonthlyAttendance"] == null || dt.Rows[i]["MonthlyAttendance"].ToString().Trim() == "" ? null : dt.Rows[i]["MonthlyAttendance"]);
+                        obj.YearlyAttendance = Convert.ToDecimal(dt.Rows[i]["YearlyAttendance"] == null || dt.Rows[i]["YearlyAttendance"].ToString().Trim() == "" ? null : dt.Rows[i]["YearlyAttendance"]);
+                        obj.CurrentClass = dt.Rows[i]["CurrentClass"] == null || dt.Rows[i]["CurrentClass"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentClass"].ToString();
+                        obj.CurrentSubject = dt.Rows[i]["CurrentSubject"] == null || dt.Rows[i]["CurrentSubject"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentSubject"].ToString();
+                        obj.NextClass = dt.Rows[i]["NextClass"] == null || dt.Rows[i]["NextClass"].ToString().Trim() == "" ? null : dt.Rows[i]["NextClass"].ToString();
+                        obj.NextSubject = dt.Rows[i]["NextSubject"] == null || dt.Rows[i]["NextSubject"].ToString().Trim() == "" ? null : dt.Rows[i]["NextSubject"].ToString();
+                        obj.NextHolidayName = dt.Rows[i]["NextHolidayName"] == null || dt.Rows[i]["NextHolidayName"].ToString().Trim() == "" ? null : dt.Rows[i]["NextHolidayName"].ToString();
+                        obj.NextHolidayDay = dt.Rows[i]["NextHolidayDay"] == null || dt.Rows[i]["NextHolidayDay"].ToString().Trim() == "" ? null : dt.Rows[i]["NextHolidayDay"].ToString();
+                        obj.NextHolidayDate = dt.Rows[i]["NextHolidayDate"] == null || dt.Rows[i]["NextHolidayDate"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["NextHolidayDate"]).ToString("dd/MM/yyyy");
+                        obj.ThisMonthCollection = Convert.ToInt32(dt.Rows[i]["ThisMonthCollection"] == null || dt.Rows[i]["ThisMonthCollection"].ToString().Trim() == "" ? null : dt.Rows[i]["ThisMonthCollection"].ToString());
+                        obj.ThisMonthPendingCollection = Convert.ToInt32(dt.Rows[i]["ThisMonthPendingCollection"] == null || dt.Rows[i]["ThisMonthPendingCollection"].ToString().Trim() == "" ? null : dt.Rows[i]["ThisMonthPendingCollection"].ToString());
+                        obj.TotalAmountForThisMonth = Convert.ToInt32(dt.Rows[i]["TotalAmountForthisMonth"] == null || dt.Rows[i]["TotalAmountForthisMonth"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalAmountForthisMonth"].ToString());
                         LSTList.Add(obj);
                     }
                 }
