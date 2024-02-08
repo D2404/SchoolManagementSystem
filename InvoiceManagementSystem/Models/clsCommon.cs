@@ -242,5 +242,46 @@ namespace InvoiceManagementSystem.Models
             }
             return list;
         }
+
+        public EmailConfigurationSetting EmailConfigaration()
+        {
+            try
+            {
+
+                EmailConfigurationSetting EmailConfigaration = new EmailConfigurationSetting();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("GetEmailConfiguration", conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        EmailConfigaration.Host = dt.Rows[i]["Host"] == null || dt.Rows[i]["Host"].ToString().Trim() == "" ? null : dt.Rows[i]["Host"].ToString();
+                        EmailConfigaration.Username = dt.Rows[i]["Username"] == null || dt.Rows[i]["Username"].ToString().Trim() == "" ? null : dt.Rows[i]["Username"].ToString();
+                        EmailConfigaration.Password = dt.Rows[i]["Password"] == null || dt.Rows[i]["Password"].ToString().Trim() == "" ? null : dt.Rows[i]["Password"].ToString();
+                        EmailConfigaration.Port = Convert.ToInt32(dt.Rows[i]["Port"] == null || dt.Rows[i]["Port"].ToString().Trim() == "" ? null : dt.Rows[i]["Port"].ToString());
+                        EmailConfigaration.FromMail = dt.Rows[i]["FromMail"] == null || dt.Rows[i]["FromMail"].ToString().Trim() == "" ? null : dt.Rows[i]["FromMail"].ToString();
+                        // EmailConfigaration.Add(cls);
+
+                    }
+
+
+                }
+                return EmailConfigaration;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+        }
     }
 }

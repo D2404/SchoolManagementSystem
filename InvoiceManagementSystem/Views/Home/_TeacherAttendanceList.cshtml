@@ -2,10 +2,10 @@
 @{
     int no = 0;
 }
-<label class="text-sm font-weight-bold mb-0" style="text-align: center;color: white;text-decoration:underline;margin-left:760px">
+<label class="text-sm font-weight-bold mb-0" style="text-align: center;color: white;text-decoration:underline;margin-left:760px" onclick="PresentDays()">
     <b>Present Days: </b><span class="text-sm font-weight-bold mb-0" style="text-align: center;color: white"><b>@Model.LSTTeacherAttandenceList[0].TotalPresentDays</b></span>
 </label>      /
-<label class="text-sm font-weight-bold mb-0" style="text-align: center; color: white; text-decoration: underline"><b>
+<label class="text-sm font-weight-bold mb-0" style="text-align: center; color: white; text-decoration: underline" onclick="AbsentDays()"><b>
     Absent Days:
 </b><span class="text-xs font-weight-bold mb-0" style="text-align: center;color: white"><b>@Model.LSTTeacherAttandenceList[0].TotalAbsentDays</b></span></b>
 </label>
@@ -36,10 +36,10 @@
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;color: white">@item.TeacherName</p>
                     </td>
-                    @if (item.Status == "True")
+                    @if (item.Status == "True") 
                     {
                         <td>
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: deepskyblue"><b>Present</b></p>
+                            <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: #00e77c"><b>Present</b></p>
                         </td>
                     }
                     else

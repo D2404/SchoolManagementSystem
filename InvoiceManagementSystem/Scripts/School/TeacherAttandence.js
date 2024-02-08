@@ -234,7 +234,7 @@ function GetTeacherAttandenceList(page) {
 
 
     var Id = 0;
-    var TeacherId = document.getElementById('ddlTeacherId').value
+   /* var TeacherId = document.getElementById('ddlTeacherId').value*/
     var Date = document.getElementById('Date').value
     if (document.getElementById('PageSize') !== null) {
         PageSize = document.getElementById('PageSize').value;
@@ -448,7 +448,8 @@ function ClearData(type) {
         }
     }
     else {
-        $("#ddlTeacherId").val('0').trigger('change');
+        document.getElementById('FromDate').value = "";
+        document.getElementById('ToDate').value = "";
         GetTeacherAttandenceList();
     }
 }

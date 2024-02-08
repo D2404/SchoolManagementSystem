@@ -1,7 +1,9 @@
 ﻿using InvoiceManagementSystem.Models;
 using System;
+using System.IO;
 using System.Net;
 using System.Net.Mail;
+using System.Net.Mime;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -116,80 +118,87 @@ namespace InvoiceManagementSystem.Controllers
         {
             return View();
         }
+        
         [HttpPost, ValidateInput(false)]
         public ActionResult ForgotPassword(AccountModel cls)
         {
+            clsCommon commonobj = new clsCommon();
+            var data = cls.ForgotPassword(cls);
+            if (data.Response == "Success")
+            {
+                string toEmail = cls.Email;
+                var Password = clsCommon.DecryptString(data.Password);
+                string subject = "Forgot Password.";
+                string body = "";
+                using (StreamReader reader = new StreamReader(Server.MapPath("/Data/MailTemplate/ForgotPassword.html")))
+                {
+                    body = reader.ReadToEnd();
+                }
+                
+                string imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("/Data/Profile/" + data.ProfileImg)));
+                string imagePath = Server.MapPath("/Data/Profile/" + data.ProfileImg);
+                body = body.Replace("[[Profile]]", $"cid:logoImage");
+                body = body.Replace("[[UserName]]", data.UserName);
+                body = body.Replace("[[EmailId]]", data.Email);
+                body = body.Replace("[[Password]]", Password);
+
+                sendEmail(toEmail,subject,body, imagePath);
+                cls.Response = "Success";
+            }
+            else
+            {
+                cls.Response = "Error";
+            }
+            return Json(cls.Response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public void sendEmail(string toEmail, string subject, string body,string imagePath)
+        {
             try
             {
-                cls = cls.ForgotPassword(cls);
-                var Password = clsCommon.DecryptString(cls.Password);
-                string toEmail = cls.Email;
-                string mailHeading = "Forgot password";
-                string subject = "Recover your password";
-                string message = "your password is =" + Password;
-                SendMail(mailHeading, subject, message, toEmail);
-                return Json(cls.Response, JsonRequestBehavior.AllowGet);
+                clsCommon obj = new clsCommon();
+                string to = toEmail;
+
+                var EmailConfigaration = obj.EmailConfigaration();
+                string host = EmailConfigaration.Host;
+                string username = EmailConfigaration.Username;
+                string FromEmail = EmailConfigaration.FromMail;
+                string password = EmailConfigaration.Password;
+                int port = EmailConfigaration.Port;
+
+                MailMessage mail = new MailMessage();
+                mail.From = new MailAddress(FromEmail);
+                mail.To.Add(to);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+                
+                AlternateView av = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+                LinkedResource logo = new LinkedResource(imagePath, "image/jpg");
+                logo.ContentId = "logoImage";
+
+                av.LinkedResources.Add(logo);
+
+                mail.AlternateViews.Add(av);
+
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = host;
+                smtp.Credentials = new System.Net.NetworkCredential
+                     (FromEmail, password);
+                smtp.Port = port;
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
             }
             catch (Exception ex)
             {
-                throw ex;
+
             }
-        }
-        public void SendMail(string mailHeading, string subject, string message, string toEmail)
-        {
-            //try
-            //{
-            //MailMessage mail = new MailMessage();
-            //SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
-            //mail.From = new MailAddress(mailHeading + " <panchaldhruv1424@gmail.com>");
-            //mail.To.Add(toEmail);
-            //mail.Subject = subject;
-            //mail.Body = message;
-            //mail.IsBodyHtml = true;
-
-            //SmtpServer.Port = 587;
-            //SmtpServer.Credentials = new System.Net.NetworkCredential("panchaldhruv1424@gmail.com", "Your-Zoho-App-Password");
-            //SmtpServer.EnableSsl = true;
-
-            //SmtpServer.Send(mail);
-
-            var fromAddress = new MailAddress("mmchauhan1906@gmail.com");
-            var fromPassword = "9737954396";
-            var toAddress = new MailAddress("panchaldhruv1424@gmail.com");
-
-            string xsubject = "subject";
-            string body = "body";
-
-            System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient
-            {
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true,
-                DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
-            };
-
-            using (var xmessage = new MailMessage(fromAddress, toAddress)
-            {
-                Subject = xsubject,
-                Body = body
-            })
-
-                smtp.Send(xmessage);
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    // Handle the exception, log it, or rethrow if needed
-            //    throw ex;
-            //}
         }
 
-        
-
-        
 
         public ActionResult checkUserSession()
         {

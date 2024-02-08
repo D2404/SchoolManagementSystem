@@ -1,0 +1,226 @@
+﻿
+@{
+    ViewBag.Title = "Student";
+    ViewBag.ActionName = "Student";
+}
+
+<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
+    <div class="container-fluid py-1 px-3">
+        <nav aria-label="breadcrumb">
+            <h5 class="font-weight-bolder text-white mb-0">Student List</h5>
+        </nav>
+    </div>
+</nav>
+<div class="row" id="FilterDiv" style="margin-left:19px">
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus">
+            <input type="text" class="form-control floating" id="SearchText" placeholder="Search" maxlength="50">
+        </div>
+    </div>
+
+    <div class="col-sm-6 col-md-1">
+
+        <a class="btn bg-gradient-info" onclick="GetStudentList(1)">Search</a>
+    </div>
+    <div class="col-sm-6 col-md-1">
+        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
+
+    </div>
+</div>
+
+<div class="row">
+
+    <div style="margin-left:878px">
+        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" title="Filter"><i class="fa fa-filter"></i></a>
+        <a class="btn bg-gradient-info" title="Add Student" data-bs-toggle="modal" data-bs-target="#Student" onclick="Clear()">Add Student</a>
+    </div>
+</div>
+
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:white">
+                    Show
+                    <select id="PageSize" onchange="GetStudentList(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6>Student List</h6>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="tblBody"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="Student" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add Student</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Full Name <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="FullName" placeholder="Enter Full Name">
+                            <span id="errFullName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Student Name">
+                            <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="basicinput"><b>Class Room</b></label>
+                            <select class="form-control" id="ClassId">
+                                <option value="0">Select ClassRoom</option>
+                            </select>
+                            <span id="errClassroom" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Roll No <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="RollNo" placeholder="Enter Roll No">
+                            <span id="errRollNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Gender<span class="text-danger">*</span></label><br />
+                            <div class="form-radio">
+                                <div class="radio radio-outline radio-inline">
+                                    <label>
+                                        <input type="radio" name="radio" checked="checked" value="Active" class="rd" id="Active" />
+                                        <i class="helper"></i>Male
+                                        <input type="radio" name="radio" value="InActive" class="rd" id="InActive" />
+                                        <i class="helper"></i>Female
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="Email" placeholder="Enter Email">
+                            <span id="errEmail" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Password <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="Password" placeholder="Enter Password">
+                            <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Mobile <span class="text-danger">*</span></label>
+                            <input class="form-control form-control-alternative" type="text" id="MobileNo" placeholder="Enter Mobile">
+                            <span id="errMobile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Date Of Birth</label>
+                            <input class="form-control floating datetimepicker" type="date" id="Dob" autocomplete="off">
+                            @*<input class="form-control datetimepicker" type="date" id="Dob" placeholder="Enter Dob">*@
+                            <span id="errDob" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Address</label>
+                            <textarea class="form-control form-control-alternative" id="Address"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <div class="form-group" id="divUploadFile" style="display:block">
+                                <input type="hidden" id="hdnfile" />
+                                <label for="basicinput"><b>Profile pic</b><span style="color: red">*</span></label>
+                                <input type="file" class="form-control form-control-alternative" name="Profile" id="Profile" accept="image/*">
+                                <span id="errProfile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                        </div>
+                        <div class="form-group" id="divFile" style="display:none">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Add</button>
+                <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)">Clear</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete_Student" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"style="margin-left:132px"><span id="PopupTitle">Delete Student</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Student ?.</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 166px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteStudent()">Delete</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" id="hdnintId" value="0" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to change status?</p>
+            </div>
+            <div class="modal-footer" style="padding-right: 146px">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/School/Student.js"></script>

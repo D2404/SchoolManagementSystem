@@ -220,6 +220,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\EmailConfigurationSetting.cs" />
     <Compile Include="Models\LeaveModel.cs" />
     <Compile Include="Models\ClassRoomModel.cs" />
     <Compile Include="Models\SchoolModel.cs" />
@@ -439,6 +440,7 @@
     <Content Include="Data\assets\css\nucleo-icons.css" />
     <Content Include="Data\assets\css\nucleo-svg.css" />
     <Content Include="Data\assets\css\select2.min.css" />
+    <Content Include="Data\MailTemplate\ForgotPassword.html" />
     <Content Include="Data\PDFFormat\FeesInvoice.html" />
     <Content Include="Data\Profile\pngtree-school-building-illustration-background-image_1948855.jpg" />
     <Content Include="Data\Profile\pngtree-school-teaching-building-retro-illustration-background-image_1948854.jpg" />
@@ -880,6 +882,7 @@
     <Content Include="Scripts\School\Student.js" />
     <Content Include="Scripts\School\StudentAttandence.js" />
     <Content Include="Scripts\School\Subject.js" />
+    <Content Include="Scripts\School\Students.js" />
     <Content Include="Scripts\School\Teacher.js" />
     <Content Include="Scripts\School\TeacherAttandence.js" />
     <Content Include="Scripts\School\TeacherSubject.js" />
@@ -947,7 +950,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Student\Student.cshtml" />
+    <Content Include="Views\Student\OldStudent.cshtml" />
     <Content Include="Views\Student\_StudentListPartial.cshtml" />
     <Content Include="Views\Account\MyProfile.cshtml" />
     <Content Include="Views\Subject\_SubjectListPartial.cshtml" />
@@ -1003,6 +1006,8 @@
     <Content Include="Views\Fees\FeesInvoice.cshtml" />
     <Content Include="Views\School\_SchoolListPartial.cshtml" />
     <Content Include="Views\School\School.cshtml" />
+    <Content Include="Views\Student\StudentList.cshtml" />
+    <Content Include="Views\Student\Student.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

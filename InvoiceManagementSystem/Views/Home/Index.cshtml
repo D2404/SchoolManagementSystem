@@ -976,7 +976,7 @@
                                             <a href="javascript:void(0)" onclick="Student(1);">
                                                 <h6 class="text-sm mb-0 font-weight-bold mt-2" style="color: #176ce2">
                                                     Name :-   @(Model.LSTDashBoardList[0].NextHolidayName == "" ? null : Model.LSTDashBoardList[0].NextHolidayName)<br />
-                                                    Date :-   @(Model.LSTDashBoardList[0].NextHolidayDate == "" ? null : Model.LSTDashBoardList[0].NextHolidayDate)
+                                                    Date :-   @(Model.LSTDashBoardList[0].NextHolidayDate == "" ? null : Model.LSTDashBoardList[0].NextHolidayDate)<br />
                                                     Day :-   @(Model.LSTDashBoardList[0].NextHolidayDay == "" ? null : Model.LSTDashBoardList[0].NextHolidayDay)
                                                 </h6>
                                             </a>
@@ -1309,7 +1309,7 @@
        if (IsMessage == "True") {
            toastr.success('Welcome <strong>' + '@Session["UserName"]' + ' ' + '@Session["SurName"]' + '</strong>  !.')
        }
-
+       $('#Student').hide();
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#YearlyCollectFees').hide();
@@ -1988,4 +1988,6 @@
         });
     }
 
+
+   
 </script>

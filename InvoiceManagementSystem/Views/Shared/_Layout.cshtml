@@ -307,157 +307,161 @@
                 }
                 else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)// TEACHER===2
                 {
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="~/Home/Index">
-                                <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                                    <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
-                                </div>
-                                <span class="sidenav-mini-icon"> D </span>
-                                <span class="sidenav-normal"> Dashboard </span>
-                            </a>
-                        </li>
-                        <hr class="horizontal dark mt-0">
-                        <li class="nav-item">
-                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MASTERS</h6>
-                        </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#pagesExamples" class="nav-link" aria-controls="pagesExamples" role="button" aria-expanded="false">
-                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                    <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                                </div>
-                                <span class="nav-link-text ms-1" style="color:black">Masters</span>
-                            </a>
-                            <div class="collapse" id="pagesExamples">
-                                <ul class="nav ms-4">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="~/TeacherAttandence/TeacherAttandence">
-                                            <i class="fa fa-user text-primary text-sm"></i>
-                                            <span class="sidenav-normal"> Teacher Attendance </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item ">
-                                        <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#subject">
-                                            <i class="fa fa-user-circle-o text-danger text-sm"></i>
-                                            <span class="sidenav-normal"> Student <b class="caret"></b></span>
-                                        </a>
-                                        <div class="collapse " id="subject">
-                                            <ul class="nav nav-sm flex-column">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="~/Home/Index">
+                        <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                            <b><i class="ni ni-tv-2 text-primary text-lg opacity-10"></i></b>
+                        </div>
+                        <span class="sidenav-mini-icon"> D </span>
+                        <span class="sidenav-normal"> Dashboard </span>
+                    </a>
+                </li>
+                <hr class="horizontal dark mt-0">
+                <li class="nav-item">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MANAGE STUDENTS</h6>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#student" class="nav-link " aria-controls="student" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="fa fa-users text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1" style="color:black">Student</span>
+                    </a>
+                    <div class="collapse " id="student">
+                        <ul class="nav ms-4">
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Student/StudentList">
+                                    <i class="fas fa-graduation-cap text-info text-sm"></i>
+                                    <span class="sidenav-normal"> Student List </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Student/AddStudent">
+                                    <i class="fas fa-graduation-cap text-danger text-sm opacity-10"></i>
+                                    <span class="sidenav-normal"> Add Student </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <hr class="horizontal dark mt-0">
+                <li class="nav-item">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MANAGE ATTENDANCE</h6>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#attendance" class="nav-link " aria-controls="attendance" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-calendar-grid-58 text-success text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1" style="color:black">Attendance</span>
+                    </a>
+                    <div class="collapse " id="attendance">
+                        <ul class="nav ms-4">
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/TeacherAttandence/TeacherAttandence">
+                                    <i class="fas fa-calendar-alt text-success text-sm"></i>
+                                    <span class="sidenav-normal"> My Attendance </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/StudentAttandence/StudentAttandence">
+                                    <i class="fas fa-calendar-alt text-warning text-sm opacity-10"></i>
+                                    <span class="sidenav-normal"> Student Attandence </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <hr class="horizontal dark mt-0">
+                <li class="nav-item">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MANAGE TIMETABLE</h6>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#timetable" class="nav-link " aria-controls="timetable" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-watch-time text-info text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1" style="color:black">TimeTable</span>
+                    </a>
+                    <div class="collapse " id="timetable">
+                        <ul class="nav ms-4">
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Timetable/Timetable">
+                                    <i class="ni ni-watch-time text-primary text-sm"></i>
+                                    <span class="sidenav-normal"> My Timetable </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/StudentAttandence/StudentAttandence">
+                                    <i class="ni ni-watch-time text-danger text-sm opacity-10"></i>
+                                    <span class="sidenav-normal"> Student Timetable </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <hr class="horizontal dark mt-0">
+                <li class="nav-item">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">MANAGE LEAVE</h6>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#leave" class="nav-link " aria-controls="leave" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="fa fa-sign-out text-primary text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1" style="color:black">Leave</span>
+                    </a>
+                    <div class="collapse " id="leave">
+                        <ul class="nav ms-4">
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/Leave/Leave">
+                                    <i class="fa fa-sign-out text-success text-sm"></i>
+                                    <span class="sidenav-normal"> My Leaves </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="~/StudentLeave/StudentLeave">
+                                    <i class="fa fa-sign-out text-info text-sm opacity-10"></i>
+                                    <span class="sidenav-normal"> Student Leave </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+               
 
-                                                <li class="nav-item">
-                                                    <a class="nav-link " href="~/Student/Student">
-                                                        <i class="fa fa-genderless text-dark text-sm"></i>
-                                                        <span class="sidenav-normal"> Student List </span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link " href="~/Student/Student">
-                                                        <i class="fa fa-genderless text-dark text-sm"></i>
-                                                        <span class="sidenav-normal">Add Student</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="~/Timetable/Timetable">
-                                            <i class="fa fa-calendar-plus-o text-success text-sm"></i>
-                                            <span class="sidenav-normal"> Timetable </span>
-                                        </a>
-                                    </li>
+                @*<hr class="horizontal dark mt-0">
+                <li class="nav-item">
+                    <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#classroomreport">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="fa fa-list text-primary text-sm opacity-10"></i>
+                        </div>
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="~/Leave/Leave">
-                                            <i class="far fa-calendar-alt text-info text-sm opacity-10"></i>
-                                            <span class="sidenav-normal"> Leave </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <hr class="horizontal dark mt-0">
-                        <li class="nav-item">
-                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">EXAM INFO</h6>
-                        </li>
-                        <li class="nav-item">
-                            <a data-bs-toggle="collapse" href="#applicationsExamples" class="nav-link " aria-controls="applicationsExamples" role="button" aria-expanded="false">
-                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                    <i class="ni ni-books text-info text-sm opacity-10"></i>
-                                </div>
-                                <span class="nav-link-text ms-1" style="color:black">Exam Info</span>
-                            </a>
-                            <div class="collapse " id="applicationsExamples">
-                                <ul class="nav ms-4">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="~/Exam/ExamDetails">
-                                            <i class="fa fa-book text-success text-sm"></i>
-                                            <span class="sidenav-normal"> Exam Details </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="~/Exam/ExamMarks">
-                                            <i class="fas fa-book-reader text-warning text-sm opacity-10"></i>
-                                            <span class="sidenav-normal"> Exam Marks </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <hr class="horizontal dark mt-0">
-                        <li class="nav-item">
-                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">FEES INFO</h6>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#fees">
-                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                    <i class="fa fa-inr text-success text-sm opacity-10"></i>
-                                </div>
+                        <span class="sidenav-normal" style="color:black"> Reports <b class="caret"></b></span>
+                    </a>
+                    <div class="collapse " id="classroomreport">
+                        <ul class="nav nav-sm flex-column">
 
-                                <span class="sidenav-normal" style="color:black"> Fees Info <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="fees">
-                                <ul class="nav nav-sm flex-column">
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="~/Fees/Fees">
-                                            <i class="fa fa-inr text-primary text-sm opacity-10"></i>
-                                            <span class="sidenav-normal"> Fees Collection </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-
-                        <hr class="horizontal dark mt-0">
-                        <li class="nav-item">
-                            <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">REPORTS</h6>
-                        </li>
-                        <li class="nav-item ">
-                            <a class="nav-link " data-bs-toggle="collapse" aria-expanded="false" href="#classroomreport">
-                                <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                    <i class="fa fa-list text-primary text-sm opacity-10"></i>
-                                </div>
-
-                                <span class="sidenav-normal" style="color:black"> Reports <b class="caret"></b></span>
-                            </a>
-                            <div class="collapse " id="classroomreport">
-                                <ul class="nav nav-sm flex-column">
-
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="~/ClassRoom/ClassRoom">
-                                            <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
-                                            <span class="sidenav-normal"> ClassRoom Report </span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link " href="~/Fees/Fees">
-                                            <i class="fa fa-inr text-primary text-sm opacity-10"></i>
-                                            <span class="sidenav-normal"> Fees Report </span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
+                            <li class="nav-item">
+                                <a class="nav-link " href="~/ClassRoom/ClassRoom">
+                                    <i class="ni ni-money-coins text-warning text-sm opacity-10"></i>
+                                    <span class="sidenav-normal"> ClassRoom Report </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="~/Fees/Fees">
+                                    <i class="fa fa-inr text-primary text-sm opacity-10"></i>
+                                    <span class="sidenav-normal"> Fees Report </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
+            </ul>
                 }
                 else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 3)// ST  UDENT ===2
                 {
