@@ -8,6 +8,8 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 
@@ -64,7 +66,7 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-       
+
         [HttpPost]
 
         public ActionResult InsertTeacher(TeacherModel model)
@@ -271,7 +273,7 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
         public void ExportToExcel()
-        {   
+        {
             DataTable data = (DataTable)Session["ExpotToExcelTeacherReport"];
 
             string Filepath = Path.Combine(Server.MapPath("~/Data/Item/"));
@@ -465,9 +467,9 @@ namespace InvoiceManagementSystem.Controllers
             {
                 for (int i = 1; i < dt.Rows.Count; i++)
                 {
+                    TeacherModel cls = new TeacherModel();
                     errorMessage = "";
                     rowNo = i + 1;
-                    TeacherModel cls = new TeacherModel();
 
                     cls.Title = dt.Rows[i][0].ToString();
                     if (cls.Title == "")
@@ -531,6 +533,7 @@ namespace InvoiceManagementSystem.Controllers
                             errorMessage = errorMessage + "<br>Email already exists.";
                         }
                     }
+
                     cls.Password = dt.Rows[i][8].ToString();
                     if (cls.Password == "")
                     {
@@ -676,7 +679,21 @@ namespace InvoiceManagementSystem.Controllers
                     }
 
                     cls.ErrorMessage = errorMessage;
+
+
                     lst.Add(cls);
+                }
+                //string Email = string.Empty;
+                //foreach (var item in lst)
+                //{
+                //    cls.TempEmail = Email + item.Email + ",";
+                //}
+                string TempEmail = string.Empty;
+                TempEmail = string.Join(",", lst.Select(w => w.Email));
+
+                foreach (var item in lst)
+                {
+                    item.TempEmail = TempEmail;
                 }
                 obj.LSTTeacherList = lst;
             }
@@ -738,8 +755,8 @@ namespace InvoiceManagementSystem.Controllers
                     cmd.Parameters.Add("@AccountNo", SqlDbType.VarChar).Value = dt.Rows[i][27].ToString();
                     cmd.Parameters.Add("@IFSCCode", SqlDbType.VarChar).Value = dt.Rows[i][28].ToString();
 
-                 
-                 
+
+
                     cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = objCommon.getUserIdFromSession();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     cmd.CommandTimeout = 0;
@@ -756,5 +773,111 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
+        [HttpPost, ValidateInput(false)]
+        public ActionResult WelcomeMail(TeacherModel cls)
+        {
+            clsCommon commonobj = new clsCommon();
+            var data = cls.WelcomeMail(cls);
+            if (data.LSTTeacherList[0].Response == "Success")
+            {
+                string toEmail = cls.Email;
+                string[] TempEmail = toEmail.Split(',');
+
+                for (int i = 0; i < TempEmail.Length; i++)
+                {
+                    toEmail = TempEmail[i];
+                    var Password = clsCommon.DecryptString(data.LSTTeacherList[i].Password);
+                    string subject = "Registration Successfully.";
+                    string body = "";
+                    using (StreamReader reader = new StreamReader(Server.MapPath("/Data/MailTemplate/WelcomeMail.html")))
+                    {
+                        body = reader.ReadToEnd();
+                    }
+                    string imageBase64 = string.Empty;
+                    string imagePath = string.Empty;
+
+                    // Set imagePath and imageBase64 based on the current email being processed
+                    if (data.LSTTeacherList[i].ProfileImg == null || data.LSTTeacherList[i].ProfileImg == "Null" || data.LSTTeacherList[i].ProfileImg == "undefined")
+                    {
+                        imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("~/Data/Profile/dummy.jpg")));
+                        imagePath = Server.MapPath("~/Data/Profile/dummy.jpg");
+                    }
+                    else
+                    {
+                        imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("/Data/Profile/" + data.LSTTeacherList[i].ProfileImg)));
+                        imagePath = Server.MapPath("/Data/Profile/" + data.LSTTeacherList[i].ProfileImg);
+                    }
+
+                    body = body.Replace("[[Profile]]", $"cid:logoImage");
+                    body = body.Replace("[[UserName]]", data.LSTTeacherList[i].TeacherName);
+                    body = body.Replace("[[EmailId]]", data.LSTTeacherList[i].Email);
+                    body = body.Replace("[[Password]]", Password);
+
+                    sendEmail(toEmail, subject, body, imagePath); // Pass Email instead of toEmail
+                    cls.Response = "Success";
+                }
+
+            }
+            else
+            {
+                cls.Response = "Error";
+            }
+            return Json(cls.Response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public void sendEmail(string toEmail, string subject, string body, string imagePath)
+        {
+            try
+            {
+                clsCommon obj = new clsCommon();
+                string[] TempEmail = toEmail.Split(',');
+
+                for (int i = 0; i < TempEmail.Length; i++)
+                {
+                    string to = TempEmail[i];
+                    //string to = toEmail;
+
+                    var EmailConfigaration = obj.EmailConfigaration();
+                    string host = EmailConfigaration.Host;
+                    string username = EmailConfigaration.Username;
+                    string FromEmail = EmailConfigaration.FromMail;
+                    string password = EmailConfigaration.Password;
+                    int port = EmailConfigaration.Port;
+
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress(FromEmail);
+                    mail.To.Add(to);
+                    mail.Subject = subject;
+                    mail.Body = body;
+                    mail.IsBodyHtml = true;
+                    if (!string.IsNullOrEmpty(imagePath))
+                    {
+                        AlternateView av = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+                        LinkedResource logo = new LinkedResource(imagePath, "image/jpg");
+                        logo.ContentId = "logoImage";
+
+                        av.LinkedResources.Add(logo);
+
+                        mail.AlternateViews.Add(av);
+                    }
+                    SmtpClient smtp = new SmtpClient();
+
+                    smtp.Host = host;
+                    smtp.Credentials = new System.Net.NetworkCredential
+                         (FromEmail, password);
+                    smtp.Port = port;
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
     }
 }

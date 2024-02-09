@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace InvoiceManagementSystem.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : Controller 
     {
         clsCommon objCommon = new clsCommon();
         // GET: Account
@@ -134,9 +134,20 @@ namespace InvoiceManagementSystem.Controllers
                 {
                     body = reader.ReadToEnd();
                 }
-                
-                string imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("/Data/Profile/" + data.ProfileImg)));
-                string imagePath = Server.MapPath("/Data/Profile/" + data.ProfileImg);
+                string imageBase64 = string.Empty;
+                string imagePath = string.Empty;
+
+                // Set imagePath and imageBase64 based on the current email being processed
+                if (data.ProfileImg == null || data.ProfileImg == "Null" || data.ProfileImg == "undefined")
+                {
+                    imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("~/Data/Profile/dummy.jpg")));
+                    imagePath = Server.MapPath("~/Data/Profile/dummy.jpg");
+                }
+                else
+                {
+                    imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("/Data/Profile/" + data.ProfileImg)));
+                    imagePath = Server.MapPath("/Data/Profile/" + data.ProfileImg);
+                }
                 body = body.Replace("[[Profile]]", $"cid:logoImage");
                 body = body.Replace("[[UserName]]", data.UserName);
                 body = body.Replace("[[EmailId]]", data.Email);
@@ -151,9 +162,7 @@ namespace InvoiceManagementSystem.Controllers
             }
             return Json(cls.Response, JsonRequestBehavior.AllowGet);
         }
-
-
-        public void sendEmail(string toEmail, string subject, string body,string imagePath)
+        public void sendEmail(string toEmail, string subject, string body, string imagePath)
         {
             try
             {
@@ -173,7 +182,7 @@ namespace InvoiceManagementSystem.Controllers
                 mail.Subject = subject;
                 mail.Body = body;
                 mail.IsBodyHtml = true;
-                
+
                 AlternateView av = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
 
                 LinkedResource logo = new LinkedResource(imagePath, "image/jpg");
@@ -198,6 +207,8 @@ namespace InvoiceManagementSystem.Controllers
             }
 
         }
+
+
 
 
         public ActionResult checkUserSession()

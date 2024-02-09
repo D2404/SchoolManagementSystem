@@ -440,8 +440,10 @@
     <Content Include="Data\assets\css\nucleo-icons.css" />
     <Content Include="Data\assets\css\nucleo-svg.css" />
     <Content Include="Data\assets\css\select2.min.css" />
+    <Content Include="Data\MailTemplate\WelcomeMail.html" />
     <Content Include="Data\MailTemplate\ForgotPassword.html" />
     <Content Include="Data\PDFFormat\FeesInvoice.html" />
+    <Content Include="Data\PDFFormat\NewFeesInvoice.html" />
     <Content Include="Data\Profile\pngtree-school-building-illustration-background-image_1948855.jpg" />
     <Content Include="Data\Profile\pngtree-school-teaching-building-retro-illustration-background-image_1948854.jpg" />
     <Content Include="Data\assets\js\argon-dashboard.min9c7f.js" />

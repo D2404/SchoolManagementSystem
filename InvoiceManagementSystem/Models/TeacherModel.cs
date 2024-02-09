@@ -33,6 +33,7 @@ namespace InvoiceManagementSystem.Models
         public string BloodGroup { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public string RoleName { get; set; }
         public string Education { get; set; }
         public string DateOfJoining { get; set; }
         public string DateOfLeaving { get; set; }
@@ -64,7 +65,7 @@ namespace InvoiceManagementSystem.Models
         public int ShowingEntries { get; set; }
         public int fromEntries { get; set; }
         public string Date { get; set; }
-        
+        public string TempEmail { get; set; }
         public int intActive { get; set; }
         public bool IsActive { get; set; }
        
@@ -496,5 +497,67 @@ namespace InvoiceManagementSystem.Models
                 throw;
             }
         }
+
+        public TeacherModel WelcomeMail(TeacherModel cls)
+        {
+            try
+            {
+                List<TeacherModel> lstTeacherList = new List<TeacherModel>();
+                SqlCommand cmd = new SqlCommand("WelcomeMail", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                // Remove commas from the email addresses
+                string[] TempEmail = cls.Email.Split(',');
+                
+                for (int i = 0; i < TempEmail.Length; i++)
+                {
+                    string Email = TempEmail[i];
+                    cmd.Parameters.Clear();
+                    cmd.Parameters.AddWithValue("@Emails", Email.Trim());
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    cmd.CommandTimeout = 0;
+                    da.ReturnProviderSpecificTypes = true;
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    conn.Close();
+                    TeacherModel obj = new TeacherModel();
+                    if (dt != null && dt.Rows.Count > 0)
+                    {
+                        
+                        obj.Id = Convert.ToInt32(dt.Rows[0]["Id"] == null || dt.Rows[0]["Id"].ToString().Trim() == "" ? "0" : dt.Rows[0]["Id"].ToString());
+                        obj.Email = dt.Rows[0]["Email"] == null || dt.Rows[0]["Email"].ToString().Trim() == "" ? "" : dt.Rows[0]["Email"].ToString();
+                        obj.Surname = dt.Rows[0]["SurName"] == null || dt.Rows[0]["SurName"].ToString().Trim() == "" ? "" : dt.Rows[0]["SurName"].ToString();
+                        obj.TeacherName = dt.Rows[0]["UserName"] == null || dt.Rows[0]["UserName"].ToString().Trim() == "" ? "" : dt.Rows[0]["UserName"].ToString();
+                        obj.Email = dt.Rows[0]["Email"] == null || dt.Rows[0]["Email"].ToString().Trim() == "" ? "" : dt.Rows[0]["Email"].ToString();
+                        obj.MobileNo = dt.Rows[0]["MobileNo"] == null || dt.Rows[0]["MobileNo"].ToString().Trim() == "" ? "" : dt.Rows[0]["MobileNo"].ToString();
+                        obj.ProfileImg = dt.Rows[0]["Profile"] == null || dt.Rows[0]["Profile"].ToString().Trim() == "" ? "" : dt.Rows[0]["Profile"].ToString();
+                        obj.RoleName = dt.Rows[0]["RoleName"] == null || dt.Rows[0]["RoleName"].ToString().Trim() == "" ? "" : dt.Rows[0]["RoleName"].ToString();
+                        obj.Password = dt.Rows[0]["Password"] == null || dt.Rows[0]["Password"].ToString().Trim() == "" ? "" : dt.Rows[0]["Password"].ToString();
+                        obj.ClassId = Convert.ToInt32(dt.Rows[0]["ClassId"] == null || dt.Rows[0]["ClassId"].ToString().Trim() == "" ? "0" : dt.Rows[0]["ClassId"].ToString());
+                        obj.Response = "Success";
+                        lstTeacherList.Add(obj);
+                    }
+                    else
+                    {
+                        obj.Response = "Error";
+                    }
+                }
+                cls.LSTTeacherList = lstTeacherList;
+            }
+            catch (Exception ex)
+            {
+                // Handle exception
+                // Log the exception
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+            return cls;
+        }
+
     }
 }

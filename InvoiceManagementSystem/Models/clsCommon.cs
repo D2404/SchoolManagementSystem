@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web;
@@ -243,6 +244,7 @@ namespace InvoiceManagementSystem.Models
             return list;
         }
 
+        
         public EmailConfigurationSetting EmailConfigaration()
         {
             try

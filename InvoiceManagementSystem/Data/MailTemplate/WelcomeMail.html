@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Forgot Password Mail Template</title>
+    <title>Welcome Mail Template</title>
     <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
     <link href="//db.onlinewebfonts.com/c/562fa31bba08b3f71cb71257ddb880d5?family=Verdana" rel="stylesheet" type="text/css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -17,7 +17,7 @@
             background: #ffffff;
             display: block;
             margin: 0 auto;
-            margin-top: 1.0cm;
+            /*margin-top: 1.0cm;*/
             margin-bottom: 1.0cm;
             box-shadow: 0 0 11px #090909;
             width: 15.7cm;
@@ -96,8 +96,11 @@
             <img src="[[Profile]]" alt="School Logo" class="logo">
         </h5>
         <h2>Hello [[UserName]]!</h2>
-        <p>We received your request to reset the password for your <br /><b>Shree Muktajivan School</b> account.</p>
-        <p>As per your request, here are your account details:</p>
+        <h3>Welcome to <b>Shree Muktajivan School</b>!</h3>
+        <p>Thank you for joining us. Your account has been successfully created.</p>
+
+        <h3>We're excited to have you on board!</h3>
+        <h3>Below are your login credentials:</h3>
         <table>
             <tr>
                 <td><b>Email Id</b></td>
@@ -105,13 +108,16 @@
                 <td>[[EmailId]]</td>
             </tr>
             <tr>
+                <td><b>Username</b></td>
+                <td>:</td>
+                <td>[[UserName]]</td>
+            </tr>
+            <tr>
                 <td><b>Password</b></td>
                 <td>:</td>
                 <td>[[Password]]</td>
             </tr>
         </table>
-        <br />
-        <h4>This improves account security and ensures your account details remain confidential.</h4>
         <p>
             <b>
                 If you face any issues related to using the SHREE MUKTAJIVAN SCHOOL portal,

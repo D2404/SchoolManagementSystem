@@ -593,8 +593,8 @@ function InsertData(id) {
             if (data !== null) {
                 if (data === 'Success') {
                     toastr.success('Teacher inserted successfully');
+                    WelcomeMail(Email);
                     window.location.replace("/Teacher/TeacherList");
-
                 }
                 else if (data === 'Updated') {
                     toastr.success('Teacher updated successfully');
@@ -609,6 +609,39 @@ function InsertData(id) {
         },
         error: function (xyz) {
             HideWait();
+            alert('errors');
+        }
+    });
+}
+
+function WelcomeMail(Email) {
+    debugger
+    var cls = {
+        Email: Email
+    }
+
+    $.ajax({
+        url: '/Teacher/WelcomeMail',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+
+            if (data !== null) {
+                document.getElementById('hdnintId').value = data.LSTTeacherList[0].Id;
+                document.getElementById('TeacherName').value = data.LSTTeacherList[0].TeacherName;
+                document.getElementById('Email').value = data.LSTTeacherList[0].Email;
+                document.getElementById('Password').value = data.LSTTeacherList[0].Password;
+            }
+            else {
+                alert('error');
+            }
+
+        },
+        error: function (xhr) {
+
             alert('errors');
         }
     });
@@ -672,8 +705,11 @@ function AddBulkTeacherData() {
                 else {
                     if (data[0].ErrorMessage === 'Teacher Uploaded Successfully') {
                         toastr.success(data[0].ErrorMessage);
-                        GetTeacherList();
                         $('#BulkTeacher').click();
+                        GetTeacherList();
+                        WelcomeMail(data[0].TempEmail);
+                        toastr.success('Mail Sent Successfully');
+                       
                         ClearData1(1);
                     }
                 }
