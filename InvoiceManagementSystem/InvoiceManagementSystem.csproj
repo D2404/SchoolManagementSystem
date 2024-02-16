@@ -793,6 +793,7 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Data\BulkAttendance\BulkAttendance.xlsx" />
     <Content Include="Data\BulkTeacher\DemoBulkTeachers.xlsx" />
+    <Content Include="Data\BulkStudent\DemoBulkStudent.xlsx" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -1010,6 +1011,7 @@
     <Content Include="Views\School\School.cshtml" />
     <Content Include="Views\Student\StudentList.cshtml" />
     <Content Include="Views\Student\Student.cshtml" />
+    <Content Include="Views\Student\_StudentGridPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

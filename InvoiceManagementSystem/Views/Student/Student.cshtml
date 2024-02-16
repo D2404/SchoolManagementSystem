@@ -60,7 +60,7 @@
             <div class="row gx-4">
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        @if (Model.LSTStudentList[0].Id > 1)
+                        @if (Model.LSTStudentList[0].Id > 4)
                         {
                             <h5 class="mb-1">
                                 <i class="fas fa-chalkboard-Student text-info text-lg opacity-10"></i>&nbsp;&nbsp; Edit Student
@@ -84,16 +84,16 @@
                                         <span class="ms-2">Basic-Details</span>
                                     </a>
                                 </li>
+                                <li class="nav-item" data-tab-id="bank-view">
+                                    <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
+                                        <i class="fa fa-user"></i>
+                                        <span class="ms-2">Parent-Details</span>
+                                    </a>
+                                </li>
                                 <li class="nav-item" data-tab-id="grid-view">
                                     <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
                                         <i class="fa fa-address-book"></i>
-                                        <span class="ms-2">Address Details</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item" data-tab-id="bank-view">
-                                    <a class="nav-link mb-0 px-0 py-1 d-flex align-items-center justify-content-center" data-bs-toggle="tab" href="javascript:;" role="tab" aria-selected="false">
-                                        <i class="fa fa-bank"></i>
-                                        <span class="ms-2">Bank-Details</span>
+                                        <span class="ms-2">Address-Details</span>
                                     </a>
                                 </li>
                             </ul>
@@ -115,433 +115,359 @@
                                         <a href="javascript:;"><i class="fa fa-user"></i> Basic Details</a>
                                     </h5>
                                 </div><br />
-                                <div class="row">
-                                    <input type="hidden" id="hdnintId" value="@Model.LSTStudentList[0].Id" />
-                                    <div class="col-md-6" id="Profilediv">
-                                        <div class="form-group">
-                                            <div class="form-group" id="divUploadFile" style="display:block">
+                                      <div class="row">
+                                          <input type="hidden" id="hdnintId" value="@Model.LSTStudentList[0].Id" />
+                                          <div class="col-md-6" id="Profilediv">
+                                              <div class="form-group">
+                                                  <div class="form-group" id="divUploadFile" style="display:block">
 
-                                                <label for="example-text-input" class="form-control-label">
-                                                    Profile
-                                                </label>
-                                                <span id="removeButton" onclick="removeImage()" style="color: #100f0f;margin-left: 110px;">x</span>
-                                                @if (Model.LSTStudentList[0].Id > 1)
-                                                {
-                                                    <div>
-                                                        <input type="hidden" id="HiddenfileForImage" value="@Model.LSTStudentList[0].ProfileImg" />
-                                                        @*<input type="file" class="form-control form-control-alternative" name="Profile" id="Profile" accept="image/*" style="display: none;">*@
-                                                        @Html.TextBoxFor(model => model.LSTStudentList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;" })
-                                                        @if (Model.LSTStudentList[0].ProfileImg != "" && Model.LSTStudentList[0].ProfileImg != "undefined" && Model.LSTStudentList[0].ProfileImg != null)
-                                                        {
-                                                            var item = Model.LSTStudentList[0];
-                                                            <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
-                                                        }
-                                                        else
-                                                        {
-                                                            <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
-                                                        }
-                                                    </div>
-                                                }
-                                                else
-                                                {
-                                            <div>
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;", onchange = "displaySelectedImage(this)" })
+                                                      <label for="example-text-input" class="form-control-label">
+                                                          Profile
+                                                      </label>
+                                                      <span id="removeButton" onclick="removeImage()" style="color: #100f0f;margin-left: 110px;">x</span>
+                                                      @if (Model.LSTStudentList[0].Id > 1)
+                                                      {
+                                                          <div>
+                                                              <input type="hidden" id="HiddenfileForImage" value="@Model.LSTStudentList[0].ProfileImg" />
+                                                              @*<input type="file" class="form-control form-control-alternative" name="Profile" id="Profile" accept="image/*" style="display: none;">*@
+                                                              @Html.TextBoxFor(model => model.LSTStudentList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;" })
+                                                              @if (Model.LSTStudentList[0].ProfileImg != "" && Model.LSTStudentList[0].ProfileImg != "undefined" && Model.LSTStudentList[0].ProfileImg != null)
+                                                              {
+                                                                  var item = Model.LSTStudentList[0];
+                                                                  <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
+                                                              }
+                                                              else
+                                                              {
+                                                                  <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />
+                                                              }
+                                                          </div>
+                                                      }
+                                                      else
+                                                      {
+                                                          <div>
+                                                              @Html.TextBoxFor(model => model.LSTStudentList[0].Profile, new { @id = "Profile", @class = "form-control form-control-alternative", @type = "file", style = "display: none;", onchange = "displaySelectedImage(this)" })
 
-                                                @if (!string.IsNullOrEmpty(Model.LSTStudentList[0].ProfileImg))
-                                                {
-                                                    var item = Model.LSTStudentList[0];
-                                            <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" /> }
-                                        else
-                                        {
-                                            <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />}
-                                            </div>
-                                                }
+                                                              @if (!string.IsNullOrEmpty(Model.LSTStudentList[0].ProfileImg))
+                                                              {
+                                                                  var item = Model.LSTStudentList[0];
+                                                                  <img src="~/Data/Profile/@item.ProfileImg" alt="Profile Image" id="ProfileImg" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" /> }
+                                                              else
+                                                              {
+                                                                  <img id="ProfileImg" class="gambar" @*src="~/Data/Profile/dummy.jpg"*@ alt="Profile Image" onclick="openFileInput()" style="cursor: pointer;margin-left: -2px;height: 156px;width: 168px;margin-bottom: 8px;margin-top: -4px;" width="50" height="50" />}
+                                                          </div>
+                                                      }
 
-                                            </div>
-                                            <div class="form-group" id="divFile" style="display:none">
-                                            </div>
-                                        </div>
+                                                  </div>
+                                                  <div class="form-group" id="divFile" style="display:none">
+                                                  </div>
+                                              </div>
 
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Title <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].Title,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select Title", Value = "0" },
-                                                     new SelectListItem { Text = "Mr.", Value = "Mr.", Selected = Model.LSTStudentList[0].Title == "Mr." },
-                                                     new SelectListItem { Text = "Mrs.", Value = "Mrs.", Selected = Model.LSTStudentList[0].Title == "Mrs." },
-                                                     new SelectListItem { Text = "Miss.", Value = "Miss.", Selected = Model.LSTStudentList[0].Title == "Miss." }
-                                                 },
-                                                 new { @id = "Title", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].Title,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select Title", Value = "0" },
-                                                     new SelectListItem { Text = "Mr.", Value = "Mr." },
-                                                     new SelectListItem { Text = "Mrs.", Value = "Mrs."},
-                                                     new SelectListItem { Text = "Miss.", Value = "Miss."}
-                                                 },
-                                                 new { @id = "Title", @class = "form-control form-control-alternative" })
-                                            }
-                                            @*<input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Student Name">*@
-                                            <span id="errTitle" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
+                                          </div>
+                                          <div class="col-md-6">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Title <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.DropDownListFor(model => model.LSTStudentList[0].Title,
+                                                       new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem { Text = "Select Title", Value = "0" },
+                                                           new SelectListItem { Text = "Mr.", Value = "Mr.", Selected = Model.LSTStudentList[0].Title == "Mr." },
+                                                           new SelectListItem { Text = "Mrs.", Value = "Mrs.", Selected = Model.LSTStudentList[0].Title == "Mrs." },
+                                                           new SelectListItem { Text = "Miss.", Value = "Miss.", Selected = Model.LSTStudentList[0].Title == "Miss." }
+                                                       },
+                                                       new { @id = "Title", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.DropDownListFor(model => model.LSTStudentList[0].Title,
+                                                       new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem { Text = "Select Title", Value = "0" },
+                                                           new SelectListItem { Text = "Mr.", Value = "Mr." },
+                                                           new SelectListItem { Text = "Mrs.", Value = "Mrs."},
+                                                           new SelectListItem { Text = "Miss.", Value = "Miss."}
+                                                       },
+                                                       new { @id = "Title", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  @*<input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Student Name">*@
+                                                  <span id="errTitle" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
 
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="example-text-input" class="form-control-label">Student Name <span class="text-danger">*</span></label>
-                                                @if (Model.LSTStudentList[0].Id > 1)
-                                                {
-                                                    @Html.TextBoxFor(model => model.LSTStudentList[0].StudentName, new { @id = "StudentName", @placeholder = "Student Name.", @class = "form-control form-control-alternative" })
-                                                }
-                                                else
-                                                {
-                                                    @Html.TextBoxFor(model => Model.StudentName, new { @id = "StudentName", @placeholder = "Student Name.", @class = "form-control form-control-alternative" })
-                                                }
-                                                <span id="errStudentName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="example-text-input" class="form-control-label">Father Name <span class="text-danger">*</span></label>
-                                                @if (Model.LSTStudentList[0].Id > 1)
-                                                {
-                                                    @Html.TextBoxFor(model => model.LSTStudentList[0].FatherName, new { @id = "FatherName", @placeholder = "Father Name.", @class = "form-control form-control-alternative" })
-                                                }
-                                                else
-                                                {
-                                                    @Html.TextBoxFor(model => Model.FatherName, new { @id = "FatherName", @placeholder = "Father Name.", @class = "form-control form-control-alternative" })
-                                                }
-                                                <span id="errFatherName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label for="example-text-input" class="form-control-label">Surname <span class="text-danger">*</span></label>
-                                                @if (Model.LSTStudentList[0].Id > 1)
-                                                {
-                                                    @Html.TextBoxFor(model => model.LSTStudentList[0].Surname, new { @id = "Surname", @placeholder = "Surname.", @class = "form-control form-control-alternative" })
-                                                }
-                                                else
-                                                {
-                                                    @Html.TextBoxFor(model => Model.Surname, new { @id = "Surname", @placeholder = "Surname.", @class = "form-control form-control-alternative" })
-                                                }
-                                                <span id="errSurname" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="                                                                                                                                 form-control-label">Gender <span class="text-danger">*</span></label><br />
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].Gender,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select Gender", Value = "0" },
-                                                     new SelectListItem { Text = "Male", Value = "Male", Selected = Model.LSTStudentList[0].Gender == "Male" },
-                                                     new SelectListItem { Text = "Female", Value = "Female", Selected = Model.LSTStudentList[0].Gender == "Female" },
-                                                     new SelectListItem { Text = "Other", Value = "Other", Selected = Model.LSTStudentList[0].Gender == "Other" }
-                                                 },
-                                                 new { @id = "Gender", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].Gender,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select Title", Value = "0" },
-                                                     new SelectListItem { Text = "Male", Value = "Male" },
-                                                     new SelectListItem { Text = "Female", Value = "Female"},
-                                                     new SelectListItem { Text = "Other", Value = "Other"}
-                                                 },
-                                                 new { @id = "Gender", @class = "form-control form-control-alternative" })
-                                            }
-                                            <span id="errGender" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Blood Group <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].BloodGroup,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select BloodGroup", Value = "0" },
-                                                     new SelectListItem { Text = "A+",  Value = "A+",  Selected = Model.LSTStudentList[0].BloodGroup == "A+" },
-                                                     new SelectListItem { Text = "A-",  Value = "A-",  Selected = Model.LSTStudentList[0].BloodGroup == "A-" },
-                                                     new SelectListItem { Text = "B+",  Value = "B+",  Selected = Model.LSTStudentList[0].BloodGroup == "B+" },
-                                                     new SelectListItem { Text = "B-",  Value = "B-",  Selected = Model.LSTStudentList[0].BloodGroup == "B-" },
-                                                     new SelectListItem { Text = "AB+", Value = "AB+", Selected = Model.LSTStudentList[0].BloodGroup == "AB+" },
-                                                     new SelectListItem { Text = "AB-", Value = "AB-", Selected = Model.LSTStudentList[0].BloodGroup == "AB-" },
-                                                     new SelectListItem { Text = "O+",  Value = "O+",  Selected = Model.LSTStudentList[0].BloodGroup == "O+" },
-                                                     new SelectListItem { Text = "O-",  Value = "O-",  Selected = Model.LSTStudentList[0].BloodGroup == "O-" },
-                                                 },
-                                                 new { @id = "BloodGroup", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].BloodGroup,
-                                                 new List<SelectListItem>
-                                                 {
-                                                     new SelectListItem { Text = "Select BloodGroup", Value = "0" },
-                                                     new SelectListItem { Text = "A+",  Value = "A+"},
-                                                     new SelectListItem { Text = "A-",  Value = "A-"},
-                                                     new SelectListItem { Text = "B+",  Value = "B+"},
-                                                     new SelectListItem { Text = "B-",  Value = "B-"},
-                                                     new SelectListItem { Text = "AB+", Value = "AB+"},
-                                                     new SelectListItem { Text = "AB-", Value = "AB-"},
-                                                     new SelectListItem { Text = "O+",  Value = "O+"},
-                                                     new SelectListItem { Text = "O-",  Value = "O-"},
-                                                 },
-                                                 new { @id = "BloodGroup", @class = "form-control form-control-alternative" })
-                                            }
-                                            @*<input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Student Name">*@
-                                            <span id="errBloodGroup" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Birth Date <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].Dob, new { @id = "Dob", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.Dob, new { @id = "Dob", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                            @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Dob" autocomplete="off">*@
-                                            <span id="errDob" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
+                                          <div class="row">
+                                              <div class="col-md-4">
+                                                  <div class="form-group">
+                                                      <label for="example-text-input" class="form-control-label">Student Name <span class="text-danger">*</span></label>
+                                                      @if (Model.LSTStudentList[0].Id > 1)
+                                                      {
+                                                          @Html.TextBoxFor(model => model.LSTStudentList[0].StudentName, new { @id = "StudentName", @placeholder = "Student Name.", @class = "form-control form-control-alternative" })
+                                                      }
+                                                      else
+                                                      {
+                                                          @Html.TextBoxFor(model => Model.StudentName, new { @id = "StudentName", @placeholder = "Student Name.", @class = "form-control form-control-alternative" })
+                                                      }
+                                                      <span id="errStudentName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                                  </div>
+                                              </div>
+                                              <div class="col-md-4">
+                                                  <div class="form-group">
+                                                      <label for="example-text-input" class="form-control-label">Father Name <span class="text-danger">*</span></label>
+                                                      @if (Model.LSTStudentList[0].Id > 1)
+                                                      {
+                                                          @Html.TextBoxFor(model => model.LSTStudentList[0].FatherName, new { @id = "FatherName", @placeholder = "Father Name.", @class = "form-control form-control-alternative" })
+                                                      }
+                                                      else
+                                                      {
+                                                          @Html.TextBoxFor(model => Model.FatherName, new { @id = "FatherName", @placeholder = "Father Name.", @class = "form-control form-control-alternative" })
+                                                      }
+                                                      <span id="errFatherName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                                  </div>
+                                              </div>
+                                              <div class="col-md-4">
+                                                  <div class="form-group">
+                                                      <label for="example-text-input" class="form-control-label">Surname <span class="text-danger">*</span></label>
+                                                      @if (Model.LSTStudentList[0].Id > 1)
+                                                      {
+                                                          @Html.TextBoxFor(model => model.LSTStudentList[0].Surname, new { @id = "Surname", @placeholder = "Surname.", @class = "form-control form-control-alternative" })
+                                                      }
+                                                      else
+                                                      {
+                                                          @Html.TextBoxFor(model => Model.Surname, new { @id = "Surname", @placeholder = "Surname.", @class = "form-control form-control-alternative" })
+                                                      }
+                                                      <span id="errSurname" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="                                                                                                                                 form-control-label">Gender <span class="text-danger">*</span></label><br />
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.DropDownListFor(model => model.LSTStudentList[0].Gender,
+                                                       new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem { Text = "Select Gender", Value = "0" },
+                                                           new SelectListItem { Text = "Male", Value = "Male", Selected = Model.LSTStudentList[0].Gender == "Male" },
+                                                           new SelectListItem { Text = "Female", Value = "Female", Selected = Model.LSTStudentList[0].Gender == "Female" },
+                                                           new SelectListItem { Text = "Other", Value = "Other", Selected = Model.LSTStudentList[0].Gender == "Other" }
+                                                       },
+                                                       new { @id = "Gender", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.DropDownListFor(model => model.LSTStudentList[0].Gender,
+                                                       new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem { Text = "Select Title", Value = "0" },
+                                                           new SelectListItem { Text = "Male", Value = "Male" },
+                                                           new SelectListItem { Text = "Female", Value = "Female"},
+                                                           new SelectListItem { Text = "Other", Value = "Other"}
+                                                       },
+                                                       new { @id = "Gender", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  <span id="errGender" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Blood Group <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.DropDownListFor(model => model.LSTStudentList[0].BloodGroup,
+                                                       new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem { Text = "Select BloodGroup", Value = "0" },
+                                                           new SelectListItem { Text = "A+",  Value = "A+",  Selected = Model.LSTStudentList[0].BloodGroup == "A+" },
+                                                           new SelectListItem { Text = "A-",  Value = "A-",  Selected = Model.LSTStudentList[0].BloodGroup == "A-" },
+                                                           new SelectListItem { Text = "B+",  Value = "B+",  Selected = Model.LSTStudentList[0].BloodGroup == "B+" },
+                                                           new SelectListItem { Text = "B-",  Value = "B-",  Selected = Model.LSTStudentList[0].BloodGroup == "B-" },
+                                                           new SelectListItem { Text = "AB+", Value = "AB+", Selected = Model.LSTStudentList[0].BloodGroup == "AB+" },
+                                                           new SelectListItem { Text = "AB-", Value = "AB-", Selected = Model.LSTStudentList[0].BloodGroup == "AB-" },
+                                                           new SelectListItem { Text = "O+",  Value = "O+",  Selected = Model.LSTStudentList[0].BloodGroup == "O+" },
+                                                           new SelectListItem { Text = "O-",  Value = "O-",  Selected = Model.LSTStudentList[0].BloodGroup == "O-" },
+                                                       },
+                                                       new { @id = "BloodGroup", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.DropDownListFor(model => model.LSTStudentList[0].BloodGroup,
+                                                       new List<SelectListItem>
+                                                       {
+                                                           new SelectListItem { Text = "Select BloodGroup", Value = "0" },
+                                                           new SelectListItem { Text = "A+",  Value = "A+"},
+                                                           new SelectListItem { Text = "A-",  Value = "A-"},
+                                                           new SelectListItem { Text = "B+",  Value = "B+"},
+                                                           new SelectListItem { Text = "B-",  Value = "B-"},
+                                                           new SelectListItem { Text = "AB+", Value = "AB+"},
+                                                           new SelectListItem { Text = "AB-", Value = "AB-"},
+                                                           new SelectListItem { Text = "O+",  Value = "O+"},
+                                                           new SelectListItem { Text = "O-",  Value = "O-"},
+                                                       },
+                                                       new { @id = "BloodGroup", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  @*<input class="form-control form-control-alternative" type="email" id="UserName" placeholder="Enter Student Name">*@
+                                                  <span id="errBloodGroup" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Birth Date <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.TextBoxFor(model => model.LSTStudentList[0].Dob, new { @id = "Dob", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.TextBoxFor(model => Model.Dob, new { @id = "Dob", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                                  }
+                                                  @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Dob" autocomplete="off">*@
+                                                  <span id="errDob" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].Email, new { @id = "Email", @placeholder = "example@gmail.com", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.Email, new { @id = "Email", @placeholder = "example@gmail.com", @class = "form-control form-control-alternative" })
-                                            }
-                                            @*<input class="form-control form-control-alternative" type="text" id="Email" placeholder="Enter Email">*@
-                                            <span id="errEmail" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4" id="Passworddiv">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label" id="labelpass">Password <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.PasswordFor(model => model.LSTStudentList[0].Password, new { @id = "Password", @placeholder = "**********", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.PasswordFor(model => Model.Password, new { @id = "Password", @placeholder = "**********", @class = "form-control form-control-alternative" })
-                                            }
-                                            @*<input class="form-control form-control-alternative" type="text" id="Password" placeholder="Enter Password">*@
-                                            <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Mobile <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
-                                            }
-                                            @*<input class="form-control form-control-alternative" type="text" id="MobileNo" placeholder="Enter Mobile" onkeypress="return isNumber(event);">*@
-                                            <span id="errMobile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Alternate Mobile <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].AlternateMobileNo, new { @id = "AlternateMobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.AlternateMobileNo, new { @id = "AlternateMobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
-                                            }
-                                            @*<input class="form-control form-control-alternative" type="text" id="MobileNo" placeholder="Enter Mobile" onkeypress="return isNumber(event);">*@
-                                            <span id="errAlternateMobileNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Date Of Joining <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].DateOfJoining, new { @id = "DateOfJoining", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.DateOfJoining, new { @id = "DateOfJoining", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                            @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Dob" autocomplete="off">*@
-                                            <span id="errDateOfJoining" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4" style="display:none">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Date Of Leaving <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].DateOfLeaving, new { @id = "DateOfLeaving", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.DateOfLeaving, new { @id = "DateOfLeaving", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                            @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Dob" autocomplete="off">*@
-                                            <span id="errDateOfLeaving" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4" id="ClassRoomdiv">
-                                        <div class="form-group">
-                                            <label for="basicinput"><b>Assign Class</b><span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                <input type="hidden" id="hdnClassId" value="@Model.LSTStudentList[0].ClassId" />
-                                                <select class="form-control form-control-alternative @(Model.LSTStudentList[0].Id > 1 ? "" : "form-control-alternative")" id="ClassId">
-                                                    <option value="0">Select ClassRoom</option>
-                                                    @foreach (var classItem in Model.LSTStudentList)
-                                                    {
-                                                        <option value="@classItem.ClassId" @(classItem.ClassId == Model.LSTStudentList[0].ClassId ? "selected" : "")>@classItem.ClassId</option>
-                                                    }
-                                                </select>
-                                            }
-                                            else
-                                            {
-                                                @*<select class="form-control form-control-alternative" id="ClassId">
-                                                    <option value="0">Select ClassRoom</option>
-                                                </select>*@
-                                                <select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%">
-                                                       <option value="0">Select ClassRoom</option>
-                                                       @{ if (Model != null && Model.LSTStudentList.Count > 0)
-                                                           {
-                                                               for (var i = 0; i < Model.LSTStudentList.Count; i++)
-                                                               {
-                                                                   var item = Model.LSTStudentList[i];
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.TextBoxFor(model => model.LSTStudentList[0].Email, new { @id = "Email", @placeholder = "example@gmail.com", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.TextBoxFor(model => Model.Email, new { @id = "Email", @placeholder = "example@gmail.com", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  <span id="errEmail" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4" id="Passworddiv">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label" id="labelpass">Password <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.PasswordFor(model => model.LSTStudentList[0].Password, new { @id = "Password", @placeholder = "**********", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.PasswordFor(model => Model.Password, new { @id = "Password", @placeholder = "**********", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Mobile <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.TextBoxFor(model => model.LSTStudentList[0].MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.TextBoxFor(model => Model.MobileNo, new { @id = "MobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
+                                                  }
+                                                  <span id="errMobile" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Alternate Mobile</label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.TextBoxFor(model => model.LSTStudentList[0].AlternateMobileNo, new { @id = "AlternateMobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.TextBoxFor(model => Model.AlternateMobileNo, new { @id = "AlternateMobileNo", @placeholder = "8487968118", @class = "form-control form-control-alternative", @maxlength = 10, @onkeypress = "return onlyNumbers(event)" })
+                                                  }
+                                                  <span id="errAlternateMobileNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Date Of Joining <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.TextBoxFor(model => model.LSTStudentList[0].DateOfJoining, new { @id = "DateOfJoining", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.TextBoxFor(model => Model.DateOfJoining, new { @id = "DateOfJoining", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                                  }
+                                                  <span id="errDateOfJoining" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4" style="display:none">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Date Of Leaving <span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.TextBoxFor(model => model.LSTStudentList[0].DateOfLeaving, new { @id = "DateOfLeaving", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.TextBoxFor(model => Model.DateOfLeaving, new { @id = "DateOfLeaving", @placeholder = "Dob", @class = "form-control form-control-alternative", @type = "date" })
+                                                  }
+                                                  <span id="errDateOfLeaving" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-sm-4" id="ClassRoomdiv">
+                                              <div class="form-group">
+                                                  <label for="basicinput"><b>Assign Class</b><span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      <input type="hidden" id="hdnClassId" value="@Model.LSTStudentList[0].ClassId" />
+                                                      <select class="form-control form-control-alternative @(Model.LSTStudentList[0].Id > 1 ? "" : "form-control-alternative")" id="ClassId">
+                                                          <option value="0">Select ClassRoom</option>
+                                                          @foreach (var classItem in Model.LSTStudentList)
+                                                          {
+                                                              <option value="@classItem.ClassNo" @(classItem.ClassId == Model.LSTStudentList[0].ClassId ? "selected" : "")>@classItem.ClassNo</option>
+                                                          }
+                                                      </select>
+                                                  }
+                                                  else
+                                                  {
+                                                      <select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%">
+                                                          <option value="0">Select ClassRoom</option>
+                                                          @{ if (Model != null && Model.LSTStudentList.Count > 0)
+                                                              {
+                                                                  for (var i = 0; i < Model.LSTStudentList.Count; i++)
+                                                                  {
+                                                                      var item = Model.LSTStudentList[i];
 
-                                                                   if (item.Id == Model.ClassId)
-                                                                   {
-                                                                       <option value="@item.Id" selected>@(item.ClassNo + " (" + item.ClassNo + ")")</option>
-                                                                   }
-                                                                   else
-                                                                   {
-                                                                       <option value="@item.Id">@(item.ClassNo + " (" + item.ClassNo + ")")</option>
-                                                                   }
-                                                               }
-                                                           } }
-                                                    </select>
-                                                @*@Html.DropDownListFor(model => model.ClassId,
-                                                    new SelectList(Model.LSTStudentList, "Id", "ClassNo"),
-                                                    "Select ClassRoom",
-                                                    new { @class = "form-control form-control-alternative", @style = "width: 100%" })*@
-
-                                            }
-                                            <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Qualification <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].Education, new { @id = "Education", @placeholder = "Education.", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.Education, new { @id = "Education", @placeholder = "Education.", @class = "form-control form-control-alternative" })
-                                            }
-                                            <span id="errEducation" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Marital Status<span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].MaritalStatus,
-                                                new List<SelectListItem>
-                                                {
-                                                    new SelectListItem { Text = "Select MaritalStatus", Value = "0" },
-                                                    new SelectListItem { Text = "Single", Value = "Single", Selected = Model.LSTStudentList[0].MaritalStatus == "Single" },
-                                                    new SelectListItem { Text = "Engaged", Value = "Engaged", Selected = Model.LSTStudentList[0].MaritalStatus == "Engaged" },
-                                                    new SelectListItem { Text = "Married", Value = "Married", Selected = Model.LSTStudentList[0].MaritalStatus == "Married" },
-                                                },
-                                                new { @id = "MaritalStatus", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.DropDownListFor(model => model.LSTStudentList[0].MaritalStatus,
-                                                new List<SelectListItem>
-                                                {
-                                                    new SelectListItem { Text = "Select MaritalStatus", Value = "0" },
-                                                    new SelectListItem { Text = "Single", Value = "Single"},
-                                                    new SelectListItem { Text = "Engaged", Value = "Engaged"},
-                                                    new SelectListItem { Text = "Married", Value = "Married"},
-                                                },
-                                                new { @id = "MaritalStatus", @class = "form-control form-control-alternative" })
-                                            }
-                                            <span id="errMaritalStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Annivarsary Date <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].AnniversaryDate, new { @id = "AnniversaryDate", @placeholder = "dd/mm/yyyy", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.AnniversaryDate, new { @id = "AnniversaryDate", @placeholder = "dd/mm/yyyy", @class = "form-control form-control-alternative", @type = "date" })
-                                            }
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Work Experience <span class="text-danger">*</span></label>
-                                            @if (Model.LSTStudentList[0].Id > 1)
-                                            {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].Experience, new { @id = "Experience", @placeholder = "Experience", @class = "form-control form-control-alternative" })
-                                            }
-                                            else
-                                            {
-                                                @Html.TextBoxFor(model => Model.Experience, new { @id = "Experience", @placeholder = "Experience", @class = "form-control form-control-alternative" })
-                                            }
-                                            <span id="errExperience" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                        </div>
-                                    </div>
-
-                                    <div class="footer" style="text-align:right">
-                                        <button class="btn bg-gradient-info btn-sm ms-auto" onclick="javascript: return ValidateBasicDetails(0);">Next</button>
-                                        <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearData(1)">Clear</button>
-                                    </div>
-                                </div>
+                                                                      if (item.Id == Model.ClassId)
+                                                                      {
+                                                                          <option value="@item.ClassId" selected>@(item.ClassNo)</option>
+                                                                      }
+                                                                      else
+                                                                      {
+                                                                          <option value="@item.ClassId">@(item.ClassNo)</option>
+                                                                      }
+                                                                  }
+                                                              } }
+                                                      </select>
+                                                  }
+                                                  <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="form-group">
+                                                  <label for="example-text-input" class="form-control-label">Roll No<span class="text-danger">*</span></label>
+                                                  @if (Model.LSTStudentList[0].Id > 1)
+                                                  {
+                                                      @Html.TextBoxFor(model => model.LSTStudentList[0].RollNo, new { @id = "RollNo", @placeholder = "Roll No", @class = "form-control form-control-alternative" })
+                                                  }
+                                                  else
+                                                  {
+                                                      @Html.TextBoxFor(model => Model.RollNo, new { @id = "RollNo", @placeholder = "Roll No", @class = "form-control form-control-alternative"})
+                                                  }
+                                                  <span id="errRollNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                              </div>
+                                          </div>
+                                          <div class="footer" style="text-align:right">
+                                              <button class="btn bg-gradient-info btn-sm ms-auto" onclick="javascript: return ValidateBasicDetails(0);">Next</button>
+                                              <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearData(1)">Clear</button>
+                                          </div>
+                                      </div>
                             </div>
                         </div>
                     </div>
@@ -723,73 +649,176 @@
                             <div class="card-body pb-0">
                                 <div class="col-9">
                                     <h5 class="mb-1">
-                                        <a href="javascript:;"><i class="fa fa-bank"></i>  Bank Details</a>
+                                        <a href="javascript:;"><i class="fa fa-user"></i> Parent Details</a>
                                     </h5>
                                 </div><br />
                                 <div class="row">
 
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Bank Name <span class="text-danger">*</span></label>
+                                            <label for="example-text-input" class="form-control-label">Parent Type<span class="text-danger">*</span></label>
                                             @if (Model.LSTStudentList[0].Id > 1)
                                             {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].BankName, new { @id = "BankName", @placeholder = "Bank Name.", @class = "form-control form-control-alternative" })
+                                                @Html.DropDownListFor(model => model.LSTStudentList[0].ParentType,
+                                                new List<SelectListItem>
+                                                {
+                                                    new SelectListItem { Text = "Select ParentType", Value = "0" },
+                                                    new SelectListItem { Text = "Father", Value = "Father", Selected = Model.LSTStudentList[0].ParentType == "Father" },
+                                                    new SelectListItem { Text = "Mother", Value = "Mother", Selected = Model.LSTStudentList[0].ParentType == "Mother" },
+                                                    new SelectListItem { Text = "Guardian", Value = "Guardian", Selected = Model.LSTStudentList[0].ParentType == "Guardian" },
+                                                },
+                                                new { @id = "ParentType", @class = "form-control form-control-alternative" })
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(model => Model.BankName, new { @id = "BankName", @placeholder = "Bank Name.", @class = "form-control form-control-alternative" })
+                                                @Html.DropDownListFor(model => model.LSTStudentList[0].ParentType,
+                                                new List<SelectListItem>
+                                                {
+                                                    new SelectListItem { Text = "Select ParentType", Value = "0" },
+                                                    new SelectListItem { Text = "Father", Value = "Father"},
+                                                    new SelectListItem { Text = "Mother", Value = "Mother"},
+                                                    new SelectListItem { Text = "Guardian", Value = "Guardian"},
+                                                },
+                                                new { @id = "ParentType", @class = "form-control form-control-alternative" })
                                             }
-                                            @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
-                                            <span id="errBankName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                            <span id="errParentType" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Bank Branch <span class="text-danger">*</span></label>
+                                            <label for="example-text-input" class="form-control-label">Parent Name <span class="text-danger">*</span></label>
                                             @if (Model.LSTStudentList[0].Id > 1)
                                             {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].BankBranch, new { @id = "BankBranch", @placeholder = "Bank Branch.", @class = "form-control form-control-alternative" })
+                                                @Html.TextBoxFor(model => model.LSTStudentList[0].ParentName, new { @id = "ParentName", @placeholder = "Parent Name.", @class = "form-control form-control-alternative" })
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(model => Model.BankBranch, new { @id = "BankBranch", @placeholder = "Bank Branch.", @class = "form-control form-control-alternative" })
+                                                @Html.TextBoxFor(model => Model.ParentName, new { @id = "ParentName", @placeholder = "Parent Name.", @class = "form-control form-control-alternative" })
                                             }
                                             @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
-                                            <span id="errBankBranch" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                            <span id="errParentName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Account No <span class="text-danger">*</span></label>
+                                            <label for="example-text-input" class="form-control-label">Father Name <span class="text-danger">*</span></label>
                                             @if (Model.LSTStudentList[0].Id > 1)
                                             {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].AccountNo, new { @id = "AccountNo", @placeholder = "Account No.", @class = "form-control form-control-alternative" })
+                                                @Html.TextBoxFor(model => model.LSTStudentList[0].ParentFatherName, new { @id = "ParentFatherName", @placeholder = "Parent Father Name.", @class = "form-control form-control-alternative" })
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(model => Model.AccountNo, new { @id = "AccountNo", @placeholder = "Account No.", @class = "form-control form-control-alternative" })
+                                                @Html.TextBoxFor(model => Model.ParentFatherName, new { @id = "ParentFatherName", @placeholder = "Parent Father Name.", @class = "form-control form-control-alternative" })
                                             }
                                             @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
-                                            <span id="errAccountNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                            <span id="errParentFatherName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">IFSC Code <span class="text-danger">*</span></label>
+                                            <label for="example-text-input" class="                                                                                                                                 form-control-label">Gender <span class="text-danger">*</span></label><br />
                                             @if (Model.LSTStudentList[0].Id > 1)
                                             {
-                                                @Html.TextBoxFor(model => model.LSTStudentList[0].IFSCCode, new { @id = "IFSCCode", @placeholder = "IFSC Code.", @class = "form-control form-control-alternative" })
+                                                @Html.DropDownListFor(model => model.LSTStudentList[0].ParentGender,
+                                                 new List<SelectListItem>
+                                                 {
+                                                     new SelectListItem { Text = "Select Gender", Value = "0" },
+                                                     new SelectListItem { Text = "Male", Value = "Male", Selected = Model.LSTStudentList[0].ParentGender == "Male" },
+                                                     new SelectListItem { Text = "Female", Value = "Female", Selected = Model.LSTStudentList[0].ParentGender == "Female" },
+                                                     new SelectListItem { Text = "Other", Value = "Other", Selected = Model.LSTStudentList[0].ParentGender == "Other" }
+                                                 },
+                                                 new { @id = "ParentGender", @class = "form-control form-control-alternative" })
                                             }
                                             else
                                             {
-                                                @Html.TextBoxFor(model => Model.IFSCCode, new { @id = "IFSCCode", @placeholder = "IFSC Code.", @class = "form-control form-control-alternative" })
+                                                @Html.DropDownListFor(model => model.LSTStudentList[0].ParentGender,
+                                                 new List<SelectListItem>
+                                                 {
+                                                     new SelectListItem { Text = "Select Title", Value = "0" },
+                                                     new SelectListItem { Text = "Male", Value = "Male" },
+                                                     new SelectListItem { Text = "Female", Value = "Female"},
+                                                     new SelectListItem { Text = "Other", Value = "Other"}
+                                                 },
+                                                 new { @id = "ParentGender", @class = "form-control form-control-alternative" })
                                             }
-                                            @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
-                                            <span id="errIFSCCode" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                            <span id="errParentGender" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
-
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label>
+                                            @if (Model.LSTStudentList[0].Id > 1)
+                                            {
+                                                @Html.TextBoxFor(model => model.LSTStudentList[0].ParentEmail, new { @id = "ParentEmail", @placeholder = "Parent Email.", @class = "form-control form-control-alternative" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => Model.ParentEmail, new { @id = "ParentEmail", @placeholder = "Parent Email.", @class = "form-control form-control-alternative" })
+                                            }
+                                            @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
+                                            <span id="errParentEmail" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">MobileNo <span class="text-danger">*</span></label>
+                                            @if (Model.LSTStudentList[0].Id > 1)
+                                            {
+                                                @Html.TextBoxFor(model => model.LSTStudentList[0].ParentMobileNo, new { @id = "ParentMobileNo", @placeholder = "Parent Mobile No.", @class = "form-control form-control-alternative" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => Model.ParentMobileNo, new { @id = "ParentMobileNo", @placeholder = "Parent Mobile No.", @class = "form-control form-control-alternative" })
+                                            }
+                                            @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
+                                            <span id="errParentMobileNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Qualification <span class="text-danger">*</span></label>
+                                            @if (Model.LSTStudentList[0].Id > 1)
+                                            {
+                                                @Html.TextBoxFor(model => model.LSTStudentList[0].Qualification, new { @id = "Qualification", @placeholder = "Qualification.", @class = "form-control form-control-alternative" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => Model.Qualification, new { @id = "Qualification", @placeholder = "Qualification.", @class = "form-control form-control-alternative" })
+                                            }
+                                            @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
+                                            <span id="errQualification" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Annivarsary Date <span class="text-danger">*</span></label>
+                                            @if (Model.LSTStudentList[0].Id > 1)
+                                            {
+                                                @Html.TextBoxFor(model => model.LSTStudentList[0].AnniversaryDate, new { @id = "AnniversaryDate", @placeholder = "dd/mm/yyyy", @class = "form-control form-control-alternative", @type = "date" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => Model.AnniversaryDate, new { @id = "AnniversaryDate", @placeholder = "dd/mm/yyyy", @class = "form-control form-control-alternative", @type = "date" })
+                                            }
+                                            <span id="errAnniversaryDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="example-text-input" class="form-control-label">Profession <span class="text-danger">*</span></label>
+                                            @if (Model.LSTStudentList[0].Id > 1)
+                                            {
+                                                @Html.TextBoxFor(model => model.LSTStudentList[0].Profession, new { @id = "Profession", @placeholder = "Profession.", @class = "form-control form-control-alternative" })
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(model => Model.Profession, new { @id = "Profession", @placeholder = "Profession.", @class = "form-control form-control-alternative" })
+                                            }
+                                            @*<input class="form-control form-control-alternative" type="text" id="Education" placeholder="Enter Education">*@
+                                            <span id="errProfession" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                        </div>
+                                    </div>
                                     <div class="footer" style="text-align:right">
                                         <button class="btn bg-gradient-secondary btn-sm  js-btn-prev" onclick="ValidateAddressDetails(1);">Prev</button>
                                         @if (Model.LSTStudentList[0].Id > 1)

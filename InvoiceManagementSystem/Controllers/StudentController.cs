@@ -30,26 +30,27 @@ namespace InvoiceManagementSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
-        //public ActionResult Student(int? id)
-        //{
-        //    if (objCommon.getUserIdFromSession() != 0)
-        //    {
-        //        StudentModel cls = new StudentModel();
-        //        if (id != null || id > 0)
-        //        {
-        //            cls = cls.GetSingleStudent(cls, id);
-        //        }
-        //        else
-        //        {
-        //            cls = cls.FillClassRoomList(cls);
-        //        }
-        //        return View(cls);
-        //    }
-        //    else
-        //    {
-        //        return RedirectToAction("Login", "Account");
-        //    }
-        //}
+        public ActionResult Student(int? id)
+        {
+            if (objCommon.getUserIdFromSession() != 0)
+            {
+                StudentModel cls = new StudentModel();
+                if (id != null || id > 0)
+                {
+                    cls = cls.GetSingleStudent(cls, id);
+                }
+                else
+                {
+                    cls = cls.FillClassRoomList(cls);
+                }
+                return View(cls);
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+        }
+
         public ActionResult ViewStudent(int? id)
         {
             if (objCommon.getUserIdFromSession() != 0)
@@ -90,6 +91,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@FromDate", cls.Date);
                 cmd.Parameters.AddWithValue("@ToDate", cls.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -107,15 +109,16 @@ namespace InvoiceManagementSystem.Controllers
                         StudentModel obj = new StudentModel();
                         obj.ProfileImg = dt.Rows[i]["Profile"] == null ? "" : dt.Rows[i]["Profile"].ToString();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
                         obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
+                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.RollNo = dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString();
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
                         obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
                         obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("dd/MM/yyyy");
-                        obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
+                        obj.Qualification = dt.Rows[i]["Qualification"] == null || dt.Rows[i]["Qualification"].ToString().Trim() == "" ? null : dt.Rows[i]["Qualification"].ToString();
                         obj.Gender = dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString();
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
@@ -162,6 +165,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@FromDate", cls.Date);
                 cmd.Parameters.AddWithValue("@ToDate", cls.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -183,11 +187,13 @@ namespace InvoiceManagementSystem.Controllers
                         obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
+                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.RollNo = dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
                         obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
                         obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("dd/MM/yyyy");
-                        obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
+                        obj.Qualification = dt.Rows[i]["Qualification"] == null || dt.Rows[i]["Qualification"].ToString().Trim() == "" ? null : dt.Rows[i]["Qualification"].ToString();
                         obj.Gender = dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString();
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
@@ -371,7 +377,6 @@ namespace InvoiceManagementSystem.Controllers
 
             try
             {
-
                 if (objCommon.getUserIdFromSession() != 0)
                 {
                     string filePath = string.Empty;
@@ -564,117 +569,133 @@ namespace InvoiceManagementSystem.Controllers
                         errorMessage = errorMessage + "<br>Class should not be blank.";
                     }
 
-                    cls.Education = dt.Rows[i][13].ToString();
-                    if (cls.Education == "")
-                    {
-                        status = false;
-                        errorMessage = errorMessage + "<br>Qualification should not be blank.";
-                    }
-
-                    cls.MaritalStatus = dt.Rows[i][14].ToString();
-                    if (cls.MaritalStatus == "")
-                    {
-                        status = false;
-                        errorMessage = errorMessage + "<br>MaritalStatus should not be blank.";
-                    }
-
-                    cls.AnniversaryDate = dt.Rows[i][15].ToString();
                     //if (cls.AnniversaryDate == "")
                     //{
                     //    status = false;
                     //    errorMessage = errorMessage + "<br>Anniversary Date should not be blank.";
                     //}
 
-                    cls.Experience = dt.Rows[i][16].ToString();
-                    if (cls.Experience == "")
+                    cls.RollNo = dt.Rows[i][13].ToString();
+                    if (cls.RollNo == "")
                     {
                         status = false;
-                        errorMessage = errorMessage + "<br>Experience should not be blank.";
+                        errorMessage = errorMessage + "<br>RollNo should not be blank.";
                     }
 
-                    cls.CurrentAddress = dt.Rows[i][17].ToString();
+                    cls.ParentType = dt.Rows[i][14].ToString();
+                    if (cls.ParentType == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>ParentType should not be blank.";
+                    }
+
+                    cls.ParentName = dt.Rows[i][15].ToString();
+                    if (cls.ParentName == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>ParentName should not be blank.";
+                    }
+
+                    cls.ParentFatherName = dt.Rows[i][16].ToString();
+                    if (cls.ParentFatherName == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>ParentFatherName should not be blank.";
+                    }
+
+                    cls.ParentGender = dt.Rows[i][17].ToString();
+                    if (cls.ParentGender == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>ParentGender should not be blank.";
+                    }
+                    cls.ParentEmail = dt.Rows[i][18].ToString();
+                    if (cls.ParentEmail == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>ParentEmail should not be blank.";
+                    }
+                    cls.ParentMobileNo = dt.Rows[i][19].ToString();
+                    if (cls.ParentMobileNo == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>ParentMobileNo should not be blank.";
+                    }
+                    cls.AnniversaryDate = dt.Rows[i][20].ToString();
+                    if (cls.AnniversaryDate == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>AnniversaryDate should not be blank.";
+                    }
+                    cls.Qualification = dt.Rows[i][21].ToString();
+                    if (cls.Qualification == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>Qualification should not be blank.";
+                    }
+                    cls.Profession = dt.Rows[i][22].ToString();
+                    if (cls.Profession == "")
+                    {
+                        status = false;
+                        errorMessage = errorMessage + "<br>Profession should not be blank.";
+                    }
+
+                    cls.CurrentAddress = dt.Rows[i][23].ToString();
                     if (cls.CurrentAddress == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Current Address should not be blank.";
                     }
 
-                    cls.CurrentPincode = dt.Rows[i][18].ToString();
+                    cls.CurrentPincode = dt.Rows[i][24].ToString();
                     if (cls.CurrentPincode == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Current Pincode should not be blank.";
                     }
 
-                    cls.CurrentCity = dt.Rows[i][19].ToString();
+                    cls.CurrentCity = dt.Rows[i][25].ToString();
                     if (cls.CurrentCity == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Current City should not be blank.";
                     }
 
-                    cls.CurrentState = dt.Rows[i][20].ToString();
+                    cls.CurrentState = dt.Rows[i][26].ToString();
                     if (cls.CurrentState == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Current State should not be blank.";
                     }
 
-                    cls.PermenantAddress = dt.Rows[i][21].ToString();
+                    cls.PermenantAddress = dt.Rows[i][27].ToString();
                     if (cls.PermenantAddress == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Permenant Address should not be blank.";
                     }
 
-                    cls.PermenantPincode = dt.Rows[i][22].ToString();
+                    cls.PermenantPincode = dt.Rows[i][28].ToString();
                     if (cls.PermenantPincode == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Permenant Pincode should not be blank.";
                     }
 
-                    cls.PermenantCity = dt.Rows[i][23].ToString();
+                    cls.PermenantCity = dt.Rows[i][29].ToString();
                     if (cls.PermenantCity == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Permenant City should not be blank.";
                     }
 
-                    cls.PermenantState = dt.Rows[i][24].ToString();
+                    cls.PermenantState = dt.Rows[i][30].ToString();
                     if (cls.PermenantState == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Permenant State should not be blank.";
                     }
-
-                    cls.BankName = dt.Rows[i][25].ToString();
-                    if (cls.BankName == "")
-                    {
-                        status = false;
-                        errorMessage = errorMessage + "<br>Bank Name should not be blank.";
-                    }
-
-                    cls.BankBranch = dt.Rows[i][26].ToString();
-                    if (cls.BankName == "")
-                    {
-                        status = false;
-                        errorMessage = errorMessage + "<br>Bank Branch should not be blank.";
-                    }
-
-                    cls.AccountNo = dt.Rows[i][27].ToString();
-                    if (cls.AccountNo == "")
-                    {
-                        status = false;
-                        errorMessage = errorMessage + "<br>Account No should not be blank.";
-                    }
-                    cls.IFSCCode = dt.Rows[i][28].ToString();
-                    if (cls.IFSCCode == "")
-                    {
-                        status = false;
-                        errorMessage = errorMessage + "<br>IFSC Code should not be blank.";
-                    }
-
+                    
                     cls.ErrorMessage = errorMessage;
                     lst.Add(cls);
                 }
