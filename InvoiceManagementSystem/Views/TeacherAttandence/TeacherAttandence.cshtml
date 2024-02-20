@@ -16,14 +16,14 @@
     <div class="col-sm-6 col-md-3">
         <div class="form-group">
             <label for="example-text-input" class="text-xs font-weight-bold mb-0" style="color:white">From Date</label>
-            <input type="date" class="form-control" id="FromDate" name = "FromDate">
+            <input type="date" class="form-control" id="FromDate" name="FromDate">
             <span id="errFromDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
         </div>
     </div>
     <div class="col-sm-6 col-md-3">
         <div class="form-group">
-            <label for="example-text-input" class="text-xs font-weight-bold mb-0"style="color:white">To Date</label>
-            <input type="date" class="form-control" id="ToDate" name = "ToDate">
+            <label for="example-text-input" class="text-xs font-weight-bold mb-0" style="color:white">To Date</label>
+            <input type="date" class="form-control" id="ToDate" name="ToDate">
             <span id="errToDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
         </div>
     </div>
@@ -31,10 +31,19 @@
 
         <a class="btn bg-gradient-info" onclick="GetTeacherAttandenceListByTeacherId(1)">Search</a>
     </div>
-    <div class="col-sm-6 col-md-1 mt-4">
-        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
+    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+    {
+<div class="col-sm-6 col-md-1 mt-4">
+    <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
 
-    </div>
+</div> }
+            else
+            {
+                <div class="col-sm-6 col-md-1 mt-4">
+                    <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(3)"> Clear </a>
+
+                </div>
+            }
 </div>
 <div class="row">
     <div style="margin-left:968px">

@@ -786,6 +786,7 @@ namespace InvoiceManagementSystem.Controllers
                 for (int i = 0; i < TempEmail.Length; i++)
                 {
                     toEmail = TempEmail[i];
+                    var Role = commonobj.getRoleNameFromSession();
                     var Password = clsCommon.DecryptString(data.LSTTeacherList[i].Password);
                     string subject = "Registration Successfully.";
                     string body = "";
@@ -812,6 +813,7 @@ namespace InvoiceManagementSystem.Controllers
                     body = body.Replace("[[UserName]]", data.LSTTeacherList[i].TeacherName);
                     body = body.Replace("[[EmailId]]", data.LSTTeacherList[i].Email);
                     body = body.Replace("[[Password]]", Password);
+                    body = body.Replace("[[RoleName]]", Role);
 
                     sendEmail(toEmail, subject, body, imagePath); // Pass Email instead of toEmail
                     cls.Response = "Success";

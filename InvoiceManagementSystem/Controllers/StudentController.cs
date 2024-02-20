@@ -8,6 +8,8 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 
@@ -111,7 +113,7 @@ namespace InvoiceManagementSystem.Controllers
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
-                        obj.RollNo = dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString();
+                        obj.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
@@ -188,7 +190,7 @@ namespace InvoiceManagementSystem.Controllers
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
-                        obj.RollNo = dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString();
+                        obj.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
                         obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
@@ -575,8 +577,8 @@ namespace InvoiceManagementSystem.Controllers
                     //    errorMessage = errorMessage + "<br>Anniversary Date should not be blank.";
                     //}
 
-                    cls.RollNo = dt.Rows[i][13].ToString();
-                    if (cls.RollNo == "")
+                    cls.RollNo = Convert.ToInt32(dt.Rows[i][13].ToString());
+                    if (cls.RollNo == 0)
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>RollNo should not be blank.";
@@ -699,6 +701,13 @@ namespace InvoiceManagementSystem.Controllers
                     cls.ErrorMessage = errorMessage;
                     lst.Add(cls);
                 }
+                string TempEmail = string.Empty;
+                TempEmail = string.Join(",", lst.Select(w => w.Email));
+
+                foreach (var item in lst)
+                {
+                    item.TempEmail = TempEmail;
+                }
                 obj.LSTStudentList = lst;
             }
             catch (Exception ex)
@@ -735,33 +744,33 @@ namespace InvoiceManagementSystem.Controllers
                     cmd.Parameters.Add("@Surname", SqlDbType.VarChar).Value = dt.Rows[i][3].ToString();
                     cmd.Parameters.Add("@Gender", SqlDbType.VarChar).Value = dt.Rows[i][4].ToString();
                     cmd.Parameters.Add("@BloodGroup", SqlDbType.VarChar).Value = dt.Rows[i][5].ToString();
-                    cmd.Parameters.Add("@Dob", SqlDbType.DateTime).Value = Convert.ToDateTime(dt.Rows[i][6].ToString());
+                    cmd.Parameters.Add("@Dob", SqlDbType.Date).Value = Convert.ToDateTime(dt.Rows[i][6].ToString());
                     cmd.Parameters.Add("@Email", SqlDbType.VarChar).Value = dt.Rows[i][7].ToString();
                     cmd.Parameters.Add("@Password", SqlDbType.VarChar).Value = clsCommon.EncryptString(dt.Rows[i][8].ToString());
                     cmd.Parameters.Add("@MobileNo", SqlDbType.VarChar).Value = dt.Rows[i][9].ToString();
                     cmd.Parameters.Add("@AlternateMobileNo", SqlDbType.VarChar).Value = dt.Rows[i][10].ToString();
-                    cmd.Parameters.Add("@DateOfJoining", SqlDbType.DateTime).Value = Convert.ToDateTime(dt.Rows[i][11]);
+                    cmd.Parameters.Add("@DateOfJoining", SqlDbType.Date).Value = Convert.ToDateTime(dt.Rows[i][11]);
                     cmd.Parameters.Add("@ClassId", SqlDbType.Int).Value = dt.Rows[i][12].ToString();
-                    cmd.Parameters.Add("@Education", SqlDbType.VarChar).Value = dt.Rows[i][13].ToString();
-                    cmd.Parameters.Add("@MaritalStatus", SqlDbType.VarChar).Value = dt.Rows[i][14].ToString();
-                    cmd.Parameters.Add("@AnnivarsaryDate", SqlDbType.VarChar).Value = dt.Rows[i][15].ToString();
-                    cmd.Parameters.Add("@Experience", SqlDbType.VarChar).Value = dt.Rows[i][16].ToString();
-                    cmd.Parameters.Add("@CurrentAddress", SqlDbType.VarChar).Value = dt.Rows[i][17].ToString();
-                    cmd.Parameters.Add("@CurrentPincode", SqlDbType.VarChar).Value = dt.Rows[i][18].ToString();
-                    cmd.Parameters.Add("@CurrentCity", SqlDbType.VarChar).Value = dt.Rows[i][19].ToString();
-                    cmd.Parameters.Add("@CurrentState", SqlDbType.VarChar).Value = dt.Rows[i][20].ToString();
-                    cmd.Parameters.Add("@PermenantAddress", SqlDbType.VarChar).Value = dt.Rows[i][21].ToString();
-                    cmd.Parameters.Add("@PermenantPincode", SqlDbType.VarChar).Value = dt.Rows[i][22].ToString();
-                    cmd.Parameters.Add("@PermenantCity", SqlDbType.VarChar).Value = dt.Rows[i][23].ToString();
-                    cmd.Parameters.Add("@PermenantState", SqlDbType.VarChar).Value = dt.Rows[i][24].ToString();
-                    cmd.Parameters.Add("@BankName", SqlDbType.VarChar).Value = dt.Rows[i][25].ToString();
-                    cmd.Parameters.Add("@BankBranch", SqlDbType.VarChar).Value = dt.Rows[i][26].ToString();
-                    cmd.Parameters.Add("@AccountNo", SqlDbType.VarChar).Value = dt.Rows[i][27].ToString();
-                    cmd.Parameters.Add("@IFSCCode", SqlDbType.VarChar).Value = dt.Rows[i][28].ToString();
-
-
-
+                    cmd.Parameters.Add("@RollNo", SqlDbType.Int).Value = dt.Rows[i][13].ToString();
+                    cmd.Parameters.Add("@ParentType", SqlDbType.VarChar).Value = dt.Rows[i][14].ToString();
+                    cmd.Parameters.Add("@ParentName", SqlDbType.VarChar).Value = dt.Rows[i][15].ToString();
+                    cmd.Parameters.Add("@ParentFatherName", SqlDbType.VarChar).Value = dt.Rows[i][16].ToString();
+                    cmd.Parameters.Add("@ParentGender", SqlDbType.VarChar).Value = dt.Rows[i][17].ToString();
+                    cmd.Parameters.Add("@ParentEmail", SqlDbType.VarChar).Value = dt.Rows[i][18].ToString();
+                    cmd.Parameters.Add("@ParentMobileNo", SqlDbType.VarChar).Value = dt.Rows[i][19].ToString();
+                    cmd.Parameters.Add("@AnniversaryDate", SqlDbType.Date).Value = dt.Rows[i][20].ToString();
+                    cmd.Parameters.Add("@Qualification", SqlDbType.VarChar).Value = dt.Rows[i][21].ToString();
+                    cmd.Parameters.Add("@Profession", SqlDbType.VarChar).Value = dt.Rows[i][22].ToString();
+                    cmd.Parameters.Add("@CurrentAddress", SqlDbType.VarChar).Value = dt.Rows[i][23].ToString();
+                    cmd.Parameters.Add("@CurrentPincode", SqlDbType.VarChar).Value = dt.Rows[i][24].ToString();
+                    cmd.Parameters.Add("@CurrentCity", SqlDbType.VarChar).Value = dt.Rows[i][25].ToString();
+                    cmd.Parameters.Add("@CurrentState", SqlDbType.VarChar).Value = dt.Rows[i][26].ToString();
+                    cmd.Parameters.Add("@PermenantAddress", SqlDbType.VarChar).Value = dt.Rows[i][27].ToString();
+                    cmd.Parameters.Add("@PermenantPincode", SqlDbType.VarChar).Value = dt.Rows[i][28].ToString();
+                    cmd.Parameters.Add("@PermenantCity", SqlDbType.VarChar).Value = dt.Rows[i][29].ToString();
+                    cmd.Parameters.Add("@PermenantState", SqlDbType.VarChar).Value = dt.Rows[i][30].ToString();
                     cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = objCommon.getUserIdFromSession();
+                    cmd.Parameters.Add("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     cmd.CommandTimeout = 0;
                     da.ReturnProviderSpecificTypes = true;
@@ -777,5 +786,114 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult WelcomeMail(StudentModel cls)
+        {
+            clsCommon commonobj = new clsCommon();
+            var data = cls.WelcomeMail(cls);
+            if (data.LSTStudentList[0].Response == "Success")
+            {
+                string toEmail = cls.Email;
+                string[] TempEmail = toEmail.Split(',');
+
+                for (int i = 0; i < TempEmail.Length; i++)
+                {
+                    toEmail = TempEmail[i];
+                    //var Role = commonobj.getRoleNameFromSession();
+                    var Password = clsCommon.DecryptString(data.LSTStudentList[i].Password);
+                    string subject = "Registration Successfully.";
+                    string body = "";
+                    using (StreamReader reader = new StreamReader(Server.MapPath("/Data/MailTemplate/WelcomeMail.html")))
+                    {
+                        body = reader.ReadToEnd();
+                    }
+                    string imageBase64 = string.Empty;
+                    string imagePath = string.Empty;
+
+                    // Set imagePath and imageBase64 based on the current email being processed
+                    if (data.LSTStudentList[i].ProfileImg == null || data.LSTStudentList[i].ProfileImg == "Null" || data.LSTStudentList[i].ProfileImg == "undefined")
+                    {
+                        imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("~/Data/Profile/dummy.jpg")));
+                        imagePath = Server.MapPath("~/Data/Profile/dummy.jpg");
+                    }
+                    else
+                    {
+                        imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("/Data/Profile/" + data.LSTStudentList[i].ProfileImg)));
+                        imagePath = Server.MapPath("/Data/Profile/" + data.LSTStudentList[i].ProfileImg);
+                    }
+
+                    body = body.Replace("[[Profile]]", $"cid:logoImage");
+                    body = body.Replace("[[UserName]]", data.LSTStudentList[i].StudentName);
+                    body = body.Replace("[[EmailId]]", data.LSTStudentList[i].Email);
+                    body = body.Replace("[[Password]]", Password);
+                    body = body.Replace("[[RoleName]]", data.LSTStudentList[i].RoleName);
+
+                    sendEmail(toEmail, subject, body, imagePath); // Pass Email instead of toEmail
+                    cls.Response = "Success";
+                }
+
+            }
+            else
+            {
+                cls.Response = "Error";
+            }
+            return Json(cls.Response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public void sendEmail(string toEmail, string subject, string body, string imagePath)
+        {
+            try
+            {
+                clsCommon obj = new clsCommon();
+                string[] TempEmail = toEmail.Split(',');
+
+                for (int i = 0; i < TempEmail.Length; i++)
+                {
+                    string to = TempEmail[i];
+                    //string to = toEmail;
+
+                    var EmailConfigaration = obj.EmailConfigaration();
+                    string host = EmailConfigaration.Host;
+                    string username = EmailConfigaration.Username;
+                    string FromEmail = EmailConfigaration.FromMail;
+                    string password = EmailConfigaration.Password;
+                    int port = EmailConfigaration.Port;
+
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress(FromEmail);
+                    mail.To.Add(to);
+                    mail.Subject = subject;
+                    mail.Body = body;
+                    mail.IsBodyHtml = true;
+                    if (!string.IsNullOrEmpty(imagePath))
+                    {
+                        AlternateView av = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+                        LinkedResource logo = new LinkedResource(imagePath, "image/jpg");
+                        logo.ContentId = "logoImage";
+
+                        av.LinkedResources.Add(logo);
+
+                        mail.AlternateViews.Add(av);
+                    }
+                    SmtpClient smtp = new SmtpClient();
+
+                    smtp.Host = host;
+                    smtp.Credentials = new System.Net.NetworkCredential
+                         (FromEmail, password);
+                    smtp.Port = port;
+                    smtp.EnableSsl = true;
+                    smtp.Send(mail);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
     }
 }

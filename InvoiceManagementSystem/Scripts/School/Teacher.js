@@ -519,10 +519,10 @@ function InsertData(id) {
     if (hdnfile === null || hdnfile === "" || hdnfile === undefined) {
         if (id === 0) {
             var Profile = document.getElementById('Profile').value;
-            if (Profile === null || Profile === "") {
-                $("#errProfile").html('Please select image.');
-                return;
-            }
+            //if (Profile === null || Profile === "") {
+            //    $("#errProfile").html('Please select image.');
+            //    return;
+            //}
             if (fileCount > 0) {
                 for (var i = 0; i < fileCount; i++) {
                     var Profile = document.getElementById("Profile").files[i];
@@ -634,6 +634,7 @@ function WelcomeMail(Email) {
                 document.getElementById('TeacherName').value = data.LSTTeacherList[0].TeacherName;
                 document.getElementById('Email').value = data.LSTTeacherList[0].Email;
                 document.getElementById('Password').value = data.LSTTeacherList[0].Password;
+                document.getElementById('RoleName').value = data.LSTTeacherList[0].RoleName;
             }
             else {
                 alert('error');

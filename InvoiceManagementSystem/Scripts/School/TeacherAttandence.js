@@ -275,6 +275,51 @@ function GetTeacherAttandenceList(page) {
     });
 }
 
+function ClearSearchData(page) {
+
+
+    var Id = 0;
+    /* var TeacherId = document.getElementById('ddlTeacherId').value*/
+    var Date = document.getElementById('Date').value
+    if (document.getElementById('PageSize') !== null) {
+        PageSize = document.getElementById('PageSize').value;
+    }
+    else {
+        PageSize = 10;
+    }
+    if (page === undefined) {
+        page = 1;
+    }
+    var PageIndex = page;
+
+    PageIndex = page;
+    var cls = {
+        Id: Id,
+        TeacherId: TeacherId,
+        Date: Date,
+        PageSize: PageSize,
+        PageIndex: PageIndex,
+    }
+    ShowWait();
+    $.ajax({
+        url: '/TeacherAttandence/ClearSearchData',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            $('#tblBody').empty();
+            $('#tblBody').append(data);
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('errors');
+        }
+    });
+}
+
 function GetTeacherAttandenceListByTeacherId(page) {
     debugger
     var TeacherId = $("#teacherIdContainer").data("teacher-id");
@@ -447,10 +492,15 @@ function ClearData(type) {
             document.getElementById('PopupTitle').innerHTML = "Update Attandence";
         }
     }
-    else {
+    else if (type === 2){
         document.getElementById('FromDate').value = "";
         document.getElementById('ToDate').value = "";
         GetTeacherAttandenceList();
+    }
+    else {
+        document.getElementById('FromDate').value = "";
+        document.getElementById('ToDate').value = "";
+        ClearSearchData();
     }
 }
 

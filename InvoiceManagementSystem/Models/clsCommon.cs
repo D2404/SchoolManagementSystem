@@ -116,6 +116,15 @@ namespace InvoiceManagementSystem.Models
             }
             return Id;
         }
+        public string getRoleNameFromSession()
+        {
+            string Role = "";
+            if (HttpContext.Current.Session["RoleName"] != null && HttpContext.Current.Session["RoleName"] != "")
+            {
+                Role = HttpContext.Current.Session["RoleName"].ToString();
+            }
+            return Role;
+        }
         public int? getTeacherIdFromSession()
         {
             int? Id = 0;
