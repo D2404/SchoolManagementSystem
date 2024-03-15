@@ -12,6 +12,9 @@
             text-decoration: underline;
             text-decoration-color: blue; /* Initial underline color */
         }
+    #box {
+        box-shadow: 10px 8px 5px grey;
+    }
 </style>
 <!-- Navbar -->
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
@@ -55,7 +58,7 @@
                             } }
                     </div>
                     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card" id="box">
+                        <div class="card">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8">
@@ -76,7 +79,7 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card" id="box">
+                        <div class="card">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8">
@@ -97,7 +100,7 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-sm-6">
-                        <div class="card" id="box">
+                        <div class="card">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8">
@@ -661,7 +664,7 @@
                             </div>
                         }
                     </div>
-                    <div class="col-xl-5 col-sm-8 mb-xl-0 mb-6" style="margin-left:120px">
+                    <div class="col-xl-5" style="margin-left:160px;">
                         @if (Model.LSTStudentList != null)
                         {
                             <div class="row">
@@ -749,7 +752,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card" id="box">
+                <div class="card">
                     <div class="card-body p-3">
                         <div class="row">
                             <div class="col-8">
@@ -779,7 +782,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card" id="box">
+                <div class="card">
                     <div class="card-body p-3">
                         <div class="row">
                             <div class="col-8">
@@ -809,7 +812,7 @@
                 </div>
             </div>
             <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card" id="box">
+                <div class="card">
                     <div class="card-body p-3">
                         <div class="row">
                             <div class="col-6">
@@ -919,7 +922,7 @@
                 <br />
                 <div class="row">
                     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
+                        <div class="card" id="box">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8">
@@ -943,7 +946,7 @@
                         </div>
                     </div>
                     <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
+                        <div class="card" id="box">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8">
@@ -1234,7 +1237,7 @@
                 </div>
             }
         </div>
-        <div class="container-fluid py-4" id="Student">
+        @*<div class="container-fluid py-4" id="Student">
             <div class="row">
                 <div class="col-sm-12 col-md-12">
                     <div class="dataTables_length" id="DataTables_Table_0_length">
@@ -1265,7 +1268,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="container-fluid py-4" id="TeacherSubject">
             <div class="row">
                 <div class="col-sm-12 col-md-12">

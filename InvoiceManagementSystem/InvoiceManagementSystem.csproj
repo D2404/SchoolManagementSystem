@@ -1012,6 +1012,7 @@
     <Content Include="Views\Student\StudentList.cshtml" />
     <Content Include="Views\Student\Student.cshtml" />
     <Content Include="Views\Student\_StudentGridPartial.cshtml" />
+    <Content Include="Views\StudentAttandence\_FilterStudentAttandenceListPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

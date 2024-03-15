@@ -759,9 +759,6 @@ namespace InvoiceManagementSystem.Controllers
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
-                    command.Parameters.AddWithValue("@RoleId", SessionModel.RoleId);
-                    command.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())
@@ -780,10 +777,12 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
+                var TeacherId = objCommon.getTeacherIdFromSession();
                 List<LeaveModel> lstLeaveList = new List<LeaveModel>();
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("GetLeaveData", conn);
+                cmd.Parameters.AddWithValue("@TeacherId", TeacherId);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -802,7 +801,16 @@ namespace InvoiceManagementSystem.Controllers
                         obj.NoOfDays = Convert.ToInt32(dt.Rows[i]["NoOfDays"] == null || dt.Rows[i]["NoOfDays"].ToString().Trim() == "" ? null : dt.Rows[i]["NoOfDays"].ToString());
                         obj.LeaveType = Convert.ToInt32(dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString());
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
-                        obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
+                        if (TeacherId == 0)
+                        {
+                            obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
+                        }
+                        else
+                        {
+                            obj.TeacherName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
+                            obj.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
+                        }
+                        
                         obj.Profile = dt.Rows[i]["Profile"] == null || dt.Rows[i]["Profile"].ToString().Trim() == "" ? null : dt.Rows[i]["Profile"].ToString();
                         obj.Reason = dt.Rows[i]["Reason"] == null || dt.Rows[i]["Reason"].ToString().Trim() == "" ? null : dt.Rows[i]["Reason"].ToString();
                         obj.Time = dt.Rows[i]["Time"] == null || dt.Rows[i]["Time"].ToString().Trim() == "" ? null : dt.Rows[i]["Time"].ToString();

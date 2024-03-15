@@ -21,6 +21,8 @@ namespace InvoiceManagementSystem.Models
         public string Time { get; set; }
         public string ClassNo { get; set; }
         public string TeacherName { get; set; }
+        public string StudentName { get; set; }
+        public int RollNo { get; set; }
         public string Profile { get; set; }
         public int TeacherId { get; set; }
         public int UserId { get; set; }
@@ -91,39 +93,77 @@ namespace InvoiceManagementSystem.Models
             int count = 0;
             try
             {
+                var StudentId = objCommon.getStudentIdFromSession();
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("AddUpdateTeacherLeave", conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cls.Id;
-                cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = cls.FromDate;
-                cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = cls.ToDate;
-                cmd.Parameters.Add("@NoOfDays", SqlDbType.Decimal).Value = cls.NoOfDays;
-                cmd.Parameters.Add("@LeaveType", SqlDbType.NVarChar).Value = cls.LeaveType;
-                cmd.Parameters.Add("@Reason", SqlDbType.NVarChar).Value = cls.Reason;
-                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-
-
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                cmd.CommandTimeout = 0;
-                da.ReturnProviderSpecificTypes = true;
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                conn.Close();
-                if (dt.Rows.Count > 0)
+                if (StudentId == 0)
                 {
-                    string intRefId = dt.Rows[0][0].ToString();
-                    if (intRefId == "1")
+                    SqlCommand cmd = new SqlCommand("AddUpdateTeacherLeave", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cls.Id;
+                    cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = cls.FromDate;
+                    cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = cls.ToDate;
+                    cmd.Parameters.Add("@NoOfDays", SqlDbType.Decimal).Value = cls.NoOfDays;
+                    cmd.Parameters.Add("@LeaveType", SqlDbType.NVarChar).Value = cls.LeaveType;
+                    cmd.Parameters.Add("@Reason", SqlDbType.NVarChar).Value = cls.Reason;
+                    cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                    cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    cmd.CommandTimeout = 0;
+                    da.ReturnProviderSpecificTypes = true;
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    conn.Close();
+                    if (dt.Rows.Count > 0)
                     {
-                        cls.Response = "Success";
+                        string intRefId = dt.Rows[0][0].ToString();
+                        if (intRefId == "1")
+                        {
+                            cls.Response = "Success";
+                        }
+                        else if (intRefId == "2")
+                        {
+                            cls.Response = "Updated";
+                        }
+                        else if (intRefId == "-1")
+                        {
+                            cls.Response = "Exists";
+                        }
                     }
-                    else if (intRefId == "2")
+                }
+                else
+                {
+                    SqlCommand cmd = new SqlCommand("AddUpdateStudentLeave", conn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cls.Id;
+                    cmd.Parameters.Add("@FromDate", SqlDbType.DateTime).Value = cls.FromDate;
+                    cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = cls.ToDate;
+                    cmd.Parameters.Add("@NoOfDays", SqlDbType.Decimal).Value = cls.NoOfDays;
+                    cmd.Parameters.Add("@LeaveType", SqlDbType.NVarChar).Value = cls.LeaveType;
+                    cmd.Parameters.Add("@Reason", SqlDbType.NVarChar).Value = cls.Reason;
+                    cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                    cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                    cmd.Parameters.AddWithValue("@StudentId", objCommon.getStudentIdFromSession());
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    cmd.CommandTimeout = 0;
+                    da.ReturnProviderSpecificTypes = true;
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    conn.Close();
+                    if (dt.Rows.Count > 0)
                     {
-                        cls.Response = "Updated";
-                    }
-                    else if (intRefId == "-1")
-                    {
-                        cls.Response = "Exists";
+                        string intRefId = dt.Rows[0][0].ToString();
+                        if (intRefId == "1")
+                        {
+                            cls.Response = "Success";
+                        }
+                        else if (intRefId == "2")
+                        {
+                            cls.Response = "Updated";
+                        }
+                        else if (intRefId == "-1")
+                        {
+                            cls.Response = "Exists";
+                        }
                     }
                 }
             }

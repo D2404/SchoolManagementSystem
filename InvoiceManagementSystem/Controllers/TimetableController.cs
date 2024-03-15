@@ -37,7 +37,6 @@ namespace InvoiceManagementSystem.Controllers
         }
 
         public ActionResult GetTimetable(TimetableModel cls)
-        
         {
             try
             {
@@ -50,9 +49,9 @@ namespace InvoiceManagementSystem.Controllers
                 SqlCommand cmd = new SqlCommand("sp_GetTimetableList", conn);
                 cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@RoleId", objCommon.getRoleIdFromSession());
                 cmd.Parameters.AddWithValue("@Days", cls.Days);
-                if (objCommon.getUserIdFromSession() == 1 && objCommon.getTeacherIdFromSession() == 0 ||  objCommon.getTeacherIdFromSession() == null)
+                if (objCommon.getRoleIdFromSession() == 1 && objCommon.getRoleIdFromSession() == 2 || objCommon.getRoleIdFromSession() == null)
                 {
                     cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
                 }
@@ -60,6 +59,15 @@ namespace InvoiceManagementSystem.Controllers
                 {
                     cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 }
+                //if (objCommon.getRoleIdFromSession() == 3)
+                //{
+                //    cmd.Parameters.AddWithValue("@ClassId", objCommon.getClassIdFromSession());
+                //}
+                //else
+                //{
+                //    cmd.Parameters.AddWithValue("@ClassId", 0);
+                //}
+                cmd.Parameters.AddWithValue("@ClassId", objCommon.getClassIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

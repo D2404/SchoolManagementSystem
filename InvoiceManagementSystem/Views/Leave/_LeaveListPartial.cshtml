@@ -4,9 +4,14 @@
     <thead>
         <tr>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Sr No.</th>
-            @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+            @if (InvoiceManagementSystem.Models.SessionModel.TeacherId == 0)
             {
                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Teacher</th>
+            }
+            else
+            {
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Student</th>
+                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Roll No</th>
             }
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">From Date</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">To Date</th>
@@ -29,10 +34,19 @@
                 <td>
                     <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>@SrNo</b></p>
                 </td>
-                @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+                @if (item.TeacherId == 0)
                 {
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.StudentName</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.RollNo</p>
                     </td>
                 }
                 <td>
@@ -45,41 +59,35 @@
                     <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.NoOfDays</p>
                 </td>
                 <td>
-                    <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                            @if (item.LeaveType == 1)
-                            {
-                            <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Half Day</p>
-                            }
-                            else
-                            {
+
+                    @if (item.LeaveType == 1)
+                    {
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Half Day</p>
+                    }
+                    else
+                    {
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;">Full Day</p>
-                            }
-                        </div>
-                    </div>
+                    }
                 </td>
                 <td>
                     <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Reason</p>
                 </td>
                 <td>
-                    <div class="d-flex px-2 py-1">
-                        <div class="d-flex flex-column justify-content-center">
-                            @if (item.Status == 0)
-                            {
-                                <p class="text-xs font-weight-bold mb-0" style="text-align: center;color:cornflowerblue"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<b>Pending</b></p>
-                            }
-                            else if (item.Status == 1)
-                            {
-                                <p class="text-xs font-weight-bold mb-0" style="text-align: center;color:forestgreen"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Approve</b></p>
-                            }
-                            else if (item.Status == 2)
-                            {
-                                <p class="text-xs font-weight-bold mb-0" style="text-align: center;color:red"><i class="fa fa-close" aria-hidden="true"></i>&nbsp;<b>Reject</b></p>
-                            }
-                        </div>
-                    </div>
+
+                    @if (item.Status == 0)
+                    {
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;color:cornflowerblue"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;<b>Pending</b></p>
+                    }
+                    else if (item.Status == 1)
+                    {
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;color:forestgreen"><i class="fa fa-check" aria-hidden="true"></i>&nbsp;<b>Approve</b></p>
+                    }
+                    else if (item.Status == 2)
+                    {
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;color:red"><i class="fa fa-close" aria-hidden="true"></i>&nbsp;<b>Reject</b></p>
+                    }
                 </td>
-                <td class="align-middle text-center"style="text-align: center">
+                <td class="align-middle text-center" style="text-align: center">
                     <div class="dropdown">
                         <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                             <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
@@ -101,9 +109,12 @@
                         }
                         else
                         {
-                            <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
-                                <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Leave" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
-                            </div>
+                            if (item.Status == 0)
+                            {
+                                <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
+                                    <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Leave" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
+                                </div>
+                            }
                         }
                     </div>
                 </td>

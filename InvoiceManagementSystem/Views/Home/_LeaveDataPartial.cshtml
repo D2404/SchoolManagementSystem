@@ -21,14 +21,26 @@
             var item = Model.LSTLeaveList[i];
             <div class="link-wrapper">
                 <a href="@Url.Action("Leave", "Leave", new { id = item.Id })" class="d-flex flex-column justify-content-center">
-                    <div class="my-auto">
-                        <img src="/Data/Profile/@item.Profile" class="avatar avatar-sm me-3">
-                         <p class="text-sm font-weight-normal mb-1">
-                            <span class="font-weight-bold">New leave</span> from @item.TeacherName
-                        </p>
-                    </div>
+                    @if (item.TeacherId == 0)
+                    {
+                        <div class="my-auto">
+                            <img src="/Data/Profile/@item.Profile" class="avatar avatar-sm me-3">
+                            <p class="text-sm font-weight-normal mb-1">
+                                <span class="font-weight-bold">New leave</span> from @item.TeacherName
+                            </p>
+                        </div> 
+                     }
+                     else
+                     {
+                         <div class="my-auto">
+                             <img src="/Data/Profile/@item.Profile" class="avatar avatar-sm me-3">
+                             <p class="text-sm font-weight-normal mb-1">
+                                 <span class="font-weight-bold">New leave</span> from @item.StudentName
+                             </p>
+                         </div>
+                     }
                     <div>
-                       
+
                         <p class="text-xs text-secondary mb-0">
                             <i class="fa fa-clock me-1" aria-hidden="true"></i>
                             @item.Time

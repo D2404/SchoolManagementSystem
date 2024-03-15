@@ -69,24 +69,23 @@ function InsertData() {
         processData: false,
         data: formData,
         success: function (data) {
-            if (data === null) {
-                if (data === 'Success') {
-                    toastr.success('Leave inserted successfully');
-                    GetLeaveList(1);
-                    $('#Leave').click();
-                    ClearData();
-                }
-                else if (data === 'Updated') {
-                    toastr.success('Leave updated successfully');
-                    GetLeaveList(1);
-                    $('#Leave').click();
-                    ClearData();
-                }
-                else if (data === 'Exists') {
-                    toastr.error('Leave already exists!');
-                    document.getElementById('Email').value = "";
-                }
+            if (data === "Success") {
+                toastr.success('Leave inserted successfully');
+                GetLeaveList(1);
+                $('#Leave').click();
+                ClearData();
             }
+            else if (data === "Updated") {
+                toastr.success('Leave updated successfully');
+                GetLeaveList(1);
+                $('#Leave').click();
+                ClearData();
+            }
+            else if (data === "Exists") {
+                toastr.error('Leave already exists!');
+                document.getElementById('Email').value = "";
+            }
+
             HideWait();
         },
         error: function (xyz) {

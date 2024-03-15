@@ -258,7 +258,7 @@ function ValidateBasicDetails(id) {
     var DateOfJoining = $('#DateOfJoining').val();
     var ClassId = $('#ClassId').val();
     var RollNo = $('#RollNo').val();
-    var RoleId = 2
+    var RoleId =3
     if (Title === "0") {
         $("#errTitle").html("Please select title");
         val = false;
@@ -464,7 +464,7 @@ function InsertData(id) {
   
     var RollNo = $('#RollNo').val();
 
-    var RoleId = 2
+    var RoleId = 3
     if (CurrentAddress === "" || /\S/.test(CurrentAddress) === false) {
         $("#errCurrentAddress").html("Please enter current address.");
         val = false;

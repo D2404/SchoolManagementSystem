@@ -10,11 +10,39 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
-    GetStudentAttandenceList(1);
+    $('#FilterDiv').hide();
+
+    var StudentId = $("#studentIdContainer").data("student-id");
+    if (StudentId === null || StudentId === 0) {
+        var currentDate = new Date();
+        var formattedCurrentDate = currentDate.toISOString().split('T')[0];
+        document.getElementById('Date').value = formattedCurrentDate;
+        document.getElementById('Date').max = formattedCurrentDate;
+        GetStudentAttandenceList(1);
+    }
+    else {
+        GetStudentAttandenceListByStudentId(1);
+    }
     GetStudent();
 });
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
+
+function SelectAll() {
+    var selectAllChecked = $('#selectAllCheckbox').prop('checked');
+    $('.chkVersIDs').prop('checked', selectAllChecked);
+
+}
+
+$('.chkVersIDs').change(function () {
+    var allChecked = $('.chkVersIDs:checked').length === $('.chkVersIDs').length;
+    $('#selectAllCheckbox').prop('checked', allChecked);
+});
+
+function GetSelectedId() {
+    var selectedValues = [];
+    $('input[type="checkbox"][name="chkVersIDs"]:checked').each(function () {
+        selectedValues.push($(this).data("id"));
+    });
+    return selectedValues;
 }
 
 function Show() {
@@ -27,6 +55,7 @@ function Show() {
         document.getElementById('ifYes').style.visibility = 'hidden';
     }
 }
+
 function Hide() {
 
     if (document.getElementById('Active').checked) {
@@ -39,97 +68,150 @@ function Hide() {
     }
 }
 
+function LoadAttendanceData() {
+    debugger
+    var ids = GetSelectedId();
+    var StudentId = "";
+    for (var i = 0; i < ids.length; i++) {
+        StudentId += ids[i] + ",";
+    }
+    StudentId = StudentId.slice(0, -1); // Remove the trailing comma
 
+    // Set the value of the hidden field
+    $("#chkVersIDs").val(StudentId);
+
+    var VersData = {
+        Status: $("#Status").val(),
+        Date: $("#Date").val(),
+        StudentId: StudentId
+    };
+    return VersData;
+}
+
+
+
+function UpgradeAttendanceData() {
+    debugger
+    try {
+        var isValid = true;
+        var UpgradeAttendanceData = LoadAttendanceData();
+        if (UpgradeAttendanceData.Status === "2") {
+            $("#errStatus").html("Please select status.");
+            isValid = false;
+        }
+        if (UpgradeAttendanceData.StudentId === undefined || UpgradeAttendanceData.StudentId === null || UpgradeAttendanceData.StudentId.length <= 0) {
+            toastr.error("Please select at least one Store.");
+            isValid = false;
+        }
+        if (!isValid) {
+            return false;
+        }
+        $('#Status_StudentAttandence').modal('show');
+    }
+    catch (e) {
+        toastr.error("An error occurred. Please check the console for details.");
+        console.error(e);
+    }
+}
 function InsertData() {
+    debugger
+    var UpgradeAttendanceData = LoadAttendanceData();
+    var StudentId = UpgradeAttendanceData.StudentId;
+    var Status = UpgradeAttendanceData.Status;
+    var Date = UpgradeAttendanceData.Date;
 
-    var val = true;
-    var Id = $('#hdnintId').val();
-    var SearchText = $('#SearchText').val();
-    var TeacherId = $('#TeacherId').val();
-    if (TeacherId === 0) {
-        $("#errStudent").html("Please select teacher.");
-        val = false;
-    }
-    var date = $('#date').val();
-    var LeaveType = $('#LeaveType').val();
-    var Reason = $('#Reason').val();
-    var Status = $("input[type='radio']:checked").val();
-    if (Status === "Active") {
-        Status = true
-    }
-    else {
-        Status = false
-    }
-
-    if (Status === 0) {
-        if (LeaveType === 0) {
-            $("#errLeaveType").html("Please enter leave type.");
-            val = false;
-        }
-        if (Reason === "" || /\S/.test(Reason) === false) {
-            $("#errReason").html("Please enter reason.");
-            val = false;
-        }
-    }
-
-
-    var formData = new FormData();
-    if (val === false) {
-        return;
-    }
-    var MonthId = 5
-    var YearId = 1
-    formData.append('Id', Id);
-    formData.append('TeacherId', TeacherId);
-    formData.append('Status', Status);
-    formData.append('SearchText', SearchText);
-    formData.append('date', date);
-    formData.append('LeaveType', LeaveType);
-    formData.append('Reason', Reason);
-    formData.append('MonthId', MonthId);
-    formData.append('YearId', YearId);
+    // Create an object to represent the data
+    var model = {
+        StudentId: StudentId,
+        Status: Status,
+        Date: Date
+    };
+    $('#StudentId').val(StudentId);
     ShowWait();
     $.ajax({
         type: "POST",
         url: '/StudentAttandence/InsertStudentAttandence',
         contentType: "application/json; charset=utf-8",
-        contentType: false,
-        processData: false,
-        data: formData,
+        data: JSON.stringify(model), // Send data as JSON string
         success: function (data) {
             if (data !== null) {
                 if (data === 'Success') {
-                    toastr.success('StudentAttandence inserted successfully');
+                    toastr.success("Attedance inserted successfully.");
+                    document.getElementById('Status').value = "2";
+                    $('#errStatus').html("");
+                    $('#Status_StudentAttandence').modal('hide');
                     GetStudentAttandenceList(1);
-                    $('#StudentAttandence').click();
-                    ClearData(1);
                 }
-                else if (data === 'Updated') {
-                    toastr.success('StudentAttandence updated successfully');
+                else {
+                    toastr.success("Attedance updated successfully.");
+                    document.getElementById('Status').value = "2";
+                    $('#errStatus').html("");
+                    $('#Status_StudentAttandence').modal('hide');
                     GetStudentAttandenceList(1);
-                    $('#StudentAttandence').click();
-                    ClearData(1);
-                }
-                else if (data === 'Exists') {
-                    toastr.error('StudentAttandence already exists!');
-                    document.getElementById('Email').value = "";
                 }
             }
-            HideWait();
         },
-        error: function (xyz) {
-            HideWait();
-            alert('errors');
+        error: function (response) {
+            toastr.error("Error");
+            console.error(response);
         }
     });
 }
 
-function GetStudent() {
 
+function ExportStudentAttendance() {
+    debugger
+    var Id = 0;
+    var StudentId = document.getElementById('ddlStudentId').value
+    var Date = document.getElementById('Date').value
+
+    var cls = {
+        Id: Id,
+        StudentId: StudentId,
+        Date: Date,
+    };
+
+    ShowWait();
+    $.ajax({
+        url: '/StudentAttandence/ExpotToExcelStudentAttendanceReport',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            if (data === "success") {
+                window.location.href = "/StudentAttandence/ExportToExcel";
+            }
+            else {
+                alert("No Record Found.");
+                HideWait();
+            }
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('Error');
+        }
+    });
+}
+
+
+
+function ClearData1(type) {
+
+    var intId = document.getElementById('hdnintId').value;
+    if (type === 1) {
+
+        document.getElementById('strFile').value = "";
+        $('#tblMsg').html("");
+    }
+}
+function GetStudent() {
     var cls = {
     }
     $.ajax({
-        url: '/StudentAttandence/GetStudent',
+        url: '/Common/GetStudent',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
@@ -139,24 +221,24 @@ function GetStudent() {
 
             var html = "";
             html = html + ' <option value="0" selected>Select Student</option>';
-            for (var i = 0; i < data.LSTTeacherList.length; i++) {
-                html = html + '<option value="' + data.LSTTeacherList[i].Id + '">' + data.LSTTeacherList[i].FullName + '</option>';
-                $("#TeacherId").empty();
-                $("#TeacherId").append(html);
-                $("#ddlTeacherId").empty();
-                $("#ddlTeacherId").append(html);
+            for (var i = 0; i < data.LSTStudentList.length; i++) {
+                html = html + '<option value="' + data.LSTStudentList[i].Id + '">' + data.LSTStudentList[i].FullName + '</option>';
+                $("#StudentId").empty();
+                $("#StudentId").append(html);
+                $("#ddlStudentId").empty();
+                $("#ddlStudentId").append(html);
             }
         }
     });
 }
 
+
 function GetStudentAttandenceList(page) {
 
 
     var Id = 0;
-    var intActive = document.getElementById('intActive').value;
-    var TeacherId = document.getElementById('ddlTeacherId').value
-    var date = document.getElementById('date').value
+    /* var StudentId = document.getElementById('ddlStudentId').value*/
+    var Date = document.getElementById('Date').value
     if (document.getElementById('PageSize') !== null) {
         PageSize = document.getElementById('PageSize').value;
     }
@@ -171,9 +253,8 @@ function GetStudentAttandenceList(page) {
     PageIndex = page;
     var cls = {
         Id: Id,
-        TeacherId: TeacherId,
-        date: date,
-        intActive: intActive,
+        StudentId: StudentId,
+        Date: Date,
         PageSize: PageSize,
         PageIndex: PageIndex,
     }
@@ -197,7 +278,98 @@ function GetStudentAttandenceList(page) {
     });
 }
 
-function GetSingleTeacherAttandenceData(id) {
+function ClearSearchData(page) {
+
+
+    var Id = 0;
+    /* var StudentId = document.getElementById('ddlStudentId').value*/
+    var Date = document.getElementById('Date').value
+    if (document.getElementById('PageSize') !== null) {
+        PageSize = document.getElementById('PageSize').value;
+    }
+    else {
+        PageSize = 10;
+    }
+    if (page === undefined) {
+        page = 1;
+    }
+    var PageIndex = page;
+
+    PageIndex = page;
+    var cls = {
+        Id: Id,
+        StudentId: StudentId,
+        Date: Date,
+        PageSize: PageSize,
+        PageIndex: PageIndex,
+    }
+    ShowWait();
+    $.ajax({
+        url: '/StudentAttandence/ClearSearchData',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            $('#tblBody').empty();
+            $('#tblBody').append(data);
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('errors');
+        }
+    });
+}
+
+function GetStudentAttandenceListByStudentId(page) {
+    debugger
+    var StudentId = $("#studentIdContainer").data("student-id");
+    var FromDate = document.getElementById('FromDate').value
+    var ToDate = document.getElementById('ToDate').value
+    if (document.getElementById('PageSize') !== null) {
+        PageSize = document.getElementById('PageSize').value;
+    }
+    else {
+        PageSize = 10;
+    }
+    if (page === undefined) {
+        page = 1;
+    }
+    var PageIndex = page;
+
+    PageIndex = page;
+    var cls = {
+
+        StudentId: StudentId,
+        FromDate: FromDate,
+        ToDate: ToDate,
+        PageSize: PageSize,
+        PageIndex: PageIndex,
+    }
+    ShowWait();
+    $.ajax({
+        url: '/StudentAttandence/GetStudentAttandenceByStudentId',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            $('#tblBody').empty();
+            $('#tblBody').append(data);
+            HideWait();
+        },
+        error: function (xhr) {
+            HideWait();
+            alert('errors');
+        }
+    });
+}
+
+
+function GetSingleStudentAttandenceData(id) {
     $('#errName').html("");
     document.getElementById('btnAdd').innerHTML = "Update";
     $("#btnAdd").attr('title', 'Update');
@@ -216,9 +388,9 @@ function GetSingleTeacherAttandenceData(id) {
         success: function (data) {
 
             if (data !== null) {
-                document.getElementById('hdnintId').value = data.LSTTeacherAttandenceList[0].Id;
-                $('#TeacherId').val(data.LSTTeacherAttandenceList[0].TeacherId).trigger("change");
-                if (data.LSTTeacherAttandenceList[0].Status === true) {
+                document.getElementById('hdnintId').value = data.LSTStudentAttandenceList[0].Id;
+                $('#StudentId').val(data.LSTStudentAttandenceList[0].StudentId).trigger("change");
+                if (data.LSTStudentAttandenceList[0].Status === true || data.LSTStudentAttandenceList[0].Status === 'True' || data.LSTStudentAttandenceList[0].Status === "true") {
                     $("#Active").prop('checked', true);
                     Hide();
                 }
@@ -226,10 +398,15 @@ function GetSingleTeacherAttandenceData(id) {
                     $("#InActive").prop('checked', true);
                     Show();
                 }
-                document.getElementById('LeaveType').value = data.LSTTeacherAttandenceList[0].LeaveType;
-                $('#Reason').val(data.LSTTeacherAttandenceList[0].Reason).trigger("change");
-                document.getElementById('date').value = data.LSTTeacherAttandenceList[0].Date;
-
+                if (data.LSTStudentAttandenceList[0].Status === false || data.LSTStudentAttandenceList[0].Status === 'False' || data.LSTStudentAttandenceList[0].Status === "false") {
+                    document.getElementById('LeaveType').value = data.LSTStudentAttandenceList[0].LeaveType;
+                    $('#Reason').val(data.LSTStudentAttandenceList[0].Reason).trigger("change");
+                    document.getElementById('Date').value = data.LSTStudentAttandenceList[0].Date;
+                } else {
+                    $("#LeaveType").val('0').trigger('change');
+                    $('#Reason').val('').trigger("change");
+                    document.getElementById('Date').value = data.LSTStudentAttandenceList[0].Date;
+                }
             }
             else {
                 alert('error');
@@ -263,7 +440,7 @@ function deleteStudentAttandence() {
                 toastr.success('StudentAttandence deleted successfully');
                 document.getElementById('hdnintId').value = "0";
                 GetStudentAttandenceList();
-                $('#delete_TeacherAttandence').click();
+                $('#delete_StudentAttandence').click();
             }
 
             else {
@@ -280,14 +457,14 @@ function deleteStudentAttandence() {
 }
 
 function Clear() {
-    document.getElementById('date').value = "";
+    document.getElementById('datepicker').value = "";
+
     document.getElementById('Reason').value = "";
-    $('#errLeaveType').html("");
-    $('#errReason').html("");
-    $('#errStudent').html("");
+    document.getElementById('errLeaveType').value = "";
+    document.getElementById('errReason').value = "";
     document.getElementById('errStudent').value = "";
-    $("#ddlTeacherId").val('0').trigger('change');
-    $("#TeacherId").val('0').trigger('change');
+    $("#ddlStudentId").val('0').trigger('change');
+    $("#StudentId").val('0').trigger('change');
     $("#LeaveType").val('0').trigger('change');
     document.getElementById('btnAdd').innerHTML = "Add";
     $("#btnAdd").attr('title', 'Upload');
@@ -298,14 +475,13 @@ function ClearData(type) {
 
     if (type === 1) {
         var Id = document.getElementById('hdnintId').value;
-        document.getElementById('date').value = "";
+        document.getElementById('datepicker').value = "";
         document.getElementById('Reason').value = "";
-        $('#errLeaveType').html("");
-        $('#errReason').html("");
-        $('#errStudent').html("");
+        document.getElementById('errLeaveType').value = "";
+        document.getElementById('errReason').value = "";
+        document.getElementById('errStudent').value = "";
         $("#LeaveType").val('0').trigger('change');
-        $("#TeacherId").val('0').trigger('change');
-        document.getElementById('intActive').value = '3';
+        $("#StudentId").val('0').trigger('change');
         if (Id === "0") {
 
             document.getElementById('hdnintId').value = "0";
@@ -319,11 +495,26 @@ function ClearData(type) {
             document.getElementById('PopupTitle').innerHTML = "Update Attandence";
         }
     }
-    else {
-        document.getElementById('intActive').value = '3';
-        $("#ddlTeacherId").val('0').trigger('change');
+    else if (type === 2) {
+        document.getElementById('FromDate').value = "";
+        document.getElementById('ToDate').value = "";
         GetStudentAttandenceList();
     }
+    else {
+        document.getElementById('FromDate').value = "";
+        document.getElementById('ToDate').value = "";
+        ClearSearchData();
+    }
+}
+
+
+function Clear1() {
+
+    document.getElementById('strFile').value = "";
+    $('#tblMsg').html("");
+    document.getElementById('btnAdd1').innerHTML = "Import";
+    $("#btnAdd1").attr('title', 'Import');
+    document.getElementById('PopupTitle').innerHTML = "Import BulkAttendance";
 }
 
 function opendeleteModel(id) {

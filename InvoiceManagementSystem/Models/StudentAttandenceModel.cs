@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace InvoiceManagementSystem.Models
@@ -19,16 +20,18 @@ namespace InvoiceManagementSystem.Models
         public int YearId { get; set; }
         public string Name { get; set; }
         public string StudentName { get; set; }
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
         public int ClassId { get; set; }
         public string ClassNo { get; set; }
         public string RollNo { get; set; }
         public int LeaveType { get; set; }
         public string Reason { get; set; }
-        public bool Status { get; set; }
+        public string Status { get; set; }
         public int intActive { get; set; }
         
         public string Date { get; set; }
+        public string FromDate { get; set; }
+        public string ToDate { get; set; }
         public string Response { get; set; }
         public string SearchText { get; set; }
         public int? PageIndex { get; set; }
@@ -50,16 +53,10 @@ namespace InvoiceManagementSystem.Models
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("AddUpdateStudentAttandence", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cls.Id;
-
-                cmd.Parameters.Add("@MonthId", SqlDbType.Int).Value = cls.MonthId;
-                cmd.Parameters.Add("@YearId", SqlDbType.Int).Value = cls.YearId;
                 cmd.Parameters.AddWithValue("@StudentId", cls.StudentId);
-                cmd.Parameters.Add("@Date", SqlDbType.NVarChar).Value = cls.Date;
-                cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = cls.Status;
-                cmd.Parameters.Add("@LeaveType", SqlDbType.Int).Value = cls.LeaveType;
-                cmd.Parameters.Add("@Reason", SqlDbType.NVarChar).Value = cls.Reason;
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = cls.Date;
+                cmd.Parameters.Add("@Status", SqlDbType.NVarChar).Value = cls.Status;
+                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
 
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -114,9 +111,11 @@ namespace InvoiceManagementSystem.Models
                     {
                         StudentAttandenceModel obj = new StudentAttandenceModel();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.StudentId = Convert.ToInt32(dt.Rows[i]["StudentId"] == null || dt.Rows[i]["StudentId"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentId"].ToString());
-                        obj.Status = Convert.ToBoolean(dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString());
-                        obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
+                        obj.StudentId = dt.Rows[i]["StudentId"] == null || dt.Rows[i]["StudentId"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentId"].ToString();
+                        obj.Status = dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString();
+                        obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("yyyy/MM/dd");
+                        obj.LeaveType = Convert.ToInt32(dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString());
+                        obj.Reason = dt.Rows[i]["Reason"] == null || dt.Rows[i]["Reason"].ToString().Trim() == "" ? null : dt.Rows[i]["Reason"].ToString();
                         LSTList.Add(obj);
                     }
                 }
@@ -163,6 +162,50 @@ namespace InvoiceManagementSystem.Models
                 }
             }
             return cls;
+        }
+        public DataTable ExportStudentAttendance(StudentAttandenceModel cls)
+        {
+            try
+            {
+                List<StudentAttandenceModel> LSTList = new List<StudentAttandenceModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
+                cmd.Parameters.AddWithValue("@Mode",8);
+                //cmd.Parameters.AddWithValue("@Search", cls.SearchText);
+                //cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.Parameters.AddWithValue("@Date", cls.Date);
+                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@StudentId", cls.StudentId);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        // HTML Tags Code Remove.
+                        dr["StudentName"] = Regex.Replace(dr["StudentName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["RollNo"] = Regex.Replace(dr["RollNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Status"] = Regex.Replace(dr["Status"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Date"] = Regex.Replace(dr["Date"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        //  dr["Date"] = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
+                    }
+                }
+
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                throw ex;
+            }
         }
     }
 }
