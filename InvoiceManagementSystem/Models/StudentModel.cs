@@ -21,6 +21,7 @@ namespace InvoiceManagementSystem.Models
         public string RoleName { get; set; }
         public int RollNo { get; set; }
         public string Title { get; set; }
+        public string TeacherName { get; set; }
         public string FullName { get; set; }
         public string StudentName { get; set; }
         public string FatherName { get; set; }

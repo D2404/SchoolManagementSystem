@@ -201,6 +201,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\StudentLeaveController.cs" />
     <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
@@ -868,6 +869,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\School\StudentLeave.js" />
     <Content Include="Scripts\School\School.js" />
     <Content Include="Scripts\School\FeesCollection.js" />
     <Content Include="Scripts\School\FeesHistory.js" />
@@ -1013,6 +1015,8 @@
     <Content Include="Views\Student\Student.cshtml" />
     <Content Include="Views\Student\_StudentGridPartial.cshtml" />
     <Content Include="Views\StudentAttandence\_FilterStudentAttandenceListPartial.cshtml" />
+    <Content Include="Views\StudentLeave\_StudentLeaveListPartial.cshtml" />
+    <Content Include="Views\StudentLeave\StudentLeave.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

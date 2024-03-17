@@ -36,7 +36,7 @@
             </td>
             @if (item.ProfileImg == null || item.ProfileImg == "")
             {
-                <td> <img src="~/Data/Profile/noimage.jpg" width="150" height="150" /></td>
+                <td> <img src="~/Data/Profile/noimage.jpg" width="50" height="50" /></td>
             }
             else
             {
@@ -75,7 +75,7 @@
                     <p class="text-xs text-secondary mb-0">Organization</p>
                 *@
             </td>
-            @if (item.Gender == false)
+            @if (item.Gender == "Male")
             {
                 <td>
                     <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">Male</p>

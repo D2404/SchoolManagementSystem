@@ -4,7 +4,8 @@
     <thead>
         <tr>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Sr No.</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Teacher</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Student</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Roll No</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">From Date</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">To Date</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">No Of Days</th>
@@ -26,9 +27,14 @@
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>@SrNo</b></p>
                     </td>
+
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.StudentName</p>
                     </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.RollNo</p>
+                    </td>
+
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.FromDate</p>
                     </td>
@@ -72,7 +78,7 @@
                             <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
                                 <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
                             </a>
-                            @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+                            @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
                             {
                                 <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
                                     @if (item.Status == 0)
