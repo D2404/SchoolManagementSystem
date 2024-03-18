@@ -40,11 +40,11 @@
                         <td style="text-align:center"><img src="/Data/Profile/@item.ProfileImg" width="50" height="50"></td>
                     }
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.UserName</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.FullName</p>
                     </td>
 
                     <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.UserName</p>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.TeacherName</p>
                     </td>
 
                     <td>
@@ -59,7 +59,7 @@
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.Dob</p>
                     </td>
 
-                    @if (item.Gender == false)
+                    @if (item.Gender == "Male")
                     {
                         <td>
                             <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">Male</p>

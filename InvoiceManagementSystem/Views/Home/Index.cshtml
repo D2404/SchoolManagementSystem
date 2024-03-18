@@ -312,9 +312,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Monthly Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="Teacher(1);">
-                                                <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #176ce2">@(Model.LSTDashBoardList[0].TotalAmountForThisMonth == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisMonth)</h6>
-                                            </a>
+                                            <h6 class="text-md font-weight-bolder" style="color: #176ce2">@(Model.LSTDashBoardList[0].TotalAmountForThisMonth == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisMonth)</h6>
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
@@ -426,7 +424,7 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Yearly Pending Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="Teacher(1);">
+                                            <a href="javascript:void(0)" onclick="YearlyPendingCollectFees(1);">
                                                 <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalPendingThisYear == 0 ? 0 : Model.LSTDashBoardList[0].TotalPendingThisYear)</h6>
                                             </a>
                                         </div>
@@ -447,8 +445,8 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Yearly Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="Teacher(1);">
-                                                <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalAmountForThisYear == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisYear)</h6>
+                                            <a href="javascript:void(0)">
+                                                <h6 class="text-md font-weight-bolder" style="color: #1e86f1">@(Model.LSTDashBoardList[0].TotalAmountForThisYear == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisYear)</h6>
                                             </a>
                                         </div>
                                     </div>
@@ -495,10 +493,44 @@
                             </div>
                         </div>
                     </div>
+                    <div class="container-fluid py-4" id="YearlyPendingCollectFees">
+                        <br />
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12">
+                                <div class="dataTables_length" id="DataTables_Table_0_length">
+                                    <label style="color:black">
+                                        Show
+                                        <select id="PageSize" onchange="YearlyPendingCollectFees(1)" class="drpselect">
+                                            <option value="10">10</option>
+                                            <option value="25">25</option>
+                                            <option value="50">50</option>
+                                            <option value="100">100</option>
+                                        </select>
+                                        entries
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                                    <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
+                                        <h6 style="color:white">Yearly Pending Fees List</h6>
+                                    </div>
+                                    <div class="card-body px-0 pt-0 pb-2">
+                                        <div class="table-responsive p-0">
+                                            <div id="YearlyPendingCollectFeesList"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <br />
-                <div class="row" style="margin-left:1px">
-                    <div class="col-xl-5">
+                <div class="row" style="margin-left:0px">
+                    <div class="col-xl-6 col-sm-6">
                         @if (Model.LSTTeacherList != null)
                         {
                             <div class="row">
@@ -506,7 +538,7 @@
                                 {
                                     if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 1)
                                     {
-                                        <div class="card" id="box">
+                                        <div class="card" id="box" style="width:500px">
                                             <div class="card-body p-3">
                                                 <div class="row">
                                                     <div class="col-8">
@@ -535,7 +567,7 @@
                                     }
                                     else
                                     {
-                                        <div class="card" id="box">
+                                        <div class="card" id="box" style="width:500px">
                                             <div class="card-body p-3">
                                                 <div class="row">
                                                     <div class="col-8">
@@ -561,7 +593,9 @@
                             </div>
                         }
                     </div>
-                    <div class="col-xl-5" style="margin-left:160px;">
+
+
+                    <div class="col-sm-6">
                         @if (Model.LSTTeacherList != null)
                         {
                             <div class="row">
@@ -569,7 +603,7 @@
                                 {
                                     if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 2)
                                     {
-                                        <div class="card" id="box">
+                                        <div class="card" id="box" style="width:510px">
                                             <div class="card-body p-3">
                                                 <div class="row">
                                                     <div class="col-8">
@@ -603,8 +637,8 @@
                     </div>
                 </div>
                 <br />
-                <div class="row" style="margin-left:1px">
-                    <div class="col-xl-5 col-sm-6 mb-xl-0 mb-6">
+                <div class="row" style="margin-left:0px">
+                    <div class="col-xl-6 col-sm-6">
                         @if (Model.LSTStudentList != null)
                         {
                             <div class="row">
@@ -612,7 +646,7 @@
                                 {
                                     if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 1)
                                     {
-                                        <div class="card" id="box">
+                                        <div class="card" id="box" style="width:500px">
                                             <div class="card-body p-3">
                                                 <div class="row">
                                                     <div class="col-8">
@@ -631,7 +665,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-warning shadow-success text-center rounded-circle">
+                                                        <div class="icon icon-shape bg-gradient-dark shadow-success text-center rounded-circle">
                                                             <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
                                                         </div>
                                                     </div>
@@ -641,7 +675,7 @@
                                     }
                                     else if (Model.LSTStudentList[i].Type == 2)
                                     {
-                                        <div class="card" id="box">
+                                        <div class="card" id="box" style="width:510px">
                                             <div class="card-body p-3">
                                                 <div class="row">
                                                     <div class="col-8">
@@ -654,7 +688,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-warning shadow-success text-center rounded-circle">
+                                                        <div class="icon icon-shape bg-gradient-dark shadow-success text-center rounded-circle">
                                                             <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
                                                         </div>
                                                     </div>
@@ -667,7 +701,9 @@
                             </div>
                         }
                     </div>
-                    <div class="col-xl-5" style="margin-left:160px;">
+
+
+                    <div class="col-sm-6">
                         @if (Model.LSTStudentList != null)
                         {
                             <div class="row">
@@ -675,7 +711,7 @@
                                 {
                                     if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 2)
                                     {
-                                        <div class="card" id="box">
+                                        <div class="card" id="box" style="width:510px">
                                             <div class="card-body p-3">
                                                 <div class="row">
                                                     <div class="col-8">
@@ -694,7 +730,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
+                                                        <div class="icon icon-shape bg-gradient-dark shadow-success text-center rounded-circle">
                                                             <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
                                                         </div>
                                                     </div>
@@ -708,6 +744,7 @@
                         }
                     </div>
                 </div>
+                
                 <div class="row">
                     <div class="col-xl-4 col-sm-6">
                         <div class="card" id="box">
@@ -1076,8 +1113,8 @@
                                     <div class="col-8">
                                         <div class="numbers">
                                             <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Monthly Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="Teacher(1);">
-                                                <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #176ce2">@(Model.LSTDashBoardList[0].TotalAmountForThisMonth == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisMonth)</h6>
+                                            <a href="javascript:void(0)">
+                                                <h6 class="text-md font-weight-bolder" style="color: #176ce2">@(Model.LSTDashBoardList[0].TotalAmountForThisMonth == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisMonth)</h6>
                                             </a>
                                         </div>
                                     </div>
@@ -1374,6 +1411,7 @@
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#Class').hide();
        $('#Subject').hide();
        $('#Teacher').hide();
@@ -1436,6 +1474,7 @@
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#Subject').hide();
        $('#Teacher').hide();
        $('#Student').hide();
@@ -1539,6 +1578,7 @@
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#Class').hide();
        $('#Teacher').hide();
        $('#Student').hide();
@@ -1591,6 +1631,7 @@
        $('#MonthlyPendingCollectFees').hide();
        $('#MonthlyCollectFees').hide();
        $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#Class').hide();
        $('#Subject').hide();
        $('#Student').hide();
@@ -1750,6 +1791,7 @@
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#MonthlyPendingCollectFeesList').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#YearlyCollectFees').show();
        var Id = 0;
        if (document.getElementById('PageSize') != null) {
@@ -1788,13 +1830,68 @@
                alert('errors');
            }
        });
-   }
+    }
+
+    function YearlyPendingCollectFees(page) {
+        $('#Class').hide();
+        $('#Subject').hide();
+        $('#Student').hide();
+        $('#Teacher').hide();
+        $('#TeacherSubject').hide();
+        $('#TeacherAttendance').hide();
+        $('#MonthlyTeacherAttendance').hide();
+        $('#YearlyTeacherAttendance').hide();
+        $('#MonthlyCollectFees').hide();
+        $('#MonthlyPendingCollectFees').hide();
+        $('#MonthlyPendingCollectFeesList').hide();
+        $('#YearlyCollectFees').hide();
+        $('#YearlyPendingCollectFees').show();
+
+        var Id = 0;
+        if (document.getElementById('PageSize') != null) {
+            PageSize = document.getElementById('PageSize').value;
+        }
+        else {
+            PageSize = 10;
+        }
+        if (page == undefined) {
+            page = 1;
+        }
+        var PageIndex = page;
+
+        PageIndex = page;
+        var cls = {
+            Id: Id,
+            PageSize: PageSize,
+            PageIndex: PageIndex,
+        }
+        ShowWait();
+        $.ajax({
+            url: '/Home/GetYearlyPendingCollectFees',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
+
+                $('#YearlyPendingCollectFeesList').empty();
+                $('#YearlyPendingCollectFeesList').append(data);
+                HideWait();
+            },
+            error: function (xhr) {
+                HideWait();
+                alert('errors');
+            }
+        });
+    }
 
    function Student(page) {
        debugger
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#Class').hide();
        $('#Subject').hide();
        $('#Teacher').hide();
@@ -1847,6 +1944,7 @@
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#Subject').hide();
        $('#Teacher').hide();
        $('#Student').hide();
@@ -1897,6 +1995,7 @@
        $('#MonthlyCollectFees').hide();
        $('#MonthlyPendingCollectFees').hide();
        $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
        $('#Class').hide();
        $('#Subject').hide();
        $('#Teacher').hide();
@@ -1949,6 +2048,7 @@
         $('#MonthlyCollectFees').hide();
         $('#MonthlyPendingCollectFees').hide();
         $('#YearlyCollectFees').hide();
+       $('#YearlyPendingCollectFees').hide();
         $('#Class').hide();
         $('#Subject').hide();
         $('#Teacher').hide();
@@ -2001,6 +2101,7 @@
         $('#MonthlyCollectFees').hide();
         $('#MonthlyPendingCollectFees').hide();
         $('#YearlyCollectFees').hide();
+        $('#YearlyPendingCollectFees').hide();
         $('#Class').hide();
         $('#Subject').hide();
         $('#Teacher').hide();

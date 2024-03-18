@@ -3,13 +3,13 @@
 <table class="table align-items-center mb-0">
     <thead>
         <tr>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Sr No.</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Profile</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Full Name</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">User Name</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Class No</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Roll No</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7">Gender</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Sr No.</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Profile</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Full Name</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">User Name</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Class No</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Roll No</th>
+            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Gender</th>
             <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7 ps-2">Status</th>
            
 
@@ -33,33 +33,29 @@
         {
             <td><img src="/Data/Profile/@item.ProfileImg" width="50" height="50"></td>
         }
+    <td>
+        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.FullName</p>
+    </td>
         <td>
-            <div class="d-flex px-2 py-1">
-                <div class="d-flex flex-column justify-content-center">
-                    <h5 class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.FullName</h5>
-                </div>
-            </div>
-        </td>
-        <td>
-            <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.StudentName</p>
+            <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.StudentName</p>
         </td>
 
         <td>
-            <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.ClassNo</p>
+            <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ClassNo</p>
         
         </td>
 
         <td>
-            <p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">@item.RollNo</p>
+            <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.RollNo</p>
         </td>
         
         @if (item.Gender == "Male")
         {
-            <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Male</p></td> 
+            <td><p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">Male</p></td> 
         }
         else
         {
-            <td><p class="text-xs font-weight-bold mb-0" style="text-align: left; color: white">Female</p></td>
+            <td><p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">Female</p></td>
         }
         <td>
             
