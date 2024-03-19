@@ -1017,6 +1017,7 @@
     <Content Include="Views\StudentAttandence\_FilterStudentAttandenceListPartial.cshtml" />
     <Content Include="Views\StudentLeave\_StudentLeaveListPartial.cshtml" />
     <Content Include="Views\StudentLeave\StudentLeave.cshtml" />
+    <Content Include="Views\Home\_YearlyPendingCollectFeesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

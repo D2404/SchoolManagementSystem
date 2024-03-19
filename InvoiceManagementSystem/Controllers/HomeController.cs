@@ -844,10 +844,6 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
-                if (cmd.Parameters["@TeacherId"].Value == null || Convert.ToInt32(cmd.Parameters["@TeacherId"].Value) == 0)
-                {
-                    cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                }
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -1077,7 +1073,7 @@ namespace InvoiceManagementSystem.Controllers
                 cls.ShowingEntries = showingEntries;
                 cls.fromEntries = startentries;
 
-                return PartialView("_YearlyCollectFeesList", cls);
+                return PartialView("_YearlyPendingCollectFeesList", cls);
 
             }
             catch (Exception ex)

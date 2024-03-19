@@ -8,7 +8,6 @@
             <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Class No</th>
             <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Roll No</th>
             <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Fees Amount</th>
-            <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Month</th>
             <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align: center">Year</th>
         </tr>
     </thead>
@@ -18,37 +17,35 @@
             @for (var i = 0; i < Model.LSTFeesList.Count; i++)
             {
                 var item = Model.LSTFeesList[i];
-                <tr>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ROWNUMBER</p>
-                    </td>
-                    @if (item.Profile == null || item.Profile == "" || item.Profile == "undefined")
-                    {
-                        <td style="text-align: center"> <img src="~/Data/Profile/noimage.jpg" width="50" height="50" style="text-align: center" /></td>
-                    }
-                    else
-                    {
-                        <td style="text-align: center"><img src="/Data/Profile/@item.Profile" width="50" height="50" style="text-align: center"></td>
-                    }
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.StudentName</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ClassNo</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.RollNo</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.FeesAmount</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.MonthName</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.YearId</p>
-                    </td>
-                </tr>
+            <tr>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ROWNUMBER</p>
+                </td>
+                @if (item.Profile == null || item.Profile == "" || item.Profile == "undefined")
+                {
+                    <td style="text-align:center"> <img src="~/Data/Profile/noimage.jpg" width="50" height="50" /></td>
+                    @*<td> <img src="~/Data/Profile/Image_not_available.png" width="50" height="50" style="text-align: center" /></td>*@
+                }
+                else
+                {
+                    <td style="text-align:center"><img src="/Data/Profile/@item.Profile" width="50" height="50"></td>
+                }
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.StudentName</p>
+                </td>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ClassNo</p>
+                </td>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.RollNo</p>
+                </td>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.FeesAmount</p>
+                </td>
+                <td>
+                    <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.YearId</p>
+                </td>
+            </tr>
             }
         </tbody>
     }

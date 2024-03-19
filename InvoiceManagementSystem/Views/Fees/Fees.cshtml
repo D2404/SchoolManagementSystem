@@ -1,7 +1,6 @@
 ﻿
-@{
-    ViewBag.Title = "Fees Collection";
-}
+@{ ViewBag.Title = "Fees Collection"; }
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
 
 <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
     <div class="container-fluid py-1 px-3">
@@ -19,7 +18,7 @@
     </div>
     <div class="col-sm-6 col-md-3">
         <div class="form-group form-focus">
-            <select data-placeholder="Select here.." id="ddlStudentId"  class="select2-single-placeholder form-control" style="width: 100%"></select>
+            <select data-placeholder="Select here.." id="ddlStudentId" class="select2-single-placeholder form-control" style="width: 100%"></select>
         </div>
     </div>
     <div class="col-sm-6 col-md-1">
@@ -128,10 +127,11 @@
                     <div class="col-sm-6">
                         <div class="form-group">
                             <label for="basicinput"><b>Year</b></label>
-                            <select class="form-control" id="YearId"> 
-                            <option value="0" selected="">Select Year</option>
-                            <option value="2023">2023</option>
-                            <option value="2024">2024</option></select>
+                            <select class="form-control" id="YearId">
+                                <option value="0" selected="">Select Year</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                            </select>
                             <span id="errYear" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                         </div>
                     </div>
@@ -161,7 +161,7 @@
             </div>
             <div class="modal-footer">
                 <div style="margin-left:120px">
-                    <button type="button" id="btnAdd1" class="btn bg-gradient-success"  onclick="InsertandPayData()">Save & Pay</button>
+                    <button type="button" id="btnAdd1" class="btn bg-gradient-success" onclick="InsertandPayData()">Save & Pay</button>
                     <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Save</button>
                     <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)">Clear</button>
                     <input type="hidden" id="hdnintId" value="0" />
@@ -176,7 +176,7 @@
             <div class="modal-header">
                 <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete Fees</span></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"style="color:black">&times;</span>
+                    <span aria-hidden="true" style="color:black">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -195,3 +195,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="~/Scripts/School/FeesCollection.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!-- Include select2 JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+

@@ -94,7 +94,7 @@ function GetClassRoom() {
     var cls = {
     }
     $.ajax({
-        url: '/Subject/GetClassRoom',
+        url: '/Common/GetClassRoom',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({

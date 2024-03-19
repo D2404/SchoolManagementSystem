@@ -16,25 +16,21 @@
         <tbody id="tblBody">
             @for (var i = 0; i < Model.LSTFeesList.Count; i++)
             {
-                var item = Model.LSTFeesList[i];
+                var item = Model.LSTFeesList[i];    
                 <tr>
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ROWNUMBER</p>
                     </td>
-                    @if (item.Profile == null || item.Profile == "")
+                    @if (item.Profile == null || item.Profile == "" || item.Profile == "undefined")
                     {
-                        <td> <img src="~/Data/Profile/Image_not_available.png" width="50" height="50" style="text-align: center"/></td>
+                        <td style="text-align:center"> <img src="~/Data/Profile/noimage.jpg" width="50" height="50"/></td>
                     }
                     else
                     {
-                        <td><img src="/Data/Profile/@item.Profile" width="50" height="50"style="text-align: center"></td>
+                        <td style="text-align:center"><img src="/Data/Profile/@item.Profile" width="50" height="50"></td>
                     }
                     <td>
-                        <div class="d-flex px-2 py-1">
-                            <div class="d-flex flex-column justify-content-center">
-                                <h5 class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.StudentName</h5>
-                            </div>
-                        </div>
+                        <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.StudentName</p>
                     </td>
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.ClassNo</p>
@@ -47,7 +43,7 @@
                     </td>
                     <td>
                         <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white">@item.YearId</p>
-                     </td>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -57,7 +53,7 @@
         <tr>
             <td colspan="7">
                 <p class="text-xs font-weight-bold mb-0" style="text-align: center; color: white"><b>No Record Found</b></p>
-              </td>
+            </td>
         </tr>
     }
 </table>

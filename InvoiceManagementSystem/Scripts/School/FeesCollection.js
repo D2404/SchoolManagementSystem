@@ -14,6 +14,12 @@ $(document).ready(function () {
     GetClassRoom();
     GetMonth();
     GetFeesList(1);
+    if (document.getElementById('MonthId')) {
+        var element = document.getElementById('MonthId');
+        const example = new Choices(element, {
+            searchEnabled: false
+        });
+    };
 });
 
 $("#FeesAmount").keyup(function () {
