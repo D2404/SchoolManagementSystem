@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Welcome Mail Template</title>
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet'>
+    <link href="//db.onlinewebfonts.com/c/562fa31bba08b3f71cb71257ddb880d5?family=Verdana" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f2f2f2;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .container {
+            background: #ffffff;
+            display: block;
+            margin: 0 auto;
+            /*margin-top: 1.0cm;*/
+            margin-bottom: 1.0cm;
+            box-shadow: 0 0 11px #090909;
+            width: 15.7cm;
+            height: auto;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        h2, h3 {
+            font-family: 'Verdana', sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center; color:#2d7bef;text-decoration:underline">Leave Application</h2>
+        <h3>Leave Type : [[LeaveType]]</h3>     
+
+
+        <h4>Dear Sir/Ma'am !</h4>
+        
+        <p>I am writing this mail to apply for leave on [[FromDate]] and [[ToDate]] Due to [[Reason]]..</p>
+
+        <p>Please grant me leave. I hope to receive a positive response from you soon.</p>
+
+        <p>
+            Thanks & Regards
+        </p>
+
+        <p>
+            <b>[[UserName]]</b>
+        </p>
+
+
+    </div>
+</body>
+</html>

@@ -125,6 +125,15 @@ namespace InvoiceManagementSystem.Models
             }
             return Role;
         }
+        public string getEmailFromSession()
+        {
+            string Email = "";
+            if (HttpContext.Current.Session["Email"] != null && HttpContext.Current.Session["Email"] != "")
+            {
+                Email = HttpContext.Current.Session["Email"].ToString();
+            }
+            return Email;
+        }
         public int? getTeacherIdFromSession()
         {
             int? Id = 0;

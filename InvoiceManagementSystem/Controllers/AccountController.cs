@@ -82,6 +82,7 @@ namespace InvoiceManagementSystem.Controllers
                     Session["TeacherId"] = cls.TeacherId;
                     Session["StudentId"] = cls.StudentId;
                     Session["ClassId"] = cls.ClassId;
+                    Session["Email"] = cls.Email;
 
                     Session.Timeout = 22500;
                     HttpCookie userInfo = new HttpCookie("userInfo");

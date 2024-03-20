@@ -106,7 +106,6 @@ namespace InvoiceManagementSystem.Models
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@UserName", cls.UserName);
                 cmd.Parameters.AddWithValue("@Password", cls.Password);
-
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;

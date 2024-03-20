@@ -17,18 +17,23 @@ namespace InvoiceManagementSystem.Models
         public int Id { get; set; }
         public decimal NoOfDays { get; set; }
         public int LeaveType { get; set; }
+        public string LeaveTypeName { get; set; }
+        public int LeaveSubType { get; set; }
+        public string LeaveSubTypeName { get; set; }
         public string Reason { get; set; }
         public string Time { get; set; }
         public string ClassNo { get; set; }
         public string TeacherName { get; set; }
         public string StudentName { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
         public int RollNo { get; set; }
         public string Profile { get; set; }
         public int TeacherId { get; set; }
         public int UserId { get; set; }
         public int Status { get; set; }
         public int intActive { get; set; }
-        
+
         public string FromDate { get; set; }
         public string ToDate { get; set; }
         public string Response { get; set; }
@@ -104,6 +109,7 @@ namespace InvoiceManagementSystem.Models
                     cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = cls.ToDate;
                     cmd.Parameters.Add("@NoOfDays", SqlDbType.Decimal).Value = cls.NoOfDays;
                     cmd.Parameters.Add("@LeaveType", SqlDbType.NVarChar).Value = cls.LeaveType;
+                    cmd.Parameters.Add("@LeaveSubType", SqlDbType.NVarChar).Value = cls.LeaveSubType;
                     cmd.Parameters.Add("@Reason", SqlDbType.NVarChar).Value = cls.Reason;
                     cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                     cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
@@ -139,6 +145,7 @@ namespace InvoiceManagementSystem.Models
                     cmd.Parameters.Add("@ToDate", SqlDbType.DateTime).Value = cls.ToDate;
                     cmd.Parameters.Add("@NoOfDays", SqlDbType.Decimal).Value = cls.NoOfDays;
                     cmd.Parameters.Add("@LeaveType", SqlDbType.NVarChar).Value = cls.LeaveType;
+                    cmd.Parameters.Add("@LeaveSubType", SqlDbType.NVarChar).Value = cls.LeaveSubType;
                     cmd.Parameters.Add("@Reason", SqlDbType.NVarChar).Value = cls.Reason;
                     cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                     cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
@@ -303,6 +310,53 @@ namespace InvoiceManagementSystem.Models
                 }
                 throw ex;
             }
+        }
+
+        public LeaveModel LeaveMail(LeaveModel cls)
+        {
+            try
+            {
+                List<LeaveModel> lstStudentList = new List<LeaveModel>();
+                SqlCommand cmd = new SqlCommand("LeaveMail", conn);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Email", cls.Email);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                cmd.CommandTimeout = 0;
+                da.ReturnProviderSpecificTypes = true;
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+                LeaveModel obj = new LeaveModel();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    obj.Id = Convert.ToInt32(dt.Rows[0]["Id"] == null || dt.Rows[0]["Id"].ToString().Trim() == "" ? "0" : dt.Rows[0]["Id"].ToString());
+                    obj.UserName = dt.Rows[0]["FullName"] == null || dt.Rows[0]["FullName"].ToString().Trim() == "" ? "" : dt.Rows[0]["FullName"].ToString();
+                    obj.LeaveTypeName = dt.Rows[0]["LeaveTypeName"] == null || dt.Rows[0]["LeaveTypeName"].ToString().Trim() == "" ? "" : dt.Rows[0]["LeaveTypeName"].ToString();
+                    obj.Email = dt.Rows[0]["Email"] == null || dt.Rows[0]["Email"].ToString().Trim() == "" ? "" : dt.Rows[0]["Email"].ToString();
+                    obj.LeaveType = Convert.ToInt32(dt.Rows[0]["LeaveType"] == null || dt.Rows[0]["LeaveType"].ToString().Trim() == "" ? "" : dt.Rows[0]["LeaveType"].ToString());
+                    obj.FromDate = dt.Rows[0]["FromDate"] == null || dt.Rows[0]["FromDate"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[0]["FromDate"]).ToString("yyyy/MM/dd");
+                    obj.ToDate = dt.Rows[0]["ToDate"] == null || dt.Rows[0]["ToDate"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[0]["ToDate"]).ToString("yyyy/MM/dd");
+                    obj.Reason = dt.Rows[0]["Reason"] == null || dt.Rows[0]["Reason"].ToString().Trim() == "" ? "" : dt.Rows[0]["Reason"].ToString();
+                    obj.Response = "Success";
+                    lstStudentList.Add(obj);
+                }
+                else
+                {
+                    obj.Response = "Error";
+                }
+                cls.LSTLeaveList = lstStudentList;
+            }
+            catch (Exception ex)
+            {
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+            }
+            return cls;
         }
     }
 }

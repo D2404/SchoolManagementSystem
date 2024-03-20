@@ -32,6 +32,11 @@ namespace InvoiceManagementSystem.Models
             get { return HttpContext.Current.Session["Username"] == null ? "" : (Convert.ToString(HttpContext.Current.Session["Username"])); }
             set { HttpContext.Current.Session["Username"] = value; }
         }
+        public static string Email
+        {
+            get { return HttpContext.Current.Session["Email"] == null ? "" : (Convert.ToString(HttpContext.Current.Session["Email"])); }
+            set { HttpContext.Current.Session["Email"] = value; }
+        }
         public static string Fullname
         {
             get { return HttpContext.Current.Session["Fullname"] == null ? "" : (Convert.ToString(HttpContext.Current.Session["Fullname"])); }

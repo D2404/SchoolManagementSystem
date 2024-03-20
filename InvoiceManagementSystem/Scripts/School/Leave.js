@@ -16,13 +16,23 @@ $(document).ready(function () {
 function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
-
+function LeaveType() {
+    debugger
+    var leaveType = $('#LeaveType').val();
+    if (leaveType === "1") {
+        leaveSubTypeDiv.style.display = "block";
+    } else {
+        leaveSubTypeDiv.style.display = "none";
+        $('#errLeaveSubType').html("");
+    }
+}
 
 function InsertData() {
-
+    debugger
     var val = true;
     var Id = $('#hdnintId').val();
     var FromDate = $('#FromDate').val();
+    var Email = $('#Email').val();
     if (FromDate === "" || /\S/.test(FromDate) === false) {
         $("#errFromDate").html("Please enter Fromdate.");
         val = false;
@@ -39,9 +49,19 @@ function InsertData() {
         val = false;
     }
     var LeaveType = $('#LeaveType').val();
-    if (LeaveType === 0 || /\S/.test(LeaveType) === false) {
+    if (LeaveType === 0 || LeaveType === "0" || /\S/.test(LeaveType) === false) {
         $("#errLeaveType").html("Please enter leave type.");
         val = false;
+    }
+    if (LeaveType === 1 || LeaveType === "1") {
+        var LeaveSubType = $('#LeaveSubType').val();
+        if (LeaveSubType === 0 || LeaveSubType === "0" || /\S/.test(LeaveSubType) === false) {
+            $("#errLeaveSubType").html("Please enter leave sub type.");
+            val = false;
+        }
+    }
+    else {
+        $('#errLeaveSubType').html("");
     }
     var Reason = $('#Reason').val();
     if (Reason === "" || /\S/.test(Reason) === false) {
@@ -59,6 +79,7 @@ function InsertData() {
     formData.append('ToDate', ToDate);
     formData.append('NoOfDays', NoOfDays);
     formData.append('LeaveType', LeaveType);
+    formData.append('LeaveSubType', LeaveSubType);
     formData.append('Reason', Reason);
     ShowWait();
     $.ajax({
@@ -71,6 +92,7 @@ function InsertData() {
         success: function (data) {
             if (data === "Success") {
                 toastr.success('Leave inserted successfully');
+                LeaveMail(Email);
                 GetLeaveList(1);
                 $('#Leave').click();
                 ClearData();
@@ -90,6 +112,39 @@ function InsertData() {
         },
         error: function (xyz) {
             HideWait();
+            alert('errors');
+        }
+    });
+}
+
+function LeaveMail(Email) {
+    var cls = {
+        Email: Email
+    }
+    $.ajax({
+        url: '/Leave/LeaveMail',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            debugger
+            if (data !== null) {
+                document.getElementById('hdnintId').value = data.LSTLeaveList[0].Id;
+               // document.getElementById('UserName').value = data.LSTLeaveList[0].StudentName;
+                document.getElementById('FromDate').value = data.LSTLeaveList[0].FromDate;
+                document.getElementById('ToDate').value = data.LSTLeaveList[0].ToDate;
+                document.getElementById('LeaveType').value = data.LSTLeaveList[0].LeaveType;
+                document.getElementById('Reason').value = data.LSTLeaveList[0].Reason;
+            }
+            else {
+                alert('error');
+            }
+
+        },
+        error: function (xhr) {
+
             alert('errors');
         }
     });
@@ -184,6 +239,7 @@ function Clear() {
     $('#errDays').html("");
     $('#errReason').html("");
     $('#errLeaveType').html("");
+    $('#errLeaveSubType').html("");
     $("#LeaveType").val('0').trigger('change');
     document.getElementById('btnAdd').innerHTML = "Add";
     $("#btnAdd").attr('title', 'Upload');
@@ -202,6 +258,7 @@ function ClearData() {
     $('#errDays').html("");
     $('#errReason').html("");
     $('#errLeaveType').html("");
+    $('#errLeaveSubType').html("");
     $("#LeaveType").val('0').trigger('change');
 
 
