@@ -7,6 +7,8 @@ using System.Data.OleDb;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net.Mime;
 using System.Web;
 using System.Web.Mvc;
 
@@ -209,6 +211,106 @@ namespace InvoiceManagementSystem.Controllers
             {
                 throw ex;
             }
+        }
+
+        [HttpPost, ValidateInput(false)]
+        public ActionResult LeaveMail(LeaveModel cls)
+        {
+            clsCommon commonobj = new clsCommon();
+            var data = cls.StudentLeaveMail(cls);
+            if (data.LSTLeaveList[0].Response == "Success")
+            {
+                string toEmail = cls.Email;
+                string fromEmail = cls.LSTLeaveList[0].FromMail;
+                //var Role = commonobj.getRoleNameFromSession();
+                // var Password = clsCommon.DecryptString(data.LSTLeaveList[i].Password);
+                string subject = "Leave Application";
+                string body = cls.Reason;
+                using (StreamReader reader = new StreamReader(Server.MapPath("/Data/MailTemplate/LeaveMail.html")))
+                {
+                    body = reader.ReadToEnd();
+                }
+                string imageBase64 = string.Empty;
+                string imagePath = string.Empty;
+
+                //body = body.Replace("[[Profile]]", $"cid:logoImage");
+                body = body.Replace("[[UserName]]", data.LSTLeaveList[0].UserName);
+                //body = body.Replace("[[EmailId]]", data.LSTLeaveList[i].Email);
+                //body = body.Replace("[[Password]]", Password);
+                body = body.Replace("[[FromDate]]", data.LSTLeaveList[0].FromDate);
+                body = body.Replace("[[ToDate]]", data.LSTLeaveList[0].ToDate);
+                body = body.Replace("[[Reason]]", data.LSTLeaveList[0].Reason);
+                body = body.Replace("[[LeaveTypeName]]", data.LSTLeaveList[0].LeaveTypeName);
+                if (cls.LeaveType == 1)
+                {
+                    body = body.Replace("[[LeaveSubTypeName]]", data.LSTLeaveList[0].LeaveSubTypeName);
+                }
+                sendEmail(fromEmail, toEmail, subject, body, imagePath); // Pass Email instead of toEmail
+                cls.Response = "Success";
+
+
+            }
+            else
+            {
+                cls.Response = "Error";
+            }
+            return Json(cls.Response, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public void sendEmail(string fromEmail, string toEmail, string subject, string body, string imagePath)
+        {
+            try
+            {
+                clsCommon obj = new clsCommon();
+                //string[] TempEmail = toEmail.Split(',');
+
+                //for (int i = 0; i < TempEmail.Length; i++)
+                //{
+                string to = toEmail;
+                //string to = toEmail;
+
+                var EmailConfigaration = obj.EmailConfigaration();
+                string host = EmailConfigaration.Host;
+                string username = EmailConfigaration.Username;
+                string FromEmail = fromEmail;
+                string password = EmailConfigaration.Password;
+                int port = EmailConfigaration.Port;
+
+                MailMessage mail = new MailMessage();
+
+                mail.From = new MailAddress(FromEmail);
+                mail.To.Add(to);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+                if (!string.IsNullOrEmpty(imagePath))
+                {
+                    AlternateView av = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+
+                    LinkedResource logo = new LinkedResource(imagePath, "image/jpg");
+                    logo.ContentId = "logoImage";
+
+                    av.LinkedResources.Add(logo);
+
+                    mail.AlternateViews.Add(av);
+                }
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = host;
+                smtp.Credentials = new System.Net.NetworkCredential
+                     (FromEmail, password);
+                smtp.Port = port;
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+                //}
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
     }
 }

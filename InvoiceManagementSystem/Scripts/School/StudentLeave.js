@@ -17,11 +17,21 @@ function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 
-
+function LeaveType() {
+    debugger
+    var leaveType = $('#LeaveType').val();
+    if (leaveType === "1") {
+        leaveSubTypeDiv.style.display = "block";
+    } else {
+        leaveSubTypeDiv.style.display = "none";
+        $('#errLeaveSubType').html("");
+    }
+}
 function InsertData() {
 
     var val = true;
     var Id = $('#hdnintId').val();
+    var Email = $('#Email').val();
     var FromDate = $('#FromDate').val();
     if (FromDate === "" || /\S/.test(FromDate) === false) {
         $("#errFromDate").html("Please enter Fromdate.");
@@ -71,6 +81,7 @@ function InsertData() {
         success: function (data) {
             if (data === "Success") {
                 toastr.success('Leave inserted successfully');
+                LeaveMail(Email);
                 GetStudentLeaveList(1);
                 $('#StudentLeave').click();
                 ClearData();
@@ -94,7 +105,32 @@ function InsertData() {
         }
     });
 }
+function LeaveMail(Email) {
+    var cls = {
+        Email: Email
+    }
+    $.ajax({
+        url: '/StudentLeave/LeaveMail',
+        contentType: "application/json; charset=utf-8",
+        type: "POST",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            debugger
+            if (data === "Success") {
+                toastr.success('Leave inserted & Mail sent successfully');
+            }
+            else {
+                toastr.error('Leave inserted but Mail not sent !');
+            }
+        },
+        error: function (xhr) {
 
+            alert('errors');
+        }
+    });
+}
 function GetStudentLeaveList(page) {
 
 

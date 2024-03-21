@@ -144,8 +144,8 @@ namespace InvoiceManagementSystem.Controllers
                 List<TeacherModel> lstClientList = new List<TeacherModel>();
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetTeacherList", conn);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                SqlCommand cmd = new SqlCommand("LoadTeacherDropdown", conn);
+                //cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -211,6 +211,109 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
+        public ActionResult LoadUser(int UserId)
+        {
+            try
+            {
 
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadUserDetail", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.Add("@UserId", UserId);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<EmailConfigurationSetting> clsLst = new List<EmailConfigurationSetting>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        EmailConfigurationSetting obj = new EmailConfigurationSetting();
+                        obj.Username = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
+                        obj.FromMail = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
+                        clsLst.Add(obj);
+                    }
+                }
+                return Json(clsLst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult LoadStudent(int TeacherId)
+        {
+            try
+            {
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadStudentDetail", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.Add("@TeacherId", TeacherId);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<EmailConfigurationSetting> clsLst = new List<EmailConfigurationSetting>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        EmailConfigurationSetting obj = new EmailConfigurationSetting();
+                        obj.StudentId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.StudentName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
+                        obj.Username = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
+                        obj.FromMail = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
+                        clsLst.Add(obj);
+                    }
+                }
+                return Json(clsLst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public ActionResult LoadTeacher(int TeacherId)
+        {
+            try
+            {
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadTeacherDetail", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.Add("@TeacherId", TeacherId);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<EmailConfigurationSetting> clsLst = new List<EmailConfigurationSetting>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        EmailConfigurationSetting obj = new EmailConfigurationSetting();
+                        obj.Username = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
+                        obj.FromMail = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
+                        clsLst.Add(obj);
+                    }
+                }
+                return Json(clsLst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

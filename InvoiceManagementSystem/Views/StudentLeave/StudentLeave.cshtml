@@ -72,6 +72,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <input type="hidden" value="@Session["Email"]" id="Email" />
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="example-text-input" class="form-control-label">From Date</label>
@@ -98,13 +99,24 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">StudentLeave Type<span class="text-danger">*</span></label><br />
-                            <select class="form-control form-control-alternative" id="StudentLeaveType">
-                                <option value="0">Select StudentLeave Type</option>
+                            <label for="example-text-input" class="form-control-label">Leave Type<span class="text-danger">*</span></label><br />
+                            <select class="form-control form-control-alternative" id="LeaveType" onchange="LeaveType()">
+                                <option value="0">Select Leave Type</option>
                                 <option value="1">Half-Day</option>
                                 <option value="2">Full-Day</option>
                             </select>
-                            <span id="errStudentLeaveType" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            <span id="errLeaveType" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6" id="leaveSubTypeDiv" style="display:none;">
+                        <div class="form-group">
+                            <label for="example-text-input" class="form-control-label">Leave Sub Type<span class="text-danger">*</span></label><br />
+                            <select class="form-control form-control-alternative" id="LeaveSubType">
+                                <option value="0">Select Leave Sub Type</option>
+                                <option value="1">First-Half</option>
+                                <option value="1">Second-Half</option>
+                            </select>
+                            <span id="errLeaveSubType" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                         </div>
                     </div>
                     <div class="col-md-12">

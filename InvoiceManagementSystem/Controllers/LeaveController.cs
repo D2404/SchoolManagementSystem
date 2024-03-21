@@ -237,7 +237,7 @@ namespace InvoiceManagementSystem.Controllers
                 body = body.Replace("[[ToDate]]", data.LSTLeaveList[0].ToDate);
                 body = body.Replace("[[Reason]]", data.LSTLeaveList[0].Reason);
                 body = body.Replace("[[LeaveTypeName]]", data.LSTLeaveList[0].LeaveTypeName);
-                if(cls.LeaveType ==1)
+                if (cls.LeaveType == 1)
                 {
                     body = body.Replace("[[LeaveSubTypeName]]", data.LSTLeaveList[0].LeaveSubTypeName);
                 }
@@ -259,46 +259,49 @@ namespace InvoiceManagementSystem.Controllers
             try
             {
                 clsCommon obj = new clsCommon();
-                string[] TempEmail = toEmail.Split(',');
+                //string[] TempEmail = toEmail.Split(',');
 
-                for (int i = 0; i < TempEmail.Length; i++)
+                //for (int i = 0; i < TempEmail.Length; i++)
+                //{
+                string to = toEmail;
+                //string to = toEmail;
+
+                var EmailConfigaration = obj.EmailConfigaration();
+                string host = EmailConfigaration.Host;
+                string username = EmailConfigaration.Username;
+                string FromEmail = null;
+                FromEmail = EmailConfigaration.FromMail;
+
+                string password = EmailConfigaration.Password;
+                int port = EmailConfigaration.Port;
+
+                MailMessage mail = new MailMessage();
+
+                mail.From = new MailAddress(FromEmail);
+                mail.To.Add(to);
+                mail.Subject = subject;
+                mail.Body = body;
+                mail.IsBodyHtml = true;
+                if (!string.IsNullOrEmpty(imagePath))
                 {
-                    string to = TempEmail[i];
-                    //string to = toEmail;
+                    AlternateView av = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
 
-                    var EmailConfigaration = obj.EmailConfigaration();
-                    string host = EmailConfigaration.Host;
-                    string username = EmailConfigaration.Username;
-                    string FromEmail = EmailConfigaration.FromMail;
-                    string password = EmailConfigaration.Password;
-                    int port = EmailConfigaration.Port;
+                    LinkedResource logo = new LinkedResource(imagePath, "image/jpg");
+                    logo.ContentId = "logoImage";
 
-                    MailMessage mail = new MailMessage();
-                    mail.From = new MailAddress(FromEmail);
-                    mail.To.Add(to);
-                    mail.Subject = subject;
-                    mail.Body = body;
-                    mail.IsBodyHtml = true;
-                    if (!string.IsNullOrEmpty(imagePath))
-                    {
-                        AlternateView av = AlternateView.CreateAlternateViewFromString(body, null, MediaTypeNames.Text.Html);
+                    av.LinkedResources.Add(logo);
 
-                        LinkedResource logo = new LinkedResource(imagePath, "image/jpg");
-                        logo.ContentId = "logoImage";
-
-                        av.LinkedResources.Add(logo);
-
-                        mail.AlternateViews.Add(av);
-                    }
-                    SmtpClient smtp = new SmtpClient();
-
-                    smtp.Host = host;
-                    smtp.Credentials = new System.Net.NetworkCredential
-                         (FromEmail, password);
-                    smtp.Port = port;
-                    smtp.EnableSsl = true;
-                    smtp.Send(mail);
+                    mail.AlternateViews.Add(av);
                 }
+                SmtpClient smtp = new SmtpClient();
+
+                smtp.Host = host;
+                smtp.Credentials = new System.Net.NetworkCredential
+                     (FromEmail, password);
+                smtp.Port = port;
+                smtp.EnableSsl = true;
+                smtp.Send(mail);
+                //}
 
             }
             catch (Exception ex)

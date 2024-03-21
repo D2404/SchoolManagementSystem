@@ -1,0 +1,117 @@
+﻿@model InvoiceManagementSystem.Models.EmailConfigurationSetting
+@{
+    ViewBag.Title = "EmailConfiguration";
+}
+<br />
+<br />
+
+<div class="row" id="FilterDiv" style="margin-left:19px">
+    <div class="col-sm-4 col-md-3" style="margin-top: -32px;">
+        <div class="form-group form-focus">
+            <label style="color:white">Search</label>
+            <input type="text" class="form-control form-control-alternative" id="SearchText" placeholder="Search" maxlength="50">
+        </div>
+    </div>
+    
+    <div class="col-sm-6 col-md-1">
+
+        <a class="btn bg-gradient-info" onclick="GetEmailConfigurationList(1)">Search</a>
+    </div>
+
+    <div class="col-sm-6 col-md-1">
+        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
+
+    </div>
+</div>
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">
+                            <i class="fas fa-envelope text-info text-lg"></i>&nbsp;&nbsp;Manage Email-Configuration
+                        </h5>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="dataTables_length" id="DataTables_Table_0_length">
+                    <label style="color:white">
+                        Show
+                        <select id="PageSize" onchange="GetLeaveList(1)" class="drpselect">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        entries
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-1">
+                    <div class="card-header pb-0">
+                        <h6><i class="fas fa-envelope text-info text-lg"></i>&nbsp;&nbsp;Email-Configuration List</h6>
+                        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" style="margin-left: 617px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
+                        <a href="~/EmailConfiguration/EmailConfiguration" class="btn bg-gradient-info" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add Email-Configuration</a>
+                        <a class="btn bg-gradient-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="export to excel" onclick="ExportEmailConfiguration()" style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <div id="tblBody"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete_EmailConfiguration" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:92px"><span id="PopupTitle">Delete Email-Configuration</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Email-Configuration ?.</p>
+                </div>
+                <div class="modal-footer" style="padding-right: 166px">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteEmailConfiguration()">Delete</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/School/EmailConfiguration.js"></script>
+<script>
+    var type = 1
+
+    function ShowFilter() {
+        if (type == 1) {
+            $('#FilterDiv').show();
+            type = 2;
+        }
+        else {
+            $('#FilterDiv').hide();
+            type = 1;
+        }
+    }
+
+</script>

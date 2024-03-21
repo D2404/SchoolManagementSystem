@@ -1,0 +1,139 @@
+﻿@model InvoiceManagementSystem.Models.EmailConfigurationSetting
+@{
+    ViewBag.Title = "Student";
+}
+<br />
+<br />
+
+
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        @*@if (Model.LSTEmailConfigurationList[0].Id > 1)
+                            {
+                                <h5 class="mb-1">
+                                    <i class="fas fa-envelope text-info text-lg opacity-10"></i>&nbsp;&nbsp; Edit Email-Configuration
+                                </h5>
+                            }
+                            else
+                            {*@
+                        <h5 class="mb-1">
+                            <i class="fas fa-envelope text-info text-lg opacity-10"></i>&nbsp;&nbsp; Add Email-Configuration
+                        </h5>
+                        @*}*@
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
+                    <div class="tabs">
+                        <div class="nav-wrapper position-relative end-0">
+                            <a href="/EmailConfiguration/EmailConfigurationList" class="btn bg-gradient-dark" style="margin-top: -32px;margin-bottom: -31px;margin-left: 191px;">&nbsp;Back to list</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mt-4 mb-3">
+                    <div class="card-body pb-0">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input type="hidden" value="@Session["Id"]" id="UserId" />
+                                    <label for="example-text-input" class="form-control-label">Role Name <span class="text-danger">*</span></label>
+                                    <select class="form-control form-control-alternative" id="RoleId" onchange="RoleType()">
+                                        <option value="0">Select Role..</option>
+                                        <option value="Admin">Admin</option>
+                                        <option value="Teacher">Teacher</option>
+                                        <option value="Student">Student</option>
+                                    </select>
+                                    <span id="errRole" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" id="teacherDiv" style="display:none">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Teacher</b><span class="text-danger">*</span></label>
+                                    <select class="form-control form-control-alternative" id="TeacherId" onchange="onTeacher();">
+                                        <option value="0">Select Teacher..</option>
+                                    </select>
+                                    <span id="errTeacher" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6" id="teacher1Div" style="display:none">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Teacher</b> <span class="text-danger">*</span></label>
+                                    <select class="form-control form-control-alternative" id="TeacherId" onchange="onStudent();">
+                                        <option value="0">Select Teacher..</option>
+                                    </select>
+                                    <span id="errTeacher" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" id="studentDiv" style="display:none">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Student</b> <span class="text-danger">*</span></label>
+                                    <select class="form-control  form-control-alternative" id="StudentId">
+                                        <option value="0">Select Student..</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label><br />
+                                    <span class="form-control" id="UserName" name="UserName"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label><br />
+                                    <span class="form-control" id="FromMail" name="FromMail"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Password</label>
+                                    <input class="form-control" type="Password" id="Password" placeholder="Enter Password">
+                                    <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Host</label>
+                                    <input class="form-control" type="text" value="smtp.gmail.com" disabled>
+                                    <span id="errHost" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Port</label>
+                                    <input class="form-control" type="text" value="587" disabled>
+                                    <span id="errPort" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="footer" style="text-align:right">
+                            <button class="btn bg-gradient-info btn-sm ms-auto" onclick="javascript: return InsertData(0);">Save</button>
+                            <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearBasicDetails()">Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/School/EmailConfiguration.js"></script>
