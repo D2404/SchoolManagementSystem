@@ -109,11 +109,20 @@ function InsertData() {
         $("#errPassword").html("Please enter password.");
         val = false;
     }
-    var TeacherId = $('#TeacherId').val();
+    
+    var TeacherId = null;
+    if (Rolename === "Teacher") {
+        TeacherId = $('#TeacherId').val();
+    }
+    else if (Rolename === "Student"){
+        TeacherId = $('#TeacherId1').val();
+    }
+
     if (TeacherId === "" || /\S/.test(TeacherId) === false) {
         $("#errTeacher").html("Please select teacher.");
         val = false;
     }
+    var TeacherId1 = $('#TeacherId1').val();
     var StudentId = $('#StudentId').val();
     if (StudentId === "" || /\S/.test(StudentId) === false) {
         $("#errStudent").html("Please select student.");
@@ -131,7 +140,13 @@ function InsertData() {
     formData.append('UserName', Username);
     formData.append('FromMail', FromMail);
     formData.append('Password', Password);
-    formData.append('TeacherId', TeacherId);
+    if (Rolename === "Teacher") {
+        formData.append('TeacherId', TeacherId);
+    }
+    else if (Rolename === "Student")
+    {
+        formData.append('TeacherId', TeacherId1);
+    }
     formData.append('StudentId', StudentId);
     ShowWait();
     $.ajax({
@@ -218,9 +233,7 @@ function deleteEmailConfiguration() {
             if (data.Response === 'Success') {
 
                 toastr.success('EmailConfiguration deleted successfully');
-                document.getElementById('hdnintId').value = "0";
-                GetEmailConfigurationList();
-                $('#delete_EmailConfiguration').click();
+                window.location.replace("/EmailConfiguration/EmailConfigurationList");
             }
             else {
                 alert('error');
@@ -334,14 +347,14 @@ function RoleType() {
     }
     else if(Role === "Teacher")
     {
-        GetTeacher();
-        teacherDiv.style.display = "block";
         teacher1Div.style.display = "none";
+        teacherDiv.style.display = "block";
         studentDiv.style.display = "none";
+        GetTeacher();
         /*$('#errLeaveSubType').html("");*/
     }
     else {
-        GetTeacher();
+        GetTeacher1();
         teacherDiv.style.display = "none";
         teacher1Div.style.display = "block";
         studentDiv.style.display = "block";
@@ -367,6 +380,28 @@ function GetTeacher() {
                 html = html + '<option value="' + data.LSTTeacherList[i].Id + '">' + data.LSTTeacherList[i].FullName + '</option>';
                 $("#TeacherId").empty();
                 $("#TeacherId").append(html);
+            }
+        }
+    });
+}
+function GetTeacher1() {
+    var cls = {
+    }
+    $.ajax({
+        url: '/Common/GetTeacher',
+        contentType: "application/json; charset=utf-8",
+        type: "GET",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+
+            var html = "";
+            html = html + ' <option value="0" selected>Select Teacher</option>';
+            for (var i = 0; i < data.LSTTeacherList.length; i++) {
+                html = html + '<option value="' + data.LSTTeacherList[i].Id + '">' + data.LSTTeacherList[i].FullName + '</option>';
+                $("#TeacherId1").empty();
+                $("#TeacherId1").append(html);
             }
         }
     });
@@ -428,7 +463,7 @@ function onTeacher() {
 }
 
 function onStudent() {
-    var TeacherId = $('#TeacherId').val();
+    var TeacherId = $('#TeacherId1').val();
     $.ajax({
         type: "GET",
         url: '/Common/LoadStudent?TeacherId=' + TeacherId,
@@ -441,6 +476,34 @@ function onStudent() {
             $.each(data, function (i, v) {
                 $("#StudentId").append($("<option     />").val(v.StudentId).text(v.StudentName));
             });
+            $('#UserName').empty();
+            $("#UserName").append();
+            $.each(data, function (i, v) {
+                $("#UserName").append($("<option     />").val(v.Username).text(v.Username));
+            });
+            $('#FromMail').empty();
+            $("#FromMail").append();
+            $.each(data, function (i, v) {
+                $("#FromMail").append($("<option     />").val(v.FromMail).text(v.FromMail));
+            });
+            HideWait();
+        },
+        failure: function () {
+            HideWait();
+            alert("Failed!");
+        }
+    });
+}
+
+function onStudentDetails() {
+    var StudentId = $('#StudentId').val();
+    $.ajax({
+        type: "GET",
+        url: '/Common/LoadStudentDetails?StudentId=' + StudentId,
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
             $('#UserName').empty();
             $("#UserName").append();
             $.each(data, function (i, v) {

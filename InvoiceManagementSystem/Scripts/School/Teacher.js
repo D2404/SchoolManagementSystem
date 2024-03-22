@@ -342,7 +342,7 @@ function ValidateBasicDetails(id) {
         val = false;
     }
 
-    if (Id === 0) {
+    if (Id === "1") {
         if (ClassId === 0) {
             $("#errClassId").html("Please select classroom");
             val = false;
@@ -351,11 +351,11 @@ function ValidateBasicDetails(id) {
         var fileCount = document.getElementById("Profile").files.length;
         var hdnfile = document.getElementById("Profile").value;
 
-        if (hdnfile === null || hdnfile === "") {
+        if (hdnfile === null || hdnfile === "" || hdnfile === undefined) {
             
                 var Profile = document.getElementById('Profile').value;
                 if (Profile === null || Profile === "") {
-                    $("#errProfile").html('Please select image.');
+                    $("#errProfile").html('Please select profile.');
                     return;
                 }
                 if (fileCount > 0) {

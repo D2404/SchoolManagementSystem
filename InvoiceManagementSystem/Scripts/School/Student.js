@@ -288,7 +288,7 @@ function ValidateBasicDetails(id) {
         $("#errClassId").html("Please select class.");
         val = false;
     }
-    if (RollNo === "" || RollNo.trim() === '') {
+    if (RollNo === "0" || RollNo.trim() === '') {
         $("#errRollNo").html("Please enter rollNo.");
         val = false;
     }
@@ -314,8 +314,8 @@ function ValidateBasicDetails(id) {
         val = false;
     }
 
-    if (Id === 0) {
-        if (ClassId === 0) {
+    if (Id === "0") {
+        if (ClassId === "0") {
             $("#errClassId").html("Please select classroom");
             val = false;
         }
@@ -327,7 +327,7 @@ function ValidateBasicDetails(id) {
 
             var Profile = document.getElementById('Profile').value;
             if (Profile === null || Profile === "") {
-                $("#errProfile").html('Please select image.');
+                $("#errProfile").html('Please select profile.');
                 return;
             }
             if (fileCount > 0) {

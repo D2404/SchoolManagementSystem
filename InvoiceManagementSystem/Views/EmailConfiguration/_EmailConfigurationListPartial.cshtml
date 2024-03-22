@@ -52,10 +52,8 @@
                             <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
                         </a>
                         <div class="dropdown-content" style="top: 6px; right: 8px;width:100px;text-align:center">
-
-                            
-                            <a href="javascript:;" title="Edit ClassRoom" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#ClassRoom" onclick="GetSingleClassRoomData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
-                            <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_ClassRoom" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
+                            @*<a href="/EmailConfiguration/EmailConfiguration?Id=@item.Id" title="Edit Student" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleStudentData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>*@
+                            <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_EmailConfiguration" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
                         </div>
                     </div>
                 </td>

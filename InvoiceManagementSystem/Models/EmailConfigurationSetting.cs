@@ -21,6 +21,7 @@ namespace InvoiceManagementSystem.Models
         public string FromMail { get; set; }
         public int Port { get; set; }
         public int TeacherId { get; set; }
+        public int TeacherId1 { get; set; }
         public string TeacherName { get; set; }
         public int StudentId { get; set; }
         public string StudentName { get; set; }
@@ -36,7 +37,11 @@ namespace InvoiceManagementSystem.Models
         public int fromEntries { get; set; }
         public Pager Pager { get; set; }
         public List<EmailConfigurationSetting> LSTEmailConfigurationList { get; set; }
-
+         
+        public class TeachersList
+        {
+            public int TeacherId { get; set; }
+        }
 
         public EmailConfigurationSetting addEmailConfiguration(EmailConfigurationSetting cls)
         {
@@ -127,7 +132,36 @@ namespace InvoiceManagementSystem.Models
                 throw ex;
             }
         }
-
+        public EmailConfigurationSetting FillTeacherList(EmailConfigurationSetting cls)
+        {
+            try
+            {
+                List<EmailConfigurationSetting> LSTList = new List<EmailConfigurationSetting>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("FillTeacherDetails", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adp.Fill(dt);
+                conn.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        EmailConfigurationSetting obj = new EmailConfigurationSetting();
+                        obj.TeacherId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
+                        LSTList.Add(obj);
+                    }
+                }
+                cls.LSTEmailConfigurationList = LSTList;
+                return cls;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public EmailConfigurationSetting deleteEmailConfiguration(EmailConfigurationSetting cls)
         {

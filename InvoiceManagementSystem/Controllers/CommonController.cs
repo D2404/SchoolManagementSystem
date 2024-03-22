@@ -269,8 +269,6 @@ namespace InvoiceManagementSystem.Controllers
                         EmailConfigurationSetting obj = new EmailConfigurationSetting();
                         obj.StudentId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.StudentName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.Username = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
-                        obj.FromMail = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         clsLst.Add(obj);
                     }
                 }
@@ -293,6 +291,41 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.Add("@TeacherId", TeacherId);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<EmailConfigurationSetting> clsLst = new List<EmailConfigurationSetting>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        EmailConfigurationSetting obj = new EmailConfigurationSetting();
+                        obj.Username = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
+                        obj.FromMail = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
+                        clsLst.Add(obj);
+                    }
+                }
+                return Json(clsLst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult LoadStudentDetails(int StudentId)
+        {
+            try
+            {
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadStudentDetailById", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.Add("@StudentId", StudentId);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);

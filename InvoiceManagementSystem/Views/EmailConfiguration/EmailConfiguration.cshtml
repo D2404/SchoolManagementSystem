@@ -48,92 +48,124 @@
                                 <div class="form-group">
                                     <input type="hidden" value="@Session["Id"]" id="UserId" />
                                     <label for="example-text-input" class="form-control-label">Role Name <span class="text-danger">*</span></label>
-                                    <select class="form-control form-control-alternative" id="RoleId" onchange="RoleType()">
-                                        <option value="0">Select Role..</option>
-                                        <option value="Admin">Admin</option>
-                                        <option value="Teacher">Teacher</option>
-                                        <option value="Student">Student</option>
-                                    </select>
+                                    @if (Model.LSTEmailConfigurationList[0].Id > 0)
+                                    {
+                                        @Html.DropDownListFor(model => model.LSTEmailConfigurationList[0].Rolename,
+                                         new List<SelectListItem>
+                                         {
+                                             new SelectListItem { Text = "Select Role", Value = "0" },
+                                             new SelectListItem { Text = "Admin", Value = "Admin", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Admin" },
+                                             new SelectListItem { Text = "Teacher", Value = "Teacher", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Teacher" },
+                                             new SelectListItem { Text = "Student", Value = "Student", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Student" }
+                                         },
+                                         new { @id = "RoleId", @class = "form-control form-control-alternative", onchange = "RoleType()" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(model => model.LSTEmailConfigurationList[0].Rolename,
+                                         new List<SelectListItem>
+                                         {
+                                             new SelectListItem { Text = "Select Role", Value = "0" },
+                                             new SelectListItem { Text = "Admin", Value = "Admin" },
+                                             new SelectListItem { Text = "Teacher", Value = "Teacher"},
+                                             new SelectListItem { Text = "Student", Value = "Student"}
+                                         },
+                                         new { @id = "RoleId", @class = "form-control form-control-alternative", onchange = "RoleType()" })
+                                    }
                                     <span id="errRole" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                 </div>
                             </div>
                             <div class="col-sm-6" id="teacherDiv" style="display:none">
                                 <div class="form-group">
                                     <label for="basicinput"><b>Teacher</b><span class="text-danger">*</span></label>
+
                                     <select class="form-control form-control-alternative" id="TeacherId" onchange="onTeacher();">
                                         <option value="0">Select Teacher..</option>
                                     </select>
                                     <span id="errTeacher" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6" id="teacher1Div" style="display:none">
-                                <div class="form-group">
-                                    <label for="basicinput"><b>Teacher</b> <span class="text-danger">*</span></label>
-                                    <select class="form-control form-control-alternative" id="TeacherId" onchange="onStudent();">
-                                        <option value="0">Select Teacher..</option>
-                                    </select>
-                                    <span id="errTeacher" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            <div class="row">
+                                <div class="col-sm-6" id="teacher1Div" style="display:none">
+                                    <div class="form-group">
+                                        <label for="basicinput"><b>Teacher</b> <span class="text-danger">*</span></label>
+                                        <select class="form-control form-control-alternative" id="TeacherId1" onchange="onStudent();">
+                                            <option value="0">Select Teacher..</option>
+                                        </select>
+                                        <span id="errTeacher" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6" id="studentDiv" style="display:none">
+                                    <div class="form-group">
+                                        <label for="basicinput"><b>Student</b> <span class="text-danger">*</span></label>
+                                        <select class="form-control  form-control-alternative" id="StudentId" onchange="onStudentDetails();">
+                                            <option value="0">Select Student..</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6" id="studentDiv" style="display:none">
-                                <div class="form-group">
-                                    <label for="basicinput"><b>Student</b> <span class="text-danger">*</span></label>
-                                    <select class="form-control  form-control-alternative" id="StudentId">
-                                        <option value="0">Select Student..</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
+                            <div class="row">
 
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label><br />
-                                    <span class="form-control" id="UserName" name="UserName"></span>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label><br />
+                                        @if (Model.LSTEmailConfigurationList[0].Id > 0)
+                                        {
+                                            @Html.TextBoxFor(model => model.LSTEmailConfigurationList[0].Username, new { @id = "UserName", @placeholder = "Student Name.", @class = "form-control form-control-alternative", @disable = "disabled" })
+                                        }
+                                        else
+                                        {
+                                            <span class="form-control form-control-alternative" id="UserName" placeholder = "User Name" name="UserName" disabled style="height:38px"></span>
+                                        }
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label><br />
+                                        @if (Model.LSTEmailConfigurationList[0].Id > 0)
+                                        {
+                                            @Html.TextBoxFor(model => model.LSTEmailConfigurationList[0].FromMail, new { @id = "FromMail", @placeholder = "Student Name.", @class = "form-control form-control-alternative" })
+                                        }
+                                        else
+                                        {
+                                            <span class="form-control form-control-alternative" id="FromMail" placeholder = "Email" name="FromMail" disabled style="height:38px"></span>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Email <span class="text-danger">*</span></label><br />
-                                    <span class="form-control" id="FromMail" name="FromMail"></span>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Password</label>
+                                        <input class="form-control" type="Password" id="Password" placeholder="Enter Password">
+                                        <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Host</label>
+                                        <input class="form-control" type="text" value="smtp.gmail.com" disabled>
+                                        <span id="errHost" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Port</label>
+                                        <input class="form-control" type="text" value="587" disabled>
+                                        <span id="errPort" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Password</label>
-                                    <input class="form-control" type="Password" id="Password" placeholder="Enter Password">
-                                    <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                </div>
+                            <div class="footer" style="text-align:right">
+                                <button class="btn bg-gradient-info btn-sm ms-auto" onclick="javascript: return InsertData(0);">Save</button>
+                                <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearBasicDetails()">Clear</button>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Host</label>
-                                    <input class="form-control" type="text" value="smtp.gmail.com" disabled>
-                                    <span id="errHost" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label for="example-text-input" class="form-control-label">Port</label>
-                                    <input class="form-control" type="text" value="587" disabled>
-                                    <span id="errPort" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="footer" style="text-align:right">
-                            <button class="btn bg-gradient-info btn-sm ms-auto" onclick="javascript: return InsertData(0);">Save</button>
-                            <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearBasicDetails()">Clear</button>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
     </div>
-</div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="~/Scripts/School/EmailConfiguration.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="~/Scripts/School/EmailConfiguration.js"></script>

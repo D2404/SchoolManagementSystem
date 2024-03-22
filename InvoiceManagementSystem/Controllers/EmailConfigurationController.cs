@@ -38,6 +38,10 @@ namespace InvoiceManagementSystem.Controllers
                 {
                     cls = cls.GetEmailConfiguration(cls, id);
                 }
+                else
+                {
+                    cls = cls.FillTeacherList(cls);
+                }
                 return View(cls);
             }
             else
