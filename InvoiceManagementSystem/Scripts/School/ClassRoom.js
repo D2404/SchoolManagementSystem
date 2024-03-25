@@ -213,12 +213,18 @@ function deleteClassRoom() {
         }),
         success: function (data) {
 
-            if (data.Response === 'Success') {
-
+            if (data.Response === 'Success' && Id > 0) {
                 toastr.success('ClassRoom deleted successfully');
                 document.getElementById('hdnintId').value = "0";
-                GetClassRoomList();
+                GetClassRoomList(1);
                 $('#delete_ClassRoom').click();
+            }
+            else if (data.Response == 'dependency') {
+                $('#delete_ClassRoom').click();
+                toastr.error('ClassRoom already used in subject.');
+                document.getElementById('hdnintId').value = "0";
+                GetClassRoomList(1);
+                //$('#delete_ClassRoom').click();
             }
             else {
                 alert('error');
