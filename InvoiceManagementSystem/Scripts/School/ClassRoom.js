@@ -219,7 +219,7 @@ function deleteClassRoom() {
                 GetClassRoomList(1);
                 $('#delete_ClassRoom').click();
             }
-            else if (data.Response == 'dependency') {
+            else if (data.Response === 'dependency') {
                 $('#delete_ClassRoom').click();
                 toastr.error('ClassRoom already used in subject.');
                 document.getElementById('hdnintId').value = "0";

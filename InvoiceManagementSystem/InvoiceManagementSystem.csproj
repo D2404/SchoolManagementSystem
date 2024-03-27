@@ -600,6 +600,7 @@
     <Content Include="Data\Profile\Profile_0_638120867412446720.jpg" />
     <Content Include="Data\Profile\Profile_3_638118862056537368.png" />
     <Content Include="Data\Profile\Profile_3_638118864925974936.png" />
+    <Content Include="Data\SchoolPhoto\images %281%29.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -1030,7 +1031,6 @@
     <Folder Include="Data\FeesInvoice\" />
     <Folder Include="Data\Item\" />
     <Folder Include="Data\ManageAttendance\" />
-    <Folder Include="Data\SchoolPhoto\" />
     <Folder Include="ManageBulkTeacher\Data\" />
   </ItemGroup>
   <ItemGroup>
