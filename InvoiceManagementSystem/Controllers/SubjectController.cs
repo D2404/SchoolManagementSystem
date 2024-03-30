@@ -54,6 +54,8 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

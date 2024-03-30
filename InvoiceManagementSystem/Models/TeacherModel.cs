@@ -146,6 +146,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@RoleId", cls.RoleId);
                 cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;
@@ -333,6 +334,7 @@ namespace InvoiceManagementSystem.Models
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@intActive", 1);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter adp = new SqlDataAdapter(cmd);
@@ -428,6 +430,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@Search", cls.SearchText);
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

@@ -64,7 +64,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.Add("@StartTime", SqlDbType.VarChar).Value = cls.StartTime;
                 cmd.Parameters.Add("@EndTime", SqlDbType.VarChar).Value = cls.EndTime;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;
@@ -209,6 +209,7 @@ namespace InvoiceManagementSystem.Models
                 SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
                 cmd.Parameters.AddWithValue("@Mode",6);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@Days", cls.Days);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

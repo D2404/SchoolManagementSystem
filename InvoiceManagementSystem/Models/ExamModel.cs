@@ -59,6 +59,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@OutOfMarks", cls.OutOfMarks);
                 cmd.Parameters.AddWithValue("@RollNo", cls.RollNo);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
@@ -184,6 +185,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@SubjectId", cls.SubjectId);
                 cmd.Parameters.AddWithValue("@Date", cls.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;

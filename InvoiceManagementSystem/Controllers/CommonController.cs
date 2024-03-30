@@ -23,7 +23,7 @@ namespace InvoiceManagementSystem.Controllers
                 List<SchoolModel> lstSchoolList = new List<SchoolModel>();
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
+                SqlCommand cmd = new SqlCommand("sp_GetSchoolList", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -40,6 +40,7 @@ namespace InvoiceManagementSystem.Controllers
                         SchoolModel obj = new SchoolModel();
 
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.PhotoImg = dt.Rows[i]["Photo"] == null ? "" : dt.Rows[i]["Photo"].ToString();
                         obj.SchoolName = dt.Rows[i]["SchoolName"] == null || dt.Rows[i]["SchoolName"].ToString().Trim() == "" ? null : dt.Rows[i]["SchoolName"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.Address = dt.Rows[i]["Address"] == null || dt.Rows[i]["Address"].ToString().Trim() == "" ? null : dt.Rows[i]["Address"].ToString();
@@ -70,6 +71,7 @@ namespace InvoiceManagementSystem.Controllers
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@intActive", 1);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -114,6 +116,7 @@ namespace InvoiceManagementSystem.Controllers
                 SqlCommand cmd = new SqlCommand("sp_LoadSubjectDropDown", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.Add("@ClassId", ClassId);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -145,6 +148,7 @@ namespace InvoiceManagementSystem.Controllers
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("LoadTeacherDropdown", conn);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 //cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -189,6 +193,7 @@ namespace InvoiceManagementSystem.Controllers
                 SqlCommand cmd = new SqlCommand("sp_LoadClasswiseStudentDropDown", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@ClassId", ClassId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -223,6 +228,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.Add("@UserId", UserId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -257,6 +263,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.Add("@TeacherId", TeacherId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -291,6 +298,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.Add("@TeacherId", TeacherId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
@@ -326,6 +334,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.Add("@StudentId", StudentId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);

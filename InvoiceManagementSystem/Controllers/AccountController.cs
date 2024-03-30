@@ -21,11 +21,13 @@ namespace InvoiceManagementSystem.Controllers
             int? TeacherId = objCommon.getTeacherIdFromSession();
             int? UserId = objCommon.getUserIdFromSession();
             int? StudentId = objCommon.getStudentIdFromSession();
+            int? SchoolId = objCommon.getSchoolIdFromSession();
             if (TeacherId > 0 || UserId > 0 || StudentId > 0)
             {
                 cls.TeacherId = TeacherId.Value;
                 cls.Id = UserId.Value;
                 cls.StudentId = StudentId.Value;
+                cls.SchoolId = SchoolId.Value;
                 cls = cls.MyProfile(cls);
                 return View(cls);
             }
@@ -71,6 +73,13 @@ namespace InvoiceManagementSystem.Controllers
                 if (cls.Id > 0)
                 {
                     Session["Id"] = cls.Id;
+                    Session["SchoolName"] = cls.SchoolName.ToUpper();
+                    Session["SchoolPhoto"] = cls.SchoolPhoto;
+                    Session["SchoolMobileNo"] = cls.SchoolMobile;
+                    Session["SchoolEmail"] = cls.SchoolEmail;
+                    Session["SchoolAddress"] = cls.SchoolAddress;
+                    Session["SchoolId"] = cls.SchoolId;
+                    Session["Since"] = cls.Since;
                     Session["UserName"] = cls.UserName;
                     Session["FatherName"] = cls.FatherName;
                     Session["SurName"] = cls.SurName;

@@ -66,7 +66,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@Monthly", cls.Monthly);
                 cmd.Parameters.AddWithValue("@Yearly", cls.Yearly);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;
@@ -214,6 +214,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@Year", cls.YearId);
                 cmd.Parameters.AddWithValue("@Date", cls.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
@@ -269,6 +270,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@Year", cls.YearId);
                 cmd.Parameters.AddWithValue("@Date", cls.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;

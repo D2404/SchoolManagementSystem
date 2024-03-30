@@ -206,6 +206,7 @@ namespace InvoiceManagementSystem.Models
                 SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
                 cmd.Parameters.AddWithValue("@Mode", 9);
                 cmd.Parameters.AddWithValue("@Search", cls.SearchText);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

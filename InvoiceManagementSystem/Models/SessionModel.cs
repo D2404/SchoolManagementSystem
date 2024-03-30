@@ -12,6 +12,16 @@ namespace InvoiceManagementSystem.Models
             get { return HttpContext.Current.Session["RoleId"] == null ? 0 : (int)HttpContext.Current.Session["RoleId"]; }
             set { HttpContext.Current.Session["RoleId"] = value; }
         }
+        public static string SchoolPhoto
+        {
+            get { return HttpContext.Current.Session["SchoolPhoto"] == null ? "" : (string)HttpContext.Current.Session["SchoolPhoto"]; }
+            set { HttpContext.Current.Session["v"] = value; }
+        }
+        public static int SchoolId
+        {
+            get { return HttpContext.Current.Session["SchoolId"] == null ? 0 : (int)HttpContext.Current.Session["SchoolId"]; }
+            set { HttpContext.Current.Session["SchoolId"] = value; }
+        }
         public static int TeacherId
         {
             get { return HttpContext.Current.Session["TeacherId"] == null ? 0 : (int)HttpContext.Current.Session["TeacherId"]; }

@@ -50,6 +50,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
                 cmd.Parameters.AddWithValue("@RoleId", objCommon.getRoleIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@Days", cls.Days);
                 if (objCommon.getRoleIdFromSession() == 1 && objCommon.getRoleIdFromSession() == 2 || objCommon.getRoleIdFromSession() == null)
                 {

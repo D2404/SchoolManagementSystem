@@ -107,6 +107,24 @@ namespace InvoiceManagementSystem.Models
             }
             return Id;
         }
+        public int? getSchoolIdFromSession()
+        {
+            int? Id = 0;
+            if (HttpContext.Current.Session["SchoolId"] != null && HttpContext.Current.Session["SchoolId"] != "")
+            {
+                Id = Convert.ToInt32(HttpContext.Current.Session["SchoolId"]);
+            }
+            return Id;
+        }
+        public string getSchoolPhotoFromSession()
+        {
+            string Id = "";
+            if (HttpContext.Current.Session["SchoolPhoto"] != null && HttpContext.Current.Session["SchoolPhoto"] != "")
+            {
+                Id = (string)HttpContext.Current.Session["SchoolPhoto"];
+            }
+            return Id;
+        }
         public int? getRoleIdFromSession()
         {
             int? Id = 0;

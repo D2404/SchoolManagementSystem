@@ -115,6 +115,7 @@ namespace InvoiceManagementSystem.Models
                     cmd.Parameters.Add("@Reason", SqlDbType.NVarChar).Value = cls.Reason;
                     cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                     cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                    cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     cmd.CommandTimeout = 0;
                     da.ReturnProviderSpecificTypes = true;

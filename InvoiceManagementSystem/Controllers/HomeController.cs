@@ -86,6 +86,7 @@ namespace InvoiceManagementSystem.Controllers
                 SqlCommand cmd = new SqlCommand("sp_ClassRoomList", conn);
                 cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -759,6 +760,7 @@ namespace InvoiceManagementSystem.Controllers
                 {
                     command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                    command.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         if (reader.Read())

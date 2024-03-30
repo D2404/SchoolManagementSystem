@@ -26,7 +26,7 @@
         right: -100%;
         position: absolute;
         background: #1f3d4738;
-        backdrop-filter: blur(15px);
+        backdrop-filter: blur(10px);
         border-radius: 15px;
         color: #fff;
         padding: 30px;
@@ -109,19 +109,27 @@
                         <div class="card" id="card">
                             @if (item.ProfileImg == null || item.ProfileImg == "" || item.ProfileImg == "undefined")
                             {
-                                <img src="/Data/Profile/dummy.jpg" class="card-img" id="card-img" alt="" style="width:100%;height:100%"> }
+                                <img src="/Data/Profile/dummy.jpg" class="card-img" id="card-img" alt="" style="width:100%; height: auto; object-fit: cover;">
+                            }
                             else
                             {
-                                <img src="~/Data/Profile/@item.ProfileImg" class="card-img" id="card-img" alt="">}
-                        <div class="card-body" id="card-body">
-                            <h3 class="card-title" id="card-title">@item.TeacherName</h3>
-                            <p class="nowrap" style="color:white;font-size: 14px"><i class="fas fa-user"></i>  @item.FullName</p>
-                            <p class="nowrap" style="color:white;font-size: 14px"><i class="fas fa-calendar"></i>  @item.Dob</p>
-                            <p class="nowrap" style="color:white;font-size: 14px"><i class="fas fa-envelope"></i>  @item.Email</p>
-                            <p class="nowrap" style="color:white;font-size: 14px"><i class="fas fa-phone"></i>  @item.MobileNo</p>
-                            <p class="nowrap" style="color:white;font-size: 14px"><i class="fas fa-address-book"></i>  @item.CurrentAddress</p>
-                            <button class="card-btn" id="card-btn">Read more</button>
-                        </div>
+                                <img src="~/Data/Profile/@item.ProfileImg" class="card-img" id="card-img" alt="" style="width:100%; height: auto; object-fit: cover;">}
+                            <div class="card-body" id="card-body">
+                                <h3 class="card-title" id="card-title">@item.TeacherName</h3>
+                                <p style="color:white;font-size: 14px;"><i class="fas fa-user"></i> <b> @item.FullName</b></p>
+                                <p style="color:white;font-size: 14px;"><i class="fas fa-calendar"></i>  <b> @item.Dob</b></p>
+                                <p style="color:white;font-size: 14px;"><i class="fas fa-envelope"></i>  <b> @item.Email</b></p>
+                                <p style="color:white;font-size: 14px;"><i class="fas fa-phone"></i> <b>  @item.MobileNo</b></p>
+                                <p style="color:white;font-size: 14px;"><i class="fas fa-address-book"></i>  <b> @item.CurrentAddress</b></p>
+                                <div style="display: flex; justify-content: space-between;">
+                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
+                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
+                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
+                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </div>

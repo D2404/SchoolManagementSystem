@@ -60,6 +60,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 //cmd.Parameters.AddWithValue("@intUserType", objCommon.getUserTypeFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -108,6 +109,7 @@ namespace InvoiceManagementSystem.Models
                 SqlCommand cmd = new SqlCommand("GetTeacherDashboardCountList", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 //cmd.Parameters.AddWithValue("@intUserType", objCommon.getUserTypeFromSession());
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -156,6 +158,7 @@ namespace InvoiceManagementSystem.Models
             conn.Open();
             SqlCommand cmd = new SqlCommand("sp_GetTeacherDetailDashboard", conn);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
             cmd.CommandTimeout = 0;
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             System.Data.DataTable dt = new System.Data.DataTable();
@@ -182,6 +185,7 @@ namespace InvoiceManagementSystem.Models
             conn.Open();
             SqlCommand cmd = new SqlCommand("sp_GetStudentDetailDashboard", conn);
             cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
             cmd.CommandTimeout = 0;
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             System.Data.DataTable dt = new System.Data.DataTable();

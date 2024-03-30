@@ -51,7 +51,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
                 cmd.Parameters.AddWithValue("@SubjectId", cls.SubjectId);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
@@ -201,6 +201,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

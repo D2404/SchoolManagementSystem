@@ -41,9 +41,10 @@ namespace InvoiceManagementSystem.Models
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("AddUpdateClassRoom", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = cls.Id;
+                cmd.Parameters.AddWithValue("@Id", cls.Id);
                 cmd.Parameters.AddWithValue("@ClassNo", cls.ClassNo);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
 
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -187,6 +188,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@Mode", 1);
                 cmd.Parameters.AddWithValue("@Search",cls.SearchText);
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

@@ -442,6 +442,7 @@
     <Content Include="Data\assets\css\nucleo-icons.css" />
     <Content Include="Data\assets\css\nucleo-svg.css" />
     <Content Include="Data\assets\css\select2.min.css" />
+    <Content Include="Data\assets\img\SAlogo.png" />
     <Content Include="Data\MailTemplate\LeaveMail.html" />
     <Content Include="Data\MailTemplate\WelcomeMail.html" />
     <Content Include="Data\MailTemplate\ForgotPassword.html" />

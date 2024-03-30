@@ -24,10 +24,20 @@ namespace InvoiceManagementSystem.Models
 
         public HttpPostedFileBase[] hdnProfile { get; set; }
         public string ProfileImg { get; set; }
+        public HttpPostedFileBase[] hdnSchoolPhoto { get; set; }
 
+        public string SchoolPhoto { get; set; }
+
+        public string SchoolEmail { get; set; }
+        public string SchoolMobile { get; set; }
+        public int SchoolId { get; set; }
+        public string SchoolName { get; set; }
+        public string Since { get; set; }
+        public string SchoolAddress { get; set; }
         public string Email { get; set; }
         public string Mobile { get; set; }
         public string Password { get; set; }
+        public string UserType { get; set; }
         public int RoleId { get; set; }
         public string RoleName { get; set; }
         public string Address { get; set; }
@@ -124,6 +134,13 @@ namespace InvoiceManagementSystem.Models
                     obj.ProfileImg = dt.Rows[0]["Profile"] == null || dt.Rows[0]["Profile"].ToString().Trim() == "" ? "" : dt.Rows[0]["Profile"].ToString();
                     obj.RoleName = dt.Rows[0]["RoleName"] == null || dt.Rows[0]["RoleName"].ToString().Trim() == "" ? "" : dt.Rows[0]["RoleName"].ToString();
                     obj.Password = dt.Rows[0]["Password"] == null || dt.Rows[0]["Password"].ToString().Trim() == "" ? "" : dt.Rows[0]["Password"].ToString();
+                    obj.SchoolId = Convert.ToInt32(dt.Rows[0]["SchoolId"] == null || dt.Rows[0]["SchoolId"].ToString().Trim() == "" ? "0" : dt.Rows[0]["SchoolId"].ToString());
+                    obj.SchoolName = dt.Rows[0]["SchoolName"] == null || dt.Rows[0]["SchoolName"].ToString().Trim() == "" ? "" : dt.Rows[0]["SchoolName"].ToString();
+                    obj.SchoolEmail = dt.Rows[0]["SchoolEmail"] == null || dt.Rows[0]["SchoolEmail"].ToString().Trim() == "" ? "" : dt.Rows[0]["SchoolEmail"].ToString();
+                    obj.SchoolMobile = dt.Rows[0]["SchoolMobile"] == null || dt.Rows[0]["SchoolMobile"].ToString().Trim() == "" ? "" : dt.Rows[0]["SchoolMobile"].ToString();
+                    obj.SchoolPhoto = dt.Rows[0]["SchoolPhoto"] == null || dt.Rows[0]["SchoolPhoto"].ToString().Trim() == "" ? "" : dt.Rows[0]["SchoolPhoto"].ToString();
+                    obj.SchoolAddress = dt.Rows[0]["SchoolAddress"] == null || dt.Rows[0]["SchoolAddress"].ToString().Trim() == "" ? "" : dt.Rows[0]["SchoolAddress"].ToString();
+                    obj.Since = dt.Rows[0]["Since"] == null || dt.Rows[0]["Since"].ToString().Trim() == "" ? "" : dt.Rows[0]["Since"].ToString();
                     obj.RoleId = Convert.ToInt32(dt.Rows[0]["RoleId"] == null || dt.Rows[0]["RoleId"].ToString().Trim() == "" ? "0" : dt.Rows[0]["RoleId"].ToString());
                     obj.TeacherId = Convert.ToInt32(dt.Rows[0]["TeacherId"] == null || dt.Rows[0]["TeacherId"].ToString().Trim() == "" ? "0" : dt.Rows[0]["TeacherId"].ToString());
                     obj.ClassId = Convert.ToInt32(dt.Rows[0]["ClassId"] == null || dt.Rows[0]["ClassId"].ToString().Trim() == "" ? "0" : dt.Rows[0]["ClassId"].ToString());
@@ -227,6 +244,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
                 cmd.Parameters.AddWithValue("@StudentId", cls.StudentId);
+                cmd.Parameters.AddWithValue("@SchoolId", cls.SchoolId);
                 cmd.Parameters.AddWithValue("@UserId", cls.Id);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

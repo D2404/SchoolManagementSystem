@@ -1,13 +1,11 @@
 ﻿
 
 @model InvoiceManagementSystem.Models.AccountModel
-@{
-    ViewBag.Title = "Index";
+@{ ViewBag.Title = "Index";
     Layout = null;
     string Value1 = Guid.NewGuid().ToString();
     string Value2 = Guid.NewGuid().ToString();
-    string AllValue = Guid.NewGuid().ToString();
-}
+    string AllValue = Guid.NewGuid().ToString(); }
 
 <!DOCTYPE html>
 <html lang="en">
@@ -84,7 +82,7 @@
                                 <div class="col-9">
 
                                     <div class="forgot-phone text-right f-right" style="margin-top: -35px;">
-                                        <input type="checkbox" style="margin-right:6px"onclick="showPwd()" /><span style="color:black;float:right"> &nbsp; <b>Show Password</b> </span>
+                                        <input type="checkbox" style="margin-right:6px" onclick="showPwd()" /><span style="color:black;float:right"> &nbsp; <b>Show Password</b> </span>
                                         <a href="~/Account/ForgotPassword" class="btn btn-link" style="float:right;margin-right: -12px;margin-top: 22px;font-size:12px"><i class="fa fa-key" aria-hidden="true"></i>Forgot password?</a>
 
                                     </div>

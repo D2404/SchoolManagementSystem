@@ -94,6 +94,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@ToDate", cls.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -168,6 +169,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@ToDate", cls.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -771,6 +773,7 @@ namespace InvoiceManagementSystem.Controllers
                     cmd.Parameters.Add("@PermenantState", SqlDbType.VarChar).Value = dt.Rows[i][30].ToString();
                     cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = objCommon.getUserIdFromSession();
                     cmd.Parameters.Add("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
+                    cmd.Parameters.Add("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     cmd.CommandTimeout = 0;
                     da.ReturnProviderSpecificTypes = true;
