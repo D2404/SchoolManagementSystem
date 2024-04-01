@@ -226,6 +226,7 @@
     <Compile Include="Models\EmailConfigurationSetting.cs" />
     <Compile Include="Models\LeaveModel.cs" />
     <Compile Include="Models\ClassRoomModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\SchoolModel.cs" />
     <Compile Include="Models\AdminModel.cs" />
     <Compile Include="Models\TimetableModel.cs" />
@@ -895,6 +896,7 @@
     <Content Include="Scripts\School\StudentAttandence.js" />
     <Content Include="Scripts\School\Subject.js" />
     <Content Include="Scripts\School\Students.js" />
+    <Content Include="Scripts\School\Admin.js" />
     <Content Include="Scripts\School\Teacher.js" />
     <Content Include="Scripts\School\TeacherAttandence.js" />
     <Content Include="Scripts\School\TeacherSubject.js" />

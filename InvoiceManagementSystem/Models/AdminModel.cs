@@ -534,6 +534,7 @@ namespace InvoiceManagementSystem.Models
                         obj.RoleName = dt.Rows[0]["RoleName"] == null || dt.Rows[0]["RoleName"].ToString().Trim() == "" ? "" : dt.Rows[0]["RoleName"].ToString();
                         obj.Password = dt.Rows[0]["Password"] == null || dt.Rows[0]["Password"].ToString().Trim() == "" ? "" : dt.Rows[0]["Password"].ToString();
                         obj.SchoolId = Convert.ToInt32(dt.Rows[0]["SchoolId"] == null || dt.Rows[0]["SchoolId"].ToString().Trim() == "" ? "0" : dt.Rows[0]["SchoolId"].ToString());
+                        obj.SchoolName = dt.Rows[0]["SchoolName"] == null || dt.Rows[0]["SchoolName"].ToString().Trim() == "" ? "" : dt.Rows[0]["SchoolName"].ToString();
                         obj.Response = "Success";
                         lstAdminList.Add(obj);
                     }

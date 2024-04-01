@@ -98,10 +98,11 @@ namespace InvoiceManagementSystem.Controllers
                         AdminModel obj = new AdminModel();
                         obj.ProfileImg = dt.Rows[i]["Profile"] == null ? "" : dt.Rows[i]["Profile"].ToString();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
+                        obj.SchoolId = Convert.ToInt32(dt.Rows[i]["SchoolId"] == null || dt.Rows[i]["SchoolId"].ToString().Trim() == "" ? null : dt.Rows[i]["SchoolId"].ToString());
                         obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
+                        obj.SchoolName = dt.Rows[i]["SchoolName"] == null || dt.Rows[i]["SchoolName"].ToString().Trim() == "" ? null : dt.Rows[i]["SchoolName"].ToString();
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.AdminName = dt.Rows[i]["AdminName"] == null || dt.Rows[i]["AdminName"].ToString().Trim() == "" ? null : dt.Rows[i]["AdminName"].ToString();
+                        obj.UserName = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
                         obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
@@ -170,10 +171,10 @@ namespace InvoiceManagementSystem.Controllers
                         AdminModel obj = new AdminModel();
                         obj.ProfileImg = dt.Rows[i]["Profile"] == null ? "" : dt.Rows[i]["Profile"].ToString();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
+                        obj.SchoolId = Convert.ToInt32(dt.Rows[i]["SchoolId"] == null || dt.Rows[i]["SchoolId"].ToString().Trim() == "" ? null : dt.Rows[i]["SchoolId"].ToString());
                         obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
                         obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.AdminName = dt.Rows[i]["AdminName"] == null || dt.Rows[i]["AdminName"].ToString().Trim() == "" ? null : dt.Rows[i]["AdminName"].ToString();
+                        obj.UserName = dt.Rows[i]["UserName"] == null || dt.Rows[i]["UserName"].ToString().Trim() == "" ? null : dt.Rows[i]["UserName"].ToString();
                         obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
                         obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
                         obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
@@ -467,9 +468,9 @@ namespace InvoiceManagementSystem.Controllers
                         errorMessage = errorMessage + "<br>Title should not be blank.";
                     }
 
-                    cls.AdminName = dt.Rows[i][1].ToString();
+                    cls.UserName = dt.Rows[i][1].ToString();
 
-                    if (cls.AdminName == "")
+                    if (cls.UserName == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Admin name should not be blank.";
@@ -549,8 +550,8 @@ namespace InvoiceManagementSystem.Controllers
                         status = false;
                         errorMessage = errorMessage + "<br>DateOfJoining should not be blank.";
                     }
-                    cls.ClassNo = dt.Rows[i][12].ToString();
-                    if (cls.ClassNo == "")
+                    cls.SchoolName = dt.Rows[i][12].ToString();
+                    if (cls.SchoolName == "")
                     {
                         status = false;
                         errorMessage = errorMessage + "<br>Class should not be blank.";
@@ -776,6 +777,19 @@ namespace InvoiceManagementSystem.Controllers
                 {
                     toEmail = TempEmail[i];
                     var Role = commonobj.getRoleNameFromSession();
+                    string RoleName = null;
+                    if (Role == "SuperAdmin")
+                    {
+                        RoleName = "Admin";
+                    }
+                    else if(Role == "Admin")
+                        {
+                        RoleName = "Teacher";
+                    }
+                    else if (Role == "Teacher")
+                    {
+                         RoleName = "Student";
+                    }
                     var Password = clsCommon.DecryptString(data.LSTAdminList[i].Password);
                     string subject = "Registration Successfully.";
                     string body = "";
@@ -794,15 +808,15 @@ namespace InvoiceManagementSystem.Controllers
                     }
                     else
                     {
-                        imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("/Data/Profile/" + data.LSTAdminList[i].ProfileImg)));
-                        imagePath = Server.MapPath("/Data/Profile/" + data.LSTAdminList[i].ProfileImg);
+                        imageBase64 = Convert.ToBase64String(System.IO.File.ReadAllBytes(Server.MapPath("/Data/AdminProfile/" + data.LSTAdminList[i].ProfileImg)));
+                        imagePath = Server.MapPath("/Data/AdminProfile/" + data.LSTAdminList[i].ProfileImg);
                     }
 
                     body = body.Replace("[[Profile]]", $"cid:logoImage");
-                    body = body.Replace("[[UserName]]", data.LSTAdminList[i].AdminName);
+                    body = body.Replace("[[UserName]]", data.LSTAdminList[i].UserName);
                     body = body.Replace("[[EmailId]]", data.LSTAdminList[i].Email);
                     body = body.Replace("[[Password]]", Password);
-                    body = body.Replace("[[RoleName]]", Role);
+                    body = body.Replace("[[RoleName]]", RoleName);
 
                     sendEmail(toEmail, subject, body, imagePath); // Pass Email instead of toEmail
                     cls.Response = "Success";

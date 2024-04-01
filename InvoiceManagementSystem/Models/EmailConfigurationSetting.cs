@@ -15,6 +15,7 @@ namespace InvoiceManagementSystem.Models
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         public int Id { get; set; }
         public string Host { get; set; }
+        public int RoleId { get; set; }
         public string Rolename { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
@@ -37,6 +38,7 @@ namespace InvoiceManagementSystem.Models
         public int fromEntries { get; set; }
         public Pager Pager { get; set; }
         public List<EmailConfigurationSetting> LSTEmailConfigurationList { get; set; }
+        public List<RoleModel> LSTRoleList { get; set; }
          
         public class TeachersList
         {

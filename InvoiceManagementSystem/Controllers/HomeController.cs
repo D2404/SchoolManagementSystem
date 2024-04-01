@@ -23,7 +23,11 @@ namespace InvoiceManagementSystem.Controllers
             {
                 if (objCommon.getUserIdFromSession() != 0)
                 {
-                    if (objCommon.getUserIdFromSession() == 1)
+                    if (objCommon.getRoleIdFromSession() == 1)
+                    {
+                        cls = cls.GetSAAccountDashboardCount(cls);
+                    }
+                    else if(objCommon.getRoleIdFromSession() == 2)
                     {
                         cls = cls.GetUserAccountDashboardCount(cls);
                     }

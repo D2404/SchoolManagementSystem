@@ -61,7 +61,88 @@ namespace InvoiceManagementSystem.Controllers
 
             }
         }
+        public ActionResult GetSchool(SchoolModel cls)
+        {
+            try
+            {
+                List<SchoolModel> lstClientList = new List<SchoolModel>();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetSchoolList", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
 
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        SchoolModel obj = new SchoolModel();
+
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.SchoolName = dt.Rows[i]["SchoolName"] == null || dt.Rows[i]["SchoolName"].ToString().Trim() == "" ? null : dt.Rows[i]["SchoolName"].ToString();
+
+                        lstClientList.Add(obj);
+                    }
+                }
+                cls.LSTSchoolList = lstClientList;
+
+                return Json(cls, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public ActionResult GetRole(RoleModel cls)
+        {
+            try
+            {
+                List<RoleModel> lstClientList = new List<RoleModel>();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("GetRoleList", conn);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        RoleModel obj = new RoleModel();
+
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.RoleName = dt.Rows[i]["RoleName"] == null || dt.Rows[i]["RoleName"].ToString().Trim() == "" ? null : dt.Rows[i]["RoleName"].ToString();
+
+                        lstClientList.Add(obj);
+                    }
+                }
+                cls.LSTRoleList = lstClientList;
+
+                return Json(cls, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         public ActionResult GetClassRoom(ClassRoomModel cls)
         {
             try

@@ -60,10 +60,10 @@
             <div class="row gx-4">
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        @if (Model.LSTAdminList[0].Id >0)
+                        @if (Model.LSTAdminList[0].Id > 0 || Model.LSTAdminList[0].Id != null)
                         {
                             <h5 class="mb-1">
-                                <i class="fas fa-chalkboard-Admin text-info text-lg opacity-10"></i>&nbsp;&nbsp; Edit Admin
+                                <i class="fas fa-chalkboard-Admin text-info text-lg opacity-10"></i>&nbsp;&nbsp; Add Admin
                             </h5>
                         }
                         else
@@ -202,13 +202,13 @@
                                                 <label for="example-text-input" class="form-control-label">User Name <span class="text-danger">*</span></label>
                                                 @if (Model.LSTAdminList[0].Id > 1)
                                                 {
-                                                    @Html.TextBoxFor(model => model.LSTAdminList[0].UserName, new { @id = "AdminName", @placeholder = "Admin Name.", @class = "form-control form-control-alternative" })
+                                                    @Html.TextBoxFor(model => model.LSTAdminList[0].UserName, new { @id = "UserName", @placeholder = "Admin Name.", @class = "form-control form-control-alternative" })
                                                 }
                                                 else
                                                 {
-                                                    @Html.TextBoxFor(model => Model.UserName, new { @id = "AdminName", @placeholder = "Admin Name.", @class = "form-control form-control-alternative" })
+                                                    @Html.TextBoxFor(model => Model.UserName, new { @id = "UserName", @placeholder = "Admin Name.", @class = "form-control form-control-alternative" })
                                                 }
-                                                <span id="errAdminName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                                <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -419,7 +419,7 @@
                                     </div>
                                     <div class="col-sm-4" id="Schooldiv">
                                         <div class="form-group">
-                                            <label for="basicinput"><b>Assign Class</b><span class="text-danger">*</span></label>
+                                            <label for="basicinput"><b>Assign School</b><span class="text-danger">*</span></label>
                                             @if (Model.LSTAdminList[0].Id > 1)
                                             {
                                                 <input type="hidden" id="hdnSchoolId" value="@Model.LSTAdminList[0].SchoolId" />

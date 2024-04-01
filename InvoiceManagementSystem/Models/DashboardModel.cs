@@ -15,6 +15,8 @@ namespace InvoiceManagementSystem.Models
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         public int Id { get; set; }
         public int TotalClassRoom { get; set; }
+        public int TotalSchool { get; set; }
+        public int TotalAdmin { get; set; }
         public int TotalStudent { get; set; }
         public int TotalTeacher { get; set; }
         public int ThisMonthCollection { get; set; }
@@ -50,6 +52,41 @@ namespace InvoiceManagementSystem.Models
         public List<DashboardModel> LSTTeacherList { get; set; }
         public List<DashboardModel> LSTStudentList { get; set; }
 
+
+        public DashboardModel GetSAAccountDashboardCount(DashboardModel cls)
+        {
+            try
+            {
+                List<DashboardModel> LSTList = new List<DashboardModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("GetSADashboardCountList", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                conn.Close();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        DashboardModel obj = new DashboardModel();
+                        obj.TotalSchool = Convert.ToInt32(dt.Rows[i]["TotalSchool"] == null || dt.Rows[i]["TotalSchool"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalSchool"].ToString());
+                        obj.TotalAdmin = Convert.ToInt32(dt.Rows[i]["TotalAdmin"] == null || dt.Rows[i]["TotalAdmin"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalAdmin"].ToString());
+                        LSTList.Add(obj);
+                    }
+                }
+                cls.LSTDashBoardList = LSTList;
+                return cls;
+            }
+            catch (Exception ex)
+            {
+                if (conn.State == ConnectionState.Open)
+                {
+                    conn.Close();
+                }
+                throw ex;
+            }
+        }
         public DashboardModel GetUserAccountDashboardCount(DashboardModel cls)
         {
             try

@@ -54,6 +54,7 @@
                                          new List<SelectListItem>
                                          {
                                              new SelectListItem { Text = "Select Role", Value = "0" },
+                                             new SelectListItem { Text = "SuperAdmin", Value = "SuperAdmin", Selected = Model.LSTEmailConfigurationList[0].Rolename == "SuperAdmin" },
                                              new SelectListItem { Text = "Admin", Value = "Admin", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Admin" },
                                              new SelectListItem { Text = "Teacher", Value = "Teacher", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Teacher" },
                                              new SelectListItem { Text = "Student", Value = "Student", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Student" }
@@ -66,6 +67,7 @@
                                          new List<SelectListItem>
                                          {
                                              new SelectListItem { Text = "Select Role", Value = "0" },
+                                             new SelectListItem { Text = "SuperAdmin", Value = "SuperAdmin" },
                                              new SelectListItem { Text = "Admin", Value = "Admin" },
                                              new SelectListItem { Text = "Teacher", Value = "Teacher"},
                                              new SelectListItem { Text = "Student", Value = "Student"}
