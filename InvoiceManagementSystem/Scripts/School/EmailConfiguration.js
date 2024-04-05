@@ -58,12 +58,10 @@ function GetEmailConfigurationList(page) {
 function ExportEmailConfiguration() {
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
-    var intActive = document.getElementById('intActive').value;
     
     var cls = {
         Id: Id,
         SearchText: SearchText,
-        intActive: intActive,
     };
 
     ShowWait();
@@ -340,13 +338,15 @@ function RoleType() {
     debugger
     var Role = $('#RoleId').val();
     if (Role === "Admin") {
-        onUser();
+        GetAdmin();
+        adminDiv.style.display = "block";
         teacherDiv.style.display = "none";
         teacher1Div.style.display = "none";
         studentDiv.style.display = "none";
     }
     else if(Role === "Teacher")
     {
+        adminDiv.style.display = "none";
         teacher1Div.style.display = "none";
         teacherDiv.style.display = "block";
         studentDiv.style.display = "none";
@@ -355,6 +355,7 @@ function RoleType() {
     }
     else {
         GetTeacher1();
+        adminDiv.style.display = "none";
         teacherDiv.style.display = "none";
         teacher1Div.style.display = "block";
         studentDiv.style.display = "block";
@@ -384,6 +385,28 @@ function GetTeacher() {
         }
     });
 }
+function GetAdmin() {
+    var cls = {
+    }
+    $.ajax({
+        url: '/Common/GetAdmin',
+        contentType: "application/json; charset=utf-8",
+        type: "GET",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            debugger
+            var html = "";
+            html = html + ' <option value="0" selected>Select Admin</option>';
+            for (var i = 0; i < data.LSTAdminList.length; i++) {
+                html = html + '<option value="' + data.LSTAdminList[i].Id + '">' + data.LSTAdminList[i].FullName + '</option>';
+                $("#AdminId").empty();
+                $("#AdminId").append(html);
+            }
+        }
+    });
+}
 function GetTeacher1() {
     var cls = {
     }
@@ -406,11 +429,12 @@ function GetTeacher1() {
         }
     });
 }
-function onUser() {
-    var UserId = $('#UserId').val();
+function onAdmin() {
+    debugger
+    var AdminId = $('#AdminId').val();
     $.ajax({
         type: "GET",
-        url: '/Common/LoadUser?UserId=' + UserId,
+        url: '/Common/LoadUser?AdminId=' + AdminId,
         async: false,
         contentType: "application/json; charset=utf-8",
         dataType: "json",

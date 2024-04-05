@@ -1,18 +1,7 @@
 ﻿
-@{
-    ViewBag.Title = "Fees Master";
-}
+@{ ViewBag.Title = "Fees Master"; }
 
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-    <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-            <h6 class="font-weight-bolder text-white mb-0"style="margin-top:25px"> <i class="ni ni-money-coins text-warning text-lg opacity-10"></i>&nbsp;&nbsp;&nbsp;Manage Fees Details</h6>
-        </nav>
-    </div>
-</nav>
 <div class="row" id="FilterDiv" style="margin-left:19px">
-    
-
     <div class="col-sm-6 col-md-3">
         <div class="form-group form-focus">
             <select data-placeholder="Select here.." id="ddlClassId" class="select2-single-placeholder form-control" style="width: 100%"></select>
@@ -37,127 +26,134 @@
     </div>
 </div>
 
-<div class="row">
-
-    <div style="margin-left:878px">
-        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" title="Filter"><i class="fa fa-filter"></i></a>
-        @*<a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="margin-left: 843px; margin-bottom: -64px;"><i class="fa fa-filter"></i></a>*@
-    <a class="btn bg-gradient-info" title="Add Fees" data-bs-toggle="modal" data-bs-target="#Fees" onclick="Clear()">Add Fees</a>
-    </div>
-</div>
-
-
-
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <div class="dataTables_length" id="DataTables_Table_0_length">
-                <label style="color:white">
-                    Show
-                    <select id="PageSize" onchange="GetSubjectList(1)" class="drpselect">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select> entries
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6><i class="ni ni-money-coins text-warning text-lg opacity-10"></i> &nbsp; &nbsp;Fees Details List</h6>
-                </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <div id="tblBody"></div>
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">
+                            <i class="ni ni-money-coins text-warning text-lg"></i>&nbsp;&nbsp;Manage Class Wise Fees Details
+                        </h5>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="Fees" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add Fees</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:black">&times;</span>
-                </button>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="dataTables_length" id="DataTables_Table_0_length">
+                    <label style="color:white">
+                        Show
+                        <select id="PageSize" onchange="GetFeesList(1)" class="drpselect">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select> entries
+                    </label>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label for="basicinput"><b>Class Room</b></label>
-                            <select class="form-control" id="ClassId">
-                                <option value="0">Select ClassRoom</option>
-                            </select>
-                        </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6><i class="ni ni-money-coins text-warning text-lg opacity-10"></i> &nbsp; &nbsp;Class Wise Fees Details List</h6>
+                        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" style="margin-left: 700px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
+                        <a class="btn bg-gradient-info" title="Add Fees" data-bs-toggle="modal" data-bs-target="#Fees" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add Fees</a>
+                        <a class="btn bg-gradient-secondary" title="Export ClassRoom" onclick="ExportFees()" style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">Monthly Fees<span class="text-danger">*</span></label>
-                            <input class="form-control form-control-alternative" type="text" id="Monthly" placeholder="Enter Monthly Fees">
-                            <span id="errMonthly" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">Yearly Fees<span class="text-danger">*</span></label>
-                            <input class="form-control form-control-alternative" type="text" id="Yearly" placeholder="Enter Yearly Fees">
-                            <span id="errYearly" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <div id="tblBody"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Add</button>
-                <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)">Clear</button>
-                <input type="hidden" id="hdnintId" value="0" />
+        </div>
+    </div>
+    <div class="modal fade" id="Fees" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add Fees</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="basicinput"><b>Class Room</b></label>
+                                <select class="form-control" id="ClassId">
+                                    <option value="0">Select ClassRoom</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Monthly Fees<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-alternative" type="text" id="Monthly" placeholder="Enter Monthly Fees">
+                                <span id="errMonthly" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">Yearly Fees<span class="text-danger">*</span></label>
+                                <input class="form-control form-control-alternative" type="text" id="Yearly" placeholder="Enter Yearly Fees">
+                                <span id="errYearly" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Add</button>
+                    <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)">Clear</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="delete_Fees" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:174px"><span id="PopupTitle">Delete Fees</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"style="color:black">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Fees ?.</p>
-            </div>
-            <div class="modal-footer"style="padding-right: 166px">
-                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteFees()">Delete</button>
-                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-                <input type="hidden" id="hdnintId" value="0" />
+    <div class="modal fade" id="delete_Fees" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:174px"><span id="PopupTitle">Delete Fees</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Fees ?.</p>
+                </div>
+                <div class="modal-footer" style="padding-right: 166px">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteFees()">Delete</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:black">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to change status?</p>
-            </div>
-            <div class="modal-footer" style="padding-right: 146px">
-                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
-                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+    <div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to change status?</p>
+                </div>
+                <div class="modal-footer" style="padding-right: 146px">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
 
+                </div>
             </div>
         </div>
     </div>

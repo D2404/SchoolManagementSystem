@@ -219,13 +219,36 @@ namespace InvoiceManagementSystem.Models
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
-                        // HTML Tags Code Remove.
-                        dr["Rolename"] = Regex.Replace(dr["Rolename"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
-                        dr["Username"] = Regex.Replace(dr["Username"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
-                        dr["FromMail"] = Regex.Replace(dr["FromMail"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
-                        dr["Password"] = Regex.Replace(dr["Password"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
-                        dr["StudentName"] = Regex.Replace(dr["StudentName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
-                        dr["TeacherName"] = Regex.Replace(dr["TeacherName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        if (cls.TeacherId == 0 && cls.StudentId == 0)
+                        {// HTML Tags Code Remove.
+                            dr["Rolename"] = Regex.Replace(dr["Rolename"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Username"] = Regex.Replace(dr["Username"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["FromMail"] = Regex.Replace(dr["FromMail"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Password"] = Regex.Replace(dr["Password"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Host"] = Regex.Replace(dr["Host"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Port"] = Regex.Replace(dr["Port"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        }
+                        else if (cls.TeacherId != 0 && cls.StudentId == 0)
+                        {
+                            dr["Rolename"] = Regex.Replace(dr["Rolename"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Username"] = Regex.Replace(dr["Username"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["FromMail"] = Regex.Replace(dr["FromMail"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Password"] = Regex.Replace(dr["Password"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Host"] = Regex.Replace(dr["Host"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Port"] = Regex.Replace(dr["Port"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["TeacherName"] = Regex.Replace(dr["TeacherName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        }
+                        else
+                        {
+                            dr["Rolename"] = Regex.Replace(dr["Rolename"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Username"] = Regex.Replace(dr["Username"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["FromMail"] = Regex.Replace(dr["FromMail"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Password"] = Regex.Replace(dr["Password"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Host"] = Regex.Replace(dr["Host"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["Port"] = Regex.Replace(dr["Port"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["StudentName"] = Regex.Replace(dr["StudentName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                            dr["TeacherName"] = Regex.Replace(dr["TeacherName"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        }
                     }
                 }
 

@@ -1,71 +1,72 @@
 ﻿
-@{
-    ViewBag.Title = "Fees History Collection";
-}
+@{ ViewBag.Title = "Fees History Collection"; }
 
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-    <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-            <h6 class="font-weight-bolder text-white mb-0"><i class="fa fa-inr text-primary text-lg opacity-10"></i>&nbsp;&nbsp;&nbsp;Fees Collection History List</h6>
-        </nav>
-    </div>
-</nav>
-
-<br />
-<br />
-<br />
-
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <div class="dataTables_length" id="DataTables_Table_0_length">
-                <label style="color:white">
-                    Show
-                    <select id="PageSize" onchange="GetFeesHistoryList(1)" class="drpselect">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select> entries
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6><i class="fa fa-inr text-primary text-lg opacity-10"></i>&nbsp;&nbsp;&nbsp;Fees History List</h6>
-                </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <div id="tblBody"></div>
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">
+                            <i class="fa fa-inr text-primary text-lg opacity-10"></i>&nbsp;&nbsp;Manage Fees History
+                        </h5>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="delete_FeesHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete Fees History</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:black">&times;</span>
-                </button>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="dataTables_length" id="DataTables_Table_0_length">
+                    <label style="color:white">
+                        Show
+                        <select id="PageSize" onchange="GetFeesHistoryList(1)" class="drpselect">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select> entries
+                    </label>
+                </div>
             </div>
-            <div class="modal-body">
-                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Fees History ?.</p>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6><i class="fa fa-inr text-primary text-lg opacity-10"></i>&nbsp;&nbsp;&nbsp;Fees History List</h6>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <div id="tblBody"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete_FeesHistory" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete Fees History</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Fees History ?.</p>
+                </div>
 
-            <div class="modal-footer" style="padding-right: 166px">
+                <div class="modal-footer" style="padding-right: 166px">
 
-                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteFeesHistory()">Delete</button>
-                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-                <input type="hidden" id="hdnintId" value="0" />
-                <input type="hidden" id="hdnstudentid" value="0" />
-                <input type="hidden" id="hdnmonthid" value="0" />
+                    <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteFeesHistory()">Delete</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                    <input type="hidden" id="hdnstudentid" value="0" />
+                    <input type="hidden" id="hdnmonthid" value="0" />
+                </div>
             </div>
         </div>
     </div>

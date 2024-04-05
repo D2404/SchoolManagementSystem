@@ -54,7 +54,6 @@
                                          new List<SelectListItem>
                                          {
                                              new SelectListItem { Text = "Select Role", Value = "0" },
-                                             new SelectListItem { Text = "SuperAdmin", Value = "SuperAdmin", Selected = Model.LSTEmailConfigurationList[0].Rolename == "SuperAdmin" },
                                              new SelectListItem { Text = "Admin", Value = "Admin", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Admin" },
                                              new SelectListItem { Text = "Teacher", Value = "Teacher", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Teacher" },
                                              new SelectListItem { Text = "Student", Value = "Student", Selected = Model.LSTEmailConfigurationList[0].Rolename == "Student" }
@@ -67,7 +66,6 @@
                                          new List<SelectListItem>
                                          {
                                              new SelectListItem { Text = "Select Role", Value = "0" },
-                                             new SelectListItem { Text = "SuperAdmin", Value = "SuperAdmin" },
                                              new SelectListItem { Text = "Admin", Value = "Admin" },
                                              new SelectListItem { Text = "Teacher", Value = "Teacher"},
                                              new SelectListItem { Text = "Student", Value = "Student"}
@@ -75,6 +73,16 @@
                                          new { @id = "RoleId", @class = "form-control form-control-alternative", onchange = "RoleType()" })
                                     }
                                     <span id="errRole" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" id="adminDiv" style="display:none">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Admin</b><span class="text-danger">*</span></label>
+
+                                    <select class="form-control form-control-alternative" id="AdminId" onchange="onAdmin();">
+                                        <option value="0">Select Admin..</option>
+                                    </select>
+                                    <span id="errUser" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                 </div>
                             </div>
                             <div class="col-sm-6" id="teacherDiv" style="display:none">
@@ -117,7 +125,7 @@
                                         }
                                         else
                                         {
-                                            <span class="form-control form-control-alternative" id="UserName" placeholder = "User Name" name="UserName" disabled style="height:38px"></span>
+                                            <span class="form-control form-control-alternative" id="UserName" placeholder="User Name" name="UserName" disabled style="height:38px"></span>
                                         }
                                     </div>
                                 </div>
@@ -130,7 +138,7 @@
                                         }
                                         else
                                         {
-                                            <span class="form-control form-control-alternative" id="FromMail" placeholder = "Email" name="FromMail" disabled style="height:38px"></span>
+                                            <span class="form-control form-control-alternative" id="FromMail" placeholder="Email" name="FromMail" disabled style="height:38px"></span>
                                         }
                                     </div>
                                 </div>
@@ -169,5 +177,6 @@
             </div>
         </div>
     </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="~/Scripts/School/EmailConfiguration.js"></script>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/School/EmailConfiguration.js"></script>

@@ -1,13 +1,7 @@
 ﻿@{
     ViewBag.Title = "ClassRoom";
 }
-<nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
-    <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-            <h6 class="font-weight-bolder text-white mb-0" style="margin-top:25px"><i class="fa fa-home text-primary text-lg" style="color:white"></i>&nbsp;&nbsp;Manage ClassRoom</h6>
-        </nav>
-    </div>
-</nav>
+
 <div class="row" id="FilterDiv" style="margin-left:19px">
     <div class="col-sm-6 col-md-3">
         <div class="form-group form-focus">
@@ -30,118 +24,128 @@
         <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)">Clear</a>
     </div>
 </div>
-<div class="row">
-    <div style="margin-left:668px">
-        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" title="Filter"><i class="fa fa-filter"></i></a>
-        <a class="btn bg-gradient-info" title="Add ClassRoom" data-bs-toggle="modal" data-bs-target="#ClassRoom" onclick="Clear()">&nbsp;Add ClassRoom </a>
-        <a class="btn bg-gradient-secondary" title="Export ClassRoom" onclick="ExportClassRoom()">&nbsp;Export</a>
-    </div>
-</div>
-<div class="container-fluid py-4">
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <div class="dataTables_length" id="DataTables_Table_0_length">
-                <label style="color:white">
-                    Show
-                    <select id="PageSize" onchange="GetClassRoomList(1)" class="drpselect">
-                        <option value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    entries
-                </label>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card mb-4">
-                <div class="card-header pb-0">
-                    <h6><i class="fa fa-home text-primary text-lg"></i>&nbsp;&nbsp;ClassRoom List</h6>
-                </div>
-                <div class="card-body px-0 pt-0 pb-2">
-                    <div class="table-responsive p-0">
-                        <div id="tblBody"></div>
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">
+                            <i class="fas fa-calendar-check-o text-primary text-lg"></i>&nbsp;&nbsp;Manage ClassRoom
+                        </h5>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="modal fade" id="ClassRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add ClassRoom</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:black">&times;</span>
-                </button>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="dataTables_length" id="DataTables_Table_0_length">
+                    <label style="color:white">
+                        Show
+                        <select id="PageSize" onchange="GetClassRoomList(1)" class="drpselect">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        entries
+                    </label>
+                </div>
             </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="example-text-input" class="form-control-label">ClassRoom Name <span class="text-danger">*</span></label>
-                            <input class="form-control" type="text" id="ClassNo" placeholder="Enter Class No">
-                            <span id="errClassNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h6><i class="fa fa-home text-primary text-lg"></i>&nbsp;&nbsp;ClassRoom List</h6>
+                        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" style="margin-left: 650px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
+                        <a class="btn bg-gradient-info" title="Add ClassRoom" data-bs-toggle="modal" data-bs-target="#ClassRoom" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add ClassRoom</a>
+                        <a class="btn bg-gradient-secondary" title="Export ClassRoom" onclick="ExportClassRoom()" style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <div id="tblBody"></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()"><i class="fa fa-save" style="color:white"></i>&nbsp;Add</button>
-                <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)"><i class="fa fa-remove" style="color:white"></i>&nbsp;Clear</button>
-                <input type="hidden" id="hdnintId" value="0" />
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="ClassRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add ClassRoom</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="example-text-input" class="form-control-label">ClassRoom Name <span class="text-danger">*</span></label>
+                                <input class="form-control" type="text" id="ClassNo" placeholder="Enter Class No">
+                                <span id="errClassNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()"><i class="fa fa-save" style="color:white"></i>&nbsp;Add</button>
+                    <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)"><i class="fa fa-remove" style="color:white"></i>&nbsp;Clear</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="delete_ClassRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete ClassRoom</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this ClassRoom ?.</p>
+                </div>
+                <div class="modal-footer" style="padding-right: 166px">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteClassRoom()">Delete</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to change status?</p>
+                </div>
+                <div class="modal-footer" style="padding-right: 146px">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="delete_ClassRoom" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete ClassRoom</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true" style="color:black">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this ClassRoom ?.</p>
-            </div>
-            <div class="modal-footer" style="padding-right: 166px">
-                <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteClassRoom()">Delete</button>
-                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-                <input type="hidden" id="hdnintId" value="0" />
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to change status?</p>
-            </div>
-            <div class="modal-footer" style="padding-right: 146px">
-                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
-                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
-<script src="~/Scripts/School/ClassRoom.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="~/Scripts/School/ClassRoom.js"></script>
 

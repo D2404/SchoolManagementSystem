@@ -221,6 +221,48 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
+        public ActionResult GetAdmin(AdminModel cls)
+        {
+            try
+            {
+                List<AdminModel> lstClientList = new List<AdminModel>();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("LoadAdminDropdown", conn);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                //cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        AdminModel obj = new AdminModel();
+
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
+
+                        lstClientList.Add(obj);
+                    }
+                }
+                cls.LSTAdminList = lstClientList;
+
+                return Json(cls, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         public ActionResult GetTeacher(TeacherModel cls)
         {
             try
@@ -297,7 +339,7 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
-        public ActionResult LoadUser(int UserId)
+        public ActionResult LoadUser(int AdminId)
         {
             try
             {
@@ -308,7 +350,7 @@ namespace InvoiceManagementSystem.Controllers
                 SqlCommand cmd = new SqlCommand("sp_LoadUserDetail", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.Add("@UserId", UserId);
+                cmd.Parameters.Add("@UserId", AdminId);
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

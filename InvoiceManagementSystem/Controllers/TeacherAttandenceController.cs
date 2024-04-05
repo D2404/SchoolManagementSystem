@@ -183,7 +183,7 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                if (UserId > 1)
+                if (UserId > 2)
                 {
                     cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 }

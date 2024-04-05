@@ -86,7 +86,7 @@ namespace InvoiceManagementSystem.Models
             {
                 if (cls.Profile != null && cls.Profile.Length > 0)
                 {
-                    string Profile = ("Profile_" + cls.Id + "_" + DateTime.Now.Ticks).ToString();
+                    string Profile = ("TeacherProfile_" + cls.Id + "_" + DateTime.Now.Ticks).ToString();
                     string strOriginalFile = cls.Profile[0].FileName;
                     string ext = System.IO.Path.GetExtension(cls.Profile[0].FileName).ToLower();
                     string fileLocation = HttpContext.Current.Server.MapPath("/Data/Profile/");

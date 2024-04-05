@@ -283,7 +283,7 @@ function ValidateBasicDetails(id) {
     var AnniversaryDate = $('#AnniversaryDate').val();
     var Experience = $('#Experience').val();
     var RoleId = 2
-    if (Title === 0) {
+    if (Title === 0 || Title === "0") {
         $("#errTitle").html("Please select title");
         val = false;
     }
@@ -300,11 +300,11 @@ function ValidateBasicDetails(id) {
         $("#errSurname").html("Please enter surname.");
         val = false;
     }
-    if (Gender === 0) {
+    if (Gender === 0 || Gender === "0") {
         $("#errGender").html("Please select gender.");
         val = false;
     }
-    if (BloodGroup === 0) {
+    if (BloodGroup === 0 || BloodGroup === "0") {
         $("#errBloodGroup").html("Please select bloodroup.");
         val = false;
     }
@@ -328,7 +328,7 @@ function ValidateBasicDetails(id) {
         $("#errDateOfJoining").html("Please select DateOfJoining.");
         val = false;
     }
-    if (MaritalStatus === 0) {
+    if (MaritalStatus === 0 || MaritalStatus === "0" ) {
         $("#errMaritalStatus").html("Please select maritalstatus.");
         val = false;
     }
@@ -343,7 +343,7 @@ function ValidateBasicDetails(id) {
     }
 
     if (Id === "1") {
-        if (ClassId === 0) {
+        if (ClassId === 0 || ClassId === "0") {
             $("#errClassId").html("Please select classroom");
             val = false;
         }
@@ -353,7 +353,9 @@ function ValidateBasicDetails(id) {
 
         if (hdnfile === null || hdnfile === "" || hdnfile === undefined) {
             
-                var Profile = document.getElementById('Profile').value;
+            var Profile = document.getElementById('Profile').value;
+            if (ClassId === 0 || ClassId === "0") {
+
                 if (Profile === null || Profile === "") {
                     $("#errProfile").html('Please select profile.');
                     return;
@@ -370,7 +372,7 @@ function ValidateBasicDetails(id) {
                             return;
                         }
                     }
-                
+                }
             }
         }
         else {
