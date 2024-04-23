@@ -10,12 +10,12 @@ using System.Web;
 
 namespace InvoiceManagementSystem.Models
 {
-    public class ClassRoomModel
+    public class SectionModel
     {
         clsCommon objCommon = new clsCommon();
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         public int Id { get; set; }
-        public string ClassNo { get; set; }
+        public string SectionNo { get; set; }
         public bool IsActive { get; set; }
         public int intActive { get; set; }
         public string Response { get; set; }
@@ -32,17 +32,17 @@ namespace InvoiceManagementSystem.Models
 
         public Pager Pager { get; set; }
 
-        public List<ClassRoomModel> LSTClassRoomList { get; set; }
+        public List<SectionModel> LSTSectionList { get; set; }
 
-        public ClassRoomModel addClassRoom(ClassRoomModel cls)
+        public SectionModel addSection(SectionModel cls)
         {
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("AddUpdateClassRoom", conn);
+                SqlCommand cmd = new SqlCommand("AddUpdateSection", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cls.Id);
-                cmd.Parameters.AddWithValue("@ClassNo", cls.ClassNo);
+                cmd.Parameters.AddWithValue("@Section", cls.SectionNo);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
@@ -82,13 +82,13 @@ namespace InvoiceManagementSystem.Models
             return cls;
         }
 
-        public ClassRoomModel GetClassRoom(ClassRoomModel cls)
+        public SectionModel GetSection(SectionModel cls)
         {
             try
             {
-                List<ClassRoomModel> LSTList = new List<ClassRoomModel>();
+                List<SectionModel> LSTList = new List<SectionModel>();
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetSingleClassRoom", conn);
+                SqlCommand cmd = new SqlCommand("sp_GetSingleSection", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cls.Id);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -99,13 +99,13 @@ namespace InvoiceManagementSystem.Models
                 {
                     for (var i = 0; i < dt.Rows.Count; i++)
                     {
-                        ClassRoomModel obj = new ClassRoomModel();
+                        SectionModel obj = new SectionModel();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.SectionNo = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
                         LSTList.Add(obj);
                     }
                 }
-                cls.LSTClassRoomList = LSTList;
+                cls.LSTSectionList = LSTList;
                 return cls;
             }
             catch (Exception ex)
@@ -119,12 +119,12 @@ namespace InvoiceManagementSystem.Models
         }
 
      
-        public ClassRoomModel deleteClassRoom(ClassRoomModel cls)
+        public SectionModel deleteSection(SectionModel cls)
         {
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_DeleteClassRoom", conn);
+                SqlCommand cmd = new SqlCommand("sp_DeleteSection", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@Id", cls.Id);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -152,14 +152,14 @@ namespace InvoiceManagementSystem.Models
             return cls;
         }
 
-        public string UpdateStatus(ClassRoomModel cls)
+        public string UpdateStatus(SectionModel cls)
         {
             var Status = "";
             try
             {
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_UpdateClassRoomStatus", conn);
+                SqlCommand cmd = new SqlCommand("sp_UpdateSectionStatus", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cls.Id);
                 //cmd.Parameters.Add("@intLoginUser", SqlDbType.Int).Value = LoginUser;
@@ -179,14 +179,14 @@ namespace InvoiceManagementSystem.Models
             return Status;
         }
 
-        public DataTable ExportClassRoom(ClassRoomModel cls)
+        public DataTable ExportSection(SectionModel cls)
         {
             try
             {
-                List<ClassRoomModel> LSTList = new List<ClassRoomModel>();
+                List<SectionModel> LSTList = new List<SectionModel>();
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
-                cmd.Parameters.AddWithValue("@Mode", 1);
+                cmd.Parameters.AddWithValue("@Mode", 10);
                 cmd.Parameters.AddWithValue("@Search",cls.SearchText);
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
@@ -201,7 +201,7 @@ namespace InvoiceManagementSystem.Models
                     foreach (DataRow dr in dt.Rows)
                     {
                         // HTML Tags Code Remove.
-                        dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Section"] = Regex.Replace(dr["Section"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                     }
                 }
 

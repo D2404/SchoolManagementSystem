@@ -10,12 +10,15 @@ using System.Web;
 
 namespace InvoiceManagementSystem.Models
 {
-    public class ClassRoomModel
+    public class ClassSectionModel
     {
         clsCommon objCommon = new clsCommon();
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         public int Id { get; set; }
+        public int ClassRoomId { get; set; }
+        public int SectionId { get; set; }
         public string ClassNo { get; set; }
+        public string Section { get; set; }
         public bool IsActive { get; set; }
         public int intActive { get; set; }
         public string Response { get; set; }
@@ -32,17 +35,18 @@ namespace InvoiceManagementSystem.Models
 
         public Pager Pager { get; set; }
 
-        public List<ClassRoomModel> LSTClassRoomList { get; set; }
+        public List<ClassSectionModel> LSTClassSectionList { get; set; }
 
-        public ClassRoomModel addClassRoom(ClassRoomModel cls)
+        public ClassSectionModel addClassSection(ClassSectionModel cls)
         {
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("AddUpdateClassRoom", conn);
+                SqlCommand cmd = new SqlCommand("AddUpdateClassSection", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cls.Id);
-                cmd.Parameters.AddWithValue("@ClassNo", cls.ClassNo);
+                cmd.Parameters.AddWithValue("@ClassRoomId", cls.ClassRoomId);
+                cmd.Parameters.AddWithValue("@SectionId", cls.SectionId);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
@@ -82,13 +86,13 @@ namespace InvoiceManagementSystem.Models
             return cls;
         }
 
-        public ClassRoomModel GetClassRoom(ClassRoomModel cls)
+        public ClassSectionModel GetClassSection(ClassSectionModel cls)
         {
             try
             {
-                List<ClassRoomModel> LSTList = new List<ClassRoomModel>();
+                List<ClassSectionModel> LSTList = new List<ClassSectionModel>();
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetSingleClassRoom", conn);
+                SqlCommand cmd = new SqlCommand("sp_GetSingleClassSection", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cls.Id);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -99,13 +103,14 @@ namespace InvoiceManagementSystem.Models
                 {
                     for (var i = 0; i < dt.Rows.Count; i++)
                     {
-                        ClassRoomModel obj = new ClassRoomModel();
+                        ClassSectionModel obj = new ClassSectionModel();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.Section = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
                         LSTList.Add(obj);
                     }
                 }
-                cls.LSTClassRoomList = LSTList;
+                cls.LSTClassSectionList = LSTList;
                 return cls;
             }
             catch (Exception ex)
@@ -119,12 +124,12 @@ namespace InvoiceManagementSystem.Models
         }
 
      
-        public ClassRoomModel deleteClassRoom(ClassRoomModel cls)
+        public ClassSectionModel deleteClassSection(ClassSectionModel cls)
         {
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_DeleteClassRoom", conn);
+                SqlCommand cmd = new SqlCommand("sp_DeleteClassSection", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@Id", cls.Id);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -152,14 +157,14 @@ namespace InvoiceManagementSystem.Models
             return cls;
         }
 
-        public string UpdateStatus(ClassRoomModel cls)
+        public string UpdateStatus(ClassSectionModel cls)
         {
             var Status = "";
             try
             {
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_UpdateClassRoomStatus", conn);
+                SqlCommand cmd = new SqlCommand("sp_UpdateClassSectionStatus", conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cls.Id);
                 //cmd.Parameters.Add("@intLoginUser", SqlDbType.Int).Value = LoginUser;
@@ -179,11 +184,11 @@ namespace InvoiceManagementSystem.Models
             return Status;
         }
 
-        public DataTable ExportClassRoom(ClassRoomModel cls)
+        public DataTable ExportClassSection(ClassSectionModel cls)
         {
             try
             {
-                List<ClassRoomModel> LSTList = new List<ClassRoomModel>();
+                List<ClassSectionModel> LSTList = new List<ClassSectionModel>();
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("ExportToExcel", conn);
                 cmd.Parameters.AddWithValue("@Mode", 1);
@@ -202,6 +207,7 @@ namespace InvoiceManagementSystem.Models
                     {
                         // HTML Tags Code Remove.
                         dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["Section"] = Regex.Replace(dr["Section"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                     }
                 }
 

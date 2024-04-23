@@ -569,5 +569,37 @@ namespace InvoiceManagementSystem.Models
             }
             return cls;
         }
+
+        public FeesModel FillClassRoomList(FeesModel cls)
+        {
+            try
+            {
+                List<FeesModel> LSTList = new List<FeesModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetClassRoomBySchool", conn);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.CommandType = CommandType.StoredProcedure;
+                SqlDataAdapter adp = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                adp.Fill(dt);
+                conn.Close();
+                if (dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        FeesModel obj = new FeesModel();
+                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        LSTList.Add(obj);
+                    }
+                }
+                cls.LSTFeesList = LSTList;
+                return cls;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

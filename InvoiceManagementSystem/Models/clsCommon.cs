@@ -98,6 +98,15 @@ namespace InvoiceManagementSystem.Models
                 throw ex;
             }
         }
+        public string getAcademicYearFromSession()
+        {
+            string Id = "";
+            if (HttpContext.Current.Session["AcademicYear"] != null && HttpContext.Current.Session["AcademicYear"] != "")
+            {
+                Id = (string)HttpContext.Current.Session["AcademicYear"];
+            }
+            return Id;
+        }
         public int? getUserIdFromSession()
         {
             int? Id = 0;

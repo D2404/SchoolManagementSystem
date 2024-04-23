@@ -1,0 +1,161 @@
+﻿@{
+    ViewBag.Title = "ClassSection";
+}
+
+<div class="row" id="FilterDiv" style="margin-left:19px">
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus">
+            <input type="text" class="form-control form-control-alternative" id="SearchText" placeholder="Search" maxlength="50">
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus">
+            <select data-placeholder="Select here.." id="ddlClassId" class="select2-single-placeholder form-control form-control-alternative" style="width: 100%"></select>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-3">
+        <div class="form-group form-focus select-focus">
+            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control form-control-alternative floating">
+                <option value="3">Select Status</option>
+                <option value="1">Active</option>
+                <option value="2">In-Active</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-1">
+        <a href="#" class="btn bg-gradient-success btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="top" title="Search" data-container="body" data-animation="true" onclick="GetClassSectionList(1)"><i class="fa fa-search" style="color:white"></i></a>
+    </div>
+    <div class="col-sm-3 col-md-1">
+        <a class="btn bg-gradient-secondary" title="Clear" onclick="ClearData(2)"><i class="fa fa-remove" style="color:white"></i></a>
+    </div>
+</div>
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        <h5 class="mb-1">
+                            <i class="fas fa-book text-success text-lg"></i>&nbsp;&nbsp;Manage ClassSection
+                        </h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <div class="dataTables_length" id="DataTables_Table_0_length">
+                    <label style="color:white">
+                        Show
+                        <select id="PageSize" onchange="GetClassSectionList(1)" class="drpselect">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                        entries
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        <h5><i class="fa fa-book text-success text-lg"></i>&nbsp;&nbsp;Class-Section List</h5>
+                        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" style="margin-left: 664px; margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
+                        <a class="btn bg-gradient-info" title="Add ClassSection" data-bs-toggle="modal" data-bs-target="#ClassSection" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add ClassSection</a>
+                        <a class="btn bg-gradient-secondary" title="Export ClassSection" onclick="ExportClassSection()" style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <div id="tblBody"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ClassSection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add ClassSection</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="basicinput"><b>Class Room</b></label>
+                                <select class="form-control" id="ClassId">
+                                    <option value="0">Select ClassRoom</option>
+                                </select>
+                                <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="basicinput"><b>Section</b></label>
+                                <select class="form-control" id="SectionId">
+                                    <option value="0">Select Section</option>
+                                </select>
+                                <span id="errSectionId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()"><i class="fa fa-save" style="color:white"></i>&nbsp;Add</button>
+                    <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)"><i class="fa fa-remove" style="color:white"></i>&nbsp;Clear</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete_ClassSection" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete ClassSection</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" style="color:black">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this ClassSection ?.</p>
+                </div>
+                <div class="modal-footer" style="padding-right: 166px">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteClassSection()">Delete</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                    <input type="hidden" id="hdnintId" value="0" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="status" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to change status?</p>
+                </div>
+                <div class="modal-footer" style="padding-right: 146px">
+                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="UpdateStatus()">Change</button>
+                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="~/Scripts/School/ClassSection.js"></script>

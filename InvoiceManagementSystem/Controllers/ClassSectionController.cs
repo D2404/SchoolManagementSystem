@@ -13,11 +13,11 @@ using System.Web.Mvc;
 
 namespace InvoiceManagementSystem.Controllers
 {
-    public class ClassRoomController : Controller
+    public class ClassSectionController : Controller
     {
         clsCommon objCommon = new clsCommon();
 
-        public ActionResult ClassRoom()
+        public ActionResult ClassSection()
         {
             if (objCommon.getUserIdFromSession() != 0)
             {
@@ -30,23 +30,23 @@ namespace InvoiceManagementSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult InsertClassRoom(ClassRoomModel model)
+        public ActionResult InsertClassSection(ClassSectionModel model)
         {
-            model = model.addClassRoom(model);
+            model = model.addClassSection(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetClassRoom(ClassRoomModel cls)
+        public ActionResult GetClassSection(ClassSectionModel cls)
         {
             try
             {
                 int TotalEntries = 0;
                 int showingEntries = 0;
                 int startentries = 0;
-                List<ClassRoomModel> lstClassRoomList = new List<ClassRoomModel>();
+                List<ClassSectionModel> lstClassSectionList = new List<ClassSectionModel>();
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
+                SqlCommand cmd = new SqlCommand("Sp_GetClassSectionList", conn);
                 cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
                 cmd.Parameters.AddWithValue("@Search", cls.SearchText);
@@ -67,31 +67,32 @@ namespace InvoiceManagementSystem.Controllers
 
                     for (var i = 0; i < dt.Rows.Count; i++)
                     {
-                        ClassRoomModel obj = new ClassRoomModel();
+                        ClassSectionModel obj = new ClassSectionModel();
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.Section = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
                         obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
                         obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
                         obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstClassRoomList.Add(obj);
+                        lstClassSectionList.Add(obj);
                     }
                 }
-                cls.LSTClassRoomList = lstClassRoomList;
-                if (cls.LSTClassRoomList.Count > 0)
+                cls.LSTClassSectionList = lstClassSectionList;
+                if (cls.LSTClassSectionList.Count > 0)
                 {
-                    var pager = new Models.Pager((int)cls.LSTClassRoomList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
+                    var pager = new Models.Pager((int)cls.LSTClassSectionList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
 
                     cls.Pager = pager;
                 }
                 cls.TotalEntries = TotalEntries;
                 cls.ShowingEntries = showingEntries;
                 cls.fromEntries = startentries;
-                cls.LSTClassRoomList = lstClassRoomList;
+                cls.LSTClassSectionList = lstClassSectionList;
 
-                return PartialView("_ClassRoomListPartial", cls);
+                return PartialView("_ClassSectionListPartial", cls);
 
             }
             catch (Exception ex)
@@ -100,11 +101,11 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetSingleClassRoomData(ClassRoomModel cls)
+        public ActionResult GetSingleClassSectionData(ClassSectionModel cls)
         {
             try
             {
-                cls = cls.GetClassRoom(cls);
+                cls = cls.GetClassSection(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -113,11 +114,11 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult deleteClassRoom(ClassRoomModel cls)
+        public ActionResult deleteClassSection(ClassSectionModel cls)
         {
             try
             {
-                cls = cls.deleteClassRoom(cls);
+                cls = cls.deleteClassSection(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -126,7 +127,7 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult UpdateStatus(ClassRoomModel cls)
+        public ActionResult UpdateStatus(ClassSectionModel cls)
         {
             try
             {
@@ -141,17 +142,17 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult ExpotToExcelClassRoomReport(ClassRoomModel cls)
+        public ActionResult ExpotToExcelClassSectionReport(ClassSectionModel cls)
         {
             try
             {
                 if (objCommon.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = cls.ExportClassRoom(cls);
+                    dt = cls.ExportClassSection(cls);
                     if (dt != null && dt.Rows.Count > 0)
                     {
-                        Session["ExpotToExcelClassRoomReport"] = dt;
+                        Session["ExpotToExcelClassSectionReport"] = dt;
                         return Json("success", JsonRequestBehavior.AllowGet);
                     }
                     else
@@ -171,10 +172,10 @@ namespace InvoiceManagementSystem.Controllers
         }
         public void ExportToExcel()
         {
-            DataTable data = (DataTable)Session["ExpotToExcelClassRoomReport"];
+            DataTable data = (DataTable)Session["ExpotToExcelClassSectionReport"];
 
             string Filepath = Path.Combine(Server.MapPath("~/Data/Item/"));
-            string fileName = "ClassRoomReport" + DateTime.Now.ToString("ddMMyyyymmss");
+            string fileName = "ClassSectionReport" + DateTime.Now.ToString("ddMMyyyymmss");
             string file = Filepath + fileName;
 
             DataTable dtcolumn = new DataTable();
@@ -191,7 +192,7 @@ namespace InvoiceManagementSystem.Controllers
 
             using (XLWorkbook wb = new XLWorkbook())
             {
-                var ws = wb.Worksheets.Add("ClassRoomReport");
+                var ws = wb.Worksheets.Add("ClassSectionReport");
 
                  //          var schoolLogo = ws.AddPicture(Server.MapPath("~/Data/assets/img/muktajivan-school-logo.png"))
                  //.MoveTo(ws.Cell(1, 1))
@@ -206,9 +207,9 @@ namespace InvoiceManagementSystem.Controllers
                   schoolNameCell.Style.Font.FontSize = 16;
                 ws.Range(schoolNameCell, ws.Cell(1, data.Columns.Count + 4)).Merge();
 
-                // Add title "Manage Classroom" above column headers
+                // Add title "Manage ClassSection" above column headers
                 var titleCell = ws.Cell(3, 1);
-                titleCell.Value = "ClassRoom Data";
+                titleCell.Value = "ClassSection Data";
                 titleCell.Style.Font.Bold = true;
                 titleCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 titleCell.Style.Fill.BackgroundColor = XLColor.LightGray;

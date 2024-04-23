@@ -204,7 +204,10 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ClassSectionController.cs" />
+    <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\EmailConfigurationController.cs" />
+    <Compile Include="Controllers\NewFeesController.cs" />
     <Compile Include="Controllers\StudentLeaveController.cs" />
     <Compile Include="Controllers\SchoolController.cs" />
     <Compile Include="Controllers\CommonController.cs" />
@@ -225,7 +228,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AcademicYearModel.cs" />
     <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\ClassSectionModel.cs" />
+    <Compile Include="Models\SectionModel.cs" />
     <Compile Include="Models\EmailConfigurationSetting.cs" />
     <Compile Include="Models\LeaveModel.cs" />
     <Compile Include="Models\ClassRoomModel.cs" />
@@ -879,6 +885,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\School\Section.js" />
     <Content Include="Scripts\School\EmailConfiguration.js" />
     <Content Include="Scripts\School\StudentLeave.js" />
     <Content Include="Scripts\School\School.js" />
@@ -897,6 +904,7 @@
     <Content Include="Scripts\School\ExamMarks.js" />
     <Content Include="Scripts\School\Student.js" />
     <Content Include="Scripts\School\StudentAttandence.js" />
+    <Content Include="Scripts\School\ClassSection.js" />
     <Content Include="Scripts\School\Subject.js" />
     <Content Include="Scripts\School\Students.js" />
     <Content Include="Scripts\School\Admin.js" />
@@ -1037,6 +1045,10 @@
     <Content Include="Views\Admin\AdminList.cshtml" />
     <Content Include="Views\Admin\_AdminGridPartial.cshtml" />
     <Content Include="Views\Admin\_AdminListPartial.cshtml" />
+    <Content Include="Views\Section\_SectionListPartial.cshtml" />
+    <Content Include="Views\Section\Section.cshtml" />
+    <Content Include="Views\ClassSection\_ClassSectionListPartial.cshtml" />
+    <Content Include="Views\ClassSection\ClassSection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

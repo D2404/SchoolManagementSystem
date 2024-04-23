@@ -73,6 +73,7 @@ namespace InvoiceManagementSystem.Controllers
                 if (cls.Id > 0)
                 {
                     Session["Id"] = cls.Id;
+                    Session["AcademicYear"] = "2024-2025";
                     Session["SchoolName"] = cls.SchoolName.ToUpper();
                     Session["SchoolPhoto"] = cls.SchoolPhoto;
                     Session["SchoolMobileNo"] = cls.SchoolMobile;

@@ -98,6 +98,7 @@ namespace InvoiceManagementSystem.Models
                 //cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 //cmd.Parameters.AddWithValue("@intUserType", objCommon.getUserTypeFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);

@@ -101,7 +101,61 @@ namespace InvoiceManagementSystem.Controllers
 
             }
         }
+        public ActionResult GetAcademicYear(AcademicYearModel cls)
+        {
+            try
+            {
+                List<AcademicYearModel> lstClientList = new List<AcademicYearModel>();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Sp_GetAcademicYearList", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
 
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        AcademicYearModel obj = new AcademicYearModel();
+                        obj.AcademicYearId = Convert.ToInt32(dt.Rows[i]["AcademicYearId"] == null || dt.Rows[i]["AcademicYearId"].ToString().Trim() == "" ? null : dt.Rows[i]["AcademicYearId"].ToString());
+                        obj.AcademicYear = dt.Rows[i]["AcademicYear"] == null || dt.Rows[i]["AcademicYear"].ToString().Trim() == "" ? null : dt.Rows[i]["AcademicYear"].ToString();
+                        lstClientList.Add(obj);
+                    }
+                }
+                cls.LSTAcademicYearList = lstClientList;
+                return Json(cls, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+        [HttpPost]
+        public ActionResult LoadAcademicYear(string AcademicYear)
+        {
+            try
+            {
+                AcademicYearModel cls = new AcademicYearModel();
+                cls = cls.LoadAcademicYear(AcademicYear);
+                if (AcademicYear != "0")
+                {
+                    Session["AcademicYearId"] = cls.AcademicYearId;
+                    Session["AcademicYear"] = cls.AcademicYear;
+                    Session.Timeout = 22500;
+                    HttpCookie userInfo = new HttpCookie("userInfo");
+                }
+                return Json(cls.Response, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult GetRole(RoleModel cls)
         {
             try
@@ -153,6 +207,7 @@ namespace InvoiceManagementSystem.Controllers
                 SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 cmd.Parameters.AddWithValue("@intActive", 1);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -176,6 +231,50 @@ namespace InvoiceManagementSystem.Controllers
                     }
                 }
                 cls.LSTClassRoomList = lstClientList;
+
+                return Json(cls, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
+
+        public ActionResult GetSection(SectionModel cls)
+        {
+            try
+            {
+                List<SectionModel> lstClientList = new List<SectionModel>();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("Sp_GetSectionDropdown", conn);
+                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        SectionModel obj = new SectionModel();
+
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.SectionNo = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
+
+                        lstClientList.Add(obj);
+                    }
+                }
+                cls.LSTSectionList = lstClientList;
 
                 return Json(cls, JsonRequestBehavior.AllowGet);
 
