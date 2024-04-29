@@ -189,6 +189,7 @@ namespace InvoiceManagementSystem.Controllers
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("GetTeacherByClassRoom", conn);
                 cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -243,6 +244,7 @@ namespace InvoiceManagementSystem.Controllers
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("GetStudentByTeacher", conn);
                 cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);

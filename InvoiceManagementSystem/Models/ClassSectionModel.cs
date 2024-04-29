@@ -15,7 +15,7 @@ namespace InvoiceManagementSystem.Models
         clsCommon objCommon = new clsCommon();
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
         public int Id { get; set; }
-        public int ClassRoomId { get; set; }
+        public int ClassId { get; set; }
         public int SectionId { get; set; }
         public string ClassNo { get; set; }
         public string Section { get; set; }
@@ -45,7 +45,7 @@ namespace InvoiceManagementSystem.Models
                 SqlCommand cmd = new SqlCommand("AddUpdateClassSection", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", cls.Id);
-                cmd.Parameters.AddWithValue("@ClassRoomId", cls.ClassRoomId);
+                cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
                 cmd.Parameters.AddWithValue("@SectionId", cls.SectionId);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());

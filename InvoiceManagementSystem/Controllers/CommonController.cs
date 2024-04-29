@@ -269,7 +269,7 @@ namespace InvoiceManagementSystem.Controllers
                         SectionModel obj = new SectionModel();
 
                         obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.SectionNo = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
+                        obj.SectionNo = dt.Rows[i]["SectionNo"] == null || dt.Rows[i]["SectionNo"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionNo"].ToString();
 
                         lstClientList.Add(obj);
                     }
@@ -285,6 +285,42 @@ namespace InvoiceManagementSystem.Controllers
 
             }
         }
+        public ActionResult LoadSection(int ClassId)
+        {
+            try
+            {
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadDropDownByClassId", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.Add("@ClassId", ClassId);
+                cmd.Parameters.Add("@mode", 1);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<SectionModel> clsLst = new List<SectionModel>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        SectionModel obj = new SectionModel();
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.SectionNo = dt.Rows[i]["SectionNo"] == null || dt.Rows[i]["SectionNo"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionNo"].ToString();
+                        clsLst.Add(obj);
+                    }
+                }
+                return Json(clsLst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult LoadSubject(int ClassId)
         {
             try
@@ -293,11 +329,12 @@ namespace InvoiceManagementSystem.Controllers
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 clsCommon objCommon = new clsCommon();
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_LoadSubjectDropDown", conn);
+                SqlCommand cmd = new SqlCommand("sp_LoadDropDownByClassId", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.Add("@ClassId", ClassId);
+                cmd.Parameters.Add("@mode", 2);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);

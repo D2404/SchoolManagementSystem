@@ -21,7 +21,15 @@ function InsertData() {
     var val = true;
     var Id = $('#hdnintId').val();
     var ClassId = $('#ClassId').val();
+    if (ClassId === "0") {
+        $("#errClassId").html("Please select class");
+        val = false;
+    }
     var SectionId = $('#SectionId').val();
+    if (SectionId === "0") {
+        $("#errSectionId").html("Please select section");
+        val = false;
+    }
     var SearchText = $('#SearchText').val();
     var formData = new FormData();
     if (val === false) {
@@ -56,6 +64,8 @@ function InsertData() {
                 }
                 else if (data === 'Exists') {
                     toastr.error('ClassSection already exists!');
+                    $("#ClassId").val('0').trigger('change');
+                    $("#SectionId").val('0').trigger('change');
                 }
             }
             HideWait();
@@ -106,12 +116,38 @@ function GetSection() {
             var html = "";
             html = html + ' <option value="0" selected>Select Section</option>';
             for (var i = 0; i < data.LSTSectionList.length; i++) {
-                html = html + '<option value="' + data.LSTSectionList[i].Id + '">' + data.LSTSectionList[i].Section + '</option>';
+                html = html + '<option value="' + data.LSTSectionList[i].Id + '">' + data.LSTSectionList[i].SectionNo + '</option>';
                 $("#SectionId").empty();
                 $("#SectionId").append(html);
             }
         }
     });
+}
+
+function onClass() {
+    debugger
+    var ClassId = $('#ClassId').val();
+    ShowWait();
+    $.ajax({
+        type: "POST",
+        url: '/Common/LoadSection?ClassId=' + ClassId,
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+            var html = "";
+            html = html + ' <option value="0" selected>Select Section</option>';
+            for (var i = 0; i < data.LSTSectionList.length; i++) {
+                html = html + '<option value="' + data.LSTSectionList[i].Id + '">' + data.LSTSectionList[i].SectionNo + '</option>';
+                $("#SectionId").empty();
+                $("#SectionId").append(html);
+            }
+        },
+        failure: function () {
+            alert("Failed!");
+        }
+    });
+    HideWait();
 }
 
 function GetClassSectionList(page) {
@@ -232,10 +268,11 @@ function deleteClassSection() {
 }
 
 function Clear() {
-    document.getElementById('ClassSectionName').value = "";
     $('#errClassId').html("");
     $('#errSectionId').html("");
     $("#ddlClassId").val('0').trigger('change');
+    $("#ClassId").val('0').trigger('change');
+    $("#SectionId").val('0').trigger('change');
     document.getElementById('btnAdd').innerHTML = "Add";
     $("#btnAdd").attr('title', 'Upload');
     document.getElementById('PopupTitle').innerHTML = "Add ClassSection";
@@ -282,7 +319,8 @@ function ClearData(type) {
         var Id = document.getElementById('hdnintId').value;
         $("#ClassId").val('0').trigger('change');
         $("#SectionId").val('0').trigger('change');
-
+        $('#errClassId').html("");
+        $('#errSectionId').html("");
         if (Id === "0") {
 
             document.getElementById('hdnintId').value = "0";
