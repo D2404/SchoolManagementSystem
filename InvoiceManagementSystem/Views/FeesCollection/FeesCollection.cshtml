@@ -1,0 +1,274 @@
+﻿@model InvoiceManagementSystem.Models.FeesModel
+@{
+    ViewBag.Title = "Fees Collection";
+}
+<br />
+<br />
+<style>
+    .tab-pane {
+        display: none;
+    }
+
+        .tab-pane.active {
+            display: block;
+        }
+</style>
+
+<div class="row" id="FilterDiv" style="margin-left:19px">
+    <div class="col-sm-4 col-md-3" style="margin-top: -32px;">
+        <div class="form-group form-focus">
+            <label style="color:white">Search</label>
+            <input type="text" class="form-control form-control-alternative" id="SearchText" placeholder="Search" maxlength="50">
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
+        <div class="form-group form-focus select-focus">
+            <label style="color:white">Status</label>
+            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control form-control-alternative">
+                <option value="3">Select Status</option>
+                <option value="1">Active</option>
+                <option value="2">In-Active</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
+        <div class="form-group form-focus">
+            <label style="color:white">From Date</label>
+            <input class="form-control form-control-alternative" type="date" id="FromDate" autocomplete="off">
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
+        <div class="form-group form-focus">
+            <label style="color:white">To Date</label>
+            <input class="form-control form-control-alternative" type="date" id="ToDate" autocomplete="off">
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-1">
+
+        <a class="btn bg-gradient-info" onclick="GetStudentList(1)">Search</a>
+    </div>
+
+    <div class="col-sm-6 col-md-1">
+        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
+
+    </div>
+</div>
+<div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
+
+    <div class="card shadow-lg mx-4 card-profile-bottom">
+        <div class="card-body p-3">
+            <div class="row gx-4">
+                <div class="col-auto my-auto">
+                    <div class="h-100">
+                        @*@if (Model.LSTFeesList[0].Id > 4)
+                        {
+                            <h5 class="mb-1">
+                                <i class="fas fa-chalkboard-Student text-info text-lg opacity-10"></i>&nbsp;&nbsp; Edit Student
+                            </h5>
+                        }
+                        else
+                        {*@
+                            <h5 class="mb-1">
+                                <i class="fas fa-chalkboard-Student text-info text-lg opacity-10"></i>&nbsp;&nbsp; Add Student
+                            </h5>
+                        @*}*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mt-4 mb-3">
+                    <div class="card-body pb-0">
+                        <div class="row">
+                            @*<input type="hidden" id="hdnintId" value="@Model.LSTFeesList[0].Id" />*@
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Class</b><span class="text-danger">*</span></label>
+                                    @*@if (Model.LSTFeesList[0].Id > 1)
+                                    {
+                                        <input type="hidden" id="hdnClassId" value="@Model.LSTFeesList[0].ClassId" />
+                                        <select class="form-control form-control-alternative @(Model.LSTFeesList[0].Id > 1 ? "" : "form-control-alternative")" id="ClassId" onchange="onClass()">
+                                            <option value="0">Select ClassRoom</option>
+                                            @foreach (var classItem in Model.LSTFeesList)
+                                            {
+                                                <option value="@classItem.ClassNo" @(classItem.ClassId == Model.LSTFeesList[0].ClassId ? "selected" : "")>@classItem.ClassNo</option>
+                                            }
+                                        </select>
+                                    }
+                                    else
+                                    {*@
+                                        <select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%" onchange="onClass()">
+                                            <option value="0">Select ClassRoom</option>
+                                            @{ if (Model != null && Model.LSTFeesList.Count > 0)
+                                                {
+                                                    for (var i = 0; i < Model.LSTFeesList.Count; i++)
+                                                    {
+                                                        var item = Model.LSTFeesList[i];
+
+                                                        if (item.Id == Model.ClassId)
+                                                        {
+                                                            <option value="@item.ClassId" selected>@(item.ClassNo)</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.ClassId">@(item.ClassNo)</option>
+                                                        }
+                                                    }
+                                                } 
+                                             }
+                                        </select>
+                                    @*}*@
+                                    <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Section</b><span class="text-danger">*</span></label>
+                                    @*@if (Model.LSTFeesList[0].Id > 1)
+                                    {*@
+                                        @*<input type="hidden" id="hdnSectionId" value="@Model.LSTFeesList[0].SectionId" />
+                                        <select class="form-control form-control-alternative @(Model.LSTFeesList[0].Id > 1 ? "" : "form-control-alternative")" id="SectionId" onchange="onClassSection()">
+                                            <option value="0">Select Section</option>
+                                            @foreach (var sectionItem in Model.LSTFeesList)
+                                            {
+                                                <option value="@sectionItem.SectionNo" @(sectionItem.SectionId == Model.LSTFeesList[0].SectionId ? "selected" : "")>@sectionItem.SectionNo</option>
+                                            }
+                                        </select>*@
+                                    @*}
+                                    else
+                                    {*@
+                                        <select class="form-control form-control-alternative" id="SectionId" name="SectionId" style="width: 100%" onchange="onClassSection()">
+                                            <option value="0">Select Section</option>
+                                            @{ if (Model != null && Model.LSTFeesList.Count > 0)
+                                                {
+                                                    for (var i = 0; i < Model.LSTFeesList.Count; i++)
+                                                    {
+                                                        var item = Model.LSTFeesList[i];
+
+                                                        if (item.Id == Model.SectionId)
+                                                        {
+                                                            <option value="@item.SectionId" selected>@(item.SectionNo)</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.SectionId">@(item.SectionNo)</option>
+                                                        }
+                                                    }
+                                                } }
+                                        </select>
+                                    @*}*@
+                                    <span id="errSectionId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <label for="basicinput"><b>Student</b><span class="text-danger">*</span></label>
+                                    @*@if (Model.LSTFeesList[0].Id > 1)
+                                    {*@
+                                        @*<input type="hidden" id="hdnStudentId" value="@Model.LSTFeesList[0].StudentId" />
+                                        <select class="form-control form-control-alternative @(Model.LSTFeesList[0].Id > 1 ? "" : "form-control-alternative")" id="StudentId" onchange="onStudent()">
+                                            <option value="0">Select Student</option>
+                                            @foreach (var studentItem in Model.LSTFeesList)
+                                            {
+                                                <option value="@studentItem.StudentName" @(studentItem.StudentId == Model.LSTFeesList[0].StudentId ? "selected" : "")>@studentItem.StudentName</option>
+                                            }
+                                        </select>*@
+                                    @*}
+                                    else
+                                    {*@
+                                        <select class="form-control form-control-alternative" id="StudentId" name="StudentId" style="width: 100%" onchange="onStudent()">
+                                            <option value="0">Select Student</option>
+                                            @{ if (Model != null && Model.LSTFeesList.Count > 0)
+                                                {
+                                                    for (var i = 0; i < Model.LSTFeesList.Count; i++)
+                                                    {
+                                                        var item = Model.LSTFeesList[i];
+
+                                                        if (item.Id == Model.StudentId)
+                                                        {
+                                                            <option value="@item.StudentId" selected>@(item.StudentName)</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.StudentId">@(item.StudentName)</option>
+                                                        }
+                                                    }
+                                                } }
+                                        </select>
+                                    @*}*@
+                                    <span id="errStudentId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="example-text-input" class="form-control-label">Roll No<span class="text-danger">*</span></label>
+                                        @*@if (Model.LSTFeesList[0].Id > 1)
+                                        {*@
+                                            @*@Html.TextBoxFor(model => model.LSTFeesList[0].RollNo, new { @id = "RollNo", @placeholder = "Roll No.", @class = "form-control form-control-alternative" })*@
+                                        @*}
+                                        else
+                                        {*@
+                                            @Html.TextBoxFor(model => Model.RollNo, new { @id = "RollNo", @placeholder = "Roll No.", @class = "form-control form-control-alternative" })
+                                        @*}*@
+                                        <span id="errRollNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="example-text-input" class="form-control-label">Date <span class="text-danger">*</span></label>
+                                    @*@if (Model.LSTFeesList[0].Id > 1)
+                                    {*@
+                                      @*  @Html.TextBoxFor(model => model.LSTFeesList[0].Date, new { @id = "Date", @placeholder = "Date", @class = "form-control form-control-alternative", @type = "date" })*@
+                                    @*}
+                                    else
+                                    {*@
+                                        @Html.TextBoxFor(model => Model.Date, new { @id = "Date", @placeholder = "Date", @class = "form-control form-control-alternative", @type = "date" })
+                                    @*}*@
+                                    @*<input class="form-control form-control-alternative floating datetimepicker" type="date" id="Dob" autocomplete="off">*@
+                                    <span id="errDob" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                                </div>
+                            </div>
+
+
+                            <div class="footer" style="text-align:right">
+                                <button class="btn bg-gradient-info btn-sm ms-auto" onclick="javascript: return ValidateBasicDetails(0);">Next</button>
+                                <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearBasicDetails()">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="~/Scripts/School/FeesCollections.js"></script>
+<script>
+    var type = 1
+
+    function ShowFilter() {
+        if (type == 1) {
+            $('#FilterDiv').show();
+            type = 2;
+        }
+        else {
+            $('#FilterDiv').hide();
+            type = 1;
+        }
+    }
+</script>

@@ -205,6 +205,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClassSectionController.cs" />
+    <Compile Include="Controllers\FeesCollectionController.cs" />
     <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\EmailConfigurationController.cs" />
     <Compile Include="Controllers\NewFeesController.cs" />
@@ -885,6 +886,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\School\FeesCollections.js" />
     <Content Include="Scripts\School\Section.js" />
     <Content Include="Scripts\School\EmailConfiguration.js" />
     <Content Include="Scripts\School\StudentLeave.js" />
@@ -1049,6 +1051,7 @@
     <Content Include="Views\Section\Section.cshtml" />
     <Content Include="Views\ClassSection\_ClassSectionListPartial.cshtml" />
     <Content Include="Views\ClassSection\ClassSection.cshtml" />
+    <Content Include="Views\FeesCollection\FeesCollection.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
