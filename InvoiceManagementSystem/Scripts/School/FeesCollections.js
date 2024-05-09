@@ -1,4 +1,5 @@
 ﻿var type = 1
+var count = 0
 function ShowFilter() {
     if (type === 1) {
         $('#FilterDiv').show();
@@ -10,74 +11,59 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
+    var currentDate = new Date().toISOString().slice(0, 10);
+    document.getElementById('Date').value = currentDate;
     GetClassRoom();
+    GetMonthList(count, 0);
+    GetAcademicYearList(count, 0);
 });
 
-$("#FeesAmount").keyup(function () {
-
-    var amt = $('#FeesAmount').val();
-
-    var Yearly = $('#Yearly').text();
-    if (amt > Number(Yearly)) {
-        $('#errFeesAmount').html('Fees must be less than YearlyFees.');
-        $('#FeesAmount').val(0);
-        return false;
-    }
-});
 
 function InsertData() {
-
+        
     var val = true;
     var Id = $('#hdnintId').val();
     var ClassId = $('#ClassId').val();
-    if (ClassId === 0) {
-        $("#errClassNo").html("Please select classroom.");
+    if (ClassId === 0 || ClassId === '0') {
+        $("#errClass").html("Please select classroom.");
+        val = false;
+    }
+    var SectionId = $('#SectionId').val();
+    if (SectionId === 0 || SectionId === '0') {
+        $("#errSection").html("Please select section.");
         val = false;
     }
     var StudentId = $('#StudentId').val();
-    if (StudentId === 0) {
+    if (StudentId === 0 || StudentId === '0') {
         $("#errStudent").html("Please select student.");
         val = false;
     }
-    var MonthId = $('#MonthId').val();
-    if (MonthId === 0) {
-        $("#errMonth").html("Please select month.");
+    var RollNo = $('#RollNo').val();
+    if (RollNo === '' || RollNo === 0 || RollNo === '0') {
+        $("#errRollNo").html("Please enter roll no.");
         val = false;
     }
-    var YearId = $('#YearId').val();
-    if (YearId === 0) {
-        $("#errYear").html("Please select year.");
-        val = false;
-    }
-    var SearchText = $('#SearchText').val();
     var Date = $('#Date').val();
-    if (Date === "" || /\S/.test(Date) === false) {
+    if (Date === '' || /\S/.test(Date) === false) {
         $("#errDate").html("Please select date.");
         val = false;
     }
-    var RollNo = $('#RollNo').text();
-    var FeesAmount = $('#FeesAmount').val();
-    if (FeesAmount === "" || /\S/.test(FeesAmount) === false) {
-        $("#errFeesAmount").html("Please enter fees amount.");
-        val = false;
-    }
+  
     var formData = new FormData();
     if (val === false) {
         return;
     }
     formData.append('Id', Id);
     formData.append('ClassId', ClassId);
+    formData.append('SectionId', SectionId);
     formData.append('StudentId', StudentId);
-    formData.append('MonthId', MonthId);
-    formData.append('YearId', YearId);
     formData.append('RollNo', RollNo);
     formData.append('Date', Date);
-    formData.append('FeesAmount', FeesAmount);
-    formData.append('SearchText', SearchText);
+    formData.append('RollNo', RollNo);
     ShowWait();
     $.ajax({
         type: "POST",
-        url: '/Fees/InsertFees',
+        url: '/FeesCollection/InsertFeesCollection',
         contentType: "application/json; charset=utf-8",
         contentType: false,
         processData: false,
@@ -86,24 +72,8 @@ function InsertData() {
             if (data !== null) {
                 if (data === 'Success' && Id === 0) {
                     toastr.success('Fees inserted successfully');
-                    GetFeesList(1);
-                    $('#Fees').click();
-                    ClearData(1);
-                }
-                else if (data === 'Updated') {
-                    toastr.success('Fees updated successfully');
-                    GetFeesList(1);
-                    $('#Fees').click();
-                    ClearData(1);
-                }
-                else if (data === 'Exists') {
-                    toastr.error('Fees already exists!');
-                    document.getElementById('Email').value = "";
-                }
-                else if (data === 'LastMonth') {
-                    toastr.success('LastMonth Fees inserted successfully!');
-                    GetFeesList(1);
-                    $('#Fees').click();
+                    //GetFeesList(1);
+                    //$('#Fees').click();
                     ClearData(1);
                 }
             }
@@ -230,30 +200,6 @@ function GetClassRoom() {
         }
     });
 }
-function GetMonth() {
-    var cls = {
-    }
-    $.ajax({
-        url: '/Fees/GetMonth',
-        contentType: "application/json; charset=utf-8",
-        type: "GET",
-        data: JSON.stringify({
-            cls: cls
-        }),
-        success: function (data) {
-            var html = "";
-            html = html + ' <option value="0" selected>Select Month</option>';
-            for (var i = 0; i < data.LSTMonthList.length; i++) {
-                html = html + '<option value="' + data.LSTMonthList[i].Id + '">' + data.LSTMonthList[i].MonthName + '</option>';
-                $("#MonthId").empty();
-                $("#MonthId").append(html);
-                //$("#ddlClassId").empty();
-                //$("#ddlClassId").append(html);
-            }
-        }
-    });
-}
-
 function onClass() {
     var ClassId = $('#ClassId').val();
     $.ajax({
@@ -327,205 +273,327 @@ function onStudent() {
         }
     });
 }
+function addDiv(id, obj) {
+    debugger
+    var maincount = 0;
+    var NewDiv = 1;
 
-function onddlClass() {
-
-    var ClassId = $('#ddlClassId').val();
-    $.ajax({
-        type: "GET",
-        url: '/Fees/LoadDDlStudent?ClassId=' + ClassId,
-        async: false,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data) {
-
-            $('#ddlStudentId').empty();
-            $("#ddlStudentId").append($("<option />").val("0").text("Select student name.."));
-            $.each(data, function (i, v) {
-                $("#ddlStudentId").append($("<option     />").val(v.StudentId).text(v.StudentName));
-            });
-            HideWait();
-        },
-        failure: function () {
-            HideWait();
-            alert("Failed!");
+    $(obj).closest('.element').find('input', 'text').each(function () {
+        if (($(this).val() === "" || $(this).val() === "undefined" || $(this).val() === null) && $(this).attr('id') !== 'FeesAmount') {
+            $("#errFeesAmount").html("Please enter amount.");
+            NewDiv = 0;
         }
     });
-}
-function GetFeesList(page) {
+    if ($("#MonthId_0").val() === "0") {
+        $("#errorMonth").html("Please select month.");
+        NewDiv = 0;
+    }
+    if ($("#AcademicYearId_0").val() === "0") {
+        $("#errorAcademicYear").html("Please enter academic year.");
+        NewDiv = 0;
+    }
+    if (NewDiv === 1) {
+        var fistChildID = $(".wrapper .element:first-child").attr("id");
+        $(obj).closest('.element').find("span[name='errFeesAmount']").html("");
+        $(obj).closest('.element').find("span[name='errorMonth']").html("");
+        $(obj).closest('.element').find("span[name='errorAcademicYear']").html("");
 
-    var Id = 0;
-    //var SearchText = document.getElementById('SearchText').value;
-    var ClassId = document.getElementById('ddlClassId').value;
-    var StudentId = document.getElementById('ddlStudentId').value;
-    if (document.getElementById('PageSize') !== null) {
-        PageSize = document.getElementById('PageSize').value;
-    }
-    else {
-        PageSize = 10;
-    }
-    if (page === undefined) {
-        page = 1;
-    }
-    var PageIndex = page;
-    PageIndex = page;
-    var cls = {
-        Id: Id,
-        //SearchText: SearchText,
-        ClassId: ClassId,
-        StudentId: StudentId,
-        PageSize: PageSize,
-        PageIndex: PageIndex,
-    }
-    ShowWait();
-    $.ajax({
-        url: '/Fees/GetFees',
-        contentType: "application/json; charset=utf-8",
-        type: "POST",
-        data: JSON.stringify({
-            cls: cls
-        }),
-        success: function (data) {
-            $('#tblBody').empty();
-            $('#tblBody').append(data);
-            HideWait();
-        },
-        error: function (xhr) {
-            HideWait();
-            alert('errors');
+
+        maincount = document.getElementsByName('MonthId').length;// $(".wrapper .element").length + 1;
+        var el = document.createElement("div");
+        el.id = "element_" + (maincount + 1);
+        el.className = "element";
+        el.setAttribute("style", "float: left; width: 100%; margin-bottom: 5px; padding: 2px;");
+        $('.i-plus').hide();
+        el.innerHTML = repeatHTML(maincount);
+
+        if (maincount > 1) {
+            id = "element_" + (maincount);
         }
-    });
-}
-function GetSingleFeesData(id) {
 
-    document.getElementById('btnAdd').innerHTML = "Update";
-    $("#btnAdd").attr('title', 'Update');
-    document.getElementById('btnAdd1').innerHTML = "Update & Pay";
-    $("#btnAdd1").attr('title', 'Update');
-    document.getElementById('PopupTitle').innerHTML = "Update Fees";
-    var cls = {
-        Id: id
+        insertAfter(document.getElementById(id), el);
+
+        if (id === "element_1") {
+            obj.setAttribute("style", "color: red;font-size: 25px;");
+            obj.className = "";
+            obj.className = "fa fa-plus text-success i-plus";
+            //obj.setAttribute("onclick", "removeDiv(this)");
+        }
+
+        $('.wrapper').find('.element input').on('change', function () {
+
+            $(this).closest('.element').find('[name=errFeesAmount]').text('');
+            $(this).closest('.element').find('[name=errorMonth]').text('');
+            $(this).closest('.element').find('[name=errorAcademicYear]').text('');
+        })
+    } else {
+        $(obj).closest('.element').find("span[name='errFeesAmount']").html("Please enter amount.");
+        $(obj).closest('.element').find("span[name='errorMonth']").html("Please select month.");
+        $(obj).closest('.element').find("span[name='errorAcademicYear']").html("Please select academic year.");
     }
-    $.ajax({
-        url: '/Fees/GetSingleFeesData',
-        contentType: "application/json; charset=utf-8",
-        type: "POST",
-        data: JSON.stringify({
-            cls: cls
-        }),
-        success: function (data) {
+    GetMonthArrayList(maincount);
+    GetAcademicYearArrayList(maincount);
+    maincount++;
+    /* $(".fa-plus")[0].remove();*/
+}
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+function repeatHTML(j) {
+    debugger;
+    var strHTML = '';
+    varIndex = $(".wrapper .element").length + 1;
+    //strHTML = strHTML + '<input type="hidden" id="inthdnPreviousQty_'+j+'" name="PreviousQty">';
+    strHTML = strHTML + '<div class="col-md-12">';
+    strHTML = strHTML + '<span name="errDetail" class="valid-er" style="text-align: center;font-size: 14px;"></span>';
+    strHTML = strHTML + '</div>';
+    strHTML = strHTML + '<div class="col-md-1" style=" float: left; text-align: center; width: 11%;">';
+    strHTML = strHTML + '<span class="crcel" style="color:black">' + varIndex + '</span>';
+    strHTML = strHTML + '</div>';
 
-            if (data !== null) {
-                document.getElementById('hdnintId').value = data.LSTFeesList[0].Id;
-                $('#ClassId').val(data.LSTFeesList[0].ClassId).trigger("change");
-                $('#StudentId').val(data.LSTFeesList[0].StudentId).trigger("change");
-                $('#MonthId').val(data.LSTFeesList[0].MonthId).trigger("change");
-                $('#YearId').val(data.LSTFeesList[0].YearId).trigger("change");
-                document.getElementById('RollNo').value = data.LSTFeesList[0].RollNo;
-                $('#Date').val(data.LSTFeesList[0].Date); // Set the value using jQuery
+    strHTML = strHTML + '<div class="col-md-4" style="float:left;padding-left: 20px">';
+    strHTML = strHTML + ' <select class="form-control form-control-alternative" style="width: 65%" id="MonthId_' + j + '" name ="MonthId" ><option value="0" >Select Month</option></select><span name = "errorItem" class="valid-er"></span >';
+    strHTML = strHTML + '</div>';
 
-                document.getElementById('FeesAmount').value = data.LSTFeesList[0].FeesAmount;
-            } else {
-                alert('error');
+    strHTML = strHTML + '<div class="col-md-4" style="float:left;margin-left: -70px">';
+    strHTML = strHTML + ' <select class="form-control form-control-alternative" style="width: 65%" id="AcademicYearId_' + j + '" name ="AcademicYearId"><option value="0" >Select Academic Year</option></select><span name = "errorItem" class="valid-er" ></span >';
+    strHTML = strHTML + '</div>';
+
+    strHTML = strHTML + '<div class="col-md-2" style="float: left; width: 22%; margin-left: -73px;">';
+    strHTML = strHTML + '<input id="FeesAmount" name="FeesAmount" placeholder="Enter Amount" class="form-control form-control-alternative count" type="text" maxlength="10" onkeypress = "return onlyNumbers(event)"><span name = "errFeesAmount" class="valid-er"></span >';
+    strHTML = strHTML + '</div>';
+    
+    strHTML = strHTML + '<div class="col-md-1" style="float: right;margin-right:27px">';
+    strHTML = strHTML + '<i class="fa fa-plus text-success i-plus" style="font-size: 25px" onclick="addDiv(\'AddMore\', this)"></i> &nbsp;';
+    strHTML = strHTML + '<i class="fa fa-trash-o" style="color: red;font-size: 25px;" onclick="removeDiv(this)">';
+    strHTML = strHTML + '</div>';
+
+    return strHTML;
+}
+
+function removeDiv(obj) {
+    var rowcount = $('.count').length;
+    if (rowcount > 1) {
+
+        var fistChildID = $(".wrapper .element:first-child").attr("id");
+        if (confirm("Are you sure you want to remove fees detail?")) {
+            var Parentobj = obj.parentElement.parentElement;
+            var rootobj = Parentobj.parentElement;
+
+            var PreviosEle = $(Parentobj).prev();
+            var NextEle = $(Parentobj).next();
+            if ($(PreviosEle).attr("id") === fistChildID) {
+                if ($(".wrapper .element").length === 2) {
+                    var button = $(PreviosEle).find('button');
+                    $(button).empty();
+                    $(button).append('<i class="fa fa-plus i-plus" style=""></i>');
+                    $(button).attr("onclick", "addDiv(\'AddMore\', this)");
+                    $(button).attr("style", "");
+                }
             }
-        },
-        error: function (xhr) {
-            alert('errors');
-        }
-    });
-}
-function deleteFees() {
-    var Id = document.getElementById('hdnintId').value;
-    var cls = {
-        Id: Id
-    }
-    ShowWait();
-    $.ajax({
-        url: '/Fees/deleteFees',
-        contentType: "application/json; charset=utf-8",
-        type: "POST",
-        data: JSON.stringify({
-            cls: cls
-        }),
-        success: function (data) {
-            if (data.Response === 'Success') {
-                toastr.success('Fees deleted successfully');
-                document.getElementById('hdnintId').value = "0";
-                GetFeesList();
-                $('#delete_Fees').click();
+            else if ($(Parentobj).attr("id") === fistChildID) {
+                if ($(".wrapper .element").length === 2) {
+                    var button = $(NextEle).find('.glyphicon-minus').parent();
+                    button.remove();
+                }
             }
             else {
-                alert('error');
+                var button = $(PreviosEle).find('button');
+                $(button).before('<button type="button" class="clone" onclick="addDiv(\'AddMore\', this)"><i class="fa fa-plus i-plus" style=""></i></button>');
             }
-            HideWait();
-        },
-        error: function (xhr) {
-            HideWait();
-            alert('errors');
+            rootobj.removeChild(Parentobj);
+            $(".wrapper .element").each(function (index) {
+                $(this).attr("id", "element_" + (index + 1))
+                $(this).find('.crcel').text(index + 1);
+            })
+            /*CalAmount(obj);*/
         }
-    });
+        if ($('.count').length === 1) {
+            $('.i-plus').show();
+        }
+    }
+    else {
+        alert("Can't delete, At least one Item required");
+    }
 }
-function Clear() {
-    $("#ClassId").val('0').trigger('change');
-    $('#errClassNo').html("");
-    $("#StudentId").val('0').trigger('change');
-    $('#errStudent').html("");
-    $("#MonthId").val('0').trigger('change');
-    $('#errMonth').html("");
-    $("#YearId").val('0').trigger('change');
-    $('#errYear').html("");
-    document.getElementById('Date').value = "";
-    $('#errDate').html("");
-    document.getElementById('FeesAmount').value = "";
-    $('#errFeesAmount').html("");
-    document.getElementById('btnAdd').innerHTML = "Save";
-    document.getElementById('btnAdd1').innerHTML = "Save & Pay";
-    $("#btnAdd").attr('title', 'Upload');
-    document.getElementById('PopupTitle').innerHTML = "Add Fees";
+
+var arrayMonthList = [];
+var arrayAcademicYearList = [];
+
+function GetMonthArrayList(k, SelectedValue) {
+    debugger;
+
+    var strHTML = '<option value="0">Select Month</option>';
+    if (arrayMonthList !== null && arrayMonthList.length > 0) {
+        for (var i = 0; i < arrayMonthList.length; i++) {
+            var item = arrayMonthList[i];
+            if (SelectedValue === item.Id) {
+                strHTML = strHTML + '<option value="' + item.Id + '" selected>' + item.MonthName + '</option>';
+            }
+            else {
+                strHTML = strHTML + '<option value="' + item.Id + '">' + item.MonthName + '</option>';
+            }
+        }
+    }
+    else {
+        strHTML = strHTML + '<style="text-align: center;" >' + 'No Records found' + '</td>';
+    }
+    if (k === 0) {
+        $("#MonthId_0").empty();
+        $('#MonthId_0').append(strHTML);
+    }
+    else {
+        $("#MonthId_" + k + "").empty();
+        $('#MonthId_' + k + '').append(strHTML);
+    }
 }
-function ClearData(type) {
-    if (type === 1) {
-        var Id = document.getElementById('hdnintId').value;
+
+function GetAcademicYearArrayList(k, SelectedValue) {
+    debugger;
+
+    var strHTML = '<option value="0">Select Academic Year</option>';
+    if (arrayAcademicYearList !== null && arrayAcademicYearList.length > 0) {
+        for (var i = 0; i < arrayAcademicYearList.length; i++) {
+            var item = arrayAcademicYearList[i];
+            if (SelectedValue === item.AcademicYearId) {
+                strHTML = strHTML + '<option value="' + item.AcademicYearId + '" selected>' + item.AcademicYear + '</option>';
+            }
+            else {
+                strHTML = strHTML + '<option value="' + item.AcademicYearId + '">' + item.AcademicYear + '</option>';
+            }
+        }
+    }
+    else {
+        strHTML = strHTML + '<style="text-align: center;" >' + 'No Records found' + '</td>';
+    }
+    if (k === 0) {
+        $("#AcademicYearId_0").empty();
+        $('#AcademicYearId_0').append(strHTML);
+    }
+    else {
+        $("#AcademicYearId_" + k + "").empty();
+        $('#AcademicYearId_' + k + '').append(strHTML);
+    }
+}
+
+function GetMonthList(k, SelectedValue) {
+    debugger;
+    var cls = {
+    }
+    $.ajax({
+        url: '/Common/GetMonth',
+        contentType: "application/json; charset=utf-8",
+        type: "GET",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            debugger
+            if (data !== null) {
+                var strHTML = '<option value="0">Select Month</option>';
+                if (data !== null && data.LSTMonthList.length > 0) {
+                    arrayMonthList = data.LSTMonthList;
+                    for (var i = 0; i < data.LSTMonthList.length; i++) {
+                        var item = data.LSTMonthList[i];
+                        if (SelectedValue === item.MonthId) {
+                            strHTML = strHTML + '<option value="' + item.MonthId + '" selected>' + item.MonthName + '</option>';
+                        }
+                        else {
+                            strHTML = strHTML + '<option value="' + item.MonthId + '">' + item.MonthName + '</option>';
+                        }
+                    }
+                }
+                else {
+                    strHTML = strHTML + '<style="text-align: center;" >' + 'No Records found' + '</td>';
+                }
+                if (k === 0) {
+                    $("#MonthId_0").empty();
+                    $('#MonthId_0').append(strHTML);
+                }
+                else {
+                    $("#MonthId_" + k + "").empty();
+                    $('#MonthId_' + k + '').append(strHTML);
+                }
+            }
+        }
+    })
+}
+
+function GetAcademicYearList(k, SelectedValue) {
+    debugger;
+    var cls = {
+    }
+    $.ajax({
+        url: '/Common/GetAcademicYear',
+        contentType: "application/json; charset=utf-8",
+        type: "GET",
+        data: JSON.stringify({
+            cls: cls
+        }),
+        success: function (data) {
+            debugger
+            if (data !== null) {
+                var strHTML = '<option value="0">Select Academic Year</option>';
+                if (data !== null && data.LSTAcademicYearList.length > 0) {
+                    arrayAcademicYearList = data.LSTAcademicYearList;
+                    for (var i = 0; i < data.LSTAcademicYearList.length; i++) {
+                        var item = data.LSTAcademicYearList[i];
+                        if (SelectedValue === item.AcademicYearId) {
+                            strHTML = strHTML + '<option value="' + item.AcademicYearId + '" selected>' + item.AcademicYear + '</option>';
+                        }
+                        else {
+                            strHTML = strHTML + '<option value="' + item.AcademicYearId + '">' + item.AcademicYear + '</option>';
+                        }
+                    }
+                }
+                else {
+                    strHTML = strHTML + '<style="text-align: center;" >' + 'No Records found' + '</td>';
+                }
+                if (k === 0) {
+                    $("#AcademicYearId_0").empty();
+                    $('#AcademicYearId_0').append(strHTML);
+                }
+                else {
+                    $("#AcademicYearId_" + k + "").empty();
+                    $('#AcademicYearId_' + k + '').append(strHTML);
+                }
+            }
+        }
+    })
+}
+
+function onlyNumbers(event) {
+    var keyCode = event.which || event.keyCode;
+
+    if ((keyCode >= 48 && keyCode <= 57) || keyCode === 8) {
+        return true;
+    } else {
+        event.preventDefault();
+        return false;
+    }
+}
+
+
+function ClearData() {
+
         $("#ClassId").val('0').trigger('change');
-        $('#errClassNo').html("");
+        $('#errClass').html("");
+        $("#SectionId").val('0').trigger('change');
+        $('#errSection').html("");
         $("#StudentId").val('0').trigger('change');
         $('#errStudent').html("");
-        $("#MonthId").val('0').trigger('change');
-        $('#errMonth').html("");
-        $("#YearId").val('0').trigger('change');
-        $('#errYear').html("");
+        document.getElementById('RollNo').value = "";
+        $('#errRollNo').html("");
         document.getElementById('Date').value = "";
         $('#errDate').html("");
-        document.getElementById('FeesAmount').value = "";
-        $('#errFeesAmount').html("");
         if (Id === "0") {
+
             document.getElementById('hdnintId').value = "0";
             document.getElementById('btnAdd').innerHTML = "Save";
-            $("#btnAdd").attr('title', 'Add');
-            document.getElementById('btnAdd1').innerHTML = "Save & Pay";
-            $("#btnAdd1").attr('title', 'Add');
-            document.getElementById('PopupTitle').innerHTML = "Add Fees";
+            $("#btnAdd").attr('title', 'Save');
         }
         else {
             document.getElementById('btnAdd').innerHTML = "Update";
             $("#btnAdd").attr('title', 'Update');
-            document.getElementById('btnAdd1').innerHTML = "Update & Pay";
-            $("#btnAdd1").attr('title', 'Update');
-            document.getElementById('PopupTitle').innerHTML = "Update Fees";
         }
     }
-    else {
-        $("#ddlClassId").val('0').trigger('change');
-        $("#ddlStudentId").val('0').trigger('change');
-        GetFeesList();
-    }
-}
-function RemoveFile() {
-    document.getElementById('divUploadFile').style.display = "block";
-    document.getElementById('divFile').style.display = "none";
-    //document.getElementById('hdnstrFile').value = "";
-    bISFile = 0;
-}
-function opendeleteModel(id) {
-    document.getElementById('hdnintId').value = id;
-}

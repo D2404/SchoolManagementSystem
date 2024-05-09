@@ -282,7 +282,7 @@ function ValidateBasicDetails(id) {
     var MaritalStatus = $('#MaritalStatus').val();
     var AnniversaryDate = $('#AnniversaryDate').val();
     var Experience = $('#Experience').val();
-    var RoleId = 2
+    var RoleId = 3
     if (Title === 0 || Title === "0") {
         $("#errTitle").html("Please select title");
         val = false;
@@ -487,7 +487,7 @@ function InsertData(id) {
     var AccountNo = $('#AccountNo').val();
     var IFSCCode = $('#IFSCCode').val();
 
-    var RoleId = 2
+    var RoleId = 3
 
     if (BankName === "" || /\S/.test(BankName) === false) {
         $("#errBankName").html("Please enter bankname.");

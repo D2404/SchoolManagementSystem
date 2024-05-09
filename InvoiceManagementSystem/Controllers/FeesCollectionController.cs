@@ -27,12 +27,94 @@ namespace InvoiceManagementSystem.Controllers
                 else
                 {
                     cls = cls.FillClassRoomList(cls);
+                    cls = cls.FillMonthList(cls);
+                    cls = cls.FillAcademicYearList(cls);
                 }
                 return View(cls);
             }
             else
             {
                 return RedirectToAction("Login", "Account");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult FeesCollection(FeesModel cls, int? intId, string[] FeesAmount, string[] MonthId, string[] AcademicYearId)
+        {
+            try
+            {
+                if (objCommon.getUserIdFromSession() != 0)
+                {
+                    List<FeeCollectionModel> listInvoiceDetail = new List<FeeCollectionModel>();
+
+                    if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
+                    {
+                        for (int i = 0; i < cls.LSTFeesList.Count; i++)
+                        {
+                            FeeCollectionModel obj = new FeeCollectionModel();
+                            obj.FeesAmount = (cls.LSTFeesList[i].FeesAmount == null) ? 0 : (cls.LSTFeesList[i].FeesAmount);
+                            obj.MonthId = (cls.LSTFeesList[i].MonthId == null) ? 0 : (cls.LSTFeesList[i].MonthId);
+                            obj.AcademicYearId = (cls.LSTFeesList[i].AcademicYearId == null) ? 0 : Convert.ToInt32(cls.LSTFeesList[i].AcademicYearId);
+                            listInvoiceDetail.Add(obj);
+                        }
+                    }
+                    if (MonthId != null && MonthId.Length > 0)
+                    {
+                        for (int i = 0; i < MonthId.Length; i++)
+                        {
+                            if (MonthId[i] != null && MonthId[i] != "")
+                            {
+                                FeeCollectionModel obj = new FeeCollectionModel();
+                                obj.FeesAmount = (FeesAmount[i] == null) ? 0 : Convert.ToInt16(FeesAmount[i]);
+                                obj.MonthId = (MonthId[i] == null) ? 0 : Convert.ToInt16(MonthId[i]);
+                                obj.AcademicYearId = (AcademicYearId[i] == null) ? 0 : Convert.ToInt16(AcademicYearId[i]);
+                                listInvoiceDetail.Add(obj);
+                            }
+                        }
+                    }
+                    int Res = 0;
+                    //if (Convert.ToDecimal(cls.decTotal) > 0)
+                    //{
+                        Res = cls.InsertCustomerInvoice(cls, listInvoiceDetail);
+                    //}
+                    //if (Res > 0)
+                    //{
+                    //    if (cls.intId == 0)
+                    //    {
+                    //        TempData["SuccessMsg"] = "Customer invoice details has been saved successfully.";
+                    //        return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
+                    //    }
+                    //    else
+                    //    {
+                    //        TempData["SuccessMsg"] = "Customer invoice details has been updated successfully.";
+                    //        return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
+                    //    }
+                    //}
+                    //else if (cls.strResponse == clsConstant.MESSAGE_EXISTS)
+                    //{
+                    //    TempData["ErrorMsg"] = "Invoice no already exists.";
+                    //    return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
+                    //}
+                    //else if (cls.strResponse == clsConstant.MESSAGE_ERROR)
+                    //{
+                    //    TempData["ErrorMsg"] = "Data not saved successfully, please try again.";
+                    //    return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
+                    //}
+                    //else
+                    //{
+                    //    return RedirectToAction("CustomerInvoiceDetails", "ManageInvoiceDetails");
+                    //}
+                    //cls = cls.FillGetClientList(cls);
+                    return View(cls);
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Company");
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index", "Company");
             }
         }
 
@@ -177,7 +259,7 @@ namespace InvoiceManagementSystem.Controllers
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
                         obj.MonthName = dt.Rows[i]["MonthName"] == null || dt.Rows[i]["MonthName"].ToString().Trim() == "" ? null : dt.Rows[i]["MonthName"].ToString();
-                        obj.YearId = Convert.ToInt32(dt.Rows[i]["Year"] == null || dt.Rows[i]["Year"].ToString().Trim() == "" ? null : dt.Rows[i]["Year"].ToString());
+                        obj.AcademicYearId = Convert.ToInt32(dt.Rows[i]["Year"] == null || dt.Rows[i]["Year"].ToString().Trim() == "" ? null : dt.Rows[i]["Year"].ToString());
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
                         obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
@@ -340,7 +422,7 @@ namespace InvoiceManagementSystem.Controllers
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.StudentName + "</td>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.Date + "</td>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;text-align:center'>" + detail.MonthName + "</td>";
-                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.YearId + "</td>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.AcademicYearId + "</td>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.FeesAmount + "</td>";
                     InvoiceDetails = InvoiceDetails + "</tr>";
 

@@ -56,8 +56,10 @@ namespace InvoiceManagementSystem.Models
         public string ParentMobileNo { get; set; }
         public string Qualification { get; set; }
         public string Profession { get; set; }
-        public string ClassNo { get; set; }
         public int ClassId { get; set; }
+        public string ClassNo { get; set; }
+        public int SectionId { get; set; }
+        public string SectionNo { get; set; }
         public int TeacherId { get; set; }
         public string Date { get; set; }
         public string Response { get; set; }
@@ -228,6 +230,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.Add("@Profession", SqlDbType.VarChar).Value = cls.Profession;
                 cmd.Parameters.Add("@Qualification", SqlDbType.VarChar).Value = cls.Qualification;
                 cmd.Parameters.Add("@ClassId", SqlDbType.VarChar).Value = cls.ClassId;
+                cmd.Parameters.Add("@SectionId", SqlDbType.VarChar).Value = cls.SectionId;
                 cmd.Parameters.Add("@RollNo", SqlDbType.Int).Value = cls.RollNo;
                 cmd.Parameters.AddWithValue("@Profile", SqlDbType.VarChar).Value = cls.ProfileImg;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
@@ -295,6 +298,9 @@ namespace InvoiceManagementSystem.Models
                         obj.Title = dt.Rows[i]["Title"] == null || dt.Rows[i]["Title"].ToString().Trim() == "" ? null : dt.Rows[i]["Title"].ToString();
                         obj.ProfileImg = dt.Rows[i]["Profile"] == null || dt.Rows[i]["Profile"].ToString().Trim() == "" ? null : dt.Rows[i]["Profile"].ToString();
                         obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
+                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.SectionId = Convert.ToInt32(dt.Rows[i]["SectionId"] == null || dt.Rows[i]["SectionId"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionId"].ToString());
+                        obj.SectionNo = dt.Rows[i]["SectionNo"] == null || dt.Rows[i]["SectionNo"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionNo"].ToString();
                         obj.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
                         obj.FatherName = dt.Rows[i]["FatherName"] == null || dt.Rows[i]["FatherName"].ToString().Trim() == "" ? null : dt.Rows[i]["FatherName"].ToString();
@@ -307,12 +313,8 @@ namespace InvoiceManagementSystem.Models
                         obj.AlternateMobileNo = dt.Rows[i]["AlternateMobileNo"] == null || dt.Rows[i]["AlternateMobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["AlternateMobileNo"].ToString();
                         obj.DateOfJoining = dt.Rows[i]["DateOfJoining"] == null || dt.Rows[i]["DateOfJoining"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["DateOfJoining"]).ToString("yyyy-MM-dd");
                         obj.DateOfLeaving = dt.Rows[i]["DateOfLeaving"] == null || dt.Rows[i]["DateOfLeaving"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["DateOfLeaving"]).ToString("yyyy-MM-dd");
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
-                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
                         obj.Qualification = dt.Rows[i]["Qualification"] == null || dt.Rows[i]["Qualification"].ToString().Trim() == "" ? null : dt.Rows[i]["Qualification"].ToString();
-                        //obj.MaritalStatus = dt.Rows[i]["MaritalStatus"] == null || dt.Rows[i]["MaritalStatus"].ToString().Trim() == "" ? null : dt.Rows[i]["MaritalStatus"].ToString();
                         obj.AnniversaryDate = dt.Rows[i]["AnniversaryDate"] == null || dt.Rows[i]["AnniversaryDate"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["AnniversaryDate"]).ToString("yyyy-MM-dd");
-                        //obj.Experience = dt.Rows[i]["Experience"] == null || dt.Rows[i]["Experience"].ToString().Trim() == "" ? null : dt.Rows[i]["Experience"].ToString();
                         obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
                         obj.CurrentPincode = dt.Rows[i]["CurrentPincode"] == null || dt.Rows[i]["CurrentPincode"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentPincode"].ToString();
                         obj.CurrentCity = dt.Rows[i]["CurrentCity"] == null || dt.Rows[i]["CurrentCity"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentCity"].ToString();
@@ -328,9 +330,6 @@ namespace InvoiceManagementSystem.Models
                         obj.ParentEmail = dt.Rows[i]["ParentEmail"] == null || dt.Rows[i]["ParentEmail"].ToString().Trim() == "" ? null : dt.Rows[i]["ParentEmail"].ToString();
                         obj.ParentMobileNo = dt.Rows[i]["ParentMobileNo"] == null || dt.Rows[i]["ParentMobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ParentMobileNo"].ToString();
                         obj.Profession = dt.Rows[i]["Profession"] == null || dt.Rows[i]["Profession"].ToString().Trim() == "" ? null : dt.Rows[i]["Profession"].ToString();
-
-
-
                         lst.Add(obj);
                     }
                 }
@@ -467,6 +466,7 @@ namespace InvoiceManagementSystem.Models
                         dr["Gender"] = Regex.Replace(dr["Gender"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                         dr["Status"] = Regex.Replace(dr["Status"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                         dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["SectionNo"] = Regex.Replace(dr["SectionNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                         dr["RollNo"] = Regex.Replace(dr["RollNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                     }
                 }

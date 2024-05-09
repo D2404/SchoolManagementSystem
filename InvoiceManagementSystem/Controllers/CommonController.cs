@@ -101,6 +101,46 @@ namespace InvoiceManagementSystem.Controllers
 
             }
         }
+        public ActionResult GetMonth(MonthModel cls)
+        {
+            try
+            {
+                List<MonthModel> lstClientList = new List<MonthModel>();
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetMonthList", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        MonthModel obj = new MonthModel();
+
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.MonthName = dt.Rows[i]["MonthName"] == null || dt.Rows[i]["MonthName"].ToString().Trim() == "" ? null : dt.Rows[i]["MonthName"].ToString();
+
+                        lstClientList.Add(obj);
+                    }
+                }
+                cls.LSTMonthList = lstClientList;
+
+                return Json(cls, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+
+            }
+        }
         public ActionResult GetAcademicYear(AcademicYearModel cls)
         {
             try
@@ -303,18 +343,18 @@ namespace InvoiceManagementSystem.Controllers
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 conn.Close();
-                List<SectionModel> clsLst = new List<SectionModel>();
+                List<FeesModel> cls= new List<FeesModel>();
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                        SectionModel obj = new SectionModel();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        FeesModel obj = new FeesModel();
+                        obj.SectionId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.SectionNo = dt.Rows[i]["SectionNo"] == null || dt.Rows[i]["SectionNo"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionNo"].ToString();
-                        clsLst.Add(obj);
+                        cls.Add(obj);
                     }
                 }
-                return Json(clsLst, JsonRequestBehavior.AllowGet);
+                return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -399,6 +439,10 @@ namespace InvoiceManagementSystem.Controllers
 
             }
         }
+
+
+        
+
         public ActionResult GetTeacher(TeacherModel cls)
         {
             try
@@ -492,18 +536,18 @@ namespace InvoiceManagementSystem.Controllers
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 conn.Close();
-                List<ExamModel> clsLst = new List<ExamModel>();
+                List<FeesModel> cls = new List<FeesModel>();
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
                     {
-                        ExamModel obj = new ExamModel();
+                        FeesModel obj = new FeesModel();
                         obj.StudentId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
-                        clsLst.Add(obj);
+                        cls.Add(obj);
                     }
                 }
-                return Json(clsLst, JsonRequestBehavior.AllowGet);
+                return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

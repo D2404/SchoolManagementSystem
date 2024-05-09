@@ -346,7 +346,7 @@ namespace InvoiceManagementSystem.Controllers
                         obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
                         obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
                         obj.MonthName = dt.Rows[i]["MonthName"] == null || dt.Rows[i]["MonthName"].ToString().Trim() == "" ? null : dt.Rows[i]["MonthName"].ToString();
-                        obj.YearId = Convert.ToInt32(dt.Rows[i]["Year"] == null || dt.Rows[i]["Year"].ToString().Trim() == "" ? null : dt.Rows[i]["Year"].ToString());
+                        obj.AcademicYearId = Convert.ToInt32(dt.Rows[i]["Year"] == null || dt.Rows[i]["Year"].ToString().Trim() == "" ? null : dt.Rows[i]["Year"].ToString());
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
                         obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
@@ -509,7 +509,7 @@ namespace InvoiceManagementSystem.Controllers
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.StudentName + "</td>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.Date + "</td>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;text-align:center'>" + detail.MonthName + "</td>";
-                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.YearId + "</td>";
+                    InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.AcademicYearId + "</td>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.FeesAmount + "</td>";
                     InvoiceDetails = InvoiceDetails + "</tr>";
 

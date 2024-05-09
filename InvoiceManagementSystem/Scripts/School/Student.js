@@ -36,6 +36,7 @@ $(document).ready(function () {
     if (Id > 4) {
         $('#Passworddiv').hide();
         $('#ClassRoomdiv').hide();
+        $('#ClassRoomdiv').hide();
     }
     $("#sameAsAbove").on("change", function () {
         if ($(this).prop("checked")) {
@@ -112,6 +113,31 @@ function GetClassRoom() {
                 $("#ddlClassId").empty();
                 $("#ddlClassId").append(html);
             }
+        }
+    });
+}
+
+function onClass() {
+    debugger
+    var ClassId = $('#ClassId').val();
+    $.ajax({
+        type: "GET",
+        url: '/Student/LoadSection?ClassId=' + ClassId,
+        async: false,
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (data) {
+
+            $('#SectionId').empty();
+            $("#SectionId").append($("<option     />").val("0").text("Select Section.."));
+            $.each(data, function (i, v) {
+                $("#SectionId").append($("<option     />").val(v.SectionId).text(v.SectionNo));
+            });
+            HideWait();
+        },
+        failure: function () {
+            HideWait();
+            alert("Failed!");
         }
     });
 }
@@ -257,8 +283,9 @@ function ValidateBasicDetails(id) {
     var AlternateMobileNo = $('#AlternateMobileNo').val();
     var DateOfJoining = $('#DateOfJoining').val();
     var ClassId = $('#ClassId').val();
+    var SectionId = $('#SectionId').val();
     var RollNo = $('#RollNo').val();
-    var RoleId =3
+    var RoleId =4
     if (Title === "0") {
         $("#errTitle").html("Please select title");
         val = false;
@@ -286,6 +313,10 @@ function ValidateBasicDetails(id) {
     }
     if (ClassId === "0") {
         $("#errClassId").html("Please select class.");
+        val = false;
+    }
+    if (SectionId === "0") {
+        $("#errSectionId").html("Please select section.");
         val = false;
     }
     if (RollNo === "0" || RollNo.trim() === '') {
@@ -317,6 +348,10 @@ function ValidateBasicDetails(id) {
     if (Id === "0") {
         if (ClassId === "0") {
             $("#errClassId").html("Please select classroom");
+            val = false;
+        }
+        if (SectionId === "0") {
+            $("#errSectionId").html("Please select section");
             val = false;
         }
         var formData = new FormData();
@@ -464,7 +499,7 @@ function InsertData(id) {
   
     var RollNo = $('#RollNo').val();
 
-    var RoleId = 3
+    var RoleId = 4
     if (CurrentAddress === "" || /\S/.test(CurrentAddress) === false) {
         $("#errCurrentAddress").html("Please enter current address.");
         val = false;
@@ -557,6 +592,7 @@ function InsertData(id) {
     formData.append('AlternateMobileNo', AlternateMobileNo);
     formData.append('DateOfJoining', DateOfJoining);
     formData.append('ClassId', ClassId);
+    formData.append('SectionId', SectionId);
     formData.append('RollNo', RollNo);
     formData.append('Qualification', Qualification);
     formData.append('AnniversaryDate', AnniversaryDate);
@@ -817,6 +853,8 @@ function ClearBasicDetails() {
     $('#AlternateMobileNo').val('');
     $("#ClassId").val('0').trigger('change');
     $('#errClassId').html("");
+    $("#SectionId").val('0').trigger('change');
+    $('#errSectionId').html("");
     document.getElementById('RollNo').value = "";
     $('#errRollNo').html("");
 }

@@ -75,6 +75,42 @@ namespace InvoiceManagementSystem.Controllers
             model = model.addStudent(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult LoadSection(int ClassId)
+        {
+            try
+            {
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadDropDownByClassId", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.Add("@ClassId", ClassId);
+                cmd.Parameters.Add("@mode", 3);
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<StudentModel> cls = new List<StudentModel>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        StudentModel obj = new StudentModel();
+                        obj.SectionId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.SectionNo = dt.Rows[i]["SectionNo"] == null || dt.Rows[i]["SectionNo"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionNo"].ToString();
+                        cls.Add(obj);
+                    }
+                }
+                return Json(cls, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         public ActionResult GetStudent(StudentModel cls)
         {
