@@ -39,7 +39,7 @@ namespace InvoiceManagementSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult FeesCollection(FeesModel cls, int? intId, string[] FeesAmount, string[] MonthId, string[] AcademicYearId)
+        public ActionResult FeesCollection(FeesModel cls, int? Id, string[] FeesAmount, string[] MonthId, string[] AcademicYearId)
         {
             try
             {

@@ -100,7 +100,7 @@ namespace InvoiceManagementSystem.Models
                 #region Insert Customer Invoice Mst data
 
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_AddUpdateCustomerInvoiceData", conn);
+                SqlCommand cmd = new SqlCommand("Sp_AddUpdateFeesCollectionData", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = cls.Id.ToString() == null || cls.Id.ToString() == "" ? 0 : cls.Id;
 
@@ -110,7 +110,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@RollNo", SqlDbType.Int).Value = cls.RollNo;
                 cmd.Parameters.AddWithValue("@Date", SqlDbType.DateTime).Value = cls.Date;
                 cmd.Parameters.AddWithValue("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
-                cmd.Parameters.AddWithValue("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
+                //cmd.Parameters.AddWithValue("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;
@@ -141,32 +141,32 @@ namespace InvoiceManagementSystem.Models
                 }
                 #endregion
 
-                #region Insert Item Invoice detail data
-                if (Convert.ToInt32(intRefId) > 0)
-                {
-                    if (listInvoiceDetail != null && listInvoiceDetail.Count > 0)
-                    {
-                        for (int i = 0; i < listInvoiceDetail.Count; i++)
-                        {
-                            conn.Open();
-                            SqlCommand cmd1 = new SqlCommand("Sp_AddUpdateItemInvoiceData", conn);
-                            cmd1.CommandType = CommandType.StoredProcedure;
-                            cmd1.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = cls.Id.ToString() == null || cls.Id.ToString() == "" ? 0 : cls.Id;
-                            cmd1.Parameters.AddWithValue("@MonthId", SqlDbType.Int).Value = cls.MonthId.ToString() == null || cls.MonthId.ToString() == "" ? 0 : cls.MonthId;
-                            cmd1.Parameters.AddWithValue("@AcademicYearId", SqlDbType.Int).Value = cls.AcademicYearId.ToString() == null || cls.AcademicYearId.ToString() == "" ? 0 : cls.AcademicYearId;
-                            cmd1.Parameters.AddWithValue("@FeesAmount", SqlDbType.Int).Value = cls.FeesAmount.ToString() == null || cls.FeesAmount.ToString() == "" ? 0 : cls.FeesAmount;
-                            cmd.Parameters.AddWithValue("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
-                            cmd.Parameters.AddWithValue("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
-                            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
-                            cmd1.CommandTimeout = 0;
-                            da1.ReturnProviderSpecificTypes = true;
-                            DataTable dt1 = new DataTable();
-                            da1.Fill(dt1);
-                            conn.Close();
-                        }
-                    }
-                }
-                #endregion
+                //#region Insert Item Invoice detail data
+                //if (Convert.ToInt32(intRefId) > 0)
+                //{
+                //    if (listInvoiceDetail != null && listInvoiceDetail.Count > 0)
+                //    {
+                //        for (int i = 0; i < listInvoiceDetail.Count; i++)
+                //        {
+                //            conn.Open();
+                //            SqlCommand cmd1 = new SqlCommand("Sp_AddUpdateItemInvoiceData", conn);
+                //            cmd1.CommandType = CommandType.StoredProcedure;
+                //            cmd1.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = cls.Id.ToString() == null || cls.Id.ToString() == "" ? 0 : cls.Id;
+                //            cmd1.Parameters.AddWithValue("@MonthId", SqlDbType.Int).Value = cls.MonthId.ToString() == null || cls.MonthId.ToString() == "" ? 0 : cls.MonthId;
+                //            cmd1.Parameters.AddWithValue("@AcademicYearId", SqlDbType.Int).Value = cls.AcademicYearId.ToString() == null || cls.AcademicYearId.ToString() == "" ? 0 : cls.AcademicYearId;
+                //            cmd1.Parameters.AddWithValue("@FeesAmount", SqlDbType.Int).Value = cls.FeesAmount.ToString() == null || cls.FeesAmount.ToString() == "" ? 0 : cls.FeesAmount;
+                //            cmd.Parameters.AddWithValue("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
+                //            cmd.Parameters.AddWithValue("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
+                //            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                //            cmd1.CommandTimeout = 0;
+                //            da1.ReturnProviderSpecificTypes = true;
+                //            DataTable dt1 = new DataTable();
+                //            da1.Fill(dt1);
+                //            conn.Close();
+                //        }
+                //    }
+                //}
+                //#endregion
 
                 return Convert.ToInt32(intRefId);
             }

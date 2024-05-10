@@ -16,6 +16,7 @@ $(document).ready(function () {
     GetClassRoom();
     GetMonthList(count, 0);
     GetAcademicYearList(count, 0);
+    
 });
 
 
@@ -495,11 +496,11 @@ function GetMonthList(k, SelectedValue) {
                     arrayMonthList = data.LSTMonthList;
                     for (var i = 0; i < data.LSTMonthList.length; i++) {
                         var item = data.LSTMonthList[i];
-                        if (SelectedValue === item.MonthId) {
-                            strHTML = strHTML + '<option value="' + item.MonthId + '" selected>' + item.MonthName + '</option>';
+                        if (SelectedValue === item.Id) {
+                            strHTML = strHTML + '<option value="' + item.Id + '" selected>' + item.MonthName + '</option>';
                         }
                         else {
-                            strHTML = strHTML + '<option value="' + item.MonthId + '">' + item.MonthName + '</option>';
+                            strHTML = strHTML + '<option value="' + item.Id + '">' + item.MonthName + '</option>';
                         }
                     }
                 }
