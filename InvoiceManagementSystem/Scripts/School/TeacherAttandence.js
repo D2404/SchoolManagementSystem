@@ -157,7 +157,7 @@ function InsertData() {
 
 
 function ExportTeacherAttendance() {
-    debugger
+    
     var Id = 0;
     var TeacherId = document.getElementById('ddlTeacherId').value
     var Date = document.getElementById('Date').value
@@ -321,7 +321,7 @@ function ClearSearchData(page) {
 }
 
 function GetTeacherAttandenceListByTeacherId(page) {
-    debugger
+    
     var TeacherId = $("#teacherIdContainer").data("teacher-id");
     var FromDate = document.getElementById('FromDate').value
     var ToDate = document.getElementById('ToDate').value

@@ -1,18 +1,18 @@
 ﻿var type = 1
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 $(document).ready(function () {
     GetClassRoom();
     GetSubjectList(1);
-    $('#FilterDiv').hide();
+    $('#Filter').hide();
 
 });
 function InsertData() {
@@ -20,6 +20,10 @@ function InsertData() {
     var val = true;
     var Id = $('#hdnintId').val();
     var ClassId = $('#ClassId').val();
+    if (ClassId === "0" || ClassId === 0) {
+        $("#errClassId").html("Please select class room.");
+        val = false;
+    }
     var SearchText = $('#SearchText').val();
     var SubjectName = $('#SubjectName').val();
     if (SubjectName === "" || /\S/.test(SubjectName) === false) {
@@ -124,7 +128,7 @@ function GetSubjectList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         intActive: intActive,
@@ -138,7 +142,7 @@ function GetSubjectList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -224,7 +228,9 @@ function deleteSubject() {
 
 function Clear() {
     document.getElementById('SubjectName').value = "";
+    $("#ClassId").val('0').trigger('change');
     $('#errSubjectName').html("");
+    $('#errClassId').html("");
     $("#ddlClassId").val('0').trigger('change');
     document.getElementById('btnAdd').innerHTML = "Add";
     $("#btnAdd").attr('title', 'Upload');
@@ -272,6 +278,7 @@ function ClearData(type) {
         var Id = document.getElementById('hdnintId').value;
         document.getElementById('SubjectName').value = "";
         $('#errSubjectName').html("");
+        $('#errClassId').html("");
         $("#ClassId").val('0').trigger('change');
 
         if (Id === "0") {

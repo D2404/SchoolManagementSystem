@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,6 +18,16 @@ namespace InvoiceManagementSystem.Controllers
     {
         clsCommon objCommon = new clsCommon();
 
+        private readonly ClassSectionRepository _repository;
+        private readonly clsCommon _commonModel;
+
+
+        public ClassSectionController(ClassSectionRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
+
         public ActionResult ClassSection()
         {
             if (objCommon.getUserIdFromSession() != 0)
@@ -29,71 +40,33 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
+        public ActionResult GetClassSection(ClassSectionModel model)
+        {
+            try
+            {
+                model = _repository.GetAllClassSection(model);
+                return PartialView("_ClassSectionListPartial", model);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         [HttpPost]
         public ActionResult InsertClassSection(ClassSectionModel model)
         {
-            model = model.addClassSection(model);
+            model = _repository.AddClassSection(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetClassSection(ClassSectionModel cls)
+        public ActionResult GetSingleClassSectionData(ClassSectionModel model)
         {
             try
             {
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<ClassSectionModel> lstClassSectionList = new List<ClassSectionModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_GetClassSectionList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        ClassSectionModel obj = new ClassSectionModel();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
-                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
-                        obj.Section = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstClassSectionList.Add(obj);
-                    }
-                }
-                cls.LSTClassSectionList = lstClassSectionList;
-                if (cls.LSTClassSectionList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTClassSectionList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTClassSectionList = lstClassSectionList;
-
-                return PartialView("_ClassSectionListPartial", cls);
-
+                model = _repository.GetSingleClassSection(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -101,12 +74,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetSingleClassSectionData(ClassSectionModel cls)
+        public ActionResult deleteClassSection(ClassSectionModel model)
         {
             try
             {
-                cls = cls.GetClassSection(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = _repository.DeleteClassSection(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -114,24 +87,11 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult deleteClassSection(ClassSectionModel cls)
+        public ActionResult UpdateStatus(ClassSectionModel model)
         {
             try
             {
-                cls = cls.deleteClassSection(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public ActionResult UpdateStatus(ClassSectionModel cls)
-        {
-            try
-            {
-                var Status = cls.UpdateStatus(cls);
+                var Status = _repository.UpdateStatus(model);
                 return Json(Status, JsonRequestBehavior.AllowGet);
 
 
@@ -142,14 +102,14 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult ExpotToExcelClassSectionReport(ClassSectionModel cls)
+        public ActionResult ExpotToExcelClassSectionReport(ClassSectionModel model)
         {
             try
             {
                 if (objCommon.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = cls.ExportClassSection(cls);
+                    dt = _repository.ExportClassSection(model);
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         Session["ExpotToExcelClassSectionReport"] = dt;

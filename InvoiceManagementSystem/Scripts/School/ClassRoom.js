@@ -1,32 +1,17 @@
 ﻿var type = 1
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 $(document).ready(function () {
+    $('#Filter').hide();
     GetClassRoomList(1);
-    $('#FilterDiv').hide();
-    $('#list-view').show();
-    $('#grid-view').hide();
-
-    // Event handler for list-view tab
-    $('li[data-tab-id="list-view"]').on('click', function () {
-        $('#list-view').show();
-        $('#grid-view').hide();
-    });
-
-    // Event handler for grid-view tab
-    $('li[data-tab-id="grid-view"]').on('click', function () {
-        $('#list-view').hide();
-        $('#grid-view').show();
-    });
-
 });
 
 function GetClassRoomList(page) {
@@ -45,7 +30,7 @@ function GetClassRoomList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         intActive: intActive,
@@ -58,7 +43,7 @@ function GetClassRoomList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -221,7 +206,7 @@ function deleteClassRoom() {
             }
             else if (data.Response === 'dependency') {
                 $('#delete_ClassRoom').click();
-                toastr.error('ClassRoom already used in subject.');
+                toastr.error('ClassRoom already used in system.');
                 document.getElementById('hdnintId').value = "0";
                 GetClassRoomList(1);
                 //$('#delete_ClassRoom').click();

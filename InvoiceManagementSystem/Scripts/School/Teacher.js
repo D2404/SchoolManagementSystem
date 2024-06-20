@@ -1,11 +1,21 @@
-﻿
+﻿var type = 1
+function ShowFilter() {
+    if (type === 1) {
+        $('#Filter').show();
+        type = 2;
+    }
+    else {
+        $('#Filter').hide();
+        type = 1;
+    }
+}
 $(document).ready(function () {
     GetClassRoom();
     GetTeacherList(1);
     GetTeacherGrid();
     DisabledAnniversaryDate();
     $('#removeButton').hide();
-    $('#FilterDiv').hide();
+    $('#Filter').hide();
     $('#list-view').show();
     $('#grid-view').hide();
     $(".gambar").attr("src", "/Data/Profile/dummy.jpg");
@@ -108,7 +118,7 @@ function GetClassRoom() {
     var cls = {
     }
     $.ajax({
-        url: '/Subject/GetClassRoom',
+        url: '/Common/GetClassRoom',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
@@ -148,7 +158,7 @@ function GetTeacherList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         Date: FromDate,
@@ -163,7 +173,7 @@ function GetTeacherList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -196,7 +206,7 @@ function GetTeacherGrid(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         Date: FromDate,
@@ -211,7 +221,7 @@ function GetTeacherGrid(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#gridView').empty();
@@ -617,7 +627,7 @@ function InsertData(id) {
 }
 
 function WelcomeMail(Email) {
-    debugger
+    
     var cls = {
         Email: Email
     }
@@ -677,7 +687,7 @@ function AddBulkTeacherData() {
         processData: false,
         data: formData,
         success: function (data) {
-            debugger
+            
 
             try {
                 var strHTML = '';
@@ -720,10 +730,10 @@ function AddBulkTeacherData() {
             }
 
             catch (ex) {
-                debugger
+                
             }
             finally {
-                debugger
+                
             }
 
         },

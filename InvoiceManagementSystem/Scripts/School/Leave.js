@@ -17,7 +17,7 @@ function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
 }
 function LeaveType() {
-    debugger
+    
     var leaveType = $('#LeaveType').val();
     if (leaveType === "1") {
         leaveSubTypeDiv.style.display = "block";
@@ -28,7 +28,7 @@ function LeaveType() {
 }
 
 function InsertData() {
-    debugger
+    
     var val = true;
     var Id = $('#hdnintId').val();
     var FromDate = $('#FromDate').val();
@@ -129,7 +129,7 @@ function LeaveMail(Email) {
             cls: cls
         }),
         success: function (data) {
-            debugger
+            
             if (data !== null) {
                 document.getElementById('hdnintId').value = data.LSTLeaveList[0].Id;
                // document.getElementById('UserName').value = data.LSTLeaveList[0].StudentName;

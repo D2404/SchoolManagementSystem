@@ -15,6 +15,47 @@ namespace InvoiceManagementSystem.Controllers
         clsCommon objCommon = new clsCommon();
 
         // GET: Exam
+
+        public ActionResult FeesCollectionList()
+        {
+            try
+            {
+                if (objCommon.getUserIdFromSession() != 0)
+                {
+
+                    return View();
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public ActionResult GetFeesCollectionList(FeesModel cls)
+        {
+            try
+            {
+                if (objCommon.getUserIdFromSession() != 0)
+                {
+                    cls = cls.GetFeesCollectionList(cls);
+                    return PartialView("_FeesCollectionListPartial", cls);
+                }
+                else
+                {
+                    return Redirect(objCommon.RedirectToLogin(2));
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult FeesCollection(int? id)
         {
             if (objCommon.getUserIdFromSession() != 0)
@@ -22,13 +63,14 @@ namespace InvoiceManagementSystem.Controllers
                 FeesModel cls = new FeesModel();
                 if (id != null || id > 0)
                 {
-                    cls = cls.GetSingleFees(cls, id);
+                    cls = cls.FillClassRoomList(cls);
+                    cls = cls.FillMonthList(cls);
+                    cls = cls.GetSingleFeesCollectionData(cls, id);
                 }
                 else
                 {
                     cls = cls.FillClassRoomList(cls);
                     cls = cls.FillMonthList(cls);
-                    cls = cls.FillAcademicYearList(cls);
                 }
                 return View(cls);
             }
@@ -38,24 +80,66 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
+
+        public JsonResult LoadRollNo(int StudentId)
+        {
+            FeesModel cls = new FeesModel();
+            // Fetch the RollNo based on StudentId
+            cls = cls.GetRollNoByStudentId(StudentId);
+            var rollNo = cls.LSTFeesList[0].RollNo;
+            return Json(new { RollNo = rollNo }, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult GetRollNoByStudentId(int StudentId)
+        {
+            try
+            {
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon objCommon = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadRollNo", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@StudentId", StudentId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<FeesModel> clsLst = new List<FeesModel>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                        FeesModel obj = new FeesModel();
+                        obj.RollNo = Convert.ToInt32(dt.Rows[0]["RollNo"] == null || dt.Rows[0]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[0]["RollNo"].ToString());
+                        clsLst.Add(obj);
+                 
+                }
+                return Json(clsLst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         [HttpPost]
-        public ActionResult FeesCollection(FeesModel cls, int? Id, string[] FeesAmount, string[] MonthId, string[] AcademicYearId)
+        public ActionResult FeesCollection(FeesModel cls, int? Id, string[] FeesAmount, string[] MonthId)
         {
             try
             {
                 if (objCommon.getUserIdFromSession() != 0)
                 {
-                    List<FeeCollectionModel> listInvoiceDetail = new List<FeeCollectionModel>();
+                    List<FeeCollectionModel> listfeeCollection = new List<FeeCollectionModel>();
 
                     if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
                     {
                         for (int i = 0; i < cls.LSTFeesList.Count; i++)
                         {
                             FeeCollectionModel obj = new FeeCollectionModel();
-                            obj.FeesAmount = (cls.LSTFeesList[i].FeesAmount == null) ? 0 : (cls.LSTFeesList[i].FeesAmount);
-                            obj.MonthId = (cls.LSTFeesList[i].MonthId == null) ? 0 : (cls.LSTFeesList[i].MonthId);
-                            obj.AcademicYearId = (cls.LSTFeesList[i].AcademicYearId == null) ? 0 : Convert.ToInt32(cls.LSTFeesList[i].AcademicYearId);
-                            listInvoiceDetail.Add(obj);
+                            obj.FeesAmount = (cls.LSTFeesList[i].FeesAmount == 0) ? 0 : (cls.LSTFeesList[i].FeesAmount);
+                            obj.MonthId = (cls.LSTFeesList[i].MonthId == 0) ? 0 : (cls.LSTFeesList[i].MonthId);
+                            obj.AmountDate = (cls.LSTFeesList[i].AmountDate == null) ? "" : Convert.ToString(cls.LSTFeesList[i].AmountDate);
+                            listfeeCollection.Add(obj);
                         }
                     }
                     if (MonthId != null && MonthId.Length > 0)
@@ -67,54 +151,52 @@ namespace InvoiceManagementSystem.Controllers
                                 FeeCollectionModel obj = new FeeCollectionModel();
                                 obj.FeesAmount = (FeesAmount[i] == null) ? 0 : Convert.ToInt16(FeesAmount[i]);
                                 obj.MonthId = (MonthId[i] == null) ? 0 : Convert.ToInt16(MonthId[i]);
-                                obj.AcademicYearId = (AcademicYearId[i] == null) ? 0 : Convert.ToInt16(AcademicYearId[i]);
-                                listInvoiceDetail.Add(obj);
+                                listfeeCollection.Add(obj);
                             }
                         }
                     }
                     int Res = 0;
-                    //if (Convert.ToDecimal(cls.decTotal) > 0)
-                    //{
-                        Res = cls.InsertCustomerInvoice(cls, listInvoiceDetail);
-                    //}
-                    //if (Res > 0)
-                    //{
-                    //    if (cls.intId == 0)
-                    //    {
-                    //        TempData["SuccessMsg"] = "Customer invoice details has been saved successfully.";
-                    //        return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
-                    //    }
-                    //    else
-                    //    {
-                    //        TempData["SuccessMsg"] = "Customer invoice details has been updated successfully.";
-                    //        return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
-                    //    }
-                    //}
-                    //else if (cls.strResponse == clsConstant.MESSAGE_EXISTS)
-                    //{
-                    //    TempData["ErrorMsg"] = "Invoice no already exists.";
-                    //    return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
-                    //}
-                    //else if (cls.strResponse == clsConstant.MESSAGE_ERROR)
-                    //{
-                    //    TempData["ErrorMsg"] = "Data not saved successfully, please try again.";
-                    //    return RedirectToAction("CustomerInvoiceDetailsList", "ManageInvoiceDetails");
-                    //}
-                    //else
-                    //{
-                    //    return RedirectToAction("CustomerInvoiceDetails", "ManageInvoiceDetails");
-                    //}
-                    //cls = cls.FillGetClientList(cls);
+
+                    Res = cls.InsertFeesCollection(cls, listfeeCollection);
+
+                    if (Res > 0)
+                    {
+                        if (cls.Id == 0)
+                        {
+                            TempData["SuccessMsg"] = "Fees collection details has been saved successfully.";
+                            return RedirectToAction("FeesCollectionList", "FeesCollection");
+                        }
+                        else
+                        {
+                            TempData["SuccessMsg"] = "Fees collection details has been updated successfully.";
+                            return RedirectToAction("FeesCollectionList", "FeesCollection");
+                        }
+                    }
+                    else if (cls.Response == ConstantModel.MESSAGE_EXISTS)
+                    {
+                        TempData["ErrorMsg"] = "Fees details already exists.";
+                        return RedirectToAction("FeesCollectionList", "FeesCollection");
+                    }
+                    else if (cls.Response == ConstantModel.MESSAGE_ERROR)
+                    {
+                        TempData["ErrorMsg"] = "Data not saved successfully, please try again.";
+                        return RedirectToAction("FeesCollectionList", "FeesCollection");
+                    }
+                    else
+                    {
+                        return RedirectToAction("FeesCollectionList", "FeesCollection");
+                    }
+
                     return View(cls);
                 }
                 else
                 {
-                    return RedirectToAction("Index", "Company");
+                    return RedirectToAction("Index", "Home");
                 }
             }
             catch (Exception ex)
             {
-                return RedirectToAction("Index", "Company");
+                return RedirectToAction("Index", "Home");
             }
         }
 
@@ -396,7 +478,7 @@ namespace InvoiceManagementSystem.Controllers
 
                 body = body.Replace("[[SchoolName]]", item.SchoolName);
                 body = body.Replace("[[Address]]", item.Address);
-                body = body.Replace("[[Email]]", "School Email.: " + item.Email); 
+                body = body.Replace("[[Email]]", "School Email.: " + item.Email);
                 body = body.Replace("[[MobileNo]]", "School Contact.: <span>" + item.MobileNo + "</span>");
                 string dynamicImagePath = "https://localhost:44349" + "/Data/SchoolPhoto/" + item.PhotoImg; // Assuming item.PhotoImg is a property or variable containing the image path
                 body = body.Replace("[[schoolLogo]]", $"<img style=\"height:50px;width:50px;\" src=\"{dynamicImagePath}\" />");
@@ -411,7 +493,7 @@ namespace InvoiceManagementSystem.Controllers
                 body = body.Replace("[[StudentMobileNo]]", item1.MobileNo);
                 body = body.Replace("[[ClassNo]]", item1.ClassNo);
                 body = body.Replace("[[RollNo]]", item1.RollNo.ToString());
-                body = body.Replace("[[Date]]", item1.Date);  
+                body = body.Replace("[[Date]]", item1.Date);
 
                 string InvoiceDetails = "";
                 for (int i = 0; i < cls.LSTFeesHistoryList.Count; i++)
@@ -643,6 +725,6 @@ namespace InvoiceManagementSystem.Controllers
 
             }
         }
-        
+
     }
 }

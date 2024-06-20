@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -14,88 +15,41 @@ namespace InvoiceManagementSystem.Controllers
 {
     public class SubjectController : Controller
     {
-        clsCommon objCommon = new clsCommon();
+        private readonly SubjectRepository _repository;
+        private readonly clsCommon _commonModel;
 
-        // GET: Subject
+
+        public SubjectController(SubjectRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
+
         public ActionResult Subject()
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
                 return View();
             }
             else
             {
                 return RedirectToAction("Login", "Account");
-            }
+            };
+
         }
 
         [HttpPost]
-
         public ActionResult InsertSubject(SubjectModel model)
         {
-            model = model.addSubject(model);
+            model = _repository.AddSubject(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult GetSubject(SubjectModel cls)
+        public ActionResult GetSubject(SubjectModel model)
         {
             try
             {
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<SubjectModel> lstSubjectList = new List<SubjectModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_GetSubjectList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        SubjectModel obj = new SubjectModel();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
-                        obj.SubjectName = dt.Rows[i]["SubjectName"] == null || dt.Rows[i]["SubjectName"].ToString().Trim() == "" ? null : dt.Rows[i]["SubjectName"].ToString();
-                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstSubjectList.Add(obj);
-                    }
-                }
-                cls.LSTSubjectList = lstSubjectList;
-                if (cls.LSTSubjectList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTSubjectList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTSubjectList = lstSubjectList;
-
-                return PartialView("_SubjectListPartial", cls);
+                model = _repository.GetAllSubject(model);
+                return PartialView("_SubjectListPartial", model);
 
             }
             catch (Exception ex)
@@ -108,7 +62,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                cls = cls.GetSubject(cls);
+                cls = _repository.GetSingleSubject(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -121,7 +75,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                cls = cls.deleteSubject(cls);
+                cls = _repository.DeleteSubject(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -130,12 +84,11 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-       
         public ActionResult UpdateStatus(SubjectModel cls)
         {
             try
             {
-                var Status = cls.UpdateStatus(cls);
+                var Status = _repository.UpdateStatus(cls);
                 return Json(Status, JsonRequestBehavior.AllowGet);
 
 
@@ -150,10 +103,10 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                if (objCommon.getUserIdFromSession() != 0)
+                if (_commonModel.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = cls.ExportSubject(cls);
+                    dt = _repository.ExportSubject(cls);
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         Session["ExpotToExcelSubjectReport"] = dt;
@@ -166,11 +119,13 @@ namespace InvoiceManagementSystem.Controllers
                 }
                 else
                 {
-                    return Redirect(objCommon.RedirectToLogin(2));
+                    return Redirect(_commonModel.RedirectToLogin(2));
                 }
             }
             catch (Exception ex)
             {
+
+
                 throw ex;
             }
         }
@@ -178,9 +133,9 @@ namespace InvoiceManagementSystem.Controllers
         {
             DataTable data = (DataTable)Session["ExpotToExcelSubjectReport"];
 
-            string Filepath = Path.Combine(Server.MapPath("~/Data/Item"));
+            string Filepath = Path.Combine(Server.MapPath("~/Data/Item/"));
             string fileName = "SubjectReport" + DateTime.Now.ToString("ddMMyyyymmss");
-            string file = Path.Combine(Filepath, fileName);
+            string file = Filepath + fileName;
 
             DataTable dtcolumn = new DataTable();
             for (int i = 0; i < data.Columns.Count; i++)
@@ -196,17 +151,22 @@ namespace InvoiceManagementSystem.Controllers
 
             using (XLWorkbook wb = new XLWorkbook())
             {
-                var ws = wb.Worksheets.Add("Subjecteport");
+                var ws = wb.Worksheets.Add("SubjectReport");
 
+                //          var schoolLogo = ws.AddPicture(Server.MapPath("~/Data/assets/img/muktajivan-school-logo.png"))
+                //.MoveTo(ws.Cell(1, 1))
+                //.WithSize(50, 50);
+
+                // Add school name to cell (1, 2)
                 var schoolNameCell = ws.Cell(1, 1);
-                schoolNameCell.Value = "Shree Mukta Jivan School";
+                schoolNameCell.Value = Session["SchoolName"] as string;
                 schoolNameCell.Style.Font.Bold = true;
                 schoolNameCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 schoolNameCell.Style.Fill.BackgroundColor = XLColor.LightBlue;
                 schoolNameCell.Style.Font.FontSize = 16;
                 ws.Range(schoolNameCell, ws.Cell(1, data.Columns.Count + 4)).Merge();
 
-                // Add title "Manage Classroom" above column headers
+                // Add title "Manage Subject" above column headers
                 var titleCell = ws.Cell(3, 1);
                 titleCell.Value = "Subject Data";
                 titleCell.Style.Font.Bold = true;
@@ -240,20 +200,11 @@ namespace InvoiceManagementSystem.Controllers
                     }
                 }
 
+                // Add data rows
+                ws.Cell(6, 1).InsertData(data.Rows);
+
                 // Auto-adjust column widths
                 ws.Columns().AdjustToContents();
-
-                // Add extra space between columns
-                for (int i = 0; i < data.Columns.Count; i++)
-                {
-                    ws.Column(i + 1).Width = ws.Column(i + 1).Width + 5; // Adjust the value as needed
-                }
-
-                // Add extra space between rows
-                for (int i = 0; i < data.Rows.Count; i++)
-                {
-                    ws.Row(i + 6).Height = ws.Row(i + 6).Height + 2; // Adjust the value as needed
-                }
 
                 Response.Clear();
                 Response.Buffer = true;
@@ -270,6 +221,5 @@ namespace InvoiceManagementSystem.Controllers
                 }
             }
         }
-
     }
 }

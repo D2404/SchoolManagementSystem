@@ -188,7 +188,7 @@ function GetTeacherSubjectList(page) {
 }
 
 function ExportTeacherSubject() {
-    debugger
+    
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
     var intActive = document.getElementById('intActive').value;

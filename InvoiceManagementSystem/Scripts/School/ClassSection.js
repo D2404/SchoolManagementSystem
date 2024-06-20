@@ -1,19 +1,20 @@
 ﻿var type = 1
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 $(document).ready(function () {
+    $('#Filter').hide();
     GetClassRoom();
     GetSection();
     GetClassSectionList(1);
-    $('#FilterDiv').hide();
+    
 
 });
 function InsertData() {
@@ -78,14 +79,14 @@ function InsertData() {
 }
 
 function GetClassRoom() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Common/GetClassRoom',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -102,14 +103,14 @@ function GetClassRoom() {
     });
 }
 function GetSection() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Common/GetSection',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -125,7 +126,7 @@ function GetSection() {
 }
 
 function onClass() {
-    debugger
+    
     var ClassId = $('#ClassId').val();
     ShowWait();
     $.ajax({
@@ -151,7 +152,7 @@ function onClass() {
 }
 
 function GetClassSectionList(page) {
-
+    
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
     var intActive = document.getElementById('intActive').value;
@@ -168,7 +169,7 @@ function GetClassSectionList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         intActive: intActive,
@@ -182,7 +183,7 @@ function GetClassSectionList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -197,12 +198,13 @@ function GetClassSectionList(page) {
 }
 
 function GetSingleClassSectionData(id) {
+    
     $('#errClassId').html("");
     $('#errSectionId').html("");
     document.getElementById('btnAdd').innerHTML = "Update";
     $("#btnAdd").attr('title', 'Update');
     document.getElementById('PopupTitle').innerHTML = "Update ClassSection";
-    var cls = {
+    var model = {
         Id: id
     }
 
@@ -211,11 +213,12 @@ function GetSingleClassSectionData(id) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
             if (data !== null) {
+                
                 document.getElementById('hdnintId').value = data.LSTClassSectionList[0].Id;
                 $('#ClassId').val(data.LSTClassSectionList[0].ClassId).trigger("change");
                 $('#SectionId').val(data.LSTClassSectionList[0].SectionId).trigger("change");
@@ -234,7 +237,7 @@ function GetSingleClassSectionData(id) {
 
 function deleteClassSection() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -243,7 +246,7 @@ function deleteClassSection() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -280,7 +283,7 @@ function Clear() {
 
 function UpdateStatus() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -289,7 +292,7 @@ function UpdateStatus() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data === 'success') {
@@ -358,7 +361,7 @@ function ExportClassSection() {
     var intActive = document.getElementById('intActive').value;
     var ClassId = document.getElementById('ddlClassId').value;
 
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         intActive: intActive,
@@ -371,7 +374,7 @@ function ExportClassSection() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data === "success") {

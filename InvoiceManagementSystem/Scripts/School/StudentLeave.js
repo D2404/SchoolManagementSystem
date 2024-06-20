@@ -18,7 +18,7 @@ function myFunction() {
 }
 
 function LeaveType() {
-    debugger
+    
     var leaveType = $('#LeaveType').val();
     if (leaveType === "1") {
         leaveSubTypeDiv.style.display = "block";
@@ -117,7 +117,7 @@ function LeaveMail(Email) {
             cls: cls
         }),
         success: function (data) {
-            debugger
+            
             if (data === "Success") {
                 toastr.success('Leave inserted & Mail sent successfully');
             }

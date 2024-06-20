@@ -13,11 +13,14 @@ namespace InvoiceManagementSystem.Models
 
     public class FeeCollectionModel
     {
+        public int Id { get; set; }
         public int FeesAmount { get; set; }
         public int MonthId { get; set; }
         public string MonthName { get; set; }
         public int AcademicYearId { get; set; }
         public string AcademicYearName { get; set; }
+        public string AmountDate { get; set; }
+        
     }
     public class FeesModel
     {
@@ -30,9 +33,11 @@ namespace InvoiceManagementSystem.Models
         public string Date { get; set; }
         public string Profile { get; set; }
         public int FeesAmount { get; set; }
+        public int SubTotal { get; set; }
         public int RollNo { get; set; }
-       
-       
+        public string AmountDate { get; set; }
+
+
         public string Email { get; set; }
         public string MobileNo { get; set; }
        
@@ -71,8 +76,81 @@ namespace InvoiceManagementSystem.Models
         public List<MonthModel> LSTMonthList { get; set; }
         public List<AcademicYearModel> LSTAcademicYearList { get; set; }
         public List<FeesModel> LSTFeesHistoryList { get; set; }
+        public List<FeeCollectionModel> LSTFeesCollectionList { get; set; }
 
-        public int InsertCustomerInvoice(FeesModel cls, List<FeeCollectionModel> listInvoiceDetail)
+
+        public FeesModel GetFeesCollectionList(FeesModel cls)
+        {
+            try
+            {
+                int TotalEntries = 0;
+                int showingEntries = 0;
+                int startentries = 0;
+                List<FeesModel> lst = new List<FeesModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetFeesCollectionDetailsList", conn);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
+                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
+                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
+                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
+                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        FeesModel obj = new FeesModel();
+
+                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
+                        obj.SectionId = Convert.ToInt32(dt.Rows[i]["SectionId"] == null || dt.Rows[i]["SectionId"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionId"].ToString());
+                        obj.StudentId = Convert.ToInt32(dt.Rows[i]["StudentId"] == null || dt.Rows[i]["StudentId"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentId"].ToString());
+                        obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
+                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        obj.SectionNo = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
+                        obj.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
+                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
+                        obj.FeesAmount = Convert.ToInt32(dt.Rows[i]["FeesAmount"] == null || dt.Rows[i]["FeesAmount"].ToString().Trim() == "" ? null : dt.Rows[i]["FeesAmount"].ToString());
+                        //obj.MonthId = Convert.ToInt32(dt.Rows[i]["MonthId"] == null || dt.Rows[i]["MonthId"].ToString().Trim() == "" ? null : dt.Rows[i]["MonthId"].ToString());
+                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
+                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
+                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
+                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
+                        lst.Add(obj);
+                    }
+                }
+                cls.LSTFeesList = lst;
+                if (cls.LSTFeesList.Count > 0)
+                {
+                    var pager = new Models.Pager((int)cls.LSTFeesList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
+
+                    cls.Pager = pager;
+                }
+                cls.TotalEntries = TotalEntries;
+                cls.ShowingEntries = showingEntries;
+                cls.fromEntries = startentries;
+                cls.LSTFeesList = lst;
+
+
+                return cls;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public int InsertFeesCollection(FeesModel cls, List<FeeCollectionModel> listfeeCollection)
         {
             string intRefId = "";
             try
@@ -99,8 +177,8 @@ namespace InvoiceManagementSystem.Models
 
                 #region Insert Customer Invoice Mst data
 
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_AddUpdateFeesCollectionData", conn);
+                conn.Open(); 
+                 SqlCommand cmd = new SqlCommand("Sp_AddUpdateFeesDetailsData", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = cls.Id.ToString() == null || cls.Id.ToString() == "" ? 0 : cls.Id;
 
@@ -110,7 +188,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@RollNo", SqlDbType.Int).Value = cls.RollNo;
                 cmd.Parameters.AddWithValue("@Date", SqlDbType.DateTime).Value = cls.Date;
                 cmd.Parameters.AddWithValue("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
-                //cmd.Parameters.AddWithValue("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
+                cmd.Parameters.AddWithValue("@AcademicYear", SqlDbType.VarChar).Value = objCommon.getAcademicYearFromSession();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;
@@ -124,49 +202,50 @@ namespace InvoiceManagementSystem.Models
 
                     if (Convert.ToInt32(intRefId) == -1)
                     {
-                       // cls.Response = clsConstant.MESSAGE_EXISTS;
+                        cls.Response = ConstantModel.MESSAGE_EXISTS;
                     }
                     else if (cls.Id > 0)
                     {
-                        //cls.Response = clsConstant.MESSAGE_UPDATE;
+                        cls.Response = ConstantModel.MESSAGE_UPDATE;
                     }
                     else
                     {
-                    //    cls.Response = clsConstant.MESSAGE_SUCCESS;
+                      cls.Response = ConstantModel.MESSAGE_SUCCESS;
                     }
                 }
                 else
                 {
-                    //cls.Response = clsConstant.MESSAGE_ERROR;
+                    cls.Response = ConstantModel.MESSAGE_ERROR;
                 }
                 #endregion
 
-                //#region Insert Item Invoice detail data
-                //if (Convert.ToInt32(intRefId) > 0)
-                //{
-                //    if (listInvoiceDetail != null && listInvoiceDetail.Count > 0)
-                //    {
-                //        for (int i = 0; i < listInvoiceDetail.Count; i++)
-                //        {
-                //            conn.Open();
-                //            SqlCommand cmd1 = new SqlCommand("Sp_AddUpdateItemInvoiceData", conn);
-                //            cmd1.CommandType = CommandType.StoredProcedure;
-                //            cmd1.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = cls.Id.ToString() == null || cls.Id.ToString() == "" ? 0 : cls.Id;
-                //            cmd1.Parameters.AddWithValue("@MonthId", SqlDbType.Int).Value = cls.MonthId.ToString() == null || cls.MonthId.ToString() == "" ? 0 : cls.MonthId;
-                //            cmd1.Parameters.AddWithValue("@AcademicYearId", SqlDbType.Int).Value = cls.AcademicYearId.ToString() == null || cls.AcademicYearId.ToString() == "" ? 0 : cls.AcademicYearId;
-                //            cmd1.Parameters.AddWithValue("@FeesAmount", SqlDbType.Int).Value = cls.FeesAmount.ToString() == null || cls.FeesAmount.ToString() == "" ? 0 : cls.FeesAmount;
-                //            cmd.Parameters.AddWithValue("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
-                //            cmd.Parameters.AddWithValue("@TeacherId", SqlDbType.Int).Value = objCommon.getTeacherIdFromSession();
-                //            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
-                //            cmd1.CommandTimeout = 0;
-                //            da1.ReturnProviderSpecificTypes = true;
-                //            DataTable dt1 = new DataTable();
-                //            da1.Fill(dt1);
-                //            conn.Close();
-                //        }
-                //    }
-                //}
-                //#endregion
+                #region Insert Item Invoice detail data
+                if (Convert.ToInt32(intRefId) > 0)
+                {
+                    if (listfeeCollection != null && listfeeCollection.Count > 0)
+                    {
+                        for (int i = 0; i < listfeeCollection.Count; i++)
+                        {
+                            conn.Open();
+                            SqlCommand cmd1 = new SqlCommand("Sp_AddUpdateFeesCollectionData", conn);
+                            cmd1.CommandType = CommandType.StoredProcedure;
+                            cmd1.Parameters.AddWithValue("@Id", SqlDbType.Int).Value = listfeeCollection[i].Id.ToString() == null || cls.Id.ToString() == "" ? 0 : cls.Id;
+                            cmd1.Parameters.AddWithValue("@MonthId", SqlDbType.Int).Value = listfeeCollection[i].MonthId.ToString() == null || listfeeCollection[i].MonthId.ToString() == "" ? 0 : listfeeCollection[i].MonthId;
+                            cmd1.Parameters.AddWithValue("@FeesAmount", SqlDbType.Int).Value = listfeeCollection[i].FeesAmount.ToString() == null || listfeeCollection[i].FeesAmount.ToString() == "" ? 0 : listfeeCollection[i].FeesAmount;
+                            cmd1.Parameters.AddWithValue("@StudentId", SqlDbType.Int).Value = cls.StudentId.ToString() == null || cls.StudentId.ToString() == "" ? 0 : cls.StudentId;
+                            cmd1.Parameters.AddWithValue("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
+                            cmd1.Parameters.AddWithValue("@AcademicYear", SqlDbType.VarChar).Value = objCommon.getAcademicYearFromSession();
+
+                            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+                            cmd1.CommandTimeout = 0;
+                            da1.ReturnProviderSpecificTypes = true;
+                            DataTable dt1 = new DataTable();
+                            da1.Fill(dt1);
+                            conn.Close();
+                        }
+                    }
+                }
+                #endregion
 
                 return Convert.ToInt32(intRefId);
             }
@@ -784,7 +863,77 @@ namespace InvoiceManagementSystem.Models
             }
         }
 
+        public FeesModel GetSingleFeesCollectionData(FeesModel cls, int? Id)
+        {
+            try
+            {
+                List<FeesModel> lstModel = new List<FeesModel>();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_GetSingleFeesDetails", conn);
 
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", Id);
+
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da.Fill(dt);
+                conn.Close();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        cls.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        cls.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
+                        cls.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
+                        cls.SectionId = Convert.ToInt32(dt.Rows[i]["SectionId"] == null || dt.Rows[i]["SectionId"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionId"].ToString());
+                        cls.SectionNo = dt.Rows[i]["SectionNo"] == null || dt.Rows[i]["SectionNo"].ToString().Trim() == "" ? null : dt.Rows[i]["SectionNo"].ToString();
+                        cls.StudentId = Convert.ToInt32(dt.Rows[i]["StudentId"] == null || dt.Rows[i]["StudentId"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentId"].ToString());
+                        cls.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
+                        cls.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
+                        cls.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("yyyy-MM-dd");
+                        lstModel.Add(cls);
+                    }
+                }
+                cls.LSTFeesList = lstModel;
+                if (Id > 0)
+                {
+                    List<FeeCollectionModel> lst = new List<FeeCollectionModel>();
+                    conn.Open();
+                    cmd = new SqlCommand("sp_GetSingleFeesCollection", conn);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Id", Id);
+
+                    cmd.CommandTimeout = 0;
+                    SqlDataAdapter da1 = new SqlDataAdapter(cmd);
+                    System.Data.DataTable dt1 = new System.Data.DataTable();
+                    da1.Fill(dt1);
+                    conn.Close();
+
+                    if (dt1 != null && dt1.Rows.Count > 0)
+                    {
+                        for (var i = 0; i < dt1.Rows.Count; i++)
+                        {
+                            FeeCollectionModel obj = new FeeCollectionModel();
+
+                            obj.MonthId = Convert.ToInt32(dt1.Rows[i]["MonthId"] == null || dt1.Rows[i]["MonthId"].ToString().Trim() == "" ? null : dt1.Rows[i]["MonthId"].ToString());
+                            obj.FeesAmount = Convert.ToInt32(dt1.Rows[i]["FeesAmount"] == null || dt1.Rows[i]["FeesAmount"].ToString().Trim() == "" ? null : dt1.Rows[i]["FeesAmount"].ToString());
+                            obj.MonthName = (dt1.Rows[i]["MonthName"] == null || dt1.Rows[i]["MonthName"].ToString().Trim() == "" ? null : dt1.Rows[i]["MonthName"].ToString());
+                            //obj.strStateCode = dt1.Rows[i]["strStateCode"] == null || dt1.Rows[i]["strStateCode"].ToString().Trim() == "" ? null : dt1.Rows[i]["strStateCode"].ToString();
+                            lst.Add(obj);
+                        }
+                    }
+                    cls.LSTFeesCollectionList = lst;
+                }
+                return cls;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
         public FeesModel GetSingleFees(FeesModel cls, int? Id)
@@ -820,8 +969,45 @@ namespace InvoiceManagementSystem.Models
                         lst.Add(obj);
                     }
                 }
+
                 cls.LSTFeesList = lst;
 
+                return cls;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public FeesModel GetRollNoByStudentId(int StudentId)
+        {
+            try
+            {
+                conn.Open();
+                FeesModel cls = new FeesModel();
+                List<FeesModel> lst = new List<FeesModel>();
+                SqlCommand cmd = new SqlCommand("sp_LoadRollNo", conn);
+                cmd.Parameters.AddWithValue("@StudentId", StudentId);
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandTimeout = 0;
+                SqlDataAdapter da1 = new SqlDataAdapter(cmd);
+                System.Data.DataTable dt = new System.Data.DataTable();
+                da1.Fill(dt);
+                conn.Close();
+
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (var i = 0; i < dt.Rows.Count; i++)
+                    {
+                        FeesModel obj = new FeesModel();
+                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
+                        obj.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
+                        lst.Add(obj);
+                    }
+                }
+                cls.LSTFeesList = lst;
                 return cls;
             }
             catch (Exception ex)

@@ -335,7 +335,7 @@ function openstatusModel(id) {
 
 
 function RoleType() {
-    debugger
+    
     var Role = $('#RoleId').val();
     if (Role === "Admin") {
         GetAdmin();
@@ -396,7 +396,7 @@ function GetAdmin() {
             cls: cls
         }),
         success: function (data) {
-            debugger
+            
             var html = "";
             html = html + ' <option value="0" selected>Select Admin</option>';
             for (var i = 0; i < data.LSTAdminList.length; i++) {
@@ -430,7 +430,7 @@ function GetTeacher1() {
     });
 }
 function onAdmin() {
-    debugger
+    
     var AdminId = $('#AdminId').val();
     $.ajax({
         type: "GET",

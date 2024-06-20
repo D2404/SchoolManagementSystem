@@ -1,4 +1,5 @@
 ﻿using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using System;
 using System.IO;
 using System.Net;
@@ -10,25 +11,34 @@ using System.Web.Mvc;
 
 namespace InvoiceManagementSystem.Controllers
 {
-    public class AccountController : Controller 
+    public class AccountController : Controller
     {
-        clsCommon objCommon = new clsCommon();
+        private readonly AccountRepository _repository;
+        private readonly clsCommon _commonModel;
+
+
+        public AccountController(AccountRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
+
         // GET: Account
 
         public ActionResult MyProfile(AccountModel cls)
         {
 
-            int? TeacherId = objCommon.getTeacherIdFromSession();
-            int? UserId = objCommon.getUserIdFromSession();
-            int? StudentId = objCommon.getStudentIdFromSession();
-            int? SchoolId = objCommon.getSchoolIdFromSession();
+            int? TeacherId = _commonModel.getTeacherIdFromSession();
+            int? UserId = _commonModel.getUserIdFromSession();
+            int? StudentId = _commonModel.getStudentIdFromSession();
+            int? SchoolId = _commonModel.getSchoolIdFromSession();
             if (TeacherId > 0 || UserId > 0 || StudentId > 0)
             {
                 cls.TeacherId = TeacherId.Value;
                 cls.Id = UserId.Value;
                 cls.StudentId = StudentId.Value;
                 cls.SchoolId = SchoolId.Value;
-                cls = cls.MyProfile(cls);
+                cls = _repository.MyProfile(cls);
                 return View(cls);
             }
 
@@ -41,26 +51,30 @@ namespace InvoiceManagementSystem.Controllers
 
         public ActionResult GetMyProfile(AccountModel cls)
         {
-            cls.Id = objCommon.getUserIdFromSession();
-            cls = cls.MyProfile(cls);
+            cls.Id = _commonModel.getUserIdFromSession();
+            cls = _repository.MyProfile(cls);
             return Json(cls, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UpdateProfile(AccountModel cls)
         {
             //Parameter param = new Parameter();
-            cls = cls.UpdateProfile(cls);
+            cls = _repository.UpdateProfile(cls);
             return Json(cls, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult UpdatePassword(AccountModel cls)
         {
             //Parameter param = new Parameter();
-            cls = cls.ChangePassword(cls);
+            cls = _repository.ChangePassword(cls);
             return Json(cls, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Login()
+        {
+            return View();
+        }
+        public ActionResult Login1()
         {
             return View();
         }
@@ -69,7 +83,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                cls = cls.Login(cls);
+                cls = _repository.Login(cls);
                 if (cls.Id > 0)
                 {
                     Session["Id"] = cls.Id;
@@ -118,7 +132,7 @@ namespace InvoiceManagementSystem.Controllers
 
         public void Logout()
         {
-            //  objCommon.InsertActivityLog(clsConstant.ActivityLog, "Logout", "Logout", "Logout", "");
+            //   _commonModel.InsertActivityLog(clsConstant.ActivityLog, "Logout", "Logout", "Logout", "");
             Session["Id"] = null;
             Session["UserName"] = null;
             Session["Email"] = null;
@@ -129,12 +143,11 @@ namespace InvoiceManagementSystem.Controllers
         {
             return View();
         }
-        
+
         [HttpPost, ValidateInput(false)]
         public ActionResult ForgotPassword(AccountModel cls)
         {
-            clsCommon commonobj = new clsCommon();
-            var data = cls.ForgotPassword(cls);
+            var data = _repository.ForgotPassword(cls);
             if (data.Response == "Success")
             {
                 string toEmail = cls.Email;
@@ -164,7 +177,7 @@ namespace InvoiceManagementSystem.Controllers
                 body = body.Replace("[[EmailId]]", data.Email);
                 body = body.Replace("[[Password]]", Password);
 
-                sendEmail(toEmail,subject,body, imagePath);
+                sendEmail(toEmail, subject, body, imagePath);
                 cls.Response = "Success";
             }
             else
@@ -177,10 +190,9 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                clsCommon obj = new clsCommon();
                 string to = toEmail;
 
-                var EmailConfigaration = obj.EmailConfigaration();
+                var EmailConfigaration = _commonModel.EmailConfigaration();
                 string host = EmailConfigaration.Host;
                 string username = EmailConfigaration.Username;
                 string FromEmail = EmailConfigaration.FromMail;
@@ -233,7 +245,7 @@ namespace InvoiceManagementSystem.Controllers
                 cls.Password = Password;
                 //  cls = cls.CustomerLogin(cls);
                 //  cls = CheckLoginCookies(cls);
-                cls = cls.Login(cls);
+                cls = _repository.Login(cls);
                 if (cls.Id > 0)
                 {
 
@@ -250,7 +262,7 @@ namespace InvoiceManagementSystem.Controllers
                     if (userInfo.Value == null)
                     {
                         userInfo["UserName"] = cls.Email;
-                        userInfo["Password"] = clsCommon.DecryptString(cls.Password);
+                        userInfo["Password"] = clsCommon   .DecryptString(cls.Password);
                         Response.Cookies.Add(userInfo);
                         Response.Cookies["userInfo"].Expires = DateTime.Now.AddMonths(2);
                     }

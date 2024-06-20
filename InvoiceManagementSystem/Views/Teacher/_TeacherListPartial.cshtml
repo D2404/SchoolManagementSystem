@@ -19,80 +19,83 @@
     </thead>
     @if (Model != null && Model.LSTTeacherList.Count > 0)
     {
-        <tbody id="tblBody">
-            @for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+<tbody id="tblBody">
+    @for (var i = 0; i < Model.LSTTeacherList.Count; i++)
+    {
+        var item = Model.LSTTeacherList[i];
+        no = no + 1;
+        string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
+        <tr>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@SrNo</b></p>
+            </td>
+            @if (item.ProfileImg == null || item.ProfileImg == "" || item.ProfileImg == "undefined")
             {
-                var item = Model.LSTTeacherList[i];
-                no = no + 1;
-                string SrNo = (no >= 1 && no <= 9) ? $"0{no}" : no.ToString();
-                <tr>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@SrNo</b></p>
-                    </td>
-                    @if (item.ProfileImg == null || item.ProfileImg == "" || item.ProfileImg == "undefined")
-                    {
-                        <td style="text-align:center"> <img src="~/Data/Profile/dummy.jpg" width="50" height="50" /></td>
-                    }
-                    else
-                    {
-                        <td style="text-align:center"><img src="/Data/Profile/@item.ProfileImg" width="50" height="50"></td>
-                    }
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@item.FullName</b></p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Email</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.MobileNo</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Dob</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Gender</p>
-                       
-                    </td>
-                    <td>
+                <td style="text-align:center"> <img src="~/Data/Profile/dummy.jpg" width="50" height="50" /></td>
+            }
+            else
+            {
+                <td style="text-align:center"><img src="/Data/Profile/@item.ProfileImg" width="50" height="50"></td>
+            }
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align:center"><b>@item.FullName</b></p>
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.TeacherName</p>
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Email</p>
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.MobileNo</p>
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Dob</p>
+            </td>
+            <td>
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center;">@item.Gender</p>
+
+            </td>
+            <td>
+                @if (item.IsActive == true)
+                {
+                    <p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-success"></i> Active</p>
+                }
+                else
+                {
+                    <p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-danger"></i> In-Active</p>
+                }
+            </td>
+            <td class="align-middle text-center" style="text-align:center">
+                <div class="dropdown">
+                    <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+                        <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
+                    </a>
+                    <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
                         @if (item.IsActive == true)
                         {
-                            <p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-success"></i> Active</p>
-                        }
+                            <a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
                         else
                         {
-                            <p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-danger"></i> In-Active</p>
-                        }
-                    </td>
-                    <td class="align-middle text-center" style="text-align:center">
-                        <div class="dropdown">
-                            <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                                <i class="fa fa-ellipsis-v me-sm-1 text-black-50" style="font-size:13px" aria-hidden="true"></i>
-                            </a>
-                            <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
-                                @if (item.IsActive == true)
-                                {
-                                    <a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
-                                else
-                                {
-                                <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
-                                <a href="/Teacher/Teacher?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
-                                <a href="/Teacher/ViewTeacher?Id=@item.Id" title="View Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;View</i></a>
-                                <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Teacher" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
+                            <a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
+                        <a href="/Teacher/Teacher?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
+                        <a href="/Teacher/ViewTeacher?Id=@item.Id" title="View Teacher" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;View</i></a>
+                        <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Teacher" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</tbody>
     }
     else
     {
         <tr>
             <td colspan="7">
                 <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>No Record Found</b></p>
+                @*
+                    <h5 style="text-align: center;"><b>No Record Found</b></h5>
+                *@
             </td>
         </tr>
     }
@@ -129,7 +132,7 @@
                     {
                         if (pager.EndPage >= 1)
                         {
-                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
+                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px; margin-right:44px;">
                                 @if (pager.CurrentPage > 1)
                                 {
                                     <li class="paginate_button previous page-item">
@@ -141,7 +144,7 @@
                                     if (@page1 == @pager.CurrentPage)
                                     {
                                         <li class="paginate_button page-item active">
-                                            <a onclick="GetTeacherList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                            <a onclick="GetTeacherList(@page1)" style="cursor: pointer; font-size: 11px; margin-top: 40px; margin-right: 30px " aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
                                         </li>
                                     }
                                     else

@@ -4,21 +4,51 @@
 }
 <br />
 <br />
-<style>
-    .tab-pane {
-        display: none;
-    }
+<div class="row" id="FilterDiv" style="margin-left:19px">
+    <div class="col-sm-4 col-md-3" style="margin-top: -32px;">
+        <div class="form-group form-focus">
+            <label style="color:white">Search</label>
+            <input type="text" class="form-control form-control-alternative" id="SearchText" placeholder="Search" maxlength="50">
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
+        <div class="form-group form-focus select-focus">
+            <label style="color:white">Status</label>
+            <select tabindex="1" data-placeholder="Select here.." id="intActive" name="intActive" class="form-control form-control-alternative">
+                <option value="3">Select Status</option>
+                <option value="1">Active</option>
+                <option value="2">In-Active</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
+        <div class="form-group form-focus">
+            <label style="color:white">From Date</label>
+            <input class="form-control form-control-alternative" type="date" id="FromDate" autocomplete="off">
+        </div>
+    </div>
+    <div class="col-sm-4 col-md-2" style="margin-top: -32px;">
+        <div class="form-group form-focus">
+            <label style="color:white">To Date</label>
+            <input class="form-control form-control-alternative" type="date" id="ToDate" autocomplete="off">
+        </div>
+    </div>
+    <div class="col-sm-6 col-md-1">
 
-        .tab-pane.active {
-            display: block;
-        }
-</style>
+        <a class="btn bg-gradient-info" onclick="GetFeesCollectionList(1)">Search</a>
+    </div>
 
+    <div class="col-sm-6 col-md-1">
+        <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
 
-<div class="main-content position-relative max-height-vh-100 h-100 mt-0 mb-1">
+    </div>
+</div>
+<div class="main-content position-relative max-height-vh-100 h-100 mt-0 mb-1" style="margin-top:-220px">
+
     <div class="container-fluid py-4">
         @using (Html.BeginForm("FeesCollection", "FeesCollection", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
+
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -30,15 +60,17 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="basicinput"><b>Class</b><span class="text-danger">*</span></label>
+
                                         <select class="form-control form-control-alternative" id="ClassId" name="ClassId" style="width: 100%" onchange="onClass()">
-                                            <option value="0">Select ClassRoom</option>
-                                            @{ if (Model != null && Model.LSTFeesList != null)
+                                            <option value="0">Select Class</option>
+                                            @{
+                                                if (Model != null && Model.LSTFeesList != null)
                                                 {
                                                     for (var i = 0; i < Model.LSTFeesList.Count; i++)
                                                     {
                                                         var item = Model.LSTFeesList[i];
 
-                                                        if (item.Id == Model.ClassId)
+                                                        if (item.ClassId == Model.ClassId)
                                                         {
                                                             <option value="@item.ClassId" selected>@(item.ClassNo)</option>
                                                         }
@@ -56,6 +88,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="basicinput"><b>Section</b><span class="text-danger">*</span></label>
+
                                         <select class="form-control form-control-alternative" id="SectionId" name="SectionId" style="width: 100%" onchange="onClassSection()">
                                             <option value="0">Select Section</option>
                                             @{ if (Model != null && Model.LSTFeesList != null)
@@ -64,7 +97,7 @@
                                                     {
                                                         var item = Model.LSTFeesList[i];
 
-                                                        if (item.Id == Model.SectionId)
+                                                        if (item.SectionId == Model.SectionId)
                                                         {
                                                             <option value="@item.SectionId" selected>@(item.SectionNo)</option>
                                                         }
@@ -75,6 +108,7 @@
                                                     }
                                                 } }
                                         </select>
+
                                         <span id="errSection" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                     </div>
                                 </div>
@@ -107,21 +141,28 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Roll No<span class="text-danger">*</span></label>
-                                            <span class="form-control" id="RollNo" name="RollNo"></span>
+                                            <label for="example-text-input" class="form-control-label">Roll No</label>
+                                            @if (Model != null && Model.LSTFeesList != null)
+                                            {
+                                                <input type="text" class="form-control form-control-alternative" value="@Model.LSTFeesList[0].RollNo" id="RollNo" name="RollNo" readonly />
+                                            }
+                                            else
+                                            {
+                                                <input type="text" class="form-control form-control-alternative" id="RollNo" name="RollNo" readonly />
+                                            }
                                             <span id="errRollNo" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label for="example-text-input" class="form-control-label">Date <span class="text-danger">*</span></label>
+                                            <label for="example-text-input" class="form-control-label">Date</label>
                                             @if (Model != null && Model.LSTFeesList != null)
                                             {
-                                                <input id="Date" name="Date" value="@Model.LSTFeesList[0].Date" class="form-control form-control-alternative" type="date">
+                                                <input value="@Model.LSTFeesList[0].Date" class="form-control form-control-alternative" type="date" readonly >
                                             }
                                             else
                                             {
-                                                <input id="Date" name="Date" class="form-control form-control-alternative" type="date">
+                                                <input id="Date" name="Date" class="form-control form-control-alternative" type="date" readonly >
                                             }
                                             <span id="errDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                         </div>
@@ -132,10 +173,9 @@
                                         <div class="table-responsive">
                                             <table class="table align-items-center mb-0">
                                                 <thead>
-                                                    <tr style="background: linear-gradient(to right, #15282e, #4890b1) !important;">
+                                                    <tr style="background: linear-gradient(to right, #15282e, #000) !important">
                                                         <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">#</th>
                                                         <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Month</th>
-                                                        <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Academic Year</th>
                                                         <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Amount</th>
                                                         <th class="text-uppercase text-white text-xxs font-weight-bolder opacity-7" style="text-align:center">Action</th>
                                                     </tr>
@@ -151,47 +191,60 @@
                                     <div class="col-md-12 col-sm-12">
                                         <div class="wrapper">
                                             <div class="AddMore" id="AddMore">
-                                                @if (Model.LSTFeesList != null && Model.LSTFeesList != null)
+                                                @if (Model.LSTFeesCollectionList != null && Model.LSTFeesCollectionList != null)
                                                 {
                                                     var i = 1;
 
-                                                    for (int j = 0; j < Model.LSTFeesList.Count; j++)
+
+
+                                                    for (int j = 0; j < Model.LSTFeesCollectionList.Count; j++)
                                                     {
                                                         <input type="hidden" id="inthdnCurrentQty_0" name="CurrentQty">
 
                                                         <div class="element" id="element_@i" style="float: left; width: 100%;margin-bottom: 5px;padding: 2px;">
-                                                            <div class="col-md-1" style=" float: left; text-align: center; width: 11%;">
-                                                                <span class="crcel">@i</span>
+                                                            <div class="col-md-1" style=" float: left; text-align: center; width: 16%;">
+                                                                <span class="crcel" style="color:black">@i</span>
                                                             </div>
 
-                                                            <div class="col-md-4" style="float: left;padding-left: 105px;">
+                                                            <div class="col-md-4" style="float: left;margin-left: 69px;">
                                                                 @if (Model.Id > 0)
                                                                 {
-                                                                    <input type="hidden" class="MonthId" id="hdnMonthId_@j" value="@Model.LSTMonthList[j].Id" />
-                                                                    <select class="js-example-basic-single floating" id="MonthId_@j" name="MonthId" style="width: 65%">
+                                                                    <input type="hidden" class="MonthId" id="hdnMonthId_@j" value="@Model.LSTFeesCollectionList[j].MonthId" />
+                                                                    <select class="form-control form-control-alternative" id="MonthId_@j" name="MonthId" style="width: 65%">
                                                                         <option value="0">Select Month</option>
                                                                     </select>
                                                                     <span id="errorMonth" class="text-xs font-weight-bold mb-0" style="color:red;"></span>
                                                                 }
                                                             </div>
-                                                            <div class="col-md-4" style="float: left; margin-left: -35px">
-                                                                <input type="hidden" class="AcademicYearId" id="hdnAcademicYearId_@j" value="@Model.LSTAcademicYearList[j].AcademicYearId" />
-                                                                <select class="js-example-basic-single floating" id="AcademicYearId_@j" name="AcademicYearId" style="width: 65%">
-                                                                    <option value="0">Select Academic Year</option>
-                                                                </select>
-                                                                <span id="errorAcademicYear" class="text-xs font-weight-bold mb-0" style="color:red;"></span>
-                                                            </div>
-                                                            <div class="col-md-2" style="float: left; width: 22%; margin-left: -73px;">
+
+                                                            <div class="col-md-2" style="float: left; width: 22%; margin-left: -62px;">
                                                                 @if (Model.Id > 0)
                                                                 {
-                                                                    <input id="FeesAmount" name="FeesAmount" value="@Model.LSTFeesList[j].FeesAmount" class="form-control form-control-alternative count" type="text" placeholder="Enter Amount" onkeypress="return onlyNumbers(event)">
+                                                                    <input id="FeesAmount" name="FeesAmount" value="@Model.LSTFeesCollectionList[j].FeesAmount" class="form-control form-control-alternative count" type="text" placeholder="Enter Amount" onkeypress="return onlyNumbers(event)" onblur="CalTotal(this);">
+
                                                                 }
                                                                 else
                                                                 {
-                                                                    <input id="FeesAmount" name="FeesAmount" class="form-control form-control-alternative count" type="text" placeholder="Enter Amount">
+                                                                    <input id="FeesAmount" name="FeesAmount" class="form-control form-control-alternative count" type="text" placeholder="Enter Amount" onblur="CalTotal(this);">
                                                                 }
                                                                 <span id="errorFeesAmount" class="text-xs font-weight-bold mb-0" style="color:red;"></span>
                                                             </div>
+                                                            @if (j == Model.LSTFeesList.Count - 1)
+                                                            {
+                                                                <div class="col-md-1" style="float: right">
+                                                                    <i class="fa fa-plus text-success i-plus" style="font-size: 25px" onclick="addDiv('AddMore', this)"></i>&nbsp;
+                                                                    @if (Model.LSTFeesList.Count > 1)
+                                                                    {
+                                                                        <i class="fa fa-trash-o" style="color: red;font-size: 25px;" onclick="removeDiv(this)"></i>
+                                                                    }
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="col-md-1" style="float: right">
+                                                                    <i class="fa fa-trash-o" style="color: red;font-size: 25px;" onclick="removeDiv(this)"></i>
+                                                                </div>
+                                                            }
                                                         </div> i++;
                                                     }
                                                 }
@@ -202,27 +255,28 @@
                                                         <div class="col-md-12">
                                                             <span name="errDetail" class="valid-er" style="text-align: center;font-size: 14px;"></span>
                                                         </div>
-                                                        <div class="col-md-1" style=" float: left; color:black;text-align: center; width:11%;">
+                                                        <div class="col-md-1" style=" float: left; color:black;text-align: center; width:16%;">
                                                             <span class="crcel">1</span>
                                                         </div>
-                                                        <div class="col-md-4" style="float: left; padding-left: 20px">
+                                                        <div class="col-md-4" style="float: left; margin-left: 69px">
 
                                                             <select class="form-control" id="MonthId_0" name="MonthId" style="width:65%">
                                                                 <option value="0">Select Month</option>
                                                             </select>
                                                             <span name="errorMonth" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                                         </div>
-                                                        <div class="col-md-4" style="float: left; margin-left: -70px">
-                                                            <select class="form-control" id="AcademicYearId_0" name="AcademicYearId" style="width:65%">
+                                                        <!--<div class="col-md-4" style="float: left; margin-left: -70px">-->
+                                                        @*<input id="AmountDate_0" name="AmountDate" class="form-control form-control-alternative" type="date"style="width:65%">*@
+                                                        @*<select class="form-control" id="AcademicYearId_0" name="AcademicYearId" style="width:65%">
                                                                 <option value="0">Select Academic Year</option>
-                                                            </select>
-                                                            <span name="errorAcademicYear" class="text-xs font-weight-bold mb-0" style="color:red;"></span>
-                                                        </div>
-                                                        <div class="col-md-2" style="float: left; width: 22%; margin-left: -73px;">
-                                                            <input id="FeesAmount_0" name="FeesAmount" class="form-control count" type="text" maxlength="5" placeholder="Enter Amount" onkeypress="return onlyNumbers(event)">
+                                                            </select>*@
+                                                        <!--<span name="errorAmountDate" class="text-xs font-weight-bold mb-0" style="color:red;"></span>
+                                                        </div>-->
+                                                        <div class="col-md-2" style="float: left; width: 22%; margin-left: -62px;">
+                                                            <input id="FeesAmount_0" name="FeesAmount" class="form-control count" type="text" maxlength="5" placeholder="Enter Amount" onkeypress="return onlyNumbers(event)" onblur="CalTotal(this);">
                                                             <span name="errFeesAmount" class="text-xs font-weight-bold mb-0" style="color:red;"></span>
                                                         </div>
-                                                        <div class="col-md-1" style="float: right;margin-right:27px">
+                                                        <div class="col-md-1" style="float: right;margin-right:69px">
                                                             <i class="fa fa-plus text-success i-plus" style="font-size: 25px;" onclick="addDiv('AddMore', this)"></i>
                                                         </div>
                                                     </div>}
@@ -232,8 +286,32 @@
                                     </div>
                                 </div>
 
+                                <div class="col-md-12" style=" margin-top:30px; ">
+                                    <div class="row">
+                                        <div class="table-responsive">
+                                            <table id="tblItemData" class="table table-white">
+                                                <tbody>
+                                                    <tr>
+                                                        <td style="font-weight: bold; padding-left: 705px; border-top: 0px !important;">Sub Total:</td>
+                                                        <td>
+                                                            @if (Model.Id > 0)
+                                                            {
+                                                                @Html.TextBoxFor(model => Model.SubTotal, new { @id = "SubTotal", @style = "width: 88%", @placeholder = "", @class = "form-control form-control-alternative", @maxlength = 10, @readonly = true })
+                                                            }
+                                                            else
+                                                            {
+                                                                @Html.TextBoxFor(model => Model.SubTotal, new { @id = "SubTotal", @style = "width: 88%", @placeholder = "", @class = "form-control form-control-alternative", @maxlength = 10, @readonly = true })
+                                                            }
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="footer" style="text-align:right">
-                                    <button class="btn bg-gradient-info btn-sm ms-auto" id="btnAdd" onclick="javascript: return InsertData();">Save</button>
+                                    <button class="btn bg-gradient-info btn-sm ms-auto" id="btnAdd" onclick="javascript: return InsertData(1,);">Save</button>
                                     <button type="button" class="btn bg-gradient-dark btn-sm ms-auto" onclick="ClearData()">Clear</button>
                                 </div>
                             </div>
@@ -263,4 +341,5 @@
             type = 1;
         }
     }
+
 </script>

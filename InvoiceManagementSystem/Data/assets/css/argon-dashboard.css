@@ -10584,13 +10584,14 @@ fieldset:disabled .btn {
 }
 
 .bg-primary {
-    background-color: #5e72e4 !important;
-    background-image: url('../../../../Data/Profile/BackgroundImage.jpg');
+    /*background-color: #5e72e4 !important;*/
+    background-image: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,139,116,1) 100%);
+    /*background-image: url('../../../../Data/Profile/BackgroundImage.jpg');*/
 }
 
 .bg-primary1 {
-    /*background-image: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,139,116,1) 100%);*/
-    background-image: url('../../../../Data/Profile/BackgroundImage.jpg');
+    background-image: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,139,116,1) 100%);
+    /*background-image: url('../../../../Data/Profile/BackgroundImage.jpg');*/
     /*height: 120%;*/
 }
 

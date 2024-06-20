@@ -69,7 +69,7 @@ function Hide() {
 }
 
 function LoadAttendanceData() {
-    debugger
+    
     var ids = GetSelectedId();
     var StudentId = "";
     for (var i = 0; i < ids.length; i++) {
@@ -91,7 +91,7 @@ function LoadAttendanceData() {
 
 
 function UpgradeAttendanceData() {
-    debugger
+    
     try {
         var isValid = true;
         var UpgradeAttendanceData = LoadAttendanceData();
@@ -114,7 +114,7 @@ function UpgradeAttendanceData() {
     }
 }
 function InsertData() {
-    debugger
+    
     var UpgradeAttendanceData = LoadAttendanceData();
     var StudentId = UpgradeAttendanceData.StudentId;
     var Status = UpgradeAttendanceData.Status;
@@ -160,7 +160,7 @@ function InsertData() {
 
 
 function ExportStudentAttendance() {
-    debugger
+    
     var Id = 0;
     var StudentId = document.getElementById('ddlStudentId').value
     var Date = document.getElementById('Date').value
@@ -324,7 +324,7 @@ function ClearSearchData(page) {
 }
 
 function GetStudentAttandenceListByStudentId(page) {
-    debugger
+    
     var StudentId = $("#studentIdContainer").data("student-id");
     var FromDate = document.getElementById('FromDate').value
     var ToDate = document.getElementById('ToDate').value

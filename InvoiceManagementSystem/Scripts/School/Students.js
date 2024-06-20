@@ -642,7 +642,7 @@ function AddBulkStudentData() {
         processData: false,
         data: formData,
         success: function (data) {
-            debugger
+            
 
             try {
                 var strHTML = '';
@@ -684,10 +684,10 @@ function AddBulkStudentData() {
             }
 
             catch (ex) {
-                debugger
+                
             }
             finally {
-                debugger
+                
             }
 
         },
@@ -701,7 +701,7 @@ function AddBulkStudentData() {
     });
 }
 function WelcomeMail(Email) {
-    debugger
+    
     var cls = {
         Email: Email
     }
@@ -820,7 +820,7 @@ function Clear() {
 }
 
 function ClearBasicDetails() {
-    debugger
+    
     document.getElementById('Title').value = "";
     $('#errTitle').html("");
     document.getElementById('StudentName').value = "";
@@ -849,7 +849,7 @@ function ClearBasicDetails() {
 }
 
 function ClearParentDetails() {
-    debugger
+    
     document.getElementById('ParentType').value = "";
     $('#errParentType').html("");
     document.getElementById('ParentName').value = "";
@@ -872,7 +872,7 @@ function ClearParentDetails() {
 }
 
 function ClearAddressDetails() {
-    debugger
+    
     document.getElementById('CurrentAddress').value = "";
     $('#errCurrentAddress').html("");
     document.getElementById('CurrentPincode').value = "";

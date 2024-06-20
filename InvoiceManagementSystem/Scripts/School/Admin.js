@@ -615,7 +615,7 @@ function InsertData(id) {
 }
 
 function WelcomeMail(Email) {
-    debugger
+    
     var cls = {
         Email: Email
     }
@@ -675,7 +675,7 @@ function AddBulkAdminData() {
         processData: false,
         data: formData,
         success: function (data) {
-            debugger
+            
 
             try {
                 var strHTML = '';
@@ -718,10 +718,10 @@ function AddBulkAdminData() {
             }
 
             catch (ex) {
-                debugger
+                
             }
             finally {
-                debugger
+                
             }
 
         },

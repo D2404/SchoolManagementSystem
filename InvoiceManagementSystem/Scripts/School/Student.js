@@ -118,7 +118,7 @@ function GetClassRoom() {
 }
 
 function onClass() {
-    debugger
+    
     var ClassId = $('#ClassId').val();
     $.ajax({
         type: "GET",
@@ -645,7 +645,7 @@ function InsertData(id) {
 }
 
 function WelcomeMail(Email) {
-    debugger
+    
     var cls = {
         Email: Email
     }
@@ -704,7 +704,7 @@ function AddBulkStudentData() {
         processData: false,
         data: formData,
         success: function (data) {
-            debugger
+            
 
             try {
                 var strHTML = '';
@@ -747,10 +747,10 @@ function AddBulkStudentData() {
             }
 
             catch (ex) {
-                debugger
+                
             }
             finally {
-                debugger
+                
             }
 
         },

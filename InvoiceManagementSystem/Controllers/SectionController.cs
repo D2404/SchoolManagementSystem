@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,83 +16,43 @@ namespace InvoiceManagementSystem.Controllers
 {
     public class SectionController : Controller
     {
-        clsCommon objCommon = new clsCommon();
+        private readonly SectionRepository _repository;
+        private readonly clsCommon _commonModel;
+
+
+        public SectionController(SectionRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
 
         public ActionResult Section()
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
-                return View();
+                SectionModel model = new SectionModel();
+                model = _repository.GetAllSection(model);
+                return View(model);
             }
             else
             {
                 return RedirectToAction("Login", "Account");
-            }
+            };
+
         }
 
         [HttpPost]
         public ActionResult InsertSection(SectionModel model)
         {
-            model = model.addSection(model);
+            model = _repository.AddSection(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult GetSection(SectionModel cls)
+        public ActionResult GetSection(SectionModel model)
         {
             try
             {
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<SectionModel> lstSectionList = new List<SectionModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("Sp_GetSectionList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        SectionModel obj = new SectionModel();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
-                        obj.SectionNo = dt.Rows[i]["Section"] == null || dt.Rows[i]["Section"].ToString().Trim() == "" ? null : dt.Rows[i]["Section"].ToString();
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstSectionList.Add(obj);
-                    }
-                }
-                cls.LSTSectionList = lstSectionList;
-                if (cls.LSTSectionList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTSectionList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTSectionList = lstSectionList;
-
-                return PartialView("_SectionListPartial", cls);
+                model = _repository.GetAllSection(model);
+                return PartialView("_SectionListPartial", model);
 
             }
             catch (Exception ex)
@@ -104,7 +65,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                cls = cls.GetSection(cls);
+                cls = _repository.GetSingleSection(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -117,7 +78,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                cls = cls.deleteSection(cls);
+                cls = _repository.DeleteSection(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -130,7 +91,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                var Status = cls.UpdateStatus(cls);
+                var Status = _repository.UpdateStatus(cls);
                 return Json(Status, JsonRequestBehavior.AllowGet);
 
 
@@ -145,10 +106,10 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                if (objCommon.getUserIdFromSession() != 0)
+                if (_commonModel.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = cls.ExportSection(cls);
+                    dt = _repository.ExportSection(cls);
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         Session["ExpotToExcelSectionReport"] = dt;
@@ -161,11 +122,13 @@ namespace InvoiceManagementSystem.Controllers
                 }
                 else
                 {
-                    return Redirect(objCommon.RedirectToLogin(2));
+                    return Redirect(_commonModel.RedirectToLogin(2));
                 }
             }
             catch (Exception ex)
             {
+                
+                
                 throw ex;
             }
         }
@@ -193,17 +156,17 @@ namespace InvoiceManagementSystem.Controllers
             {
                 var ws = wb.Worksheets.Add("SectionReport");
 
-                 //          var schoolLogo = ws.AddPicture(Server.MapPath("~/Data/assets/img/muktajivan-school-logo.png"))
-                 //.MoveTo(ws.Cell(1, 1))
-                 //.WithSize(50, 50);
+                //          var schoolLogo = ws.AddPicture(Server.MapPath("~/Data/assets/img/muktajivan-school-logo.png"))
+                //.MoveTo(ws.Cell(1, 1))
+                //.WithSize(50, 50);
 
-                  // Add school name to cell (1, 2)
-                  var schoolNameCell = ws.Cell(1, 1);
-                  schoolNameCell.Value = "Shree Mukta Jivan School";
-                  schoolNameCell.Style.Font.Bold = true;
-                  schoolNameCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                  schoolNameCell.Style.Fill.BackgroundColor = XLColor.LightBlue;
-                  schoolNameCell.Style.Font.FontSize = 16;
+                // Add school name to cell (1, 2)
+                var schoolNameCell = ws.Cell(1, 1);
+                schoolNameCell.Value = Session["SchoolName"] as string;
+                schoolNameCell.Style.Font.Bold = true;
+                schoolNameCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                schoolNameCell.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                schoolNameCell.Style.Font.FontSize = 16;
                 ws.Range(schoolNameCell, ws.Cell(1, data.Columns.Count + 4)).Merge();
 
                 // Add title "Manage Section" above column headers

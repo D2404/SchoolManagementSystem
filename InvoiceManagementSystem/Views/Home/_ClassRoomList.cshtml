@@ -86,7 +86,7 @@
                                 @if (pager.CurrentPage > 1)
                                 {
                                     <li class="paginate_button previous page-item">
-                                        <a onclick="GetClassRoom(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+                                        <a onclick="ClassRoom(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
                                     </li>
                                 }
                                 @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
@@ -94,20 +94,20 @@
                                     if (@page1 == @pager.CurrentPage)
                                     {
                                         <li class="paginate_button page-item active">
-                                            <a onclick="GetClassRoom(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                            <a onclick="ClassRoom(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
                                         </li>
                                     }
                                     else
                                     {
                                         <li class="paginate_button page-item">
-                                            <a onclick="GetClassRoom(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
+                                            <a onclick="ClassRoom(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
                                         </li>
                                     }
                                 }
                                 @if (pager.CurrentPage < pager.TotalPages)
                                 {
                                     <li class="paginate_button page-item">
-                                        <a onclick="GetClassRoom(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+                                        <a onclick="ClassRoom(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
                                     </li>
                                 }
                             </ol>}

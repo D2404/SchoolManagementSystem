@@ -35,7 +35,7 @@ function Login() {
             cls: cls
         }),
         success: function (data) {
-
+            
             if (data === 'Success') {
                 window.location.href = '/Home/Index';
                 toastr.success('Logged in successfully.');
@@ -48,7 +48,7 @@ function Login() {
         },
         error: function (xhr) {
 
-            alert('errors');
+            alert('testinggggg');
         }
     });
 }

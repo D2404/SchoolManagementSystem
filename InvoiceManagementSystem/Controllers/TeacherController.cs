@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,12 +18,19 @@ namespace InvoiceManagementSystem.Controllers
 {
     public class TeacherController : Controller
     {
-        clsCommon objCommon = new clsCommon();
+        private readonly TeacherRepository _repository;
+        private readonly clsCommon _commonModel;
 
-        // GET: Teacher
+
+        public TeacherController(TeacherRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
+
         public ActionResult TeacherList()
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
 
                 return View();
@@ -34,16 +42,16 @@ namespace InvoiceManagementSystem.Controllers
         }
         public ActionResult Teacher(int? id)
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
                 TeacherModel cls = new TeacherModel();
                 if (id != null || id > 0)
                 {
-                    cls = cls.GetSingleTeacher(cls, id);
+                    cls = _repository.GetSingleTeacher(cls, id);
                 }
                 else
                 {
-                    cls = cls.FillClassRoomList(cls);
+                    cls = _repository.FillClassRoomList(cls);
                 }
                 return View(cls);
             }
@@ -54,10 +62,10 @@ namespace InvoiceManagementSystem.Controllers
         }
         public ActionResult ViewTeacher(int? id)
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
                 TeacherModel cls = new TeacherModel();
-                cls = cls.GetSingleTeacher(cls, id);
+                cls = _repository.GetSingleTeacher(cls, id);
                 return View(cls);
             }
             else
@@ -67,80 +75,19 @@ namespace InvoiceManagementSystem.Controllers
         }
 
 
-        [HttpPost]
 
+        [HttpPost]
         public ActionResult InsertTeacher(TeacherModel model)
         {
-            model = model.addTeacher(model);
+            model = _repository.AddTeacher(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
-
-        public ActionResult GetTeacher(TeacherModel cls)
+        public ActionResult GetTeacher(TeacherModel model)
         {
             try
             {
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<TeacherModel> lstTeacherList = new List<TeacherModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetTeacherList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@FromDate", cls.Date);
-                cmd.Parameters.AddWithValue("@ToDate", cls.Date);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        TeacherModel obj = new TeacherModel();
-                        obj.ProfileImg = dt.Rows[i]["Profile"] == null ? "" : dt.Rows[i]["Profile"].ToString();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
-                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
-                        obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
-                        obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
-                        obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
-                        obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
-                        obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("dd/MM/yyyy");
-                        obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
-                        obj.Gender = dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString();
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstTeacherList.Add(obj);
-                    }
-                }
-                cls.LSTTeacherList = lstTeacherList;
-                if (cls.LSTTeacherList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTTeacherList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTTeacherList = lstTeacherList;
-
-                return PartialView("_TeacherListPartial", cls);
+                model = _repository.GetAllTeacher(model);
+                return PartialView("_TeacherListPartial", model);
 
             }
             catch (Exception ex)
@@ -149,69 +96,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-
-        public ActionResult GetTeacherGrid(TeacherModel cls)
+        public ActionResult GetTeacherGrid(TeacherModel model)
         {
             try
             {
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<TeacherModel> lstTeacherList = new List<TeacherModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetTeacherGrid", conn);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@FromDate", cls.Date);
-                cmd.Parameters.AddWithValue("@ToDate", cls.Date);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        TeacherModel obj = new TeacherModel();
-                        obj.ProfileImg = dt.Rows[i]["Profile"] == null ? "" : dt.Rows[i]["Profile"].ToString();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
-                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
-                        obj.FullName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.TeacherName = dt.Rows[i]["TeacherName"] == null || dt.Rows[i]["TeacherName"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherName"].ToString();
-                        obj.Email = dt.Rows[i]["Email"] == null || dt.Rows[i]["Email"].ToString().Trim() == "" ? null : dt.Rows[i]["Email"].ToString();
-                        obj.MobileNo = dt.Rows[i]["MobileNo"] == null || dt.Rows[i]["MobileNo"].ToString().Trim() == "" ? null : dt.Rows[i]["MobileNo"].ToString();
-                        obj.CurrentAddress = dt.Rows[i]["CurrentAddress"] == null || dt.Rows[i]["CurrentAddress"].ToString().Trim() == "" ? null : dt.Rows[i]["CurrentAddress"].ToString();
-                        obj.Dob = dt.Rows[i]["Dob"] == null || dt.Rows[i]["Dob"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Dob"]).ToString("dd/MM/yyyy");
-                        obj.Education = dt.Rows[i]["Education"] == null || dt.Rows[i]["Education"].ToString().Trim() == "" ? null : dt.Rows[i]["Education"].ToString();
-                        obj.Gender = dt.Rows[i]["Gender"] == null || dt.Rows[i]["Gender"].ToString().Trim() == "" ? null : dt.Rows[i]["Gender"].ToString();
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstTeacherList.Add(obj);
-                    }
-                }
-                cls.LSTTeacherList = lstTeacherList;
-                if (cls.LSTTeacherList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTTeacherList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTTeacherList = lstTeacherList;
-                return PartialView("_TeacherGridPartial", cls);
+                model = _repository.GetAllTeacher(model);
+                return PartialView("_TeacherGridPartial", model);
 
             }
             catch (Exception ex)
@@ -219,11 +109,12 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
-        public ActionResult deleteTeacher(TeacherModel cls)
+
+        public ActionResult DeleteTeacher(TeacherModel cls)
         {
             try
             {
-                cls = cls.deleteTeacher(cls);
+                cls = _repository.DeleteTeacher(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -231,11 +122,12 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
+
         public ActionResult UpdateStatus(TeacherModel cls)
         {
             try
             {
-                var Status = cls.UpdateStatus(cls);
+                var Status = _repository.UpdateStatus(cls);
                 return Json(Status, JsonRequestBehavior.AllowGet);
 
 
@@ -245,14 +137,15 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
+
         public ActionResult ExpotToExcelTeacherReport(TeacherModel cls)
         {
             try
             {
-                if (objCommon.getUserIdFromSession() != 0)
+                if (_commonModel.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = cls.ExportTeacher(cls);
+                    dt = _repository.ExportTeacher(cls);
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         Session["ExpotToExcelTeacherReport"] = dt;
@@ -265,11 +158,13 @@ namespace InvoiceManagementSystem.Controllers
                 }
                 else
                 {
-                    return Redirect(objCommon.RedirectToLogin(2));
+                    return Redirect(_commonModel.RedirectToLogin(2));
                 }
             }
             catch (Exception ex)
             {
+
+
                 throw ex;
             }
         }
@@ -303,16 +198,16 @@ namespace InvoiceManagementSystem.Controllers
 
                 // Add school name to cell (1, 2)
                 var schoolNameCell = ws.Cell(1, 1);
-                schoolNameCell.Value = "SHREE MUKTA JIVAN SCHOOL";
+                schoolNameCell.Value = Session["SchoolName"] as string;
                 schoolNameCell.Style.Font.Bold = true;
                 schoolNameCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 schoolNameCell.Style.Fill.BackgroundColor = XLColor.LightBlue;
                 schoolNameCell.Style.Font.FontSize = 16;
                 ws.Range(schoolNameCell, ws.Cell(1, data.Columns.Count + 4)).Merge();
 
-                // Add title "Manage Classroom" above column headers
+                // Add title "Manage Teacher" above column headers
                 var titleCell = ws.Cell(3, 1);
-                titleCell.Value = "Teacher  Data";
+                titleCell.Value = "Teacher Data";
                 titleCell.Style.Font.Bold = true;
                 titleCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
                 titleCell.Style.Fill.BackgroundColor = XLColor.LightGray;
@@ -367,7 +262,6 @@ namespace InvoiceManagementSystem.Controllers
         }
 
 
-
         [HttpPost, ValidateInput(false)]
         public ActionResult TeacherBulkUpload(TeacherModel cls)
         {
@@ -375,7 +269,7 @@ namespace InvoiceManagementSystem.Controllers
             try
             {
 
-                if (objCommon.getUserIdFromSession() != 0)
+                if (_commonModel.getUserIdFromSession() != 0)
                 {
                     string filePath = string.Empty;
                     //clsClient cls = new clsClient();
@@ -445,7 +339,7 @@ namespace InvoiceManagementSystem.Controllers
                 }
                 else
                 {
-                    return Redirect(objCommon.RedirectToLogin(2));
+                    return Redirect(_commonModel.RedirectToLogin(2));
                 }
                 var jsonResult = Json(cls.LSTTeacherList, JsonRequestBehavior.AllowGet);
                 jsonResult.MaxJsonLength = int.MaxValue;
@@ -758,7 +652,7 @@ namespace InvoiceManagementSystem.Controllers
 
 
 
-                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = objCommon.getUserIdFromSession();
+                    cmd.Parameters.Add("@UserId", SqlDbType.Int).Value = _commonModel.getUserIdFromSession();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
                     cmd.CommandTimeout = 0;
                     da.ReturnProviderSpecificTypes = true;
@@ -778,7 +672,7 @@ namespace InvoiceManagementSystem.Controllers
         public ActionResult WelcomeMail(TeacherModel cls)
         {
             clsCommon commonobj = new clsCommon();
-            var data = cls.WelcomeMail(cls);
+            var data = _repository.WelcomeMail(cls);
             if (data.LSTTeacherList[0].Response == "Success")
             {
                 string toEmail = cls.Email;
@@ -802,7 +696,7 @@ namespace InvoiceManagementSystem.Controllers
                         RoleName = "Student";
                     }
                     var Password = clsCommon.DecryptString(data.LSTTeacherList[i].Password);
-                    string subject = "Registration Successfully.";
+                    string Teacher = "Registration Successfully.";
                     string body = "";
                     using (StreamReader reader = new StreamReader(Server.MapPath("/Data/MailTemplate/WelcomeMail.html")))
                     {
@@ -829,7 +723,7 @@ namespace InvoiceManagementSystem.Controllers
                     body = body.Replace("[[Password]]", Password);
                     body = body.Replace("[[RoleName]]", RoleName);
 
-                    sendEmail(toEmail, subject, body, imagePath); // Pass Email instead of toEmail
+                    sendEmail(toEmail, Teacher, body, imagePath); // Pass Email instead of toEmail
                     cls.Response = "Success";
                 }
 
@@ -842,7 +736,7 @@ namespace InvoiceManagementSystem.Controllers
         }
 
 
-        public void sendEmail(string toEmail, string subject, string body, string imagePath)
+        public void sendEmail(string toEmail, string Subject, string body, string imagePath)
         {
             try
             {
@@ -864,7 +758,7 @@ namespace InvoiceManagementSystem.Controllers
                     MailMessage mail = new MailMessage();
                     mail.From = new MailAddress(FromEmail);
                     mail.To.Add(to);
-                    mail.Subject = subject;
+                    mail.Subject = Subject;
                     mail.Body = body;
                     mail.IsBodyHtml = true;
                     if (!string.IsNullOrEmpty(imagePath))

@@ -1,5 +1,6 @@
 ﻿using ClosedXML.Excel;
 using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,10 +16,19 @@ namespace InvoiceManagementSystem.Controllers
 {
     public class EmailConfigurationController : Controller
     {
-        clsCommon objCommon = new clsCommon();
+        private readonly EmailConfigurationRepository _repository;
+        private readonly clsCommon _commonModel;
+
+
+        public EmailConfigurationController(EmailConfigurationRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
+
         public ActionResult EmailConfigurationList()
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
 
                 return View();
@@ -31,16 +41,16 @@ namespace InvoiceManagementSystem.Controllers
 
         public ActionResult EmailConfiguration(int? id)
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
                 EmailConfigurationSetting cls = new EmailConfigurationSetting();
                 if (id != null || id > 0)
                 {
-                    cls = cls.GetEmailConfiguration(cls, id);
+                    cls = _repository.GetEmailConfiguration(cls, id);
                 }
                 else
                 {
-                    cls = cls.FillTeacherList(cls);
+                    cls = _repository.FillTeacherList(cls);
                 }
                 return View(cls);
             }
@@ -49,71 +59,20 @@ namespace InvoiceManagementSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
         }
+
         [HttpPost]
         public ActionResult InsertEmailConfiguration(EmailConfigurationSetting model)
         {
-            model = model.addEmailConfiguration(model);
+            model = _repository.addEmailConfiguration(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmailConfiguration(EmailConfigurationSetting cls)
+        public ActionResult GetClassRoom(EmailConfigurationSetting model)
         {
             try
             {
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<EmailConfigurationSetting> lstEmailConfigurationList = new List<EmailConfigurationSetting>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("GetEmailConfiguration", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        EmailConfigurationSetting obj = new EmailConfigurationSetting();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.Rolename = dt.Rows[i]["Rolename"] == null || dt.Rows[i]["Rolename"].ToString().Trim() == "" ? null : dt.Rows[i]["Rolename"].ToString();
-                        obj.Username = dt.Rows[i]["Username"] == null || dt.Rows[i]["Username"].ToString().Trim() == "" ? null : dt.Rows[i]["Username"].ToString();
-                        obj.FromMail = dt.Rows[i]["FromMail"] == null || dt.Rows[i]["FromMail"].ToString().Trim() == "" ? null : dt.Rows[i]["FromMail"].ToString();
-                        obj.Password = dt.Rows[i]["Password"] == null || dt.Rows[i]["Password"].ToString().Trim() == "" ? null : dt.Rows[i]["Password"].ToString();
-                        obj.Host = dt.Rows[i]["Host"] == null || dt.Rows[i]["Host"].ToString().Trim() == "" ? null : dt.Rows[i]["Host"].ToString();
-                        obj.Port = Convert.ToInt32(dt.Rows[i]["Port"] == null || dt.Rows[i]["Port"].ToString().Trim() == "" ? null : dt.Rows[i]["Port"].ToString());
-                        obj.TeacherId = Convert.ToInt32(dt.Rows[i]["TeacherId"] == null || dt.Rows[i]["TeacherId"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherId"].ToString());
-                        obj.StudentId = Convert.ToInt32(dt.Rows[i]["StudentId"] == null || dt.Rows[i]["StudentId"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentId"].ToString());
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstEmailConfigurationList.Add(obj);
-                    }
-                }
-                cls.LSTEmailConfigurationList = lstEmailConfigurationList;
-                if (cls.LSTEmailConfigurationList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTEmailConfigurationList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTEmailConfigurationList = lstEmailConfigurationList;
-
-                return PartialView("_EmailConfigurationListPartial", cls);
+                model = _repository.GetAllEmailConfiguration(model);
+                return PartialView("_EmailConfigurationListPartial", model);
 
             }
             catch (Exception ex)
@@ -121,25 +80,11 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
-
-        //public ActionResult GetSingleEmailConfigurationData(EmailConfigurationSetting cls)
-        //{
-        //    try
-        //    {
-        //        cls = cls.GetEmailConfiguration(cls);
-        //        return Json(cls, JsonRequestBehavior.AllowGet);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
         public ActionResult deleteEmailConfiguration(EmailConfigurationSetting cls)
         {
             try
             {
-                cls = cls.deleteEmailConfiguration(cls);
+                cls = _repository.deleteEmailConfiguration(cls);
                 return Json(cls, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
@@ -152,10 +97,10 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                if (objCommon.getUserIdFromSession() != 0)
+                if (_commonModel.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = cls.ExportEmailConfiguration(cls);
+                    dt = _repository.ExportEmailConfiguration(cls);
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         Session["ExpotToExcelEmailConfigurationReport"] = dt;
@@ -168,7 +113,7 @@ namespace InvoiceManagementSystem.Controllers
                 }
                 else
                 {
-                    return Redirect(objCommon.RedirectToLogin(2));
+                    return Redirect(_commonModel.RedirectToLogin(2));
                 }
             }
             catch (Exception ex)
@@ -200,17 +145,17 @@ namespace InvoiceManagementSystem.Controllers
             {
                 var ws = wb.Worksheets.Add("EmailConfigurationReport");
 
-                 //          var schoolLogo = ws.AddPicture(Server.MapPath("~/Data/assets/img/muktajivan-school-logo.png"))
-                 //.MoveTo(ws.Cell(1, 1))
-                 //.WithSize(50, 50);
+                //          var schoolLogo = ws.AddPicture(Server.MapPath("~/Data/assets/img/muktajivan-school-logo.png"))
+                //.MoveTo(ws.Cell(1, 1))
+                //.WithSize(50, 50);
 
-                  // Add school name to cell (1, 2)
-                  var schoolNameCell = ws.Cell(1, 1);
-                  schoolNameCell.Value = "Shree Mukta Jivan School";
-                  schoolNameCell.Style.Font.Bold = true;
-                  schoolNameCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
-                  schoolNameCell.Style.Fill.BackgroundColor = XLColor.LightBlue;
-                  schoolNameCell.Style.Font.FontSize = 16;
+                // Add school name to cell (1, 2)
+                var schoolNameCell = ws.Cell(1, 1);
+                schoolNameCell.Value = "Shree Mukta Jivan School";
+                schoolNameCell.Style.Font.Bold = true;
+                schoolNameCell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                schoolNameCell.Style.Fill.BackgroundColor = XLColor.LightBlue;
+                schoolNameCell.Style.Font.FontSize = 16;
                 ws.Range(schoolNameCell, ws.Cell(1, data.Columns.Count + 4)).Merge();
 
                 // Add title "Manage EmailConfiguration" above column headers
@@ -268,5 +213,6 @@ namespace InvoiceManagementSystem.Controllers
                 }
             }
         }
+
     }
 }
