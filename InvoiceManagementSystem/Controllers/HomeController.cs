@@ -62,10 +62,8 @@ namespace InvoiceManagementSystem.Controllers
         {
             return View();
         }
-        public ActionResult About()
+        public ActionResult Index3()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 

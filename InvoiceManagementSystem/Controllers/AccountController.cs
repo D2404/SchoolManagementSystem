@@ -74,6 +74,11 @@ namespace InvoiceManagementSystem.Controllers
         {
             return View();
         }
+
+        public ActionResult ForgotPassword1()
+        {
+            return View();
+        }
         public ActionResult Login1()
         {
             return View();

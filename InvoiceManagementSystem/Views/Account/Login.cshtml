@@ -1,175 +1,119 @@
-﻿
+﻿@{
+    Layout = "~/Views/Shared/_Login.cshtml";
+    ViewBag.Title = "Login";
+}
 
-@model InvoiceManagementSystem.Models.AccountModel
-@{ ViewBag.Title = "Index";
-    Layout = null;
-    string Value1 = Guid.NewGuid().ToString();
-    string Value2 = Guid.NewGuid().ToString();
-    string AllValue = Guid.NewGuid().ToString(); }
-
-<!DOCTYPE html>
-<html lang="en">
-
-<!-- Mirrored from html.codedthemes.com/gradient-able/default/auth-normal-sign-in.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 27 Dec 2017 07:41:03 GMT -->
-<head>
-    <link rel="icon" type="image/png" href="~/Data/assets/img/muktajivan-school-logo.png">
-    <title>Login</title>
-    <link rel="shortcut icon" href="" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/Content/files/bower_components/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/icon/themify-icons/themify-icons.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/icon/icofont/css/icofont.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/icon/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="~/Content/files/assets/css/style.css">
-    <link href="~/Content/files/assets/icon/simple-line-icons/css/simple-line-icons.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
-    <script src="~/Content/files/bower_components/jquery-ui/js/jquery-3.3.1.min.js"></script>
-    <script src="~/Content/files/bower_components/jquery-ui/js/jquery-3.3.1.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-</head>
-<body class="fix-menu">
-    <div class="theme-loader">
-        <div class="loader-track">
-            <div class="loader-bar"></div>
-        </div>
+<div class="theme-loader">
+    <div class="loader-track">
+        <div class="loader-bar"></div>
     </div>
-    <section class="login p-fixed d-flex text-center bg-primary common-img-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="login-card card-block auth-body mr-auto ml-auto">
-                        @*<form class="md-float-material" action="@Url.Action("index","Login")" method="post" id="loginform" autocomplete="@AllValue">*@
-                        @Html.AntiForgeryToken()
-                        @Html.ValidationSummary(true)
-                        <div class="auth-box">
-                            <div class="row m-b-20">
-                                <div class="col-md-12">
-                                    <img src="~/Data/assets/img/muktajivan-school-logo.png" style="width:120px" />
-                                    <h5 style="color:#666666">SMS <br />Shree Muktajivan School</h5>
-
-
-                                </div>
-                            </div>
-
-
-                            <div class="input-group">
-                                <input class="form-control" id="UserName" type="text" placeholder="Username">
-
-
-                            </div>
-                            <div class="input-group">
-                                <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                            </div>
-                            <div class="input-group">
-                                <input class="form-control" id="Password" type="password" placeholder="Password">
-
-                            </div>
-                            <div class="input-group">
-                                <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                            </div>
-                            @*<div class="input-group">
-                                    @Html.ValidationMessageFor(Model => Model.Password, "", new { @class = "text-danger" })
-                                    <span class="md-line"></span>
-                                    <div class="col-sm-6">
-                                        @Html.Captcha(5)
-                                    </div>
-                                </div>*@
-                            <div class="row m-t-30">
-                                <div class="col-md-3">
-                                    <button class="btn hor-grd btn-grd-primary" type="submit" onclick="Login();"><i class="fa fa-sign-in" aria-hidden="true"></i>Sign in </button>
-                                </div>
-                                <div class="col-9">
-
-                                    <div class="forgot-phone text-right f-right" style="margin-top: -35px;">
-                                        <input type="checkbox" style="margin-right:6px" onclick="showPwd()" /><span style="color:black;float:right"> &nbsp; <b>Show Password</b> </span>
-                                        <a href="~/Account/ForgotPassword" class="btn btn-link" style="float:right;margin-right: -12px;margin-top: 22px;font-size:12px"><i class="fa fa-key" aria-hidden="true"></i>Forgot password?</a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @*</form>*@
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-7">
+            <div class="card border-0 mb-0">
+                <div class="card-header bg-transparent">
+                </div>
+                <div class="row m-b-20">
+                    <div class="col-md-12">
+                        <h4 style="color:#666666;text-align:center"><b><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp; SIGN IN</b></h4>
+                        <img style="width: 120px;display: block; margin-left: auto; margin-right: auto;" src="~/Data/assets/img/muktajivan-school-logo.png" />
+                        <h5 style="color:#666666;text-align:center"><b>Shree Muktajivan School</b></h5>
                     </div>
                 </div>
+
+                <div class="card-body px-lg-5 pt-4">
+                    <form role="form" class="text-start">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" id="UserName" name="UserName" placeholder="UserName" aria-label="UserName">
+                            <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password">
+                            <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                        </div>
+                        <div class="form-check form-switch" style="float:right">
+                            <input class="form-check-input" type="checkbox" id="rememberMe" onclick="showPwd()">
+                            <label class="form-check-label" style="white-space:nowrap" for="rememberMe">Show password</label>
+                        </div>
+                        <br />
+                        <button type="button" class="btn bg-gradient-info" onclick="Login();" style="float:left"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp; Sign In</button><br />
+                        <a href="~/Account/ForgotPassword" class="btn btn-link" style="white-space: nowrap; float:right"><i class="fa fa-key" aria-hidden="true"></i>&nbsp; Forgot  Password?</a>
+                    </form>
+                </div>
+
             </div>
         </div>
-    </section>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script>
+    function Login() {
 
-    <script src="~/Content/files/bower_components/jquery/js/jquery.min.js"></script>
-    <script src="~/Content/files/bower_components/jquery-ui/js/jquery-ui.min.js"></script>
-    <script src="~/Content/files/bower_components/popper.js/js/popper.min.js"></script>
-    <script src="~/Content/files/bower_components/bootstrap/js/bootstrap.min.js"></script>
-    <script src="~/Content/files/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"></script>
-    <script src="~/Content/files/bower_components/modernizr/js/modernizr.js"></script>
-    <script src="~/Content/files/bower_components/modernizr/js/css-scrollbars.js"></script>
-    <script src="~/Content/files/bower_components/i18next/js/i18next.min.js"></script>
-    <script src="~/Content/files/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"></script>
-    <script src="~/Content/files/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"></script>
-    <script src="~/Content/files/bower_components/jquery-i18next/js/jquery-i18next.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.0.2/js/toastr.min.js"></script>
-    <script src="~/Content/files/assets/js/common-pages.js"></script>
+        var val = true;
+        var UserName = document.getElementById('UserName').value;
+        var Password = document.getElementById('Password').value;
+        if (UserName == "" || /\S/.test(UserName) == false) {
+            $("#errUserName").html("Please Enter Username.");
+            val = false;
+        }
+        if (Password == "" || /\S/.test(Password) == false) {
+            $("#errPassword").html("Please Enter Password.");
+            val = false;
+        }
+        if (val == false) {
+            return;
+        }
 
-    <script>
-        function Login() {
+        var cls = {
+            UserName: UserName,
+            Password: Password
+        }
+        ShowWait()
+        $.ajax({
+            url: '/Account/Login',
+            contentType: "application/json; charset=utf-8",
+            type: "POST",
+            data: JSON.stringify({
+                cls: cls
+            }),
+            success: function (data) {
 
-            var val = true;
-            var UserName = document.getElementById('UserName').value;
-            var Password = document.getElementById('Password').value;
-            if (UserName == "" || /\S/.test(UserName) == false) {
-                $("#errUserName").html("Please Enter Username.");
-                val = false;
-            }
-            if (Password == "" || /\S/.test(Password) == false) {
-                $("#errPassword").html("Please Enter Password.");
-                val = false;
-            }
-            if (val == false) {
-                return;
-            }
+                if (data == 'Success') {
+                    window.location.href = '/Home/Index';
 
-            var cls = {
-                UserName: UserName,
-                Password: Password
-            }
-            $.ajax({
-                url: '/Account/Login',
-                contentType: "application/json; charset=utf-8",
-                type: "POST",
-                data: JSON.stringify({
-                    cls: cls
-                }),
-                success: function (data) {
-                    
-                    if (data == 'Success') {
-                        window.location.href = '/Home/Index';
-
-                    }
-                    //else if (data.intId == 0) {
-                    //    alert(data.strResponse);
-                    //}
-                    else if (data == 'Error' || data == null) {
-                        toastr.error('Invalid Username or Password.');
-                    }
-                    document.getElementById('Email').value = '';
-                    document.getElementById('Password').value = '';
-                },
-                error: function (xhr) {
-
-                    alert('errors');
                 }
-            });
-        }
-        function showPwd() {
-            var x = document.getElementById("Password");
+                //else if (data.intId == 0) {
+                //    alert(data.strResponse);
+                //}
+                else if (data == 'Error' || data == null) {
+                    toastr.error('Invalid Username or Password.');
+                    HideWait();
+                }
+                document.getElementById('Email').value = '';
+                document.getElementById('Password').value = '';
+                HideWait()
+            },
+            error: function (xhr) {
 
-            if (x.type === "password") {
-                x.type = "text";
+                alert('errors');
             }
-            else {
-                x.type = "password";
-            }
+        });
+    }
+    function showPwd() {
+        var x = document.getElementById("Password");
+
+        if (x.type === "password") {
+            x.type = "text";
         }
-    </script>
-</body>
-</html>
+        else {
+            x.type = "password";
+        }
+    }
+    function ShowWait() {
+        $('#divloader').fadeIn();
+    }
+    function HideWait() {
+        $('#divloader').fadeOut();
+    }
+</script>

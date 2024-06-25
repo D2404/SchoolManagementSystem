@@ -11,7 +11,7 @@ function ShowFilter() {
 }
 $(document).ready(function () {
     $('#FilterDiv').hide();
-    
+    debugger
     var teacherId = $("#teacherIdContainer").data("teacher-id");
     if (teacherId === null || teacherId === 0) {
         var currentDate = new Date();
@@ -232,7 +232,7 @@ function GetTeacher() {
 
 function GetTeacherAttandenceList(page) {
 
-
+    debugger
     var Id = 0;
    /* var TeacherId = document.getElementById('ddlTeacherId').value*/
     var Date = document.getElementById('Date').value

@@ -247,6 +247,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IRepository\IAccountRepository.cs" />
+    <Compile Include="IRepository\ITeacherAttandenceRepository.cs" />
     <Compile Include="IRepository\ITeacherRepository.cs" />
     <Compile Include="IRepository\ISubjectRepository.cs" />
     <Compile Include="IRepository\IClassSectionRepository.cs" />
@@ -284,6 +285,7 @@
     <Compile Include="Models\YearModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AccountRepository.cs" />
+    <Compile Include="Repository\TeacherAttandenceRepository.cs" />
     <Compile Include="Repository\TeacherRepository.cs" />
     <Compile Include="Repository\SubjectRepository.cs" />
     <Compile Include="Repository\ClassSectionRepository.cs" />
@@ -1005,7 +1007,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout2.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Login1.cshtml" />
     <Content Include="Views\Student\OldStudent.cshtml" />
     <Content Include="Views\Student\_StudentListPartial.cshtml" />
     <Content Include="Views\Account\MyProfile.cshtml" />
@@ -1048,7 +1050,6 @@
     <Content Include="Views\ClassRoom\_ClassRoomListPartial.cshtml" />
     <Content Include="Views\ClassRoom\ClassRoom.cshtml" />
     <Content Include="Views\Teacher\Teacher.cshtml" />
-    <Content Include="Views\Home\View.cshtml" />
     <Content Include="Views\Home\_MonthlyCollectFeesList.cshtml" />
     <Content Include="Views\Home\_YearlyCollectFeesList.cshtml" />
     <Content Include="Views\Home\_MonthlyPendingCollectFeesList.cshtml" />
@@ -1083,6 +1084,9 @@
     <Content Include="Views\FeesCollection\FeesCollectionList.cshtml" />
     <Content Include="Views\FeesCollection\_FeesCollectionListPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\_Login.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\ForgotPassword1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

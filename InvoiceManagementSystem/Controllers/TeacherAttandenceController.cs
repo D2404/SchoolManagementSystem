@@ -1,5 +1,7 @@
 ﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.EMMA;
 using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -15,12 +17,20 @@ namespace InvoiceManagementSystem.Controllers
 {
     public class TeacherAttandenceController : Controller
     {
-        clsCommon objCommon = new clsCommon();
+        private readonly TeacherAttandenceRepository _repository;
+        private readonly clsCommon _commonModel;
+
+
+        public TeacherAttandenceController(TeacherAttandenceRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
 
         // GET: TeacherAttandence
         public ActionResult TeacherAttandence()
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
                 return View();
             }
@@ -33,7 +43,7 @@ namespace InvoiceManagementSystem.Controllers
         [HttpPost]
         public ActionResult InsertTeacherAttandence(TeacherAttandenceModel model)
         {
-            model = model.addTeacherAttandence(model);
+            model = _repository.AddTeacherAttandence(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
 
@@ -52,9 +62,9 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
                 cmd.Parameters.AddWithValue("@Search", cls.SearchText);
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@TeacherId", _commonModel.getTeacherIdFromSession());
+                cmd.Parameters.AddWithValue("@UserId", _commonModel.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -107,7 +117,7 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                var UserId = objCommon.getUserIdFromSession();
+                var UserId = _commonModel.getUserIdFromSession();
                 int TotalEntries = 0;
                 int showingEntries = 0;
                 int startentries = 0;
@@ -117,7 +127,7 @@ namespace InvoiceManagementSystem.Controllers
                 SqlCommand cmd = new SqlCommand("ClearSearchTeacherAttendanceData", conn);
                 cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
+                cmd.Parameters.AddWithValue("@TeacherId", _commonModel.getTeacherIdFromSession());
 
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -166,73 +176,12 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetTeacherAttandence(TeacherAttandenceModel cls)
+        public ActionResult GetTeacherAttandence(TeacherAttandenceModel model)
         {
             try
             {
-                var UserId = objCommon.getUserIdFromSession();
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<TeacherAttandenceModel> lstTeacherAttandenceList = new List<TeacherAttandenceModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("GetTeacherAttandenceList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.Parameters.AddWithValue("@UserId", UserId);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                if (UserId > 2)
-                {
-                    cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
-                }
-                else
-                {
-                    cmd.Parameters.AddWithValue("@TeacherId", cls.TeacherId);
-                }
-                cmd.Parameters.AddWithValue("@Date", cls.Date);
-
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        TeacherAttandenceModel obj = new TeacherAttandenceModel();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.TeacherId = dt.Rows[i]["TeacherId"] == null || dt.Rows[i]["TeacherId"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherId"].ToString();
-                        obj.TeacherName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
-                        obj.Status = dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString();
-                        obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstTeacherAttandenceList.Add(obj);
-                    }
-                }
-                cls.LSTTeacherAttandenceList = lstTeacherAttandenceList;
-                if (cls.LSTTeacherAttandenceList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTTeacherAttandenceList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTTeacherAttandenceList = lstTeacherAttandenceList;
-
-                return PartialView("_TeacherAttandenceListPartial", cls);
+                model = _repository.GetTeacherAttandence(model);
+                return PartialView("_TeacherAttandenceListPartial", model);
 
             }
             catch (Exception ex)
@@ -259,6 +208,8 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@Date", cls.Date);
                 cmd.Parameters.AddWithValue("@FromDate", cls.FromDate);
                 cmd.Parameters.AddWithValue("@ToDate", cls.ToDate);
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", _commonModel.getAcademicYearFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -322,9 +273,9 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
                 cmd.Parameters.AddWithValue("@Search", cls.SearchText);
                 //cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@UserId", _commonModel.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@Date", cls.Date);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -372,26 +323,26 @@ namespace InvoiceManagementSystem.Controllers
                 throw ex;
             }
         }
-        public ActionResult GetSingleTeacherAttandenceData(TeacherAttandenceModel cls)
+        public ActionResult GetSingleTeacherAttandenceData(TeacherAttandenceModel model)
         {
             try
             {
-                cls = cls.GetTeacherAttandence(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = _repository.GetTeacherAttandence(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public ActionResult ExpotToExcelTeacherAttendanceReport(TeacherAttandenceModel cls)
+        public ActionResult ExpotToExcelTeacherAttendanceReport(TeacherAttandenceModel model)
         {
             try
             {
-                if (objCommon.getUserIdFromSession() != 0)
+                if (_commonModel.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = cls.ExportTeacherAttendance(cls);
+                    dt = _repository.ExportTeacherAttendance(model);
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         Session["ExpotToExcelTeacherAttendanceReport"] = dt;
@@ -404,7 +355,7 @@ namespace InvoiceManagementSystem.Controllers
                 }
                 else
                 {
-                    return Redirect(objCommon.RedirectToLogin(2));
+                    return Redirect(_commonModel.RedirectToLogin(2));
                 }
             }
             catch (Exception ex)
@@ -504,12 +455,12 @@ namespace InvoiceManagementSystem.Controllers
                 }
             }
         }
-        public ActionResult deleteTeacherAttandence(TeacherAttandenceModel cls)
+        public ActionResult deleteTeacherAttandence(TeacherAttandenceModel model)
         {
             try
             {
-                cls = cls.deleteTeacherAttandence(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = _repository.deleteTeacherAttandence(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

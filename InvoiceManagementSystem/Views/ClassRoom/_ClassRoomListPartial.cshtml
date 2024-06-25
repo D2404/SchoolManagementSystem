@@ -1,4 +1,4 @@
-﻿  @model InvoiceManagementSystem.Models.ClassRoomModel
+﻿@model InvoiceManagementSystem.Models.ClassRoomModel
 @{
     int no = 0;
 }
@@ -37,25 +37,25 @@
                         }
                     </td>
                     @*<td class="text-sm">
-                        @if (item.IsActive == true)
-                        {
-                            <a href="javascript:;" data-bs-toggle="modal" data-bs-original-title="Preview product" data-bs-target="#status" onclick="openstatusModel(@item.Id)">
-                                <i class="fa fa-check text-secondary" aria-hidden="true"></i>
+                            @if (item.IsActive == true)
+                            {
+                                <a href="javascript:;" data-bs-toggle="modal" data-bs-original-title="Preview product" data-bs-target="#status" onclick="openstatusModel(@item.Id)">
+                                    <i class="fa fa-check text-secondary" aria-hidden="true"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a href="javascript:;" data-bs-toggle="modal" data-bs-original-title="Preview product" data-bs-target="#status" onclick="openstatusModel(@item.Id)">
+                                    <i class="fa fa-times text-secondary" aria-hidden="true"></i>
+                                </a>
+                            }
+                            <a href="javascript:;" class="mx-3" data-bs-toggle="modal" data-bs-target="#ClassRoom" onclick="GetSingleClassRoomData(@item.Id)">
+                                <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
                             </a>
-                        }
-                        else
-                        {
-                            <a href="javascript:;" data-bs-toggle="modal" data-bs-original-title="Preview product" data-bs-target="#status" onclick="openstatusModel(@item.Id)">
-                                <i class="fa fa-times text-secondary" aria-hidden="true"></i>
+                            <a href="javascript:;"  data-bs-toggle="modal" data-bs-target="#delete_ClassRoom" onclick="opendeleteModel(@item.Id)">
+                                <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
                             </a>
-                        }
-                        <a href="javascript:;" class="mx-3" data-bs-toggle="modal" data-bs-target="#ClassRoom" onclick="GetSingleClassRoomData(@item.Id)">
-                            <i class="fas fa-user-edit text-secondary" aria-hidden="true"></i>
-                        </a>
-                        <a href="javascript:;"  data-bs-toggle="modal" data-bs-target="#delete_ClassRoom" onclick="opendeleteModel(@item.Id)">
-                            <i class="fas fa-trash text-secondary" aria-hidden="true"></i>
-                        </a>
-                    </td>*@
+                        </td>*@
                     <td class="align-middle text-center" style="text-align: center">
                         <div class="dropdown" style="text-align: center">
                             <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
@@ -75,81 +75,81 @@
                     </td>
                 </tr>
             }
-                    </tbody>
-                }
-            else
+        </tbody>
+    }
+    else
+    {
+        <tr>
+            <td colspan="7">
+                <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>No Record Found</b></p>
+            </td>
+        </tr>
+    }
+</table>
+<div class="quotation-body">
+    <div class="row">
+        <div class="col-lg-6 paddinglr8px">
+        </div>
+    </div>
+    <div class="col-lg-12" style="bottom: 13px;">
+        <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
+            @if (Model != null && Model.LSTClassRoomList != null && Model.LSTClassRoomList.Count > 0)
             {
-            <tr>
-                <td colspan="7">
-                    <p class="text-xs font-weight-bold mb-0" style="text-align: center;"><b>No Record Found</b></p>
-                </td>
-            </tr>
-            }
-        </table>
-        <div class="quotation-body">
-            <div class="row">
-                <div class="col-lg-6 paddinglr8px">
-                </div>
-            </div>
-            <div class="col-lg-12" style="bottom: 13px;">
-                <div class="dataTables_paginate paging_simple_numbers" id="datatable-default_paginate">
-                    @if (Model != null && Model.LSTClassRoomList != null && Model.LSTClassRoomList.Count > 0)
+                var start = (Model.LSTClassRoomList[0].PageIndex - 1) * Model.LSTClassRoomList[0].PageSize + 1;
+                var end = Model.LSTClassRoomList[0].PageSize;
+                if (Model.LSTClassRoomList[0].PageSize < Model.LSTClassRoomList[0].TotalRecord)
+                {
+                    end = Model.LSTClassRoomList[0].PageSize * Model.LSTClassRoomList[0].PageIndex;
+                    if (end > Model.LSTClassRoomList[0].TotalRecord)
                     {
-                        var start = (Model.LSTClassRoomList[0].PageIndex - 1) * Model.LSTClassRoomList[0].PageSize + 1;
-                        var end = Model.LSTClassRoomList[0].PageSize;
-                        if (Model.LSTClassRoomList[0].PageSize < Model.LSTClassRoomList[0].TotalRecord)
+                        end = Model.LSTClassRoomList[0].TotalRecord;
+                    }
+                }
+                else
+                {
+                    end = Model.LSTClassRoomList[0].TotalRecord;
+                }
+                <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: black;font-size:13px">Showing @start to @end of @Model.LSTClassRoomList[0].TotalRecord  entries</span>}
+            <div id="divPagination">
+                @if (Model.LSTClassRoomList != null && Model.LSTClassRoomList.Count > 0)
+                {
+                    var pager = Model.Pager;
+                    if (pager != null)
+                    {
+                        if (pager.EndPage >= 1)
                         {
-                            end = Model.LSTClassRoomList[0].PageSize * Model.LSTClassRoomList[0].PageIndex;
-                            if (end > Model.LSTClassRoomList[0].TotalRecord)
-                            {
-                                end = Model.LSTClassRoomList[0].TotalRecord;
-                            }
-                        }
-                        else
-                        {
-                            end = Model.LSTClassRoomList[0].TotalRecord;
-                        }
-                        <span id="spnTotalRecords" class="dataTables_info" Department="status" aria-live="polite" style="padding: 52px 27px 10px 18px; float: left; color: black;font-size:13px">Showing @start to @end of @Model.LSTClassRoomList[0].TotalRecord  entries</span>}
-                    <div id="divPagination">
-                        @if (Model.LSTClassRoomList != null && Model.LSTClassRoomList.Count > 0)
-                        {
-                            var pager = Model.Pager;
-                            if (pager != null)
-                            {
-                                if (pager.EndPage >= 1)
+                            <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
+                                @if (pager.CurrentPage > 1)
                                 {
-                                    <ol class="pagination" style="float:right;margin-top:-15px;margin-bottom:-5px;">
-                                        @if (pager.CurrentPage > 1)
-                                        {
-                                            <li class="paginate_button previous page-item">
-                                                <a onclick="GetClassRoomList(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
-                                            </li>
-                                        }
-                                        @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
-                                        {
-                                            if (@page1 == @pager.CurrentPage)
-                                            {
-                                                <li class="paginate_button page-item active">
-                                                    <a onclick="GetClassRoomList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
-                                                </li>
-                                            }
-                                            else
-                                            {
-                                                <li class="paginate_button page-item">
-                                                    <a onclick="GetClassRoomList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
-                                                </li>
-                                            }
-                                        }
-                                        @if (pager.CurrentPage < pager.TotalPages)
-                                        {
-                                            <li class="paginate_button page-item">
-                                                <a onclick="GetClassRoomList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
-                                            </li>
-                                        }
-                                    </ol>}
-                            }
-                        }
-                    </div>
-                </div>
+                                    <li class="paginate_button previous page-item">
+                                        <a onclick="GetClassRoomList(@pager.CurrentPage-1)" class="page-link" style=" cursor: pointer; font-size: 11px; margin-top: 40px;"><i class="fas fa-angle-left"></i></a>&nbsp;
+                                    </li>
+                                }
+                                @for (var page1 = pager.StartPage; page1 <= pager.EndPage; page1++)
+                                {
+                                    if (@page1 == @pager.CurrentPage)
+                                    {
+                                        <li class="paginate_button page-item active">
+                                            <a onclick="GetClassRoomList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" aria-controls="datatable-default" data-dt-idx="2" tabindex="0" class="page-link bg-gradient-info"><span style="color:white">@page1</span></a>&nbsp;
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li class="paginate_button page-item">
+                                            <a onclick="GetClassRoomList(@page1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px;" class="page-link">@page1</a>&nbsp;
+                                        </li>
+                                    }
+                                }
+                                @if (pager.CurrentPage < pager.TotalPages)
+                                {
+                                    <li class="paginate_button page-item">
+                                        <a onclick="GetClassRoomList(@pager.CurrentPage + 1)" style=" cursor: pointer; font-size: 11px; margin-top: 40px; float: left" class="page-link"><i class="fas fa-angle-right"></i></a>
+                                    </li>
+                                }
+                            </ol>}
+                    }
+                }
             </div>
         </div>
+    </div>
+</div>
