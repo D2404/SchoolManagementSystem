@@ -5,7 +5,7 @@ $(document).ready(function () {
     GetAdminGrid();
     DisabledAnniversaryDate();
     $('#removeButton').hide();
-    $('#FilterDiv').hide();
+    $('#Filter').hide();
     $('#list-view').show();
     $('#grid-view').hide();
     $(".gambar").attr("src", "/Data/Profile/dummy.jpg");

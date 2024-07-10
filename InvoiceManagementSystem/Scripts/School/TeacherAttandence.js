@@ -1,16 +1,16 @@
 ﻿var type = 1
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 $(document).ready(function () {
-    $('#FilterDiv').hide();
+    $('#Filter').hide();
     debugger
     var teacherId = $("#teacherIdContainer").data("teacher-id");
     if (teacherId === null || teacherId === 0) {
@@ -248,7 +248,7 @@ function GetTeacherAttandenceList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model= {
         Id: Id,
         TeacherId: TeacherId,
         Date: Date,
@@ -261,7 +261,7 @@ function GetTeacherAttandenceList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -321,7 +321,7 @@ function ClearSearchData(page) {
 }
 
 function GetTeacherAttandenceListByTeacherId(page) {
-    
+    debugger
     var TeacherId = $("#teacherIdContainer").data("teacher-id");
     var FromDate = document.getElementById('FromDate').value
     var ToDate = document.getElementById('ToDate').value

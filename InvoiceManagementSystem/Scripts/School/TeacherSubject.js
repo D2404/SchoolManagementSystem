@@ -2,17 +2,17 @@
 
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 
 $(document).ready(function () {
-    $('#FilterDiv').hide();
+    $('#Filter').hide();
     GetClassRoom();
     GetTeacher();
     GetTeacherSubjectList(1);

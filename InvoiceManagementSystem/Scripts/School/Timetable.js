@@ -3,16 +3,16 @@ var type = 1
 
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 $(document).ready(function () {
-    $('#FilterDiv').hide();
+    $('#Filter').hide();
     var currentTime = new Date();
 
     // Format the time as HH:mm

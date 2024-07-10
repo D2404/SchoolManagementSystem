@@ -1,20 +1,21 @@
 ﻿var type = 1
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 $(document).ready(function () {
     GetEmailConfigurationList(1);
-    $('#FilterDiv').hide();
+    $('#Filter').hide();
 });
 
 function GetEmailConfigurationList(page) {
+    debugger
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
     if (document.getElementById('PageSize') !== null) {

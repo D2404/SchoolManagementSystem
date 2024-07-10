@@ -95,7 +95,7 @@ function ExportClassRoom() {
 
 
 function InsertData() {
-
+    debugger
     var val = true;
     var Id = $('#hdnintId').val();
     var SearchText = $('#SearchText').val();

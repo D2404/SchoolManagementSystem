@@ -2,39 +2,7 @@
 @{ ViewBag.Title = "TeacherAttendance"; }
 
 <div id="teacherIdContainer" data-teacher-id="@Session["TeacherId"]" style="display:none"></div>
-<div class="row" id="FilterDiv" style="margin-left:19px">
 
-    <div class="col-sm-6 col-md-3">
-        <div class="form-group">
-            <label for="example-text-input" class="text-xs font-weight-bold mb-0" style="color:white">From Date</label>
-            <input type="date" class="form-control" id="FromDate" name="FromDate">
-            <span id="errFromDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-3">
-        <div class="form-group">
-            <label for="example-text-input" class="text-xs font-weight-bold mb-0" style="color:white">To Date</label>
-            <input type="date" class="form-control" id="ToDate" name="ToDate">
-            <span id="errToDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-        </div>
-    </div>
-    <div class="col-sm-6 col-md-1 mt-4">
-
-        <a class="btn bg-gradient-info" onclick="GetTeacherAttandenceListByTeacherId(1)">Search</a>
-    </div>
-    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
-    {
-        <div class="col-sm-6 col-md-1 mt-4">
-            <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear </a>
-
-        </div> }
-    else
-    {
-        <div class="col-sm-6 col-md-1 mt-4">
-            <a class="btn bg-gradient-dark" title="Clear" onclick="ClearData(3)"> Clear </a>
-
-        </div>}
-</div>
 <div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
     <div class="card shadow-lg mx-4 card-profile-bottom">
         <div class="card-body p-3">
@@ -49,105 +17,116 @@
             </div>
         </div>
     </div>
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-sm-12 col-md-12">
-                <div class="dataTables_length" id="DataTables_Table_0_length">
-                    <label style="color:white">
-                        Show
-                        <select id="PageSize" onchange="GetTeacherAttandenceList(1)" class="drpselect">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100">100</option>
-                        </select> entries
-                    </label>
+    <br />
+    <div class="card shadow-lg mx-4 card-profile" id="Filter">
+        <div class="card-body p-3">
+            <div class="row">
+                <div class="col-md-2 p-2">
+                    <label style="color:black">From Date</label>
+                    <input type="date" class="form-control" id="FromDate" name="FromDate">
+                    <span id="errFromDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                </div>
+                <div class="col-md-2 p-2">
+                    <label style="color:black">To Date</label>
+                    <input type="date" class="form-control" id="ToDate" name="ToDate">
+                    <span id="errToDate" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                </div>
+                <div class="col-auto float-right ml-auto mt-4" style="float:right">
+                    <button type="button" id="btnSearch" class="btn bg-gradient-info " data-bs-toggle="tooltip" data-bs-placement="top" data-container="body" data-animation="true" onclick="GetTeacherAttandenceList(1)">Search</button>
+                    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
+                    {
+                        <button type="button" class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn bg-gradient-dark" title="Clear" onclick="ClearData(2)"> Clear</button>
+                    }
                 </div>
             </div>
+
         </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-4">
-                    <div class="card-header pb-0">
-                        <h6>
-                            <i class="far fa-calendar-alt text-success text-lg opacity-10"></i> &nbsp;&nbsp;
-                            TeacherAttandence List
 
-                            @if ((int)Session["TeacherId"] == 0)
-                            {
-                                <div class="row">
+    </div>
+</div>
 
 
-                                    <input type="hidden" id="TeacherId" value="" />
 
-                                    <div class="col-sm-3"> </div>
-                                    <div class="col-md-2 p-1">
-                                        <div class="form-group">
-                                            <input type="date" id="Date" class="form-control form-control-alternative" onchange="GetTeacherAttandenceList()" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 p-1">
-                                        <div class="form-group">
-                                            <select class="form-control form-control-alternative" id="Status">
-                                                <option value="2"> Select Attendance Type </option>
-                                                <option value="1">Present</option>
-                                                <option value="0">Absent</option>
-                                            </select>
-                                        </div>
-                                        <span id="errStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                                    </div>
-                                    @*<div class="col-sm-2" style="margin-top:-31px">
-                                            <div class="form-group">
-                                                <a class="btn bg-gradient-info" title="Fill Attandence" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="UpgradeAttendanceData()" style="cursor:pointer;margin-left:0px">Fill Attandence</a>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1" style="margin-top:-31px">
-                                            <div class="form-group">
-                                                <a href="#" class="btn bg-gradient-dark btn-tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" data-container="body" data-animation="true" onclick="ShowFilter()"><i class="fa fa-filter"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1" style="margin-top:-31px;width:120px">
-                                            <div class="form-group">
-                                                <a class="btn bg-gradient-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export Attendance" onclick="ExportTeacherAttendance()"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
-                                            </div>
-                                        </div>*@
-                                    <div class="col-auto float-right ml-auto" style="float:right">
-                                        <a class="btn bg-gradient-info" title="Fill Attandence" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="UpgradeAttendanceData()" style="color:white; cursor:pointer;">+ Fill Attandence</a>
-                                        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter"><i class="fa fa-filter"></i></a>
-                                        <a href="#" class="btn bg-gradient-dark" onclick="ExportTeacherAttendance()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export to Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-                                    </div>
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <div class="dataTables_length" id="DataTables_Table_0_length">
+                <label style="color:white">
+                    Show
+                    <select id="PageSize" onchange="GetTeacherAttandenceList(1)" class="drpselect">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select> entries
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header pb-0">
+                    <h6><i class="far fa-calendar-alt text-success text-lg opacity-10"></i>   TeacherAttandence List</h6>
+                    @if ((int)Session["TeacherId"] == 0)
+                    {
+                        <div class="row">
+                            <input type="hidden" id="TeacherId" value="" />
+                            <div class="col-sm-3"> </div>
+                            <div class="col-md-2 p-1">
+                                <div class="form-group">
+                                    <input type="date" id="Date" class="form-control form-control-alternative" onchange="GetTeacherAttandenceList()" />
                                 </div>
-                             }
-                        </h6>
-                    </div>
-                    <div class="card-body px-0 pt-0 pb-2">
-                        <div class="table-responsive p-0">
-                            <div id="tblBody"></div>
+                            </div>
+                            <div class="col-md-2 p-1">
+                                <div class="form-group">
+                                    <select class="form-control form-control-alternative" id="Status">
+                                        <option value="2"> Select Attendance Type </option>
+                                        <option value="1">Present</option>
+                                        <option value="0">Absent</option>
+                                    </select>
+                                </div>
+                                <span id="errStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                            </div>
+                            <div class="col-auto float-right ml-auto" style="float:right">
+                                <a class="btn bg-gradient-info" title="Fill Attandence" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="UpgradeAttendanceData()" style="color:white; cursor:pointer;">+ Fill Attandence</a>
+                                <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter"><i class="fa fa-filter"></i></a>
+                                <a href="#" class="btn bg-gradient-dark" onclick="ExportTeacherAttendance()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export to Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+                            </div>
                         </div>
+                    }
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <div id="tblBody"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
 
-    <div class="modal fade" id="Status_TeacherAttandence" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Status Confirmation</span></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true" style="color:black">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:73px;">Are you sure want to fill this Attandence for teacher ?.</p>
-                </div>
-                <div class="modal-footer" style="padding-right: 166px">
-                    <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Save</button>
-                    <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
-                    <input type="hidden" id="hdnintId" value="0" />
-                </div>
+<div class="modal fade" id="Status_TeacherAttandence" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"><span id="PopupTitle">Status Confirmation</span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" style="color:black">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p class="text-secondary text-xs font-weight-bolder opacity-100" >Are you sure want to fill this Attandence for teacher ?.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Save</button>
+                <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
+                <input type="hidden" id="hdnintId" value="0" />
             </div>
         </div>
     </div>

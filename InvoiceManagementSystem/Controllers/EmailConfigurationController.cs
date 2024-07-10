@@ -39,6 +39,19 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
+        public ActionResult GetEmailConfiguration(EmailConfigurationSetting model)
+        {
+            try
+            {
+                model = _repository.GetAllEmailConfiguration(model);
+                return PartialView("_EmailConfigurationListPartial", model);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult EmailConfiguration(int? id)
         {
             if (_commonModel.getUserIdFromSession() != 0)

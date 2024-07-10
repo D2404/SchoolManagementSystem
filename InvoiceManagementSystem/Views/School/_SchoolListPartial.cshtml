@@ -29,11 +29,11 @@
                 </td>
                 @if (item.PhotoImg == null || item.PhotoImg == "")
                 {
-                    <td> <img src="~/Data/Profile/noimage.jpg" width="50" height="50" style="text-align: center;" /></td>
+                    <td style="text-align:center"> <img src="~/Data/Profile/noimage.jpg" width="50" height="50" /></td>
                 }
                 else
                 {
-                    <td><img src="/Data/SchoolPhoto/@item.PhotoImg" width="50" height="50" style="text-align: center;"></td>
+                    <td style="text-align:center"><img src="/Data/SchoolPhoto/@item.PhotoImg" width="50" height="50"></td>
                 }
                 <td>
                     <p class="text-xs font-weight-bold mb-0" style="text-align:center">@item.SchoolName</p>

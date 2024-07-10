@@ -14,7 +14,7 @@
         }
 </style>
 
-<div class="row" id="FilterDiv" style="margin-left:19px">
+<div class="row" id="FilterDiv" style="margin-left:19px;display:none" >
     <div class="col-sm-4 col-md-3" style="margin-top: -32px;">
         <div class="form-group form-focus">
             <label style="color:white">Search</label>
@@ -60,16 +60,16 @@
             <div class="row gx-4">
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        @if (Model.LSTAdminList[0].Id > 0 || Model.LSTAdminList[0].Id != null)
+                        @if (Model.LSTAdminList[0].Id > 1 || Model.LSTAdminList[0].Id != null)
                         {
                             <h5 class="mb-1">
-                                <i class="fas fa-chalkboard-Admin text-info text-lg opacity-10"></i>&nbsp;&nbsp; Add Admin
+                                <i class="fas fa-user text-info text-lg opacity-10"></i>  Edit Admin
                             </h5>
                         }
                         else
                         {
                             <h5 class="mb-1">
-                                <i class="fas fa-chalkboard-Admin text-info text-lg opacity-10"></i>&nbsp;&nbsp; Add Admin
+                                <i class="fas fa-user text-info text-lg opacity-10"></i>  Add Admin
                             </h5>
                         }
                     </div>

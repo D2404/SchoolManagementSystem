@@ -18,7 +18,7 @@ namespace InvoiceManagementSystem.Repository
         SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
 
         public TeacherAttandenceModel GetTeacherAttandence(TeacherAttandenceModel model)
-         {
+        {
             try
             {
 
@@ -75,7 +75,7 @@ namespace InvoiceManagementSystem.Repository
                 model.LSTTeacherAttandenceList = lstTeacherAttandenceList;
                 if (model.LSTTeacherAttandenceList.Count > 0)
                 {
-                    var pager = new Models.Pager((int)model.LSTTeacherAttandenceList[0].TotalRecord, model.PageIndex, (int)model.PageSize);
+                    var pager = new Models.Pager((int)model.LSTTeacherAttandenceList[0].TotalRecord, model.LSTTeacherAttandenceList[0].PageIndex, (int)model.LSTTeacherAttandenceList[0].PageSize);
 
                     model.Pager = pager;
                 }
@@ -104,6 +104,7 @@ namespace InvoiceManagementSystem.Repository
                 cmd.Parameters.Add("@Status", SqlDbType.NVarChar).Value = model.Status;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;

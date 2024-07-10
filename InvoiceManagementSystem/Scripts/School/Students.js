@@ -485,7 +485,7 @@ function InsertData(id) {
     var AccountNo = $('#AccountNo').val();
     var IFSCCode = $('#IFSCCode').val();
 
-    var RoleId = 2
+    var RoleId = 4
 
     if (BankName === "" || /\S/.test(BankName) === false) {
         $("#errBankName").html("Please enter bankname.");

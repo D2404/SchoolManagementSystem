@@ -272,7 +272,7 @@ function ExportTeacher() {
 }
 
 function ValidateBasicDetails(id) {
-
+    $('#list-view').show();
     var Id = $('#hdnintId').val();
     var val = true;
     var Title = $('#Title').val();
@@ -405,7 +405,7 @@ function ValidateBasicDetails(id) {
 }
 
 function ValidateAddressDetails(id) {
-
+    $('#grid-view').show();
     var val = true;
     var CurrentAddress = $('#CurrentAddress').val();
     var CurrentPincode = $('#CurrentPincode').val();

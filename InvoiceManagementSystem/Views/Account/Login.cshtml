@@ -3,45 +3,52 @@
     ViewBag.Title = "Login";
 }
 
-<div class="theme-loader">
-    <div class="loader-track">
-        <div class="loader-bar"></div>
+<div class="page-header align-items-start min-vh-50 pt-7 pb-9 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-cover.jpg');">
+    <span class="mask bg-gradient-dark opacity-6"></span>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 text-center mx-auto">
+                <h1 class="text-white mb-2 mt-5">Welcome!</h1>
+                <p class="text-lead text-white">Welcome to the School Management System.</p>
+            </div>
+        </div>
     </div>
 </div>
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-7">
-            <div class="card border-0 mb-0">
-                <div class="card-header bg-transparent">
+    <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+        <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
+            <div class="card mt-5">
+                <div class="card-header pb-0 text-start">
+                    <h3 class="font-weight-bolder" style="text-align:center">Sign In</h3>
+                    <p class="mb-0" style="text-align:center">Enter your email and password to sign in</p>
                 </div>
-                <div class="row m-b-20">
-                    <div class="col-md-12">
-                        <h4 style="color:#666666;text-align:center"><b><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp; SIGN IN</b></h4>
-                        <img style="width: 120px;display: block; margin-left: auto; margin-right: auto;" src="~/Data/assets/img/muktajivan-school-logo.png" />
-                        <h5 style="color:#666666;text-align:center"><b>Shree Muktajivan School</b></h5>
-                    </div>
-                </div>
-
-                <div class="card-body px-lg-5 pt-4">
+                <div class="card-body">
                     <form role="form" class="text-start">
+                        <label>Email</label>
                         <div class="mb-3">
-                            <input type="text" class="form-control" id="UserName" name="UserName" placeholder="UserName" aria-label="UserName">
+                            <input type="text" id="UserName" class="form-control form-control-alternative" placeholder="Enter Username" aria-label="UserName">
                             <span id="errUserName" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                         </div>
+                        <label>Password</label>
                         <div class="mb-3">
-                            <input type="password" class="form-control" id="Password" name="Password" placeholder="Password" aria-label="Password">
+                            <input type="Password" id="Password" class="form-control form-control-alternative" placeholder="Enter Password" aria-label="Password">
                             <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                         </div>
-                        <div class="form-check form-switch" style="float:right">
-                            <input class="form-check-input" type="checkbox" id="rememberMe" onclick="showPwd()">
-                            <label class="form-check-label" style="white-space:nowrap" for="rememberMe">Show password</label>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="rememberMe"  onclick="showPwd()" >
+                            <label class="form-check-label" for="rememberMe">show password</label>
                         </div>
-                        <br />
-                        <button type="button" class="btn bg-gradient-info" onclick="Login();" style="float:left"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp; Sign In</button><br />
-                        <a href="~/Account/ForgotPassword" class="btn btn-link" style="white-space: nowrap; float:right"><i class="fa fa-key" aria-hidden="true"></i>&nbsp; Forgot  Password?</a>
+                        <div class="text-center">
+                            <button type="button" class="btn bg-gradient-info  w-100 mt-4 mb-0" onclick="Login();"><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;&nbsp;Sign in</button>
+                        </div>
                     </form>
                 </div>
-
+                <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                    <p class="mb-4 text-sm mx-auto">
+                        Forgot your password?
+                        <a  href="~/Account/ForgotPassword" class="text-primary font-weight-bold">Forgot Password</a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

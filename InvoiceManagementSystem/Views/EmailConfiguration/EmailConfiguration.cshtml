@@ -13,28 +13,10 @@
             <div class="row gx-4">
                 <div class="col-auto my-auto">
                     <div class="h-100">
-                        @*@if (Model.LSTEmailConfigurationList[0].Id > 1)
-                            {
-                                <h5 class="mb-1">
-                                    <i class="fas fa-envelope text-info text-lg opacity-10"></i>&nbsp;&nbsp; Edit Email-Configuration
-                                </h5>
-                            }
-                            else
-                            {*@
-                        <h5 class="mb-1">
-                            <i class="fas fa-envelope text-info text-lg opacity-10"></i>&nbsp;&nbsp; Add Email-Configuration
-                        </h5>
-                        @*}*@
+                        <h6><i class="fas fa-envelope text-danger text-lg"></i>  Add Email-Configuration</h6>
+                        
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 my-sm-auto ms-sm-auto me-sm-0 mx-auto mt-3">
-                    <div class="tabs">
-                        <div class="nav-wrapper position-relative end-0">
-                            <a href="/EmailConfiguration/EmailConfigurationList" class="btn bg-gradient-dark" style="margin-top: -32px;margin-bottom: -31px;margin-left: 191px;">&nbsp;Back to list</a>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
@@ -43,6 +25,11 @@
             <div class="col-12">
                 <div class="card mt-4 mb-3">
                     <div class="card-body pb-0">
+                        <div class="col-9">
+                            <h5 class="mb-1">
+                                <a href="javascript:;"><i class="fa fa-envelope-open"></i>   Email Configuration</a>
+                            </h5>
+                        </div><br />
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
