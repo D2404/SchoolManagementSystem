@@ -25,6 +25,25 @@ $(document).ready(function () {
     }
     GetTeacher();
 });
+function AttendanceType() {
+
+    var Status = $('#Status').val();
+    if (Status === "Absent") {
+        leaveTypeDiv.style.display = "block";
+    } else {
+        leaveTypeDiv.style.display = "none";
+    }
+}
+
+function LeaveType() {
+
+    var LeaveType = $('#LeaveType').val();
+    if (LeaveType === "Half-Day") {
+        leaveSubTypeDiv.style.display = "block";
+    } else {
+        leaveSubTypeDiv.style.display = "none";
+    }
+}
 
 function SelectAll() {
     var selectAllChecked = $('#selectAllCheckbox').prop('checked');
@@ -82,6 +101,8 @@ function LoadAttendanceData() {
     var VersData = {
         Status: $("#Status").val(),
         Date: $("#Date").val(),
+        LeaveType: $("#LeaveType").val(),
+        LeaveSubType: $("#LeaveSubType").val(),
         TeacherId: TeacherId
     };
     return VersData;
@@ -116,12 +137,16 @@ function InsertData() {
     var TeacherId = UpgradeAttendanceData.TeacherId;
     var Status = UpgradeAttendanceData.Status;
     var Date = UpgradeAttendanceData.Date;
+    var LeaveType = UpgradeAttendanceData.LeaveType;
+    var LeaveSubType = UpgradeAttendanceData.LeaveSubType;
 
     // Create an object to represent the data
     var model = {
         TeacherId: TeacherId,
         Status: Status,
-        Date: Date
+        Date: Date,
+        LeaveType: LeaveType,
+        LeaveSubType: LeaveSubType,
     };
     $('#TeacherId').val(TeacherId);
     ShowWait();
@@ -138,6 +163,7 @@ function InsertData() {
                     $('#errStatus').html("");
                     $('#Status_TeacherAttandence').modal('hide');
                     GetTeacherAttandenceList(1);
+                    ClearData2();
                 }
                 else {
                     toastr.success("Attedance updated successfully.");
@@ -145,6 +171,7 @@ function InsertData() {
                     $('#errStatus').html("");
                     $('#Status_TeacherAttandence').modal('hide');
                     GetTeacherAttandenceList(1);
+                    ClearData2();
                 }
             }
         },
@@ -195,7 +222,17 @@ function ExportTeacherAttendance() {
 
 
 
-function ClearData1(type) {
+function ClearData1() {
+
+    $("#Status").val('0').trigger('change');
+    $("#LeaveType").val('None').trigger('change');
+    $("#LeaveSubType").val('None').trigger('change');
+    leaveTypeDiv.style.display = "none";
+    leaveSubTypeDiv.style.display = "none";
+}
+
+
+function ClearData2() {
 
     var intId = document.getElementById('hdnintId').value;
     if (type === 1) {

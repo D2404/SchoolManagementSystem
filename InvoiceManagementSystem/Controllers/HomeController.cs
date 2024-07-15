@@ -33,7 +33,7 @@ namespace InvoiceManagementSystem.Controllers
                     }
                     else 
                     {
-                        cls = cls.GetTeacherDashboardCount(cls);
+                         cls = cls.GetTeacherDashboardCount(cls);
                     }
                     cls.LSTTeacherList = cls.GetTeacherDetailsList(cls);
                     cls.LSTStudentList = cls.GetStudentDetailsList(cls);
@@ -568,6 +568,8 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 cmd.Parameters.AddWithValue("@RoleId", objCommon.getRoleIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -588,6 +590,8 @@ namespace InvoiceManagementSystem.Controllers
                         obj.TotalPresentDays = dt.Rows[i]["TotalPresentDays"] == null || dt.Rows[i]["TotalPresentDays"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalPresentDays"].ToString();
                         obj.TotalAbsentDays = dt.Rows[i]["TotalAbsentDays"] == null || dt.Rows[i]["TotalAbsentDays"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalAbsentDays"].ToString();
                         obj.Status =dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString();
+                        obj.LeaveType = dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString();
+                        obj.LeaveSubType = dt.Rows[i]["LeaveSubType"] == null || dt.Rows[i]["LeaveSubType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveSubType"].ToString();
                         obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
@@ -635,6 +639,8 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 cmd.Parameters.AddWithValue("@RoleId", objCommon.getRoleIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -655,6 +661,8 @@ namespace InvoiceManagementSystem.Controllers
                         obj.TotalPresentDays = dt.Rows[i]["TotalPresentDays"] == null || dt.Rows[i]["TotalPresentDays"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalPresentDays"].ToString();
                         obj.TotalAbsentDays = dt.Rows[i]["TotalAbsentDays"] == null || dt.Rows[i]["TotalAbsentDays"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalAbsentDays"].ToString();
                         obj.Status = dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString();
+                        obj.LeaveType = dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString();
+                        obj.LeaveSubType = dt.Rows[i]["LeaveSubType"] == null || dt.Rows[i]["LeaveSubType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveSubType"].ToString();
                         obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
@@ -702,6 +710,8 @@ namespace InvoiceManagementSystem.Controllers
                 cmd.Parameters.AddWithValue("@intActive", cls.intActive);
                 cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
                 cmd.Parameters.AddWithValue("@RoleId", objCommon.getRoleIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -722,6 +732,8 @@ namespace InvoiceManagementSystem.Controllers
                         obj.TotalPresentDays = dt.Rows[i]["TotalPresentDays"] == null || dt.Rows[i]["TotalPresentDays"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalPresentDays"].ToString();
                         obj.TotalAbsentDays = dt.Rows[i]["TotalAbsentDays"] == null || dt.Rows[i]["TotalAbsentDays"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalAbsentDays"].ToString();
                         obj.Status = dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString();
+                        obj.LeaveType = dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString();
+                        obj.LeaveSubType = dt.Rows[i]["LeaveSubType"] == null || dt.Rows[i]["LeaveSubType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveSubType"].ToString();
                         obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());

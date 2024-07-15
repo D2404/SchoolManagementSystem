@@ -74,30 +74,49 @@
                     <h6><i class="far fa-calendar-alt text-success text-lg opacity-10"></i>   TeacherAttandence List</h6>
                     @if ((int)Session["TeacherId"] == 0)
                     {
-                        <div class="row">
-                            <input type="hidden" id="TeacherId" value="" />
-                            <div class="col-sm-3"> </div>
-                            <div class="col-md-2 p-1">
-                                <div class="form-group">
-                                    <input type="date" id="Date" class="form-control form-control-alternative" onchange="GetTeacherAttandenceList()" />
-                                </div>
-                            </div>
-                            <div class="col-md-2 p-1">
-                                <div class="form-group">
-                                    <select class="form-control form-control-alternative" id="Status">
-                                        <option value="2"> Select Attendance Type </option>
-                                        <option value="1">Present</option>
-                                        <option value="0">Absent</option>
-                                    </select>
-                                </div>
-                                <span id="errStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
-                            </div>
-                            <div class="col-auto float-right ml-auto" style="float:right">
-                                <a class="btn bg-gradient-info" title="Fill Attandence" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="UpgradeAttendanceData()" style="color:white; cursor:pointer;">+ Fill Attandence</a>
-                                <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter"><i class="fa fa-filter"></i></a>
-                                <a href="#" class="btn bg-gradient-dark" onclick="ExportTeacherAttendance()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export to Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
-                            </div>
+                <div class="row">
+                    <input type="hidden" id="TeacherId" value="" />
+                    <div class="col-md-2 p-1">
+                        <div class="form-group">
+                            <input type="date" id="Date" class="form-control form-control-alternative" onchange="GetTeacherAttandenceList()" />
                         </div>
+                    </div>
+                    <div class="col-md-2 p-1">
+                        <div class="form-group">
+                            <select class="form-control form-control-alternative" id="Status" onchange="AttendanceType()">
+                                <option value="0"> Select Attendance Type </option>
+                                <option value="Present">Present</option>
+                                <option value="Absent">Absent</option>
+                            </select>
+                        </div>
+                        <span id="errStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                    </div>
+                    <div class="col-md-2 p-1" id="leaveTypeDiv" style="display:none;"onchange="LeaveType()">
+                        <div class="form-group">
+                            <select class="form-control form-control-alternative" id="LeaveType">
+                                <option value="None"> Select Leave Type </option>
+                                <option value="Full-Day">Full-Day</option>
+                                <option value="Half-Day">Half-Day</option>
+                            </select>
+                        </div>
+                        <span id="errStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                    </div>
+                    <div class="col-md-2 p-1" id="leaveSubTypeDiv" style="display:none;">
+                        <div class="form-group">
+                            <select class="form-control form-control-alternative" id="LeaveSubType">
+                                <option value="None"> Select Leave Sub Type </option>
+                                <option value="First-Half">First-Half</option>
+                                <option value="Second-Half">Second-Half</option>
+                            </select>
+                        </div>
+                        <span id="errStatus" class="text-xs font-weight-bold mb-0" style="color:red"></span>
+                    </div>
+                    <div class="col-auto float-right ml-auto" style="float:right">
+                        <a class="btn bg-gradient-info" title="Fill Attandence" data-bs-toggle="tooltip" data-bs-placement="bottom" onclick="UpgradeAttendanceData()" style="color:white; cursor:pointer;">+ Fill Attandence</a>
+                        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter"><i class="fa fa-filter"></i></a>
+                        <a href="#" class="btn bg-gradient-dark" onclick="ExportTeacherAttendance()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export to Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+                    </div>
+                </div>
                     }
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">

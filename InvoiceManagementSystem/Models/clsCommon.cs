@@ -300,7 +300,6 @@ namespace InvoiceManagementSystem.Models
                 clsCommon objCommon = new clsCommon();
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("GetEmailConfiguration", conn);
-
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 System.Data.DataTable dt = new System.Data.DataTable();

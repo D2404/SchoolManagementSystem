@@ -65,6 +65,7 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.Add("@EndTime", SqlDbType.VarChar).Value = cls.EndTime;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;
                 da.ReturnProviderSpecificTypes = true;

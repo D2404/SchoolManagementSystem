@@ -3,13 +3,15 @@
     ViewBag.Title = "Login";
 }
 
+
+
 <div class="page-header align-items-start min-vh-50 pt-7 pb-9 m-3 border-radius-lg" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/signin-cover.jpg');">
     <span class="mask bg-gradient-dark opacity-6"></span>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-5 text-center mx-auto">
-                <h1 class="text-white mb-2 mt-5">Welcome!</h1>
-                <p class="text-lead text-white">Welcome to the School Management System.</p>
+                <h1 class="text-white mb-2 mt-0">Welcome!</h1>
+                <p class="text-lead text-white mb-5">Welcome to the School Management System.</p>
             </div>
         </div>
     </div>
@@ -17,7 +19,7 @@
 <div class="container">
     <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
         <div class="col-xl-4 col-lg-5 col-md-7 mx-auto">
-            <div class="card mt-5">
+            <div class="card mt-0">
                 <div class="card-header pb-0 text-start">
                     <h3 class="font-weight-bolder" style="text-align:center">Sign In</h3>
                     <p class="mb-0" style="text-align:center">Enter your email and password to sign in</p>
@@ -76,7 +78,7 @@
             UserName: UserName,
             Password: Password
         }
-        ShowWait()
+        ShowWait();
         $.ajax({
             url: '/Account/Login',
             contentType: "application/json; charset=utf-8",
@@ -88,7 +90,7 @@
 
                 if (data == 'Success') {
                     window.location.href = '/Home/Index';
-
+                    HideWait();
                 }
                 //else if (data.intId == 0) {
                 //    alert(data.strResponse);
@@ -99,7 +101,6 @@
                 }
                 document.getElementById('Email').value = '';
                 document.getElementById('Password').value = '';
-                HideWait()
             },
             error: function (xhr) {
 
@@ -118,9 +119,10 @@
         }
     }
     function ShowWait() {
-        $('#divloader').fadeIn();
+        $('.loading-wave').fadeIn();
     }
     function HideWait() {
-        $('#divloader').fadeOut();
+        $('.loading-wave').fadeOut();
     }
+    
 </script>

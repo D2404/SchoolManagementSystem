@@ -231,7 +231,7 @@ namespace InvoiceManagementSystem.Controllers
             }
             catch (Exception ex)
             {
-
+                throw ex;
             }
 
         }

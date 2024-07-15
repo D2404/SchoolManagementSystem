@@ -35,6 +35,7 @@ namespace InvoiceManagementSystem.Repository
                 cmd.Parameters.AddWithValue("@intActive", model.intActive);
                 cmd.Parameters.AddWithValue("@UserId", UserId);
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 if (UserId > 2)
                 {
                     cmd.Parameters.AddWithValue("@TeacherId", objCommon.getTeacherIdFromSession());
@@ -63,6 +64,8 @@ namespace InvoiceManagementSystem.Repository
                         obj.TeacherId = dt.Rows[i]["TeacherId"] == null || dt.Rows[i]["TeacherId"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherId"].ToString();
                         obj.TeacherName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
                         obj.Status = dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString();
+                        obj.LeaveType = dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString();
+                        obj.LeaveSubType = dt.Rows[i]["LeaveSubType"] == null || dt.Rows[i]["LeaveSubType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveSubType"].ToString();
                         obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
                         obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
                         obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
@@ -102,6 +105,8 @@ namespace InvoiceManagementSystem.Repository
                 cmd.Parameters.AddWithValue("@TeacherId", model.TeacherId);
                 cmd.Parameters.Add("@Date", SqlDbType.DateTime).Value = model.Date;
                 cmd.Parameters.Add("@Status", SqlDbType.NVarChar).Value = model.Status;
+                cmd.Parameters.Add("@LeaveType", SqlDbType.NVarChar).Value = model.LeaveType;
+                cmd.Parameters.Add("@LeaveSubType", SqlDbType.NVarChar).Value = model.LeaveSubType;
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
@@ -161,8 +166,8 @@ namespace InvoiceManagementSystem.Repository
                         obj.TeacherId = dt.Rows[i]["TeacherId"] == null || dt.Rows[i]["TeacherId"].ToString().Trim() == "" ? null : dt.Rows[i]["TeacherId"].ToString();
                         obj.Status = dt.Rows[i]["Status"] == null || dt.Rows[i]["Status"].ToString().Trim() == "" ? null : dt.Rows[i]["Status"].ToString();
                         obj.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("yyyy/MM/dd");
-                        obj.LeaveType = Convert.ToInt32(dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString());
-                        obj.Reason = dt.Rows[i]["Reason"] == null || dt.Rows[i]["Reason"].ToString().Trim() == "" ? null : dt.Rows[i]["Reason"].ToString();
+                        obj.LeaveType =dt.Rows[i]["LeaveType"] == null || dt.Rows[i]["LeaveType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveType"].ToString();
+                        obj.LeaveSubType =dt.Rows[i]["LeaveSubType"] == null || dt.Rows[i]["LeaveSubType"].ToString().Trim() == "" ? null : dt.Rows[i]["LeaveSubType"].ToString();
                         LSTList.Add(obj);
                     }
                 }
@@ -223,6 +228,7 @@ namespace InvoiceManagementSystem.Repository
                 cmd.Parameters.AddWithValue("@Date", model.Date);
                 cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
                 cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", objCommon.getAcademicYearFromSession());
                 cmd.Parameters.AddWithValue("@TeacherId", model.TeacherId);
                 cmd.CommandType = CommandType.StoredProcedure;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -239,6 +245,8 @@ namespace InvoiceManagementSystem.Repository
                         dr["ClassNo"] = Regex.Replace(dr["ClassNo"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                         dr["Status"] = Regex.Replace(dr["Status"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                         dr["Date"] = Regex.Replace(dr["Date"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["LeaveType"] = Regex.Replace(dr["LeaveType"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
+                        dr["LeaveSubType"] = Regex.Replace(dr["LeaveSubType"].ToString(), @"<[^>]+>| ", " ").Replace("&nbsp;", " ").Replace("&amp;", " ").Trim();
                         //  dr["Date"] = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("dd/MM/yyyy");
                     }
                 }

@@ -27,10 +27,11 @@ namespace InvoiceManagementSystem.Models
         public string TotalAbsentDays { get; set; }
         public string FatherName { get; set; }
         public string SurName { get; set; }
-        public int LeaveType { get; set; }
         public string Reason { get; set; }
         public string TeacherId { get; set; }
         public string Status { get; set; }
+        public string LeaveType { get; set; }
+        public string LeaveSubType { get; set; }
         public int intActive { get; set; }
         
         public string Date { get; set; }
