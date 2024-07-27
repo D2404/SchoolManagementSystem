@@ -10,7 +10,6 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
-    $('#FilterDiv').hide();
     GetClassRoom();
     GetMonth();
     GetFeesList(1);

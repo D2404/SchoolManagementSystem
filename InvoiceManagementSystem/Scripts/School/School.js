@@ -10,7 +10,6 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
-    $('#Filter').hide();
     GetSchoolList(1);
 });
 

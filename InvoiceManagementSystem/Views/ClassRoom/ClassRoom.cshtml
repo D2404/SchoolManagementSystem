@@ -63,6 +63,25 @@
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
+                        <h6><i class="ni ni-book-bookmark text-primary text-lg"></i>&nbsp;&nbsp;Exam Details List</h6>
+                        <div class="col-auto float-right ml-auto" style="float:right">
+                            <a class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#Exam" onclick="Clear()" style="color:white; cursor:pointer;">+ Add New</a>
+                            <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter"><i class="fa fa-filter"></i></a>
+                            <a href="#" class="btn bg-gradient-dark" onclick="ExportExam()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export to Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">
+                        <div class="table-responsive p-0">
+                            <div id="tblBody"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
                         <h6> <i class="fa fa-home text-primary text-lg"></i>  ClassRoom List</h6>
                         <div class="col-auto float-right ml-auto" style="float:right">
                             <a class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#ClassRoom" onclick="Clear()" style="color:white; cursor:pointer;">+ Add New</a>

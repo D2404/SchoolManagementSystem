@@ -24,7 +24,6 @@ namespace InvoiceManagementSystem.Repository
                 int showingEntries = 0;
                 int startentries = 0;
                 List<ClassRoomModel> lstClassRoomList = new List<ClassRoomModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
                 cmd.Parameters.AddWithValue("@PageSize", model.PageSize);

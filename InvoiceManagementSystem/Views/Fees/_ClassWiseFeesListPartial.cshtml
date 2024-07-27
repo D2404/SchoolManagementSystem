@@ -9,7 +9,6 @@
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Class No</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Monthly</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Yearly</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" style="text-align:center">Status</th>
             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
 
         </tr>
@@ -37,14 +36,6 @@
     <td>
         <p class="text-xs font-weight-bold mb-0" style="text-align:center">@item.Yearly</p>
     </td>
-    <td>
-        @if (item.IsActive == true)
-        {
-<p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-success"></i> Active</p> }
-else
-{
-<p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-danger"></i> In-Active </p>}
-    </td>
     <td class="align-middle text-center" style="text-align:center">
         <div class="dropdown">
             <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
@@ -52,14 +43,6 @@ else
             </a>
 
             <div class="dropdown-content" style="top: 6px; right: 8px;width:100px">
-                @if (item.IsActive == true)
-                {
-
-<a class="dropdown-item" style="font-size:14px;padding-top:6px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-check" aria-hidden="true" style="color:black">&nbsp;&nbsp;Status</i></a> }
-else
-{
-<a class="dropdown-item" style="font-size: 14px;padding-top: 1px;padding-right: 25px" data-bs-toggle="modal" data-bs-target="#status" onclick="openstatusModel(@item.Id)">&nbsp;&nbsp;<i class="fa fa-times" aria-hidden="true" style="color: black">&nbsp;&nbsp;Status</i></a>}
-
                 <a href="javascript:;" title="Edit Subject" style="cursor: pointer; font-size: 14px; padding-top: 1px;padding-right: 25px " data-bs-toggle="modal" data-bs-target="#Fees" onclick="GetSingleFeesData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: black">&nbsp;&nbsp;Edit</i></a>
                 <a href="javascript:;" style="font-size: 14px;padding-top:1px;padding-right:25px" data-bs-toggle="modal" data-bs-target="#delete_Fees" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: black">&nbsp;&nbsp;Delete</i></a>
             </div>

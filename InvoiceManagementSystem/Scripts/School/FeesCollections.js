@@ -11,7 +11,6 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
-    $('#FilterDiv').hide();
     GetFeesCollectionList(1);
     GetClassRoom();
     GetMonthList(count, 0);

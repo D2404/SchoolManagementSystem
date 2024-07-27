@@ -11,7 +11,6 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
-    $('#FilterDiv').hide();
     GetClassRoom();
     GetFeesList(1);
 });
@@ -33,6 +32,10 @@ function InsertData() {
     var val = true;
     var Id = $('#hdnintId').val();
     var ClassId = $('#ClassId').val();
+    if (ClassId == "0") {
+        $("#errClassId").html("Please select class.");
+        val = false;
+    }
     var Monthly = $('#Monthly').val();
     if (Monthly === "" || /\S/.test(Monthly) === false) {
         $("#errMonthly").html("Please enter Monthly fees.");
@@ -236,6 +239,7 @@ function Clear() {
     document.getElementById('Yearly').value = "";
     $('#errYearly').html("");
     $("#ddlClassId").val('0').trigger('change');
+    $('#errClassId').html("");
     document.getElementById('btnAdd').innerHTML = "Add";
     $("#btnAdd").attr('title', 'Upload');
     document.getElementById('PopupTitle').innerHTML = "Add Fees";
@@ -283,7 +287,7 @@ function ClearData(type) {
         document.getElementById('Yearly').value = "";
         $('#errYearly').html("");
         $("#ClassId").val('0').trigger('change');
-
+        $('#errClassId').html("");
         if (Id === "0") {
 
             document.getElementById('hdnintId').value = "0";

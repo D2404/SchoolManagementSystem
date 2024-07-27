@@ -10,8 +10,6 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
-    $('#Filter').hide();
-    debugger
     var teacherId = $("#teacherIdContainer").data("teacher-id");
     if (teacherId === null || teacherId === 0) {
         var currentDate = new Date();

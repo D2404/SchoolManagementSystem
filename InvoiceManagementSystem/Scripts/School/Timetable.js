@@ -12,7 +12,6 @@ function ShowFilter() {
     }
 }
 $(document).ready(function () {
-    $('#Filter').hide();
     var currentTime = new Date();
 
     // Format the time as HH:mm

@@ -1,16 +1,15 @@
 ﻿var type = 1
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
 $(document).ready(function () {
-    $('#FilterDiv').hide();
     var currentDate = new Date().toISOString().slice(0, 10);
     document.getElementById('date').value = currentDate;
     GetClassRoom();
@@ -22,9 +21,21 @@ function InsertData() {
     var val = true;
     var Id = $('#hdnintId').val();
     var ClassId = $('#ClassId').val();
+    if (ClassId == "0") {
+        $("#errClassId").html("Please select class.");
+        val = false;
+    }
     var SubjectId = $('#SubjectId').val();
+    if (SubjectId == "0") {
+        $("#errSubjectId").html("Please select subject.");
+        val = false;
+    }
     var SearchText = $('#SearchText').val();
     var Date = $('#date').val();
+    if (Date == "0") {
+        $("#errDate").html("Please select date.");
+        val = false;
+    }
     var formData = new FormData();
     if (val === false) {
         return;

@@ -12,8 +12,6 @@ function ShowFilter() {
 $(document).ready(function () {
     GetClassRoom();
     GetSubjectList(1);
-    $('#Filter').hide();
-
 });
 function InsertData() {
 

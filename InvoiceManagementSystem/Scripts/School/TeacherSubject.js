@@ -12,7 +12,6 @@ function ShowFilter() {
 }
 
 $(document).ready(function () {
-    $('#Filter').hide();
     GetClassRoom();
     GetTeacher();
     GetTeacherSubjectList(1);

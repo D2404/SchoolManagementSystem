@@ -15,7 +15,6 @@ $(document).ready(function () {
     GetTeacherGrid();
     DisabledAnniversaryDate();
     $('#removeButton').hide();
-    $('#Filter').hide();
     $('#list-view').show();
     $('#grid-view').hide();
     $(".gambar").attr("src", "/Data/Profile/dummy.jpg");

@@ -247,6 +247,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IRepository\IAccountRepository.cs" />
+    <Compile Include="IRepository\IExamDetailsRepository.cs" />
     <Compile Include="IRepository\ITeacherAttandenceRepository.cs" />
     <Compile Include="IRepository\ITeacherRepository.cs" />
     <Compile Include="IRepository\ISubjectRepository.cs" />
@@ -285,6 +286,7 @@
     <Compile Include="Models\YearModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\AccountRepository.cs" />
+    <Compile Include="Repository\ExamDetailsRepository.cs" />
     <Compile Include="Repository\TeacherAttandenceRepository.cs" />
     <Compile Include="Repository\TeacherRepository.cs" />
     <Compile Include="Repository\SubjectRepository.cs" />

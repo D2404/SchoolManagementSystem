@@ -11,7 +11,6 @@ function ShowFilter() {
 }
 $(document).ready(function () {
     GetEmailConfigurationList(1);
-    $('#Filter').hide();
 });
 
 function GetEmailConfigurationList(page) {

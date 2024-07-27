@@ -59,9 +59,12 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         <h6><i class="fa fa-inr text-info text-lg opacity-10"></i>&nbsp;&nbsp;&nbsp;Fees Collection List</h6>
-                        <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" style="margin-left: 700px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
-                        <a class="btn bg-gradient-info" title="Add Fees" data-bs-toggle="modal" data-bs-target="#Fees" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add Fees</a>
-                        <a class="btn bg-gradient-secondary" title="Export Fees" onclick="ExportFees()" style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
+                        
+                        <div class="col-auto float-right ml-auto" style="float:right">
+                            <a class="btn bg-gradient-info" data-bs-toggle="modal" data-bs-target="#Fees" onclick="Clear()" style="color:white; cursor:pointer;">+ Add New</a>
+                            <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter"><i class="fa fa-filter"></i></a>
+                            <a href="#" class="btn bg-gradient-dark" onclick="ExportFees()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export to Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+                        </div>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
@@ -76,7 +79,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="margin-left:173px"><span id="PopupTitle">Add Fees</span></h5>
+                    <h5 class="modal-title"><span id="PopupTitle">Add Fees</span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" style="color:black">&times;</span>
                     </button>
@@ -160,7 +163,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div style="margin-left:120px">
+                    <div>
                         <button type="button" id="btnAdd1" class="btn bg-gradient-success" onclick="InsertandPayData()">Save & Pay</button>
                         <button type="button" id="btnAdd" class="btn bg-gradient-info" onclick="InsertData()">Save</button>
                         <button type="button" class="btn bg-gradient-dark" onclick="ClearData(1)">Clear</button>
@@ -174,16 +177,16 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" style="margin-left:132px"><span id="PopupTitle">Delete Fees</span></h5>
+                    <h5 class="modal-title" ><span id="PopupTitle">Delete Fees</span></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true" style="color:black">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p class="text-secondary text-xs font-weight-bolder opacity-100" style="margin-left:120px;">Are you sure want to delete this Fees ?.</p>
+                    <p class="text-secondary text-xs font-weight-bolder opacity-100">Are you sure want to delete this Fees ?.</p>
                 </div>
 
-                <div class="modal-footer" style="padding-right: 166px">
+                <div class="modal-footer">
 
                     <button type="button" id="btnAdd" class="btn bg-gradient-danger" onclick="deleteFees()">Delete</button>
                     <button type="button" class="btn bg-gradient-dark" data-bs-dismiss="modal">Cancel</button>
