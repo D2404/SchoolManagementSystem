@@ -2,6 +2,16 @@
 @{
     ViewBag.Title = "School";
 }
+<style>
+    .scrollable-container {
+        max-height: 700px;
+        overflow-y: auto;
+        overflow-x: hidden; /* Optional: to hide horizontal scrollbar if not needed */
+        scrollbar-width: thin; /* Makes the scrollbar thin */
+        scrollbar-color: #888 #f1f1f1; /* Color of the scrollbar thumb and track */
+    }
+</style>
+
 <div class="main-content position-relative max-height-vh-100 h-100" style="margin-top:-220px">
     <div class="card shadow-lg mx-4 card-profile-bottom">
         <div class="card-body p-3">
@@ -9,7 +19,7 @@
                 <div class="col-auto my-auto">
                     <div class="h-100">
                         <h5 class="mb-1">
-                            <i class="fa fa-home text-primary text-lg"></i>  Manage School
+                            <i class="fas fa-envelope text-danger text-lg"></i>&nbsp;&nbsp;Manage School
                         </h5>
                     </div>
                 </div>
@@ -17,12 +27,12 @@
         </div>
     </div>
     <br />
-    <div class="card shadow-lg mx-4 card-profile" id="Filter">
+    <div class="card shadow-lg mx-4 card-profile" id="Filter" style="display:none">
         <div class="card-body p-3">
             <div class="row">
                 <div class="col-md-2 p-1">
                     <label style="color:black">Search</label>
-                    <input class="form-control form-control-alternative" type="text" id="SearchText" placeholder="Search Class No">
+                    <input class="form-control form-control-alternative" type="text" id="SearchText" placeholder="Search by school name">
                 </div>
                 <div class="col-auto float-right ml-auto mt-4" style="float:right">
                     <button type="button" id="btnSearch" class="btn bg-gradient-info " data-bs-toggle="tooltip" data-bs-placement="top" data-container="body" data-animation="true" onclick="GetSchoolList(1)">Search</button>
@@ -51,7 +61,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <div class="card mb-4">
+                <div class="card mb-4 scrollable-container">
                     <div class="card-header pb-0">
                         <h6><i class="fa fa-home text-primary text-lg"></i>&nbsp;&nbsp;School List</h6>
                         <div class="col-auto float-right ml-auto" style="float:right">

@@ -1,6 +1,6 @@
 ﻿@model InvoiceManagementSystem.Models.EmailConfigurationSetting
 @{
-    ViewBag.Title = "Student";
+    ViewBag.Title = "EmailConfiguration";
 }
 <br />
 <br />
@@ -87,7 +87,7 @@
                                     <div class="form-group">
                                         <label for="basicinput"><b>Teacher</b> <span class="text-danger">*</span></label>
                                         <select class="form-control form-control-alternative" id="TeacherId1" onchange="onStudent();">
-                                            <option value="0">Select Teacher..</option>
+                                            <option value="0">Select Teacher</option>
                                         </select>
                                         <span id="errTeacher" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                     </div>
@@ -96,7 +96,7 @@
                                     <div class="form-group">
                                         <label for="basicinput"><b>Student</b> <span class="text-danger">*</span></label>
                                         <select class="form-control  form-control-alternative" id="StudentId" onchange="onStudentDetails();">
-                                            <option value="0">Select Student..</option>
+                                            <option value="0">Select Student</option>
                                         </select>
                                     </div>
                                 </div>
@@ -112,7 +112,8 @@
                                         }
                                         else
                                         {
-                                            <span class="form-control form-control-alternative" id="UserName" placeholder="User Name" name="UserName" disabled style="height:38px"></span>
+                                            @Html.TextBoxFor(model => Model.Username, new { @id = "UserName", @placeholder = "Enter UserName", @class = "form-control form-control-alternative", @disable = "disabled" })
+                                            @*<span class="form-control form-control-alternative" id="UserName" placeholder="User Name" name="UserName" disabled style="height:38px"></span>*@
                                         }
                                     </div>
                                 </div>
@@ -125,7 +126,8 @@
                                         }
                                         else
                                         {
-                                            <span class="form-control form-control-alternative" id="FromMail" placeholder="Email" name="FromMail" disabled style="height:38px"></span>
+                                            @Html.TextBoxFor(model => Model.FromMail, new { @id = "FromMail", @placeholder = "Enter Email", @class = "form-control form-control-alternative", @disable = "disabled" })
+                                            @*<span class="form-control form-control-alternative" id="FromMail" placeholder="Email" name="FromMail" disabled style="height:38px"></span>*@
                                         }
                                     </div>
                                 </div>
@@ -134,21 +136,21 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Password</label>
-                                        <input class="form-control" type="Password" id="Password" placeholder="Enter Password">
+                                        <input class="form-control form-control-alternative" type="Password" id="Password" placeholder="Enter Password">
                                         <span id="errPassword" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Host</label>
-                                        <input class="form-control" type="text" value="smtp.gmail.com" disabled>
+                                        <input class="form-control form-control-alternative" type="text" value="smtp.gmail.com" disabled>
                                         <span id="errHost" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="example-text-input" class="form-control-label">Port</label>
-                                        <input class="form-control" type="text" value="587" disabled>
+                                        <input class="form-control form-control-alternative" type="text" value="587" disabled>
                                         <span id="errPort" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                                     </div>
                                 </div>

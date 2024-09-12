@@ -85,54 +85,32 @@
                 <br /> <!-- Add line break before each new row -->
                 <div class="col-md-4">
                     <div class="grid">
-                        @*<figure class="effect-oscar">
-            @if (item.ProfileImg == null || item.ProfileImg == "" || item.ProfileImg == "undefined")
-            {
-                <img src="/Data/Profile/dummy.jpg" alt="Image placeholder" class="card-img-top"> }
-            else
-            {
-                <img src="~/Data/Profile/@item.ProfileImg" alt="Image placeholder" class="card-img-top">}
-            <figcaption style="color: black">
-                <h4 style="color: black">@SrNo    <b>@item.AdminName</b></h4>
-                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-user"></i>  @item.FullName</p>
-                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-calendar"></i>  @item.Dob</p>
-                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-envelope"></i>  @item.Email</p>
-                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-phone"></i>  @item.MobileNo</p>
-                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-address-book"></i>  @item.CurrentAddress</p>
-                <p>
-                    <a href="/Admin/Admin?Id=@item.Id" title="Edit Admin" style="cursor: pointer; font-size: 13px; padding-top: 1px;color:blue " onclick="GetSingleAdminData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: blue">  <b>Edit</b></i></a>  |
-                    <a href="/Admin/ViewAdmin?Id=@item.Id" title="View Admin" style="cursor: pointer; font-size: 13px; padding-top: 1px;  color: yellow " onclick="GetSingleAdminData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: yellow">  <b>View</b></i></a>  |
-                    <a href="javascript:;" style="font-size: 13px; padding-top: 1px;  color: red" data-bs-toggle="modal" data-bs-target="#delete_Admin" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: red">  <b>Delete</b></i></a>
-                </p>
-            </figcaption>
-        </figure>*@
-                        <div class="card" id="card">
+
+                        <figure class="effect-oscar">
                             @if (item.ProfileImg == null || item.ProfileImg == "" || item.ProfileImg == "undefined")
                             {
-                                <img src="/Data/Profile/dummy.jpg" class="card-img" id="card-img" alt="" style="width:100%; height: auto; object-fit: cover;">
-                            }
+                                <img src="/Data/Profile/dummy.jpg" alt="Image placeholder" class="card-img-top"> }
                             else
                             {
-                                <img src="~/Data/Profile/@item.ProfileImg" class="card-img" id="card-img" alt="" style="width:100%; height: auto; object-fit: cover;">}
-                            <div class="card-body" id="card-body">
-                                <h3 class="card-title" id="card-title">@item.UserName</h3>
-                                <p style="color:white;font-size: 14px;"><i class="fas fa-user"></i> <b> @item.FullName</b></p>
-                                <p style="color:white;font-size: 14px;"><i class="fas fa-building"></i> <b> @item.SchoolName</b></p>
-                                <p style="color:white;font-size: 14px;"><i class="fas fa-calendar"></i>  <b> @item.Dob</b></p>
-                                <p style="color:white;font-size: 14px;"><i class="fas fa-envelope"></i>  <b> @item.Email</b></p>
-                                <p style="color:white;font-size: 14px;"><i class="fas fa-phone"></i> <b>  @item.MobileNo</b></p>
-                                <p style="color:white;font-size: 14px;"><i class="fas fa-address-book"></i>  <b> @item.CurrentAddress</b></p>
-                                <div style="display: flex; justify-content: space-between;">
-                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
-                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
-                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
-                                    <button class="btn bg-gradient-info btn-sm" onclick="javascript: return ValidateBasicDetails(0);">Edit</button>
-                                </div>
-                            </div>
+                                <img src="~/Data/Profile/@item.ProfileImg" alt="Image placeholder" class="card-img-top">}
+                            <figcaption style="color: black">
+                                <h4 style="color: black">@SrNo    <b>@item.UserName</b></h4>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-user"></i>  @item.FullName</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-calendar"></i>  @item.SchoolName</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-envelope"></i>  @item.Dob</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-phone"></i>  @item.Email</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-phone"></i>  @item.MobileNo</p>
+                                <p class="nowrap" style="color:white;font-size: 11px"><i class="fas fa-address-book"></i>  @item.CurrentAddress</p>
+                                <p>
+                                    <a href="/Admin/Admin?Id=@item.Id" title="Edit Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;color:blue " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-pen cursor-pointer" aria-hidden="true" style="color: blue">  <b>Edit</b></i></a>  |
+                                    <a href="/Admin/ViewAdmin?Id=@item.Id" title="View Teacher" style="cursor: pointer; font-size: 13px; padding-top: 1px;  color: yellow " onclick="GetSingleTeacherData(@item.Id)"><i class="fa fa-eye cursor-pointer" aria-hidden="true" style="color: yellow">  <b>View</b></i></a>  |
+                                    <a href="javascript:;" style="font-size: 13px; padding-top: 1px;  color: red" data-bs-toggle="modal" data-bs-target="#delete_Admin" onclick="opendeleteModel(@item.Id);">&nbsp;&nbsp;<i class="fa fa-trash" aria-hidden="true" style="color: red">  <b>Delete</b></i></a>
+                                </p>
+                            </figcaption>
+                        </figure>
 
-
-                        </div>
                     </div>
+
                 </div>
             }
         }
@@ -142,7 +120,7 @@
         }
     </div>
 </div>
-<div class="quotation-body">
+<div class="quotation-body" style="margin-top:-40px">
     <div class="row">
         <div class="col-lg-6 paddinglr8px">
         </div>

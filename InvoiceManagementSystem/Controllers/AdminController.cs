@@ -22,9 +22,15 @@ namespace InvoiceManagementSystem.Controllers
         // GET: Admin
         public ActionResult AdminList()
         {
+            if (objCommon.getUserIdFromSession() != 0)
+            {
 
-            return View();
-
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
         public ActionResult Admin(int? id)
         {

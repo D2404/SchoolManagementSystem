@@ -12,6 +12,10 @@
         .tab-pane.active {
             display: block;
         }
+    .scrollable-container {
+        max-height: 500px;
+        overflow-y: auto;
+    }
 </style>
 
 
@@ -113,7 +117,7 @@
                                         <a href="javascript:;"><i class="fa fa-user"></i> Basic Details</a>
                                     </h5>
                                 </div><br />
-                                <div class="row">
+                                <div class="row scrollable-container">
                                     <input type="hidden" id="hdnintId" value="@Model.LSTTeacherList[0].ClassId" />
                                     <div class="col-md-6" id="Profilediv">
                                         <div class="form-group">

@@ -496,7 +496,7 @@ function onStudent() {
         dataType: "json",
         success: function (data) {
             $('#StudentId').empty();
-            $("#StudentId").append($("<option     />").val("0").text("Select student name.."));
+            $("#StudentId").append($("<option     />").val("0").text("Select Student"));
             $.each(data, function (i, v) {
                 $("#StudentId").append($("<option     />").val(v.StudentId).text(v.StudentName));
             });
