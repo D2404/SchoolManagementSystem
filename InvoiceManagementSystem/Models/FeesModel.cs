@@ -33,7 +33,9 @@ namespace InvoiceManagementSystem.Models
         public string Date { get; set; }
         public string Profile { get; set; }
         public int FeesAmount { get; set; }
-        public int SubTotal { get; set; }
+        public int DueAmount { get; set; }
+        public int PaidAmount { get; set; }
+        public int TotalAmount { get; set; }
         public int RollNo { get; set; }
         public string AmountDate { get; set; }
 
@@ -187,6 +189,9 @@ namespace InvoiceManagementSystem.Models
                 cmd.Parameters.AddWithValue("@StudentId", SqlDbType.Int).Value = cls.StudentId;
                 cmd.Parameters.AddWithValue("@RollNo", SqlDbType.Int).Value = cls.RollNo;
                 cmd.Parameters.AddWithValue("@Date", SqlDbType.DateTime).Value = cls.Date;
+                cmd.Parameters.AddWithValue("@PaidAmount", SqlDbType.Int).Value = cls.PaidAmount;
+                cmd.Parameters.AddWithValue("@DueAmount", SqlDbType.Int).Value = cls.DueAmount;
+                cmd.Parameters.AddWithValue("@TotalAmount", SqlDbType.Int).Value = cls.TotalAmount;
                 cmd.Parameters.AddWithValue("@SchoolId", SqlDbType.Int).Value = objCommon.getSchoolIdFromSession();
                 cmd.Parameters.AddWithValue("@AcademicYear", SqlDbType.VarChar).Value = objCommon.getAcademicYearFromSession();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -893,6 +898,9 @@ namespace InvoiceManagementSystem.Models
                         cls.StudentName = dt.Rows[i]["StudentName"] == null || dt.Rows[i]["StudentName"].ToString().Trim() == "" ? null : dt.Rows[i]["StudentName"].ToString();
                         cls.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
                         cls.Date = dt.Rows[i]["Date"] == null || dt.Rows[i]["Date"].ToString().Trim() == "" ? null : Convert.ToDateTime(dt.Rows[i]["Date"]).ToString("yyyy-MM-dd");
+                        cls.PaidAmount = Convert.ToInt32(dt.Rows[i]["PaidAmount"] == null || dt.Rows[i]["PaidAmount"].ToString().Trim() == "" ? null : dt.Rows[i]["PaidAmount"].ToString());
+                        cls.DueAmount = Convert.ToInt32(dt.Rows[i]["DueAmount"] == null || dt.Rows[i]["DueAmount"].ToString().Trim() == "" ? null : dt.Rows[i]["DueAmount"].ToString());
+                        cls.TotalAmount = Convert.ToInt32(dt.Rows[i]["TotalAmount"] == null || dt.Rows[i]["TotalAmount"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalAmount"].ToString());
                         lstModel.Add(cls);
                     }
                 }

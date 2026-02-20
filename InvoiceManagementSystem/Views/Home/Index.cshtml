@@ -89,89 +89,86 @@
             else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)// SUPER ADMIN ROLE ===1
             {
                 <div class="row">
-                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        @{if (Model.LSTDashBoardList != null && Model.LSTDashBoardList.Count > 0)
-                            {
-                                <div class="box">
-                                    <div class="card card-facebook">
-                                        <div class="card-body p-3">
-                                            <div class="row">
-                                                <div class="col-8">
-                                                    <div class="numbers">
-                                                        <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Class</b></p>
-                                                        <a href="javascript:void(0)" onclick="ClassRoom(1);">
-                                                            <h5 class="text-md font-weight-bolder" id="link" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalClassRoom == 0 ? 0 : Model.LSTDashBoardList[0].TotalClassRoom)</h5>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 text-end">
-                                                    <div class="icon icon-shape bg-gradient-info shadow-primary text-center rounded-circle">
-                                                        <i class="fa fa-home text-lg opacity-10" aria-hidden="true"></i>
-                                                    </div>
-                                                </div>
+                    <div class="row mt-4">
+                        <div class="col-lg-3 col-md-6 col-12">
+                            <div class="card bg-primary1">
+                                <div class="card-body p-3">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="numbers">
+                                                <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Total ClassRoom</p>
+                                                <a href="javascript:void(0)" onclick="ClassRoom(1);">
+                                                    <h5 class="text-white font-weight-bolder mb-0">@(Model.LSTDashBoardList[0].TotalClassRoom == 0 ? 0 : Model.LSTDashBoardList[0].TotalClassRoom)</h5>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-4 text-end">
+                                            <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                <i class="ni ni-building text-dark text-lg opacity-10" aria-hidden="true"></i>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            } }
-                    </div>
-                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Subject</b></p>
-                                            <a href="javascript:void(0)" onclick="Subject(1);">
-                                                <h5 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalSubject == 0 ? 0 : Model.LSTDashBoardList[0].TotalSubject)</h5>
-                                            </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12 mt-4 mt-md-0">
+                            <div class="card bg-danger">
+                                <div class="card-body p-3">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="numbers">
+                                                <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Total Subject</p>
+                                                <a href="javascript:void(0)" onclick="Subject(1);">
+                                                    <h5 class="text-white font-weight-bolder mb-0">@(Model.LSTDashBoardList[0].TotalSubject == 0 ? 0 : Model.LSTDashBoardList[0].TotalSubject)</h5>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-primary shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-book text-lg opacity-10" aria-hidden="true"></i>
+                                        <div class="col-4 text-end">
+                                            <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                <i class="ni ni-books text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Student</b></p>
-                                            <a href="javascript:void(0)" onclick="Student(1);">
-                                                <h5 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalStudent == 0 ? 0 : Model.LSTDashBoardList[0].TotalStudent)</h5>
-                                            </a>
+                        <div class="col-lg-3 col-md-6 col-12 mt-4 mt-lg-0">
+                            <div class="card bg-success">
+                                <div class="card-body p-3">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="numbers">
+                                                <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Total Teacher</p>
+                                                <a href="javascript:void(0)" onclick="Teacher(1);">
+                                                    <h5 class="text-white font-weight-bolder mb-0">@(Model.LSTDashBoardList[0].TotalTeacher == 0 ? 0 : Model.LSTDashBoardList[0].TotalTeacher)</h5>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-success shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-users text-lg opacity-10" aria-hidden="true"></i>
+                                        <div class="col-4 text-end">
+                                            <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                <i class="fa fa-graduation-cap text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-3 col-sm-6">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Teacher</b></p>
-                                            <a href="javascript:void(0)" onclick="Teacher(1);">
-                                                <h5 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalTeacher == 0 ? 0 : Model.LSTDashBoardList[0].TotalTeacher)</h5>
-                                            </a>
+                        <div class="col-lg-3 col-md-6 col-12 mt-4 mt-lg-0">
+                            <div class="card bg-warning">
+                                <div class="card-body p-3">
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="numbers">
+                                                <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Total Student</p>
+                                                <a href="javascript:void(0)" onclick="Student(1);">
+                                                    <h5 class="text-white font-weight-bolder mb-0">@(Model.LSTDashBoardList[0].TotalStudent == 0 ? 0 : Model.LSTDashBoardList[0].TotalStudent)</h5>
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-warning shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-user-circle text-lg opacity-10" aria-hidden="true"></i>
+                                        <div class="col-4 text-end">
+                                            <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                <i class="fa fa-user text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -316,508 +313,276 @@
                             </div>
                         </div>
                     </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
+                </div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-12 mt-4 mt-lg-0">
+                        <div class="card bg-gradient-faded-primary">
                             <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Monthly Collect Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="MonthlyCollectFees(1);">
-                                                <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].ThisMonthCollection == 0 ? 0 : Model.LSTDashBoardList[0].ThisMonthCollection)</h6>
-                                            </a>
-                                        </div>
+                                @if (Model.LSTTeacherList != null)
+                                {
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.LSTTeacherList.Count; i++)
+                                        {
+                                            if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 1)
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Teacher's   Today's Birthday</p>
+                                                        <br />
+                                                        @foreach (var item in Model.LSTTeacherList)
+                                                        {
+                                                            if (item.Dob != null && item.Type == 1)
+                                                            {
+                                                                <h6 class="text-white font-weight-bolder mb-0">@item.Dob <br /> @item.Name</h6>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Teacher's   Today's Birthday</p>
+                                                        <br />
+
+                                                        <h6 class="text-white font-weight-bolder mb-0">Today is no one's birthday</h6>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+
+                                        }
                                     </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-success shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
+
+                    <div class="col-lg-6 col-md-6 col-12 mt-4 mt-lg-0">
+                        <div class="card bg-gradient-faded-dark">
                             <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Monthly Pending Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="MonthlyPendingCollectFees(1);">
-                                                <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].ThisMonthPendingCollection == 0 ? 0 : Model.LSTDashBoardList[0].ThisMonthPendingCollection)</h6>
-                                            </a>
-                                        </div>
+                                @if (Model.LSTTeacherList != null)
+                                {
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.LSTTeacherList.Count; i++)
+                                        {
+                                            if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 2)
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Teacher's   Upcoming Birthday</p><br />
+                                                        @foreach (var item in Model.LSTTeacherList)
+                                                        {
+                                                            if (item.Dob != null && item.Type == 2)
+                                                            {
+                                                                <h6 class="text-white font-weight-bolder mb-0">@item.ClassNo - @item.Name - @item.Dob</h6>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-danger shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
+                                }
+                                else
+                                {
+
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.LSTTeacherList.Count; i++)
+                                        {
+                                            if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 2)
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Teacher's Upcoming Birthday</p>
+                                                        <br />
+                                                        <h5 class="text-white font-weight-bolder mb-0">Today is no one's birthday</h5>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Monthly Fees</b></p>
-                                            <h6 class="text-md font-weight-bolder" style="color: #176ce2">@(Model.LSTDashBoardList[0].TotalAmountForThisMonth == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisMonth)</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-info shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid py-4" id="MonthlyCollectFees" style="display:none">
-                        <br />
-                        <br />
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    <label style="color:black">
-                                        Show
-                                        <select id="PageSize" onchange="MonthlyCollectFees(1)" class="drpselect">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                        entries
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                    <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                        <h6 style="color:white">Monthly Collect Fees List</h6>
-                                    </div>
-                                    <div class="card-body px-0 pt-0 pb-2">
-                                        <div class="table-responsive p-0">
-                                            <div id="MonthlyCollectFeesList"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid py-4" id="MonthlyPendingCollectFees" style="display:none">
-                        <br />
-                        <br />
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    <label style="color:black">
-                                        Show
-                                        <select id="PageSize" onchange="MonthlyPendingCollectFees(1)" class="drpselect">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                        entries
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                    <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                        <h6 style="color:white">Monthly Pending Fees List</h6>
-                                    </div>
-                                    <div class="card-body px-0 pt-0 pb-2">
-                                        <div class="table-responsive p-0">
-                                            <div id="MonthlyPendingCollectFeesList"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Yearly Collect Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="YearlyCollectFees(1);">
-                                                <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].ThisYearCollection == 0 ? 0 : Model.LSTDashBoardList[0].ThisYearCollection)</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-success shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Yearly Pending Fees</b></p>
-                                            <a href="javascript:void(0)" onclick="YearlyPendingCollectFees(1);">
-                                                <h6 class="text-md font-weight-bolder" style="text-decoration: underline; color: #1e86f1">@(Model.LSTDashBoardList[0].TotalPendingThisYear == 0 ? 0 : Model.LSTDashBoardList[0].TotalPendingThisYear)</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-danger shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
-                            <div class="card-body p-3">
-                                <div class="row">
-                                    <div class="col-8">
-                                        <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Total Yearly Fees</b></p>
-                                            <a href="javascript:void(0)">
-                                                <h6 class="text-md font-weight-bolder" style="color: #1e86f1">@(Model.LSTDashBoardList[0].TotalAmountForThisYear == 0 ? 0 : Model.LSTDashBoardList[0].TotalAmountForThisYear)</h6>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-info shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-inr text-lg opacity-10" aria-hidden="true"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid py-4" id="YearlyCollectFees" style="display:none">
-                        <br />
-                        <br />
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    <label style="color:black">
-                                        Show
-                                        <select id="PageSize" onchange="YearlyCollectFees(1)" class="drpselect">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                        entries
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                    <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                        <h6 style="color:white">Yearly Collect Fees List</h6>
-                                    </div>
-                                    <div class="card-body px-0 pt-0 pb-2">
-                                        <div class="table-responsive p-0">
-                                            <div id="YearlyCollectFeesList"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid py-4" id="YearlyPendingCollectFees" style="display:none">
-                        <br />
-                        <br />
-                        <div class="row">
-                            <div class="col-sm-12 col-md-12">
-                                <div class="dataTables_length" id="DataTables_Table_0_length">
-                                    <label style="color:black">
-                                        Show
-                                        <select id="PageSize" onchange="YearlyPendingCollectFees(1)" class="drpselect">
-                                            <option value="10">10</option>
-                                            <option value="25">25</option>
-                                            <option value="50">50</option>
-                                            <option value="100">100</option>
-                                        </select>
-                                        entries
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card mb-4" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                    <div class="card-header pb-0" style="background: linear-gradient(to right, #15282e, #4890b1) !important ">
-                                        <h6 style="color:white">Yearly Pending Fees List</h6>
-                                    </div>
-                                    <div class="card-body px-0 pt-0 pb-2">
-                                        <div class="table-responsive p-0">
-                                            <div id="YearlyPendingCollectFeesList"></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4 px-4">
-                        @if (Model.LSTTeacherList != null)
-                        {
-                            <div class="row">
-                                @for (int i = 0; i < Model.LSTTeacherList.Count; i++)
+                    <div class="col-lg-6 col-md-6 col-12 mt-4 mt-lg-0">
+                        <div class="card bg-gradient-faded-dark">
+                            <div class="card-body p-3">
+                                @if (Model.LSTStudentList != null)
                                 {
-                                    if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 1)
-                                    {
-                                        <div class="card" style="width:500px">
-                                            <div class="card-body p-3">
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <div class="numbers">
-                                                            <p style="color: black" class="text-xs mb-0 text-uppercase font-weight-bold"><b>Teacher's   Today's Birthday</b></p>
-                                                            <br />
-                                                            @foreach (var item in Model.LSTTeacherList)
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.LSTStudentList.Count; i++)
+                                        {
+                                            if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 1)
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Student's   Today's  Birthday</p><br />
+                                                        @foreach (var item in Model.LSTStudentList)
+                                                        {
+                                                            if (item.Dob != null && item.Type == 1)
                                                             {
-                                                                if (item.Dob != null && item.Type == 1)
-                                                                {
-                                                                    <div class="dash-card-container">
-                                                                        <h6 class="text-xs mb-0 font-weight-bold" style="color: #1e86f1;font-size:13px">@item.Dob <br /> @item.Name</h6>
-                                                                    </div>
-                                                                }
+                                                                <h6 class="text-white font-weight-bolder mb-0"> @item.Dob - @item.Name - @item.ClassNo</h6>
                                                             }
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-secondary shadow-dark text-center rounded-circle">
-                                                            <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
-                                                        </div>
+                                                        }
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    else
-                                    {
-                                        <div class="card" style="width:500px">
-                                            <div class="card-body p-3">
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <div class="numbers">
-                                                            <p style="color: black" class="text-xs mb-0 text-uppercase font-weight-bold"><b>Teacher's Today's Birthday</b></p>
-                                                            <br />
-                                                            <div class="dash-card-container">
-                                                                <h6 class="text-xs mb-0 font-weight-bold" style="font-size: 13px; color: #1e86f1">Today is no one's birthday</h6>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-secondary shadow-dark text-center rounded-circle">
-                                                            <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
-                                                        </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    i = Model.LSTTeacherList.Count + 1;
-                                }
-                            </div>
-                        }
-                    </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Student's   Today's Birthday</p>
+                                                        <br />
+
+                                                        <h6 class="text-white font-weight-bolder mb-0">Today is no one's birthday</h6>
 
 
-                    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4 px-4">
-                        @if (Model.LSTTeacherList != null)
-                        {
-                            <div class="row">
-                                @for (int i = 0; i < Model.LSTTeacherList.Count; i++)
-                                {
-                                    if (Model.LSTTeacherList[i].Dob != null && Model.LSTTeacherList[i].Type == 2)
-                                    {
-                                        <div class="card" style="width:510px">
-                                            <div class="card-body p-3">
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <div class="numbers">
-                                                            <h5 style="color: black" class="text-xs mb-0 text-uppercase font-weight-bold"><b>Teacher's  Upcoming Birthday</b></h5>
-                                                            <br />
-                                                            @foreach (var item in Model.LSTTeacherList)
-                                                            {
-                                                                if (item.Dob != null && item.Type == 2)
-                                                                {
-                                                                    <div class="dash-card-container">
-                                                                        <p class="text-xs mb-0 font-weight-bold" style="font-size: 13px; color: #1e86f1 "> @item.ClassNo - @item.Name - @item.Dob </p>
-                                                                    </div>
-                                                                }
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-warning shadow-dark text-center rounded-circle">
-                                                            <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
-                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        i = Model.LSTTeacherList.Count + 1;
-                                    }
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                }
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6 col-12 mt-4 mt-lg-0">
+                        <div class="card bg-gradient-faded-success">
+                            <div class="card-body p-3">
+                                @if (Model.LSTStudentList != null)
+                                {
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.LSTStudentList.Count; i++)
+                                        {
+                                            if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 2)
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Student's  Upcoming  Birthday</p><br />
+                                                        @foreach (var item in Model.LSTStudentList)
+                                                        {
+                                                            if (item.Dob != null && item.Type == 2)
+                                                            {
+                                                                <h6 class="text-white font-weight-bolder mb-0"> @item.Dob - @item.Name - @item.ClassNo</h6>
+                                                            }
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Student's Upcoming Birthday</p>
+                                                        <br />
+
+                                                        <h6 class="text-white font-weight-bolder mb-0">No Upcoming birthdays</h6>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
+                                }
+                                else
+                                {
+
+                                    <div class="row">
+                                        @for (int i = 0; i < Model.LSTStudentList.Count; i++)
+                                        {
+                                            if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 2)
+                                            {
+                                                <div class="col-8">
+                                                    <div class="numbers">
+                                                        <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Student's Upcoming Birthday</p>
+                                                        <br />
+                                                        <h5 class="text-white font-weight-bolder mb-0">Today is no one's birthday</h5>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 text-end">
+                                                    <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                                        <i class="fa fa-birthday-cake text-dark text-lg opacity-10" aria-hidden="true"></i>
+                                                    </div>
+                                                </div>
+                                            }
+                                        }
+                                    </div>
                                 }
                             </div>
-                        }
+                        </div>
                     </div>
+
                 </div>
                 <br />
                 <div class="row">
-                    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4 px-4">
-                        @if (Model.LSTStudentList != null)
-                        {
-                            <div class="row">
-                                @for (int i = 0; i < Model.LSTStudentList.Count; i++)
-                                {
-                                    if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 1)
-                                    {
-                                        <div class="card" style="width:500px">
-                                            <div class="card-body p-3">
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <div class="numbers">
-                                                            <h6 style="font-size: 28px;" class="text-xs mb-0 text-uppercase font-weight-bold">Student's Today's Birthday</h6>
-                                                            <br />
-                                                            @foreach (var item in Model.LSTTeacherList)
-                                                            {
-                                                                if (item.Dob != null && item.Type == 2)
-                                                                {
-                                                                    <div class="dash-card-container">
-                                                                        <p class="text-xs mb-0 font-weight-bold" style="color: #1e86f1 ">@item.Dob - @item.Name - @item.ClassNo</p>
-                                                                    </div>
-                                                                }
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
-                                                            <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    else if (Model.LSTStudentList[i].Type == 2)
-                                    {
-                                        <div class="card" style="width:510px">
-                                            <div class="card-body p-3">
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <div class="numbers">
-                                                            <h5 style="color:black" class="text-xs mb-0 text-uppercase font-weight-bold"><b>Student's Today's Birthday</b></h5>
-                                                            <br />
-                                                            <div class="dash-card-container">
-                                                                <p class="text-xs mb-0 font-weight-bold" style="font-size: 13px; color: #1e86f1 ">Today is no one's birthday</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-primary shadow-success text-center rounded-circle">
-                                                            <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    }
-                                    i = Model.LSTStudentList.Count + 1;
-                                }
-                            </div>
-                        }
-                    </div>
 
-
-                    <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4 px-4">
-                        @if (Model.LSTStudentList != null)
-                        {
-                            <div class="row">
-                                @for (int i = 0; i < Model.LSTStudentList.Count; i++)
-                                {
-                                    if (Model.LSTStudentList[i].Dob != null && Model.LSTStudentList[i].Type == 2)
-                                    {
-                                        <div class="card" style="width:510px">
-                                            <div class="card-body p-3">
-                                                <div class="row">
-                                                    <div class="col-8">
-                                                        <div class="numbers">
-                                                            <h5 style="color: black" class="text-xs mb-0 text-uppercase font-weight-bold"><b>Student's  Upcoming Birthday</b></h5>
-                                                            <br />
-                                                            @foreach (var item in Model.LSTStudentList)
-                                                            {
-                                                                if (item.Dob != null && item.Type == 2)
-                                                                {
-                                                                    <div class="dash-card-container">
-                                                                        <p class="text-xs mb-0 font-weight-bold" style="font-size: 13px; color: #1e86f1 ">@item.Dob - @item.Name - @item.ClassNo</p>
-                                                                    </div>
-                                                                }
-                                                            }
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-4 text-end">
-                                                        <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                                                            <i class="fa fa-birthday-cake text-lg opacity-10" aria-hidden="true"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        i = Model.LSTStudentList.Count + 1;
-                                    }
-                                }
-                            </div>
-                        }
-                    </div>
-                </div>
-                <br />
-                <div class="row">
-                    <div class="col-xl-4 col-sm-6 mb-xl-0 mb-4">
-                        <div class="card">
+                    <div class="col-lg-6 col-md-6 col-12 mt-4 mt-md-0">
+                        <div class="card bg-gradient-faded-warning">
                             <div class="card-body p-3">
                                 <div class="row">
                                     <div class="col-8">
                                         <div class="numbers">
-                                            <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Next Holiday</b></p>
-                                            <a>
-                                                @*<p class="text-sm mb-0 font-weight-bold" style="color: #176ce2"><br /><b>@(Model.LSTDashBoardList[0].NextHolidayName == "" ? null : Model.LSTDashBoardList[0].NextHolidayName.ToUpper()) - @(Model.LSTDashBoardList[0].NextHolidayDate == "" ? null : Model.LSTDashBoardList[0].NextHolidayDate) - @(Model.LSTDashBoardList[0].NextHolidayDay == "" ? null : Model.LSTDashBoardList[0].NextHolidayDay)</b> </p>*@
-                                            </a>
+                                            <p class="text-white text-sm mb-0 text-uppercase font-weight-bold opacity-7">Next Holiday</p>
+                                            @*<h5 class="text-white font-weight-bolder mb-0">@(Model.LSTDashBoardList[0].NextHolidayName == "" ? null : Model.LSTDashBoardList[0].NextHolidayName.ToUpper()) - @(Model.LSTDashBoardList[0].NextHolidayDate == "" ? null : Model.LSTDashBoardList[0].NextHolidayDate) - @(Model.LSTDashBoardList[0].NextHolidayDay == "" ? null : Model.LSTDashBoardList[0].NextHolidayDay)</h5>*@
                                         </div>
                                     </div>
                                     <div class="col-4 text-end">
-                                        <div class="icon icon-shape bg-gradient-dark shadow-dark text-center rounded-circle">
-                                            <i class="fa fa-glass-cheers text-lg opacity-10" aria-hidden="true"></i>
+                                        <div class="icon icon-shape bg-white shadow text-center rounded-circle">
+                                            <i class="ni ni-books text-dark text-lg opacity-10" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                 </div>
@@ -826,32 +591,33 @@
                     </div>
                 </div>
                 <br>
-                <br>
-                @*<div class="row" style="margin-left:120px">
-                        <div class="col-md-12">
-                            <div class="mapouter">
-                                <div class="gmap_canvas">
-                                    <iframe width="800" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=small%20basket&t=k&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
-                                    <style>
-                                        .mapouter {
-                                            position: relative;
-                                            text-align: right;
-                                            height: 500px;
-                                            width: 800px;
-                                        }
-                                    </style><a href="https://www.embedgooglemap.net"></a>
-                                    <style>
-                                        .gmap_canvas {
-                                            overflow: hidden;
-                                            background: none !important;
-                                            height: 500px;
-                                            width: 800px;
-                                        }
-                                    </style>
-                                </div>
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Monthly Fees Tracking</b></p>
+                            </div>
+                            <div class="card-block">
+                                <div class="chart1" id="monthly"></div>
                             </div>
                         </div>
-                    </div>*@
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12 col-lg-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold" style="color:black"><b>Yearly Fees Tracking</b></p>
+                            </div>
+                            <div class="card-block">
+                                <div class="chart1" id="yearly"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <br>
             }
             else if (InvoiceManagementSystem.Models.SessionModel.RoleId == 3)
             {
@@ -1362,30 +1128,30 @@
                 <br>
                 <br>
                 @*<div class="row" style="margin-left:120px">
-                        <div class="col-md-12">
-                            <div class="mapouter">
-                                <div class="gmap_canvas">
-                                    <iframe width="800" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=small%20basket&t=k&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
-                                    <style>
-                                        .mapouter {
-                                            position: relative;
-                                            text-align: right;
-                                            height: 500px;
-                                            width: 800px;
-                                        }
-                                    </style><a href="https://www.embedgooglemap.net"></a>
-                                    <style>
-                                        .gmap_canvas {
-                                            overflow: hidden;
-                                            background: none !important;
-                                            height: 500px;
-                                            width: 800px;
-                                        }
-                                    </style>
-                                </div>
-                            </div>
+                <div class="col-md-12">
+                    <div class="mapouter">
+                        <div class="gmap_canvas">
+                            <iframe width="800" height="500" id="gmap_canvas" src="https://maps.google.com/maps?q=small%20basket&t=k&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br>
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: right;
+                                    height: 500px;
+                                    width: 800px;
+                                }
+                            </style><a href="https://www.embedgooglemap.net"></a>
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 500px;
+                                    width: 800px;
+                                }
+                            </style>
                         </div>
-                    </div>*@
+                    </div>
+                </div>
+            </div>*@
 
             }
         </div>
@@ -1458,6 +1224,16 @@
 </div>
 <!--End of Datetime js/css-->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="~/Content/chart/amcharts.js"></script>
+<script src="~/Content/chart/pie.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="~/Content/chart/apex-chart/apex-chart.js"></script>
+
+
 <script>
    $(document).ready(function () {
        var IsMessage = $('#IsMessage').val();
@@ -1476,7 +1252,116 @@
        $('#TeacherSubject').hide();
        $('#MonthlyTeacherAttendance').hide();
        $('#YearlyTeacherAttendance').hide();
-   });
+
+       // Chart Consumption by day
+       var options = {
+           series: [{
+               name: 'Monthly Fees Collection',
+               data: [65, 100, 85, 91, 56, 60, 85],
+           }, {
+               name: 'Pending Fees Collection',
+               data: [100, 59, 95, 90, 100, 95, 55],
+           }, {
+               name: 'Total Fees Collection',
+               data: [165, 159, 180, 181, 156, 155, 140],
+           }],
+           chart: {
+               type: 'bar',
+               height: 350
+           },
+           plotOptions: {
+               bar: {
+                   horizontal: false,
+                   columnWidth: '55%',
+                   endingShape: 'rounded'
+               },
+           },
+           dataLabels: {
+               enabled: false
+           },
+           stroke: {
+               show: true,
+               width: 2,
+               colors: ['transparent']
+           },
+           xaxis: {
+               categories: ['January', 'February', 'March', 'April','May' , 'June', 'July', 'August', 'September', 'October' ,'November' ,'December' ],
+           },
+           yaxis: {
+               title: {
+                   text: '₹ (Amount)'
+               }
+           },
+           fill: {
+               opacity: 1
+           },
+           tooltip: {
+               y: {
+                   formatter: function (val) {
+                       return "₹ " + val + " thousands"
+                   }
+               }
+           },
+           colors: ['#3289a8', '#db981a', '#615d56']
+       };
+       var chart = new ApexCharts(document.querySelector("#monthly"), options);
+       chart.render();
+
+
+       // Chart Consumption by day
+       var options = {
+           series: [{
+               name: 'YearLy Fees Collection',
+               data: [6500, 10000, 0],
+           }, {
+               name: 'Pending Fees Collection',
+               data: [1000, 5900,0],
+           }, {
+               name: 'Total Fees Collection',
+               data: [1650, 1590],
+           }],
+           chart: {
+               type: 'bar',
+               height: 350
+           },
+           plotOptions: {
+               bar: {
+                   horizontal: false,
+                   columnWidth: '55%',
+                   endingShape: 'rounded'
+               },
+           },
+           dataLabels: {
+               enabled: false
+           },
+           stroke: {
+               show: true,
+               width: 2,
+               colors: ['transparent']
+           },
+           xaxis: {
+               categories: ['2023-2024', '2024-2025', '2025-2026'],
+           },
+           yaxis: {
+               title: {
+                   text: '₹ (Amount)'
+               }
+           },
+           fill: {
+               opacity: 1
+           },
+           tooltip: {
+               y: {
+                   formatter: function (val) {
+                       return "₹ " + val + " thousands"
+                   }
+               }
+           },
+           colors: ['#198a8a', '#fc6603', '#baba13']
+       };
+       var chart = new ApexCharts(document.querySelector("#yearly"), options);
+       chart.render();
+    });
 
    function GoBack(page) {
 
@@ -2209,6 +2094,11 @@
             }
         });
     }
+
+
+
+
+
 
 
 

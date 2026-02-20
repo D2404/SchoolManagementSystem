@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-md-2 p-2">
                     <label style="color:black">Day</label>
-                    <select class="form-control" id="ddlDays">
+                    <select class="form-control form-control-alternative" id="ddlDays">
                         <option value="0" selected>Search by Day</option>
                         <option value="Monday">Monday</option>
                         <option value="Tuesday">Tuesday</option>
@@ -35,7 +35,7 @@
                 </div>
                 <div class="col-md-2 p-2">
                     <label style="color:black">Teacher</label>
-                    <select data-placeholder="Select here.." id="ddlTeacherId" class="select2-single-placeholder form-control" style="width: 100%"></select>
+                    <select data-placeholder="Select here.." id="ddlTeacherId" class="form-control form-control-alternative" style="width: 100%"></select>
                 </div>
                 <div class="col-auto float-right ml-auto mt-4" style="float:right">
                     <button type="button" id="btnSearch" class="btn bg-gradient-info " data-bs-toggle="tooltip" data-bs-placement="top" data-container="body" data-animation="true" onclick="GetTimetableList(1)">Search</button>
@@ -104,7 +104,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="basicinput"><b>Days</b><span class="text-danger">*</span></label>
-                                <select class="form-control" id="Days">
+                                <select class="form-control form-control-alternative" id="Days">
                                     <option value="0" selected>Select Day</option>
                                     <option value="Monday">Monday</option>
                                     <option value="Tuesday">Tuesday</option>
@@ -119,7 +119,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="basicinput"><b>Teacher</b><span class="text-danger">*</span></label>
-                                <select class="form-control" id="TeacherId">
+                                <select class="form-control form-control-alternative" id="TeacherId">
                                 </select>
                                 <span id="errTeacherId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
                             </div>
@@ -127,7 +127,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="basicinput"><b>Class Room</b><span class="text-danger">*</span></label>
-                                <select class="form-control" id="ClassId" onchange="onClass();">
+                                <select class="form-control form-control-alternative" id="ClassId" onchange="onClass();">
                                     <option value="0">Select here..</option>
                                 </select>
                                 <span id="errClassId" class="text-xs font-weight-bold mb-0" style="color:red"></span>
@@ -136,7 +136,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="basicinput"><b>Subject</b><span class="text-danger">*</span></label>
-                                <select class="form-control js-example-basic-single" id="SubjectId">
+                                <select class="form-control form-control-alternative" id="SubjectId">
                                     <option value="0">Select here..</option>
                                 </select>
                                 <span id="errSubjectId" class="text-xs font-weight-bold mb-0" style="color:red"></span>

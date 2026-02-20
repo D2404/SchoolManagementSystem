@@ -216,14 +216,14 @@ function InsertandPayData() {
     });
 }
 function GetClassRoom() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Fees/GetClassRoom',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             var html = "";
@@ -239,14 +239,14 @@ function GetClassRoom() {
     });
 }
 function GetMonth() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Fees/GetMonth',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             var html = "";
@@ -360,7 +360,7 @@ function GetFeesList(page) {
     }
     var PageIndex = page;
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         //SearchText: SearchText,
         ClassId: ClassId,
@@ -374,7 +374,7 @@ function GetFeesList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -394,7 +394,7 @@ function GetSingleFeesData(id) {
     document.getElementById('btnAdd1').innerHTML = "Update & Pay";
     $("#btnAdd1").attr('title', 'Update');
     document.getElementById('PopupTitle').innerHTML = "Update Fees";
-    var cls = {
+    var model = {
         Id: id
     }
     $.ajax({
@@ -402,7 +402,7 @@ function GetSingleFeesData(id) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -427,7 +427,7 @@ function GetSingleFeesData(id) {
 }
 function deleteFees() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -436,7 +436,7 @@ function deleteFees() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data.Response === 'Success') {

@@ -111,11 +111,13 @@
                     <div class="col-12">
                         <div class="card mb-4">
                             <div class="card-header pb-0">
-                                <h6><i class="fas fa-graduation-cap text-info text-lg"></i>&nbsp;&nbsp;Student List</h6>
-                                <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()"data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter" style="margin-left: 523px;margin-top: -54px;"><i class="fa fa-filter" aria-hidden="true"></i></a>
-                                <a href="~/Student/Student" class="btn bg-gradient-info" onclick="Clear()" style="margin-top: -54px;">&nbsp;Add Student</a>
-                                <a href="#" class="btn bg-gradient-secondary" onclick="Clear()" style="margin-top: -54px;" data-bs-toggle="modal" data-bs-target="#BulkStudent">&nbsp;Import Bulk Student</a>
-                                <a class="btn bg-gradient-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="export to excel" onclick="ExportStudent()" style="margin-top: -54px;"><i class="fa fa-file-excel-o"></i>&nbsp;Export</a>
+                                <h6><i class="fas fa-chalkboard-teacher text-info text-sm opacity-10"></i>&nbsp;&nbsp;Student List</h6>
+                                <div class="col-auto float-right ml-auto" style="float:right">
+                                    <a href="~/Student/Student" class="btn bg-gradient-info" onclick="Clear()" style="color:white; cursor:pointer;">+ Add New</a>
+                                    <a href="#" class="btn bg-gradient-secondary" onclick="Clear()" data-bs-toggle="modal" data-bs-target="#BulkStudent">+ Import</a>
+                                    <a href="#" class="btn bg-gradient-dark" onclick="ShowFilter()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Filter"><i class="fa fa-filter"></i></a>
+                                    <a href="#" class="btn bg-gradient-dark" onclick="ExportStudent()" style="border: 1px solid black;" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Export to Excel"><i class="fa fa-file-excel-o" aria-hidden="true"></i></a>
+                                </div>
                             </div>
                             <div class="card-body px-0 pt-0 pb-2">
                                 <div class="table-responsive p-0">

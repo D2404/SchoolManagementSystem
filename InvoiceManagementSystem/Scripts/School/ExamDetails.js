@@ -83,14 +83,14 @@ function InsertData() {
     });
 }
 function GetClassRoom() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Common/GetClassRoom',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -149,7 +149,7 @@ function GetExamList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         ClassId: ClassId,
@@ -162,7 +162,7 @@ function GetExamList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -181,7 +181,7 @@ function GetSingleExamData(id) {
     document.getElementById('btnAdd').innerHTML = "Update";
     $("#btnAdd").attr('title', 'Update');
     document.getElementById('PopupTitle').innerHTML = "Update Exam";
-    var cls = {
+    var model = {
         Id: id
     }
 
@@ -190,11 +190,12 @@ function GetSingleExamData(id) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
             if (data !== null) {
+                debugger
                 document.getElementById('hdnintId').value = data.LSTExamList[0].Id;
                 $('#ClassId').val(data.LSTExamList[0].ClassId).trigger("change");
                 $('#SubjectId').val(data.LSTExamList[0].SubjectId).trigger("change");
@@ -214,7 +215,7 @@ function GetSingleExamData(id) {
 
 function deleteExam() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -223,7 +224,7 @@ function deleteExam() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 

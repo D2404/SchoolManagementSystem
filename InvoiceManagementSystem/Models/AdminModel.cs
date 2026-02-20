@@ -68,11 +68,9 @@ namespace InvoiceManagementSystem.Models
         public string TempEmail { get; set; }
         public int intActive { get; set; }
         public bool IsActive { get; set; }
-       
         public Pager Pager { get; set; }
         public HttpPostedFileBase[] Profile { get; set; }
         public string ProfileImg { get; set; }
-
         public string HiddenfileForImage { get; set; }
         public string ErrorMessage { get; set; }
         public HttpPostedFileBase[] file { get; set; }

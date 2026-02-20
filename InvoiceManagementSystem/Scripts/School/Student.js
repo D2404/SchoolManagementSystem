@@ -315,14 +315,7 @@ function ValidateBasicDetails(id) {
         $("#errClassId").html("Please select class.");
         val = false;
     }
-    if (SectionId === "0") {
-        $("#errSectionId").html("Please select section.");
-        val = false;
-    }
-    if (RollNo === "0" || RollNo.trim() === '') {
-        $("#errRollNo").html("Please enter rollNo.");
-        val = false;
-    }
+    
     if (Dob === "" || /\S/.test(Dob) === false) {
         $("#errDob").html("Please select dob.");
         val = false;

@@ -10590,9 +10590,26 @@ fieldset:disabled .btn {
 }
 
 .bg-primary1 {
-    background-image: linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,139,116,1) 100%);
-    /*background-image: url('../../../../Data/Profile/BackgroundImage.jpg');*/
-    /*height: 120%;*/
+    background-color: #2d7fd6 !important;
+}
+.bg-primary2 {
+    background-color: #3281a8 !important;
+}
+.bg-primary3 {
+    background-color: #198a8a !important;
+}
+.bg-primary4 {
+    background-color: #2d7fd6 !important;
+}
+.bg-primary5 {
+    background-color: #2d7fd6 !important;
+}
+.bg-primary6 {
+    background-color: #2d7fd6 !important;
+
+}
+.bg-primary7 {
+    background-color: #2d7fd6 !important;
 }
 
 .bg-secondary {
@@ -21708,6 +21725,9 @@ label,
 
 .bg-gradient-faded-primary {
     background-image: radial-gradient(370px circle at 80% 50%, rgba(94, 114, 228, 0.6) 0, #324cdd 100%);
+}
+.bg-gradient-faded-primary1 {
+    background-image: radial-gradient(370px circle at 80% 50%, rgba(94, 114, 228, 0.6) 0, #198a8a 100%);
 }
 
 .bg-gradient-faded-secondary {

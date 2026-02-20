@@ -94,14 +94,14 @@ function InsertData() {
     });
 }
 function GetClassRoom() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Common/GetClassRoom',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -135,7 +135,7 @@ function GetFeesList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         intActive: intActive,
         ClassId: ClassId,
@@ -148,7 +148,7 @@ function GetFeesList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -167,7 +167,7 @@ function GetSingleFeesData(id) {
     document.getElementById('btnAdd').innerHTML = "Update";
     $("#btnAdd").attr('title', 'Update');
     document.getElementById('PopupTitle').innerHTML = "Update Fees";
-    var cls = {
+    var model = {
         Id: id
     }
 
@@ -176,7 +176,7 @@ function GetSingleFeesData(id) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -200,7 +200,7 @@ function GetSingleFeesData(id) {
 
 function deleteFees() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -209,7 +209,7 @@ function deleteFees() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -246,7 +246,7 @@ function Clear() {
 }
 function UpdateStatus() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -255,7 +255,7 @@ function UpdateStatus() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data === 'success') {

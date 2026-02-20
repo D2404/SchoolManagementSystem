@@ -325,6 +325,43 @@ namespace InvoiceManagementSystem.Controllers
 
             }
         }
+
+        public ActionResult LoadYearlyFees(int ClassId)
+        {
+            try
+            {
+
+                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+                clsCommon _commonModel = new clsCommon();
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("sp_LoadYearlyFees", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                //cmd.Parameters.Add("@UserId", _commonModel.getUserIdFromSession());
+                cmd.Parameters.Add("@ClassId", ClassId);    
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@AcademicYear", _commonModel.getAcademicYearFromSession());
+                DataTable dt = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+                conn.Close();
+                List<FeesModel> modelLst = new List<FeesModel>();
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dt.Rows.Count; i++)
+                    {
+                        FeesModel obj = new FeesModel();
+                        obj.Monthly = Convert.ToInt32(dt.Rows[i]["Monthly"] == null || dt.Rows[i]["Monthly"].ToString().Trim() == "" ? null : dt.Rows[i]["Monthly"].ToString());
+                        obj.Yearly = Convert.ToInt32(dt.Rows[i]["Yearly"] == null || dt.Rows[i]["Yearly"].ToString().Trim() == "" ? null : dt.Rows[i]["Yearly"].ToString());
+                        modelLst.Add(obj);
+                    }
+                }
+                return Json(modelLst, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public ActionResult LoadSection(int ClassId)
         {
             try

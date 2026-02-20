@@ -1,4 +1,5 @@
 ﻿using InvoiceManagementSystem.Models;
+using InvoiceManagementSystem.Repository;
 using NReco.PdfGenerator;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,21 @@ namespace InvoiceManagementSystem.Controllers
 {
     public class FeesController : Controller
     {
-        clsCommon objCommon = new clsCommon();
+        private readonly ClassWiseFeesRepository _repository;
+        private readonly clsCommon _commonModel;
 
+
+        public FeesController(ClassWiseFeesRepository repository, clsCommon commonModel)
+        {
+            _repository = repository;
+            _commonModel = commonModel;
+        }
         // GET: Exam
 
         #region FeesMaster
         public ActionResult ClassWiseFees()
         {
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
                 return View();
             }
@@ -33,69 +41,16 @@ namespace InvoiceManagementSystem.Controllers
 
         public ActionResult InsertClassWiseFees(FeesModel model)
         {
-            model = model.addClassWiseFees(model);
+            model = _repository.AddClassWiseFees(model);
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetClassWiseFees(FeesModel cls)
+        public ActionResult GetClassWiseFees(FeesModel model)
         {
             try
             {
-                int TotalEntries = 0;
-                int showingEntries = 0;
-                int startentries = 0;
-                List<FeesModel> lstFeesList = new List<FeesModel>();
-                SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_GetClassRoomWiseFeesList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                cmd.Parameters.AddWithValue("@intActive", cls.intActive);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandTimeout = 0;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                System.Data.DataTable dt = new System.Data.DataTable();
-                da.Fill(dt);
-                conn.Close();
-
-
-                if (dt != null && dt.Rows.Count > 0)
-                {
-
-                    for (var i = 0; i < dt.Rows.Count; i++)
-                    {
-                        FeesModel obj = new FeesModel();
-                        obj.Id = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
-                        obj.ClassId = Convert.ToInt32(dt.Rows[i]["ClassId"] == null || dt.Rows[i]["ClassId"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassId"].ToString());
-                        obj.IsActive = Convert.ToBoolean(dt.Rows[i]["IsActive"] == null || dt.Rows[i]["IsActive"].ToString().Trim() == "" ? null : dt.Rows[i]["IsActive"].ToString());
-                        obj.ClassNo = dt.Rows[i]["ClassNo"] == null || dt.Rows[i]["ClassNo"].ToString().Trim() == "" ? null : dt.Rows[i]["ClassNo"].ToString();
-                        obj.Monthly = Convert.ToInt32(dt.Rows[i]["Monthly"] == null || dt.Rows[i]["Monthly"].ToString().Trim() == "" ? null : dt.Rows[i]["Monthly"].ToString());
-                        obj.Yearly = Convert.ToInt32(dt.Rows[i]["Yearly"] == null || dt.Rows[i]["Yearly"].ToString().Trim() == "" ? null : dt.Rows[i]["Yearly"].ToString());
-                        obj.ROWNUMBER = Convert.ToInt32(dt.Rows[i]["ROWNUMBER"] == null || dt.Rows[i]["ROWNUMBER"].ToString().Trim() == "" ? null : dt.Rows[i]["ROWNUMBER"].ToString());
-                        obj.PageCount = Convert.ToInt32(dt.Rows[i]["PageCount"] == null || dt.Rows[i]["PageCount"].ToString().Trim() == "" ? null : dt.Rows[i]["PageCount"].ToString());
-                        obj.PageSize = Convert.ToInt32(dt.Rows[i]["PageSize"] == null || dt.Rows[i]["PageSize"].ToString().Trim() == "" ? null : dt.Rows[i]["PageSize"].ToString());
-                        obj.PageIndex = Convert.ToInt32(dt.Rows[i]["PageIndex"] == null || dt.Rows[i]["PageIndex"].ToString().Trim() == "" ? null : dt.Rows[i]["PageIndex"].ToString());
-                        obj.TotalRecord = Convert.ToInt32(dt.Rows[i]["TotalRecord"] == null || dt.Rows[i]["TotalRecord"].ToString().Trim() == "" ? null : dt.Rows[i]["TotalRecord"].ToString());
-                        lstFeesList.Add(obj);
-                    }
-                }
-                cls.LSTFeesList = lstFeesList;
-                if (cls.LSTFeesList.Count > 0)
-                {
-                    var pager = new Models.Pager((int)cls.LSTFeesList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
-
-                    cls.Pager = pager;
-                }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTFeesList = lstFeesList;
-
-                return PartialView("_ClassWiseFeesListPartial", cls);
+                model = _repository.GetAllClassWiseFees(model);
+                return PartialView("_ClassWiseFeesListPartial", model);
 
             }
             catch (Exception ex)
@@ -104,12 +59,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetSingleClassWiseFeesData(FeesModel cls)
+        public ActionResult GetSingleClassWiseFeesData(FeesModel model)
         {
             try
             {
-                cls = cls.GetClassWiseFees(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = _repository.GetSingleClassWiseFees(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -117,12 +72,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult deleteClassWiseFees(FeesModel cls)
+        public ActionResult deleteClassWiseFees(FeesModel model)
         {
             try
             {
-                cls = cls.deleteClassWiseFees(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = _repository.DeleteClassWiseFees(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -130,7 +85,7 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetClassRoom(ClassRoomModel cls)
+        public ActionResult GetClassRoom(ClassRoomModel model)
         {
             try
             {
@@ -138,8 +93,8 @@ namespace InvoiceManagementSystem.Controllers
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("Sp_GetClassRoomList", conn);
-                cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@UserId", _commonModel.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
                 cmd.Parameters.AddWithValue("@intActive", 1);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
@@ -162,9 +117,9 @@ namespace InvoiceManagementSystem.Controllers
                         lstClientList.Add(obj);
                     }
                 }
-                cls.LSTClassRoomList = lstClientList;
+                model.LSTClassRoomList = lstClientList;
 
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                return Json(model, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
@@ -174,11 +129,11 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult UpdateStatus(SubjectModel cls)
+        public ActionResult UpdateStatus(SubjectModel model)
         {
             try
             {
-                var Status = cls.UpdateStatus(cls);
+                var Status = model.UpdateStatus(model);
                 return Json(Status, JsonRequestBehavior.AllowGet);
 
 
@@ -195,7 +150,7 @@ namespace InvoiceManagementSystem.Controllers
         public ActionResult Fees()
         {
 
-            if (objCommon.getUserIdFromSession() != 0)
+            if (_commonModel.getUserIdFromSession() != 0)
             {
                 return View();
             }
@@ -227,7 +182,7 @@ namespace InvoiceManagementSystem.Controllers
             return Json(model.Response, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetFees(FeesModel cls)
+        public ActionResult GetFees(FeesModel model)
         {
             try
             {
@@ -238,13 +193,13 @@ namespace InvoiceManagementSystem.Controllers
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("sp_GetFeesList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
-                cmd.Parameters.AddWithValue("@StudentId", cls.StudentId);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                //cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@PageSize", model.PageSize);
+                cmd.Parameters.AddWithValue("@PageIndex", model.PageIndex);
+                cmd.Parameters.AddWithValue("@Search", model.SearchText);
+                cmd.Parameters.AddWithValue("@ClassId", model.ClassId);
+                cmd.Parameters.AddWithValue("@StudentId", model.StudentId);
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
+                //cmd.Parameters.AddWithValue("@UserId", _commonModel.getUserIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -282,19 +237,19 @@ namespace InvoiceManagementSystem.Controllers
                         lstFeesList.Add(obj);
                     }
                 }
-                cls.LSTFeesList = lstFeesList;
-                if (cls.LSTFeesList.Count > 0)
+                model.LSTFeesList = lstFeesList;
+                if (model.LSTFeesList.Count > 0)
                 {
-                    var pager = new Models.Pager((int)cls.LSTFeesList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
+                    var pager = new Models.Pager((int)model.LSTFeesList[0].TotalRecord, model.PageIndex, (int)model.PageSize);
 
-                    cls.Pager = pager;
+                    model.Pager = pager;
                 }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTFeesList = lstFeesList;
+                model.TotalEntries = TotalEntries;
+                model.ShowingEntries = showingEntries;
+                model.fromEntries = startentries;
+                model.LSTFeesList = lstFeesList;
 
-                return PartialView("_FeesListPartial", cls);
+                return PartialView("_FeesListPartial", model);
 
             }
             catch (Exception ex)
@@ -304,7 +259,7 @@ namespace InvoiceManagementSystem.Controllers
         }
 
 
-        public ActionResult GetFeesHistory(FeesModel cls)
+        public ActionResult GetFeesHistory(FeesModel model)
         {
             try
             {
@@ -316,14 +271,14 @@ namespace InvoiceManagementSystem.Controllers
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("sp_GetFeesCollectionHistoryList", conn);
-                cmd.Parameters.AddWithValue("@PageSize", cls.PageSize);
-                cmd.Parameters.AddWithValue("@Id", cls.Id);
-                cmd.Parameters.AddWithValue("@PageIndex", cls.PageIndex);
-                cmd.Parameters.AddWithValue("@Search", cls.SearchText);
-                //cmd.Parameters.AddWithValue("@ClassId", cls.ClassId);
+                cmd.Parameters.AddWithValue("@PageSize", model.PageSize);
+                cmd.Parameters.AddWithValue("@Id", model.Id);
+                cmd.Parameters.AddWithValue("@PageIndex", model.PageIndex);
+                cmd.Parameters.AddWithValue("@Search", model.SearchText);
+                //cmd.Parameters.AddWithValue("@ClassId", model.ClassId);
                 cmd.Parameters.AddWithValue("@StudentId", parameterValue);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
-                //cmd.Parameters.AddWithValue("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
+                //cmd.Parameters.AddWithValue("@UserId", _commonModel.getUserIdFromSession());
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandTimeout = 0;
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -355,20 +310,20 @@ namespace InvoiceManagementSystem.Controllers
                         lstFeesList.Add(obj);
                     }
                 }
-                cls.LSTFeesList = lstFeesList;
-                if (cls.LSTFeesList.Count > 0)
+                model.LSTFeesList = lstFeesList;
+                if (model.LSTFeesList.Count > 0)
                 {
-                    var pager = new Models.Pager((int)cls.LSTFeesList[0].TotalRecord, cls.PageIndex, (int)cls.PageSize);
+                    var pager = new Models.Pager((int)model.LSTFeesList[0].TotalRecord, model.PageIndex, (int)model.PageSize);
 
-                    cls.Pager = pager;
+                    model.Pager = pager;
                 }
-                cls.TotalEntries = TotalEntries;
-                cls.ShowingEntries = showingEntries;
-                cls.fromEntries = startentries;
-                cls.LSTFeesList = lstFeesList;
+                model.TotalEntries = TotalEntries;
+                model.ShowingEntries = showingEntries;
+                model.fromEntries = startentries;
+                model.LSTFeesList = lstFeesList;
 
 
-                return PartialView("_FeesHistoryListPartial", cls);
+                return PartialView("_FeesHistoryListPartial", model);
 
             }
             catch (Exception ex)
@@ -377,12 +332,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetSingleFeesData(FeesModel cls)
+        public ActionResult GetSingleFeesData(FeesModel model)
         {
             try
             {
-                cls = cls.GetFees(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = model.GetFees(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -390,12 +345,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult deleteFees(FeesModel cls)
+        public ActionResult deleteFees(FeesModel model)
         {
             try
             {
-                cls = cls.deleteFees(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = model.deleteFees(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -403,12 +358,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult deleteFeesHistory(FeesModel cls)
+        public ActionResult deleteFeesHistory(FeesModel model)
         {
             try
             {
-                cls = cls.deleteFeesHistory(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = model.deleteFeesHistory(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -420,23 +375,23 @@ namespace InvoiceManagementSystem.Controllers
         {
             try
             {
-                if (objCommon.getUserIdFromSession() != 0)
+                if (_commonModel.getUserIdFromSession() != 0)
                 {
-                    FeesModel cls = new FeesModel();
+                    FeesModel model = new FeesModel();
                     if (StudentId.ToString() != null && StudentId > 0)
                     {
-                        cls.StudentId = StudentId;
+                        model.StudentId = StudentId;
 
-                        cls = cls.GetFeesByStudentId(cls);
-                        cls = cls.GetSchoolDetails(cls);
+                        model = model.GetFeesByStudentId(model);
+                        model = model.GetSchoolDetails(model);
 
-                        if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
+                        if (model.LSTFeesList != null && model.LSTFeesList.Count > 0)
                         {
-                            cls.StudentId = cls.LSTFeesList[0].StudentId;
-                            cls = cls.GetFeesHistoryByStudentId(cls);
+                            model.StudentId = model.LSTFeesList[0].StudentId;
+                            model = model.GetFeesHistoryByStudentId(model);
                         }
                     }
-                    return View(cls);
+                    return View(model);
                 }
                 else
                 {
@@ -457,19 +412,19 @@ namespace InvoiceManagementSystem.Controllers
         public ActionResult DownloadFees(int StudentId)
         {
             string body = "";
-            FeesModel cls = new FeesModel();
+            FeesModel model = new FeesModel();
 
             if (StudentId.ToString() != null && StudentId > 0)
             {
-                cls.StudentId = StudentId;
+                model.StudentId = StudentId;
 
-                cls = cls.GetFeesByStudentId(cls);
-                cls = cls.GetSchoolDetails(cls);
+                model = model.GetFeesByStudentId(model);
+                model = model.GetSchoolDetails(model);
 
-                if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
+                if (model.LSTFeesList != null && model.LSTFeesList.Count > 0)
                 {
-                    cls.StudentId = cls.LSTFeesList[0].StudentId;
-                    cls = cls.GetFeesHistoryByStudentId(cls);
+                    model.StudentId = model.LSTFeesList[0].StudentId;
+                    model = model.GetFeesHistoryByStudentId(model);
                 }
             }
 
@@ -477,9 +432,9 @@ namespace InvoiceManagementSystem.Controllers
             {
                 body = reader.ReadToEnd();
             }
-            if (cls.LSTSchoolList != null && cls.LSTSchoolList.Count > 0)
+            if (model.LSTSchoolList != null && model.LSTSchoolList.Count > 0)
             {
-                var item = cls.LSTSchoolList[0];
+                var item = model.LSTSchoolList[0];
 
                 body = body.Replace("[[SchoolName]]", item.SchoolName);
                 body = body.Replace("[[Address]]", item.Address);
@@ -489,9 +444,9 @@ namespace InvoiceManagementSystem.Controllers
                 body = body.Replace("[[schoolLogo]]", $"<img style=\"height:50px;width:50px;\" src=\"{dynamicImagePath}\" />");
 
             }
-            if (cls.LSTFeesList != null && cls.LSTFeesList.Count > 0)
+            if (model.LSTFeesList != null && model.LSTFeesList.Count > 0)
             {
-                var item1 = cls.LSTFeesList[0];
+                var item1 = model.LSTFeesList[0];
 
                 body = body.Replace("[[StudentName]]", item1.StudentName);
                 body = body.Replace("[[StudentEmail]]", item1.Email);
@@ -501,9 +456,9 @@ namespace InvoiceManagementSystem.Controllers
                 body = body.Replace("[[Date]]", item1.Date);  
 
                 string InvoiceDetails = "";
-                for (int i = 0; i < cls.LSTFeesHistoryList.Count; i++)
+                for (int i = 0; i < model.LSTFeesHistoryList.Count; i++)
                 {
-                    var detail = cls.LSTFeesHistoryList[i];
+                    var detail = model.LSTFeesHistoryList[i];
                     InvoiceDetails = InvoiceDetails + "<tr>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6;  border-right: 1px solid  black;text-align:center'>" + (i + 1) + "</td>";
                     InvoiceDetails = InvoiceDetails + "<td style='border-top: 1px solid #dee2e6; border-right: 1px solid  black;text-align:center'>" + detail.StudentName + "</td>";
@@ -517,13 +472,13 @@ namespace InvoiceManagementSystem.Controllers
                 }
 
 
-                if (cls.LSTFeesHistoryList.Count < 15)
+                if (model.LSTFeesHistoryList.Count < 15)
 
                 {
 
 
-                    //for (int j = cls.LSTFeesHistoryList.Count; j == cls.LSTFeesHistoryList.Count; j++)
-                    for (int j = cls.LSTFeesHistoryList.Count; j < 10; j++)
+                    //for (int j = model.LSTFeesHistoryList.Count; j == model.LSTFeesHistoryList.Count; j++)
+                    for (int j = model.LSTFeesHistoryList.Count; j < 10; j++)
                     {
                         InvoiceDetails = InvoiceDetails + "<tr>";
 
@@ -579,18 +534,18 @@ namespace InvoiceManagementSystem.Controllers
             {
 
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                clsCommon objCommon = new clsCommon();
+                clsCommon _commonModel = new clsCommon();
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("sp_LoadStudentDropDown", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                //cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                //cmd.Parameters.Add("@UserId", _commonModel.getUserIdFromSession());
                 cmd.Parameters.Add("@ClassId", ClassId);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 conn.Close();
-                List<FeesModel> clsLst = new List<FeesModel>();
+                List<FeesModel> modelLst = new List<FeesModel>();
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
@@ -600,10 +555,10 @@ namespace InvoiceManagementSystem.Controllers
                         obj.StudentName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
                         obj.Monthly = Convert.ToInt32(dt.Rows[i]["Monthly"] == null || dt.Rows[i]["Monthly"].ToString().Trim() == "" ? null : dt.Rows[i]["Monthly"].ToString());
                         obj.Yearly = Convert.ToInt32(dt.Rows[i]["Yearly"] == null || dt.Rows[i]["Yearly"].ToString().Trim() == "" ? null : dt.Rows[i]["Yearly"].ToString());
-                        clsLst.Add(obj);
+                        modelLst.Add(obj);
                     }
                 }
-                return Json(clsLst, JsonRequestBehavior.AllowGet);
+                return Json(modelLst, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -617,18 +572,18 @@ namespace InvoiceManagementSystem.Controllers
             {
 
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                clsCommon objCommon = new clsCommon();
+                clsCommon _commonModel = new clsCommon();
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("sp_LoadDdlStudentDropDown", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@UserId", objCommon.getUserIdFromSession());
+                cmd.Parameters.Add("@UserId", _commonModel.getUserIdFromSession());
                 cmd.Parameters.Add("@ClassId", ClassId);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 conn.Close();
-                List<FeesModel> clsLst = new List<FeesModel>();
+                List<FeesModel> modelLst = new List<FeesModel>();
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
@@ -637,10 +592,10 @@ namespace InvoiceManagementSystem.Controllers
                         obj.StudentId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.StudentName = dt.Rows[i]["FullName"] == null || dt.Rows[i]["FullName"].ToString().Trim() == "" ? null : dt.Rows[i]["FullName"].ToString();
 
-                        clsLst.Add(obj);
+                        modelLst.Add(obj);
                     }
                 }
-                return Json(clsLst, JsonRequestBehavior.AllowGet);
+                return Json(modelLst, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -655,17 +610,17 @@ namespace InvoiceManagementSystem.Controllers
             {
 
                 SqlConnection conn = new SqlConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
-                clsCommon objCommon = new clsCommon();
+                clsCommon _commonModel = new clsCommon();
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("sp_LoadRollNo", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@StudentId", StudentId);
-                cmd.Parameters.AddWithValue("@SchoolId", objCommon.getSchoolIdFromSession());
+                cmd.Parameters.AddWithValue("@SchoolId", _commonModel.getSchoolIdFromSession());
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 conn.Close();
-                List<FeesModel> clsLst = new List<FeesModel>();
+                List<FeesModel> modelLst = new List<FeesModel>();
                 if (dt != null && dt.Rows.Count > 0)
                 {
                     for (int i = 0; i < dt.Rows.Count; i++)
@@ -673,10 +628,10 @@ namespace InvoiceManagementSystem.Controllers
                         FeesModel obj = new FeesModel();
                         obj.StudentId = Convert.ToInt32(dt.Rows[i]["Id"] == null || dt.Rows[i]["Id"].ToString().Trim() == "" ? null : dt.Rows[i]["Id"].ToString());
                         obj.RollNo = Convert.ToInt32(dt.Rows[i]["RollNo"] == null || dt.Rows[i]["RollNo"].ToString().Trim() == "" ? null : dt.Rows[i]["RollNo"].ToString());
-                        clsLst.Add(obj);
+                        modelLst.Add(obj);
                     }
                 }
-                return Json(clsLst, JsonRequestBehavior.AllowGet);
+                return Json(modelLst, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -684,7 +639,7 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetMonth(MonthModel cls)
+        public ActionResult GetMonth(MonthModel model)
         {
             try
             {
@@ -713,9 +668,9 @@ namespace InvoiceManagementSystem.Controllers
                         lstClientList.Add(obj);
                     }
                 }
-                cls.LSTMonthList = lstClientList;
+                model.LSTMonthList = lstClientList;
 
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                return Json(model, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)
@@ -725,7 +680,7 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetYear(YearModel cls)
+        public ActionResult GetYear(YearModel model)
         {
             try
             {
@@ -754,9 +709,9 @@ namespace InvoiceManagementSystem.Controllers
                         lstClientList.Add(obj);
                     }
                 }
-                cls.LSTYearList = lstClientList;
+                model.LSTYearList = lstClientList;
 
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                return Json(model, JsonRequestBehavior.AllowGet);
 
             }
             catch (Exception ex)

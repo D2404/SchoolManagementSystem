@@ -61,7 +61,7 @@ function ExportSection() {
     var SearchText = document.getElementById('SearchText').value;
     var intActive = document.getElementById('intActive').value;
     
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         intActive: intActive,
@@ -73,7 +73,7 @@ function ExportSection() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data === "success") {
@@ -153,7 +153,7 @@ function GetSingleSectionData(id) {
     document.getElementById('btnAdd').innerHTML = "Update";
     $("#btnAdd").attr('title', 'Update');
     document.getElementById('PopupTitle').innerHTML = "Update Section";
-    var cls = {
+    var model = {
         Id: id
     }
 
@@ -162,7 +162,7 @@ function GetSingleSectionData(id) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -184,7 +184,7 @@ function GetSingleSectionData(id) {
 
 function deleteSection() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -193,7 +193,7 @@ function deleteSection() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -228,7 +228,7 @@ function ExportToExcel() {
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
     var intActive = document.getElementById('intActive').value;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         intActive: intActive,
@@ -241,7 +241,7 @@ function ExportToExcel() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data && data.downloadUrl) {
@@ -274,7 +274,7 @@ function Clear() {
 
 function UpdateStatus() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -283,7 +283,7 @@ function UpdateStatus() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data === 'success') {

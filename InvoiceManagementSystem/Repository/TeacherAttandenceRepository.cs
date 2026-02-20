@@ -188,8 +188,9 @@ namespace InvoiceManagementSystem.Repository
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("sp_DeleteTeacherAttandence", conn);
+                SqlCommand cmd = new SqlCommand("sp_DeleteRecord", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@Mode", 7);
                 cmd.Parameters.Add("@Id", model.Id);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 cmd.CommandTimeout = 0;

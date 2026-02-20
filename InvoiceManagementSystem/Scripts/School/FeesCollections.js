@@ -2,30 +2,14 @@
 var count = 0
 function ShowFilter() {
     if (type === 1) {
-        $('#FilterDiv').show();
+        $('#Filter').show();
         type = 2;
     }
     else {
-        $('#FilterDiv').hide();
+        $('#Filter').hide();
         type = 1;
     }
 }
-$(document).ready(function () {
-    GetFeesCollectionList(1);
-    GetClassRoom();
-    GetMonthList(count, 0);
-    CalTotal();
-    var currentDate = new Date().toISOString().slice(0, 10);
-    document.getElementById('Date').value = currentDate;
-    var monthDropDown = $('.MonthId');
-    if (monthDropDown.length > 0) {
-
-        ;
-        for (var i = 0; i < monthDropDown.length; i++) {
-            GetMonthList(i, $('#hdnMonthId_' + i).val());
-        }
-    }
- });
 function CalTotal() {
     
         var SubTotal = 0;
@@ -33,10 +17,22 @@ function CalTotal() {
             SubTotal = SubTotal + ((this.value == undefined || this.value == "") ? 0 : parseFloat(this.value));
         });
         $("#SubTotal").val(parseFloat(SubTotal).toFixed(2));
-    }
+     DueAmount();
+}
+
+function DueAmount() {
+    debugger
+    var DueAmount = 0;
+    var SubTotal = $('#SubTotal').val();
+    var YearlyFees = $('#Yearly').text();
+    DueAmount = YearlyFees - SubTotal ;
+    
+    $("#DueAmount").val(parseFloat(DueAmount).toFixed(2));
+
+}
 
 function GetFeesCollectionList(page) {
-    
+    debugger
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
     var FromDate = document.getElementById('FromDate').value;
@@ -102,7 +98,7 @@ function InsertData() {
         $("#errStudent").html("Please select student.");
         val = false;
     }
-    var RollNo = $('#RollNo').text();
+    var RollNo = $('#RollNo').val();
     if (RollNo === '' || RollNo === 0 || RollNo === '0') {
         $("#errRollNo").html("Please enter roll no.");
         val = false;
@@ -112,6 +108,9 @@ function InsertData() {
         $("#errDate").html("Please select date.");
         val = false;
     }
+    var PaidAmount = $('#PaidAmount').val();
+    var DueAmount = $('#DueAmount').val();
+    var TotalAmount = $('#TotalAmount').val();
     if (val === false) {
         return;
     }
@@ -234,11 +233,30 @@ function onClass() {
             $.each(data, function (i, v) {
                 $("#SectionId").append($("<option     />").val(v.SectionId).text(v.SectionNo));
             });
+            GetYearlyFees(ClassId);
             HideWait();
         },
         failure: function () {
             HideWait();
             alert("Failed!");
+        }
+    });
+}
+
+
+function GetYearlyFees(ClassId) {
+    
+    $.ajax({
+        url: '/Common/LoadYearlyFees?ClassId=' + ClassId,
+        contentType: "application/json; charset=utf-8",
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+            $('#Yearly').empty();
+            $("#Yearly").append();
+            $.each(data, function (i, v) {
+                $("#Yearly").append($("<option     />").val(v.Yearly).text(v.Yearly));
+            });
         }
     });
 }
@@ -468,6 +486,10 @@ function GetMonthArrayList(k, SelectedValue) {
 
 
 function GetMonthList(k, SelectedValue) {
+    debugger
+    if (k == undefined) {
+        k = 0;
+    }
     var cls = {
     }
     $.ajax({
@@ -497,6 +519,7 @@ function GetMonthList(k, SelectedValue) {
                     strHTML = strHTML + '<style="text-align: center;" >' + 'No Records found' + '</td>';
                 }
                 if (k === 0) {
+                    debugger
                     $("#MonthId_0").empty();
                     $('#MonthId_0').append(strHTML);
                 }

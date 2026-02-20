@@ -10,7 +10,7 @@
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Subject</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Class No</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7"style="text-align:center">Status</th>
-            @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+            @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
             {
 <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>            }
         </tr>
@@ -48,7 +48,7 @@
             <p class="text-xs font-weight-bold mb-0" style="text-align:center"><i class="fa fa-dot-circle-o text-danger"></i> In-Active </p>
         }
     </td>
-    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 1)
+    @if (InvoiceManagementSystem.Models.SessionModel.RoleId == 2)
     {
 <td class="align-middle text-center" style="text-align: center">
     <div class="dropdown">

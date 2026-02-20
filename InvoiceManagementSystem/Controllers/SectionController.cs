@@ -61,12 +61,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult GetSingleSectionData(SectionModel cls)
+        public ActionResult GetSingleSectionData(SectionModel model)
         {
             try
             {
-                cls = _repository.GetSingleSection(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = _repository.GetSingleSection(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -74,12 +74,12 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult deleteSection(SectionModel cls)
+        public ActionResult deleteSection(SectionModel model)
         {
             try
             {
-                cls = _repository.DeleteSection(cls);
-                return Json(cls, JsonRequestBehavior.AllowGet);
+                model = _repository.DeleteSection(model);
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -87,11 +87,11 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult UpdateStatus(SectionModel cls)
+        public ActionResult UpdateStatus(SectionModel model)
         {
             try
             {
-                var Status = _repository.UpdateStatus(cls);
+                var Status = _repository.UpdateStatus(model);
                 return Json(Status, JsonRequestBehavior.AllowGet);
 
 
@@ -102,14 +102,14 @@ namespace InvoiceManagementSystem.Controllers
             }
         }
 
-        public ActionResult ExpotToExcelSectionReport(SectionModel cls)
+        public ActionResult ExpotToExcelSectionReport(SectionModel model)
         {
             try
             {
                 if (_commonModel.getUserIdFromSession() != 0)
                 {
                     DataTable dt = new DataTable();
-                    dt = _repository.ExportSection(cls);
+                    dt = _repository.ExportSection(model);
                     if (dt != null && dt.Rows.Count > 0)
                     {
                         Session["ExpotToExcelSectionReport"] = dt;

@@ -71,14 +71,14 @@ function InsertData() {
     });
 }
 function GetTeacher() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Common/GetTeacher',  
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -95,14 +95,14 @@ function GetTeacher() {
     });
 }
 function GetClassRoom() {
-    var cls = {
+    var model = {
     }
     $.ajax({
         url: '/Common/GetClassRoom',
         contentType: "application/json; charset=utf-8",
         type: "GET",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -142,6 +142,7 @@ function onClass() {
     });
 }
 function GetTeacherSubjectList(page) {
+    debugger
     var Id = 0;
     var SearchText = document.getElementById('SearchText').value;
     var intActive = document.getElementById('intActive').value;
@@ -158,7 +159,7 @@ function GetTeacherSubjectList(page) {
     var PageIndex = page;
 
     PageIndex = page;
-    var cls = {
+    var model = {
         Id: Id,
         SearchText: SearchText,
         intActive: intActive,
@@ -172,7 +173,7 @@ function GetTeacherSubjectList(page) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             $('#tblBody').empty();
@@ -193,7 +194,7 @@ function ExportTeacherSubject() {
     var intActive = document.getElementById('intActive').value;
     var ClassId = document.getElementById('ddlClassId').value;
 
-    var cls = {
+    var model = {
         Id: Id,
         intActive: intActive,
         ClassId: ClassId,
@@ -206,7 +207,7 @@ function ExportTeacherSubject() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data === "success") {
@@ -229,7 +230,7 @@ function GetSingleTeacherSubjectData(id) {
     document.getElementById('btnAdd').innerHTML = "Update";
     $("#btnAdd").attr('title', 'Update');
     document.getElementById('PopupTitle').innerHTML = "Update TeacherSubject";
-    var cls = {
+    var model = {
         Id: id
     }
 
@@ -238,7 +239,7 @@ function GetSingleTeacherSubjectData(id) {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -262,7 +263,7 @@ function GetSingleTeacherSubjectData(id) {
 
 function deleteTeacherSubject() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -271,7 +272,7 @@ function deleteTeacherSubject() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
 
@@ -306,7 +307,7 @@ function Clear() {
 }
 function UpdateStatus() {
     var Id = document.getElementById('hdnintId').value;
-    var cls = {
+    var model = {
         Id: Id
     }
     ShowWait();
@@ -315,7 +316,7 @@ function UpdateStatus() {
         contentType: "application/json; charset=utf-8",
         type: "POST",
         data: JSON.stringify({
-            cls: cls
+            model: model
         }),
         success: function (data) {
             if (data === 'success') {

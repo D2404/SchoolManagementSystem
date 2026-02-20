@@ -22,9 +22,14 @@ namespace InvoiceManagementSystem.Controllers
         // GET: Admin
         public ActionResult AdminList()
         {
-
-            return View();
-
+            if (objCommon.getUserIdFromSession() != 0)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
         }
         public ActionResult Admin(int? id)
         {
@@ -782,13 +787,13 @@ namespace InvoiceManagementSystem.Controllers
                     {
                         RoleName = "Admin";
                     }
-                    else if(Role == "Admin")
-                        {
+                    else if (Role == "Admin")
+                    {
                         RoleName = "Teacher";
                     }
                     else if (Role == "Teacher")
                     {
-                         RoleName = "Student";
+                        RoleName = "Student";
                     }
                     var Password = clsCommon.DecryptString(data.LSTAdminList[i].Password);
                     string subject = "Registration Successfully.";
